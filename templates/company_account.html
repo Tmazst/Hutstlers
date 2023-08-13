@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tags">
+  <h3><br> <span class="spans"></span></h3>
+  <p class="paras-subtopics"></p>
+    <!----FORM----->
+  <div class="">
+    <div class="row justify-content-center">
+    <div class="col-md-5">
+     <div style="width:100%;margin-left:1px"  class="">
+
+        <div style="width:80%;margin-left:1px" class="card-body py-md-4">
+
+        <form _lpchecked="1" action="" method="post"  enctype="multipart/form-data" >
+            <div style="width:300px;" class="my-card">
+            <div style="margin-left:35px"  class="img-cont">
+                  {% if not image_fl == None %}
+                        <img class="prf-image" src={{image_fl}}/>
+                  {% else %}
+                        <img class="prf-image" src="static/images/default.jpg"/>
+                  {% endif %}
+
+             </div>
+
+            <h3 style="font-size:25px;margin-left:10px;">{{current_user.name.title()}}<br> <span class="spans" style="font-size:16px">{{current_user.email}}</span></h3>
+                </div>
+            <h3 style="font-size:32px;margin-left:10px;" class="card-title text-center">Corporate Details</h3>
+
+            <hr>
+
+            <div class="group">
+                {{company_update.hidden_tag()}}
+                <div class="acc-labels">{{ company_update.company_name.label(class="acc-form-control-up")}}</div>
+                {{ company_update.company_name(class="acc-form-control-up",placeholder="Name",value=current_user.name)}}
+                {% if company_update.company_name.errors %}
+                    {% for error in company_update.company_name.errors %}
+                        <span class="span-error" >*[Company Name] {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+               <!--<input type="text" class="acc-form-control-up" id="name" name="nm" placeholder="Name">-->
+              </div>
+
+            <div class="group">
+                  <div class="acc-labels">{{ company_update.company_email.label(class="acc-form-control-up")}}</div>
+                  {{ company_update.company_email(class="acc-form-control-up",placeholder="Email",value=current_user.email)}}
+                  {% if company_update.company_email.errors %}
+                    {% for error in company_update.company_email.errors %}
+                        <span class="span-error" >*Company Email{{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+                <!--<input type="email" class="acc-form-control-up" id="email" name="email" placeholder="Email">-->
+            </div>
+
+            <div class="group">
+                <!--<input type="password" class="acc-form-control-up" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                <div class="acc-labels">{{ company_update.company_contacts.label(class="acc-form-control-up")}}</div>
+                 {{ company_update.company_contacts(class="acc-form-control-up",placeholder="Contacts",value=current_user.company_contacts)}}
+                 {% if company_update.company_contacts.errors %}
+                    {% for error in company_update.company_contacts.errors %}
+                        <span class="span-error" >*[Contacts] {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+            </div>
+
+            <div class="group">
+                <!--<input type="password" class="acc-form-control-up" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                 <div class="acc-labels">{{ company_update.company_address.label(class="acc-form-control-up")}}</div>
+                 {{ company_update.company_address(class="acc-form-control-up",placeholder="Physical Address",value=current_user.company_address)}}
+                 {% if company_update.company_address.errors %}
+                    {% for error in company_update.company_address.errors %}
+                        <span class="span-error" >*[Physical Address] {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+            </div>
+
+            <div class="group">
+                <!--<input type="password" class="acc-form-control-up" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                 <div class="acc-labels">{{ company_update.website_link.label(class="acc-form-control-up")}}</div>
+                 {{ company_update.website_link(class="acc-form-control-up",placeholder="Website Link",value=current_user.web_link)}}
+                 {% if company_update.website_link.errors %}
+                    {% for error in company_update.facebook_link.errors %}
+                        <span class="span-error" >*[Website Link] {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+            </div>
+
+            <div class="group">
+                <!--<input type="password" class="acc-form-control-up" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                 <div class="acc-labels">{{ company_update.facebook_link.label(class="acc-form-control-up")}}</div>
+                 {{ company_update.facebook_link(class="acc-form-control-up",placeholder="Facebook Link",value=current_user.facebook_link)}}
+                 {% if company_update.facebook_link.errors %}
+                    {% for error in company_update.facebook_link.errors %}
+                        <span class="span-error" >*[Facebook Link] {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+             </div>
+
+            <div class="group">
+                <!--<input type="password" class="acc-form-control-up" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                  <div class="acc-labels">{{ company_update.twitter_link.label(class="acc-form-control-up")}}</div>
+                 {{ company_update.twitter_link(class="acc-form-control-up",placeholder="Twitter Link",value=current_user.twitter_link)}}
+                 {% if company_update.twitter_link.errors %}
+                    {% for error in company_update.twitter_link.errors %}
+                        <span class="span-error" >*[Twitter Link] {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+            </div>
+
+            <div class="group">
+                <!--<input type="password" class="acc-form-control-up" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                 <div class="acc-labels">{{ company_update.youtube_link.label(class="acc-form-control-up")}}</div>
+                 {{ company_update.youtube_link(class="acc-form-control-up",placeholder="Youtube Link",value=current_user.youtube_link)}}
+                 {% if company_update.youtube_link.errors %}
+                    {% for error in company_update.youtube_link.errors %}
+                        <span class="span-error" >*[Youtube Link] {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+            </div>
+
+            <div style="padding-left:50px;width:80%;min-width:350px" class="form-group">
+                 <h3> Update Compnay Logo</h3>
+                 {{ company_update.company_logo(class="acc-form-control",placeholder="reference_2")}}
+            </div>
+
+
+
+            <div class="d-flex flex-row align-items-center justify-content-between">
+                 {{ company_update.company_submit(class="btns") }}
+                 <!--<input class="btns" type="submit" value="Create Account" />-->
+                 <a class="form-a links" href="logout">Logout</a>
+            </div>
+
+         </form>
+       </div>
+    </div>
+  </div>
+  </div>
+  </div></div>
+{% endblock %}

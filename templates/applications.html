@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div   class="tags">
+        <!--<h3>Password Reset<br> <span class="spans"></span></h3>--->
+        <p class="paras-subtopics">Post A Job</p>
+        <!--    {% if current_user.is_authenticated %}-->
+        <!--    {% endif %}-->
+        <div class="job_main-cont">
+
+        {% for ea_application in all_applications %}
+        {% if ea_application.employer_id == current_user.id %}
+
+            <!----FORM----->
+            <div style=""  class="job_ad_container">
+                <div style="width:370px" class="job_ad_style">
+                    <div class="row justify-content-center">
+                        <div class="col-md-5">
+                            <div class="card">
+                                <div class="card-body py-md-4">
+                                    <div class="card-cont">
+
+                                        <h2>Hire Applicant</h2>
+
+                                        <div class="img-cont">
+                                            <img class="prf-image" src="static/images/{{db.query(job_user).get(ea_application.applicant_id).image}}"/>
+                                        </div>
+
+                                        <!-------JOB TITLE--------->
+
+                                        <h2 style="margin-bottom:0px">{{db.query(job_user).get(ea_application.applicant_id).name}}</h2>
+
+                                        <!-------THEIR ADDRESS--------->
+                                        <p><span class="material-icons">place</span>
+                                            {{db.query(job_user).get(ea_application.applicant_id).address}}</p>
+
+                                        <hr>
+
+                                        <h3><span style="color:#909090" class="material-icons">work</span> <br><span>{{db.query(job_ads).get(ea_application.job_details_id).job_title}}</span></h3>
+
+                                        <!-------DATE OF APPLICATION--------->
+                                        <p><span style="color:#aaa"  class="material-icons">schedule</span><br>{{ea_application.time_stamp.strftime("%d %B %y,  %H:%M" )}}</p>
+
+
+                                         <!-------THEIR QUALIFICATIONS--------->
+                                        <p><label for="Job Type" class="labels"></label></p>
+                                        <div><p>{{db.query(job_user).get(ea_application.applicant_id).qualifications}}</p></div>
+
+
+                                         <!--------ADVERT'S DEADLINE-------------->
+                                        <div><p style="font-size:10">{{db.query(job_user).get(ea_application.applicant_id).deadline}}</p></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div style="dispaly:block">
+                                 <!--<input class="btns" type="submit" value="Create Account" />-->
+
+                                 <a class="view_job" href="/view_applicant?id={{ea_application.applicant_id}}">View Applicant</a>
+                        </div>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+        </div>
+</div>
+{% endblock %}

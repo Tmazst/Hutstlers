@@ -1,0 +1,11 @@
+             <!-------Application Details--------->
+<!--             <div class="group">-->
+
+<!--                 {{ job_ad_form.application_details.label(class="labels")}}-->
+<!--                  {{ job_ad_form.application_details(class="form-control",placeholder="Application Details")}}-->
+<!--                  {% if job_ad_form.application_details.errors %}-->
+<!--                    {% for error in job_ad_form.application_details.errors %}-->
+<!--                        <span class="span-error" >*{{error}}</span>-->
+<!--                    {% endfor %}-->
+<!--                 {% endif %}-->
+<!--             </div>-->

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tags">
+    <div class="flash-messages" class="btns">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for  category, message in messages %}
+                    <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+  <h3>Create Account with H.O.T<br> <span class="spans"></span></h3>
+  <p class="paras-subtopics">Join the Large Community of Eswatini's Young People and Showcase Your Skills & Abilities Today;</p>
+    <!----FORM----->
+  <div style="max-width:600px;" class="form_container">
+      <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <div style="width:100%;" class="card-body py-md-4">
+                        <h2  style="padding-left:8%;padding-top:8%" class="card-title text-center">Register</h2>
+                         <form _lpchecked="1" action="" method="post">
+
+                            <div class="group">
+                                {{register.hidden_tag()}}
+                                {{   register.name(class="form-control",placeholder="Name")}}
+                                {% if register.name.errors %}
+                                    {% for error in register.name.errors %}
+                                        <span class="span-error" >*Password {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
+
+                               <!--<input type="text" class="form-control" id="name" name="nm" placeholder="Name">-->
+                            </div>
+                            <div class="group">
+                                  {{ register.email(class="form-control",placeholder="Email")}}
+                                  {% if register.email.errors %}
+                                    {% for error in register.email.errors %}
+                                        <span class="span-error" >*{{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
+
+                                <!--<input type="email" class="form-control" id="email" name="email" placeholder="Email">-->
+                            </div>
+                            <div class="group">
+                                 {{ register.password(class="form-control",placeholder="Password")}}
+                                 {% if register.password.errors %}
+                                    {% for error in register.password.errors %}
+                                        <span class="span-error" >*Password {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
+
+                               <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
+                            </div>
+                            <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 {{ register.confirm(class="form-control",placeholder="Confirm Password")}}
+                                 {% if register.confirm.errors %}
+                                    {% for error in register.confirm.errors %}
+                                        <span class="span-error" >*Confirm Password {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
+
+
+                            </div>
+
+                            <div style="margin:0 auto;" class="group">
+                                 <div style="padding-left:;width:100%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
+                                     {{ register.submit(class="btns") }}
+                                     <!--<input class="btns" type="submit" value="Create Account" />-->
+                                     <a class="form-a links" href="login">Login instead?</a>
+                                </div>
+                            </div>
+
+                         </form>
+                   </div>
+                </div>
+          </div>
+      </div>
+  </div></div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tags">
+    <div class="flash-messages" class="btns">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for  category, message in messages %}
+                    <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}</div>
+  <h3>Password Reset<br> <span class="spans"></span></h3>
+  <p class="paras-subtopics">Please use a more secured password!</p>
+    <!----FORM----->
+  <div class="form_container">
+    <div class="row justify-content-center">
+    <div class="col-md-5">
+     <div class="card">
+
+        <div class="card-body py-md-4">
+            <h2 class="card-title text-center">Reset Details</h2>
+         <form _lpchecked="1" action="" method="post">
+             {% if current_user.is_authenticated %}
+             {{reset_form.hidden_tag()}}
+             <div class="group">
+                 {{ reset_form.old_password(class="form-control",placeholder="Old Password")}}
+                 {% if reset_form.old_password.errors %}
+                    {% for error in reset_form.old_password.errors %}
+                        <span class="span-error" >*{{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+               <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
+             </div>
+              <div class="group">
+                 {{ reset_form.new_password(class="form-control",placeholder="New Password")}}
+                 {% if reset_form.new_password.errors %}
+                    {% for error in reset_form.new_password.errors %}
+                        <span class="span-error" >*Password {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+               <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
+             </div>
+              <div class="group">
+                 {{ reset_form.confirm_password(class="form-control",placeholder="Confirm Password")}}
+                 {% if reset_form.confirm_password.errors %}
+                    {% for error in reset_form.confirm_password.errors %}
+                        <span class="span-error" >*Confirm Password{{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+               <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
+             </div>
+
+             {% else %}
+
+              <div class="group">
+                 {{ reset_form.new_password(class="form-control",placeholder="New Password")}}
+                 {% if reset_form.new_password.errors %}
+                    {% for error in reset_form.new_password.errors %}
+                        <span class="span-error" >*Password {{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+               <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
+             </div>
+              <div class="group">
+                 {{ reset_form.confirm_password(class="form-control",placeholder="Confirm Password")}}
+                 {% if reset_form.confirm_password.errors %}
+                    {% for error in reset_form.confirm_password.errors %}
+                        <span class="span-error" >*Confirm Password{{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+               <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
+             </div>
+             {% endif %}
+             <div class="d-flex flex-row align-items-center justify-content-between">
+                 {{ reset_form.reset(class="btns") }}
+                 <!--<input class="btns" type="submit" value="Create Account" />-->
+                 <a class="form-a links" href="sign_up">Back To Account</a>
+            </div>
+
+         </form>
+       </div>
+    </div>
+  </div>
+  </div>
+  </div></div>
+{% endblock %}
