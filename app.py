@@ -24,7 +24,7 @@ db = db_sessions()
 #Application
 app = Flask(__name__)
 app.config['SECRET KEY'] = 'Tma*@1111'
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///user.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users_db.db'
 
 
 
@@ -92,16 +92,16 @@ def save_pic(picture,size_x=25,size_y=25):
 @app.route("/")
 def home():
 
-    img_1 = resize_img("/static/images/default.jpg",180,180)
-    img_2 = resize_img("/static/images/unnamed.png", 180, 180)
-    img_3 = resize_img("/static/images/image.jpg", 180, 180)
+    # img_1 = resize_img("/static/images/default.jpg",180,180)
+    # img_2 = resize_img("/static/images/unnamed.png", 180, 180)
+    # img_3 = resize_img("/static/images/image.jpg", 180, 180)
 
     companies_ls = db.query(company_user).all()
 
     for cpm in companies_ls:
         print("DEBUG COMPANIES: ",cpm.name)
 
-    return render_template("index.html",img_1=img_1, img_2  =  img_2,img_3 = img_3, companies_ls=companies_ls )
+    return render_template("index.html",img_1='', img_2  ='',img_3 ='', companies_ls=companies_ls )
 
 
 @app.route("/sign_up", methods=["POST","GET"])
