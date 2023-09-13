@@ -92,9 +92,9 @@ def save_pic(picture,size_x=25,size_y=25):
 @app.route("/")
 def home():
 
-    img_1 = resize_img("static/images/default.jpg",180,180)
-    img_2 = resize_img("static/images/unnamed.png", 180, 180)
-    img_3 = resize_img("static/images/image.jpg", 180, 180)
+    img_1 = resize_img("/static/images/default.jpg",180,180)
+    img_2 = resize_img("/static/images/unnamed.png", 180, 180)
+    img_3 = resize_img("/static/images/image.jpg", 180, 180)
 
     companies_ls = db.query(company_user).all()
 
