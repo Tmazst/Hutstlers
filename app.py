@@ -3,7 +3,7 @@ import secrets
 from flask import Flask,render_template,url_for,redirect,request,flash
 from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
-from models import user,company_user
+from models import user,company_user,job_user,Jobs_Ads,Applications
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, LoginManager,current_user,logout_user, login_required
 from Forms import Register,Login, Contact_Form,Update_account_form,Reset,Reset_Request
