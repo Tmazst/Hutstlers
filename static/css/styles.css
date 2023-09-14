@@ -161,6 +161,16 @@ a{
         padding:10px;
 }
 
+.footer{
+
+  margin-top:150px;
+  margin-left:-300px;
+  margin-right:-300px;
+  background-color:#a7a7a7;
+  padding:2%;
+  
+}
+
 .alert-error{
         background-color:#ebb;
 }
@@ -894,5 +904,13 @@ h2{
     .adj-wid{width:100%}
 
     .general-flex{flex-direction:column;justify-content:center}
+  
+    .footer{
+      
+      display:flex;
+      width:150%;
+      justify-content:center;
+      
+    }
 
 }
