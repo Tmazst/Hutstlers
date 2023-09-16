@@ -23,7 +23,7 @@ db = db_sessions()
 
 #Application
 app = Flask(__name__)
-app.config['SECRET KEY'] = 'Tma*@1111'
+app.config['SECRET KEY'] = 'Tmaz*@1111'
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users_db.db'
 
 
