@@ -23,63 +23,81 @@
 </script>
 
 <div class="tags">
-  <div class="flash-messages" class="btns">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for  category, message in messages %}
-                    <div class="flash-messages alert-{{category}}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}</div>
-  <h1 style="font-size:45px;">Welcome to the <br> <span class="spans">Grind</span></h1>
-  <p style="font-size:25px;" class="paras-subtopics">Join the Large Community of Eswatini's Young People and Showcase Your Skills & Abilities Today;
-      Companies and Institutions are Waiting to See Your Potential and be part of their future prospects.
+      <div class="flash-messages" class="btns">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for  category, message in messages %}
+                        <div class="flash-messages alert-{{category}}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+      </div>
+    <!----BANNER------->
+    <div class="banner-container">
+        <div class="banner-animator">
+            <img src="static/images/GF_3.jpeg" />
+            <div class="banner-caption"></div>
+        </div>
+        <div class="banner-cap">
+            <h2 style="font-size:45px;color:white">THE HUSTLERS TIME, </h2>
+            <h1 style="font-size:45px;color:white">Welcome to the <br> <span  class="spans">Grind</span></h1>
+            <a  href="sign_up"><button class="btns-margin btns" id="join_btn">Join Community</button> </a>
+        </div>
+    </div>
+    <div style="position:relative;" >
+  <p style="font-size:25px;" class="paras-subtopics">Join the Large Community of Eswatini's Young People and make the most of your skills and abilities.
+      Showcase your skills and become an integral part of Eswatini's future prospects;
+      Companies and Institutions are waiting to see what you have got.
+  </p><br>
+  <p style="font-size:25px;" class="paras-subtopics">
+      We are creating an inclusive environment for you to display your skills and potential without any barriers imposed by the lack of employment opportunities, failed interviews, etc.
   </p>
-  <div class="actions">
-    <a  href="sign_up"><button class="btns-margin btns" id="join_btn">Join Community</button> </a>
-  </div>
+<!--  <div class="actions">-->
+<!--    <a  href="sign_up"><button class="btns-margin btns" id="join_btn">Join Community</button> </a>-->
+<!--  </div>-->
     <div class="home-content anim">
-        <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" src="static/images/default.jpg"/></div>
+        <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" src="/static/images/laughing-young-african-american.jpg" /></div>
         <div class='home-tags' style="">
-            <p><span style="font-size:1.7em" >Show Case Your Skills</span><br>Increase Your Changes to get Employed, by showing the outside World your Skills</p>
+            <p><span style="font-size:1.5em" >Show The World What You Have</span><br>Improve your chances to get employed, by showing the world your potential</p>
         </div>
     </div>
 
     <div class="home-content anim">
-
-        <div class='home-tags' style="margin-left:25px;">
-            <p><span style="font-size:1.7em" >Cultivate Your Dream Job Prospects</span><br>Increase Your Skills & Work Experience while still waiting for your Dream Job
+        <div class='home-tags' style="margin-left:;">
+            <p><span style="font-size:1.5em" >Unlock Your Dream Prospects</span><br>Unleash Your Full Potential, Improve Your Skills & Work Experience while still waiting for your Dream Job
             </p>
         </div>
-        <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" src="{{img_2}}"/></div>
+        <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" src="/static/images/office-worker-holding-phone.jpg"/></div>
     </div>
 
     <div class="home-content anim">
-        <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" src="{{img_3}}"/></div>
-        <div class='home-tags' style="margin-left:25px;">
-            <p><span style="font-size:1.7em" >Maximize Your Potential</span><br>Increase your changes to get employed by delivering the necessary & required skills
-            in the market. Your temporal bosses may be stunned by your potential and you can make them think again.</p>
+        <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" src="/static/images/businesswomen-working-laptop.jpg"/></div>
+        <div class='home-tags' style="margin-left:;">
+            <p><span style="font-size:1.5em" >Maximize Your Potential</span><br> Ignite Your Career with Must-Have Skills for the Modern Job Market.
+                </p>
         </div>
     </div>
 
     <div style="margin-top:150px" >
-        <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="">Why T.H.T (The Hustlers Time)? </h1><div style="background-color:#23aeb2;height:4px;width:550px;"></div></div>
+        <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Join The Hustlers Time (T.H.T) Network </h1><div class="title-strokes" style="background-color:#23aeb2;height:4px;width:550px;"></div></div>
         <div class="home-content-why-hot">
             <div style="" class="home-cont-items job_ad_style anim" >
                 <i style="font-size:150px;color:#006769;" class="material-icons">timer</i>
-                <p style="font-size:25px;width:90%">Time flies and waits for know man, we want to keep you ahead be up-to-date with industry skills while you still have no permanent Job. </p>
+                <p style="font-size:25px;width:90%">Look! Self-directed learning and proactive skill development are highly valuable in demonstrating your commitment, growth mindset, and adaptability to potential employers.
+                    By staying ahead and continuously updating your skills, you enhance your chances of standing out in the competitive job market. Good luck!
+                </p>
             </div>
 
             <div  style="" class="home-cont-items job_ad_style anim">
                 <i style="font-size:150px;color:#006769;" class="material-symbols-rounded">psychiatry</i>
-               <p style="font-size:25px;width:90%">If plan A is not working, why do not we try plan B we can collectively accumulate industry skills and experience with the H.O.T Jobs and be ready
-                for the permanent Job One</p>
+               <p style="font-size:25px;width:90%">Absolutely! Having a Plan B is always a smart move. By collectively accumulating industry skills and experience with short-term,
+                   temporary, hourly, or temporary-to-hire jobs through The Hustlers Time Network, you can continue to build your professional profile while remaining flexible in your career search</p>
             </div>
 
             <div style="" class="home-cont-items job_ad_style anim">
                 <i style="font-size:150px;color:#006769;" class="material-symbols-rounded">skateboarding</i>
-               <p style="font-size:25px;width:90%">Its Obvious you're not advancing or learning anything while sitting at home. Get more jobs skills and be prepared for new opportunities
-               of work and business ideas you can spot out there</p>
+               <p style="font-size:25px;width:90%">Its Obvious you're not advancing or learning anything at the moment, but here is plan; embrace temporary jobs as part of your career strategy, you can continue to accumulate skills, gain experience, and maintain your professional momentum.
+                   This approach allows you to be proactive, adaptable, and prepared for the next permanent job opportunity that comes your way. and business ideas you can spot out there, and become a Game-Changer that Leaves an Unforgettable Impression.</p>
             </div>
 
         </div>
@@ -88,13 +106,14 @@
 
     <div class="width-fill-scrn" >
         <div style="width:70%;margin:0 auto;">
-            <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="">Companies are Joining Hands to Empower Youth? </h1><div style="background-color:coral;height:4px;width:550px;"></div></div>
+            <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Eswatini Companies are Joining Hands to Empower Youth </h1><div class="title-strokes" style="background-color:coral;height:4px;width:550px;"></div></div>
             <div style="" class="flex-justify-align">
-                <h2>Register Your company with the H.O.T to voluntary Empower the Youth with Skills needed in th industry while they are still on the search for their career pathways.</h2>
-                <h2>Train the Youth to lead safe, healthy, and successful lives as giving back to the Eswatini Community.</h2>
-                <h2>Do you want to our young people see a pathway full of learning and earning opportunities beyond having a permanent Job. Let's make this count</h2>
+                <h2> Through this initiative the young people are provided with the necessary skills and opportunities to succeed in the industry.
+                    This can help level the playing field and give equal opportunities for talented individuals to find employment and build their careers.</h2>
+                <h2>By offering training and support, you can help them lead safe, healthy, and successful lives while giving back to the Eswatini community.</h2>
+                <h2>It's inspiring to see a focus on not only providing job opportunities but also creating a pathway for learning and earning beyond a permanent job.</h2>
             </div>
-            <h2 style="margin-bottom:0px;">Enough Lets put this work!!</h2>
+            <h2 style="margin-bottom:0px;">Let's work to empower young people and make a positive impact!</h2>
             <div class="actions">
                 <a  href="/company_sign_up"><button class="btns-margin btns" id="join_btn1">Register Company</button> </a>
             </div>
@@ -105,7 +124,6 @@
     <div style="overflow-x:auto;display:flex;" class="companies-cont border-radius-15">
 
         {%for cmp in companies_ls %}
-
 
         <div style="padding:30px;" class="companies-chd-cont">
             <div class="img-cont"><img class="prf-image" src="static/images/{{cmp.image}}"></div>
@@ -132,24 +150,30 @@
 
 
     <div style="display:flex;flex-direction:column;margin-top:150px;" >
-        <div style="display:flex;align-items:center;width:100%;font-size:20px;"><div style="background-color:coral;height:4px;width:550px;"></div><h1 style="">How Do We Work</h1></div>
+        <div style="display:flex;align-items:center;width:100%;font-size:20px;"  ><div style="background-color:coral;height:4px;width:550px;" class="title-strokes"></div><h1 style=""  >The Hustlers Time Project</h1></div>
 
         <div style="margin-top:20px;" >
-            <h2>We an intermediate institution who forms a network between young unemployed youth between 18 - 38 years who are ready to work but because of job shortage,
-                we want to explore other ways how young can still have a way to work and built their experiences and increase their chances to get employment through short term jobs</p>
+            <h2>T.H.T is highly interested in finding alternative ways for the unemployed youth of Eswatini to consecutively get short-term job opportunities from various employers.
+                The sole purpose (beyond earning) is to help them gain work experience and increase their employment opportunities, though they are not permanently employed. The Hustlers Time is an ongoing project, as the name implies,
+            we want to turn the other side of the coin and explore other alternatives that be put in place to curb unemployment rate and at the same time produce a workforce that will be game-changer in the industry.
+            We want to stress out need to also focus on effectively matching individuals with the right opportunities based on their skills, interests, and potential they are practically showcasing.</h2>
+            <h2>
+                By emphasizing potential and merit over other constraints, we are helping to create a more equitable job market and increasing the chances for young individuals to succeed in their careers.
+                This can involve thorough assessments, interviews, and understanding the needs of both job-seekers and employers.
             </h2>
         </div>
 
         <div class="flex-justify-align">
 
             <div style="font-size:25px;padding:70px 10px;margin:10px;" class="home-ads anim">
-               <p style="font-size:25px;width:90%">Are you jobless and finding it hard to get employed? Join the T.H.T (The Hustlers Time) Network and to explore other alternatives to increase yur changes
-                    of employment</p>
+               <p style="font-size:25px;width:90%;color:white">Are you jobless and finding it hard to get employed? Join the T.H.T (The Hustlers Time) Network and to explore other alternatives to increase your changes
+                    of employment, today</p>
             </div>
 
             <div style="font-size:25px;padding:70px 10px;margin:10px;" class="home-ads anim">
-               <p style="font-size:25px;width:90%">Our Brockage services are free of charge because we want to place you in position of preference because of the potential that you yourself will display in
-                    the industry</p>
+               <p style="font-size:25px;width:90%;color:white"> We are offering this services free of charge (to young people) to prioritize placing individuals in positions of preference based on their potential in the industry.
+                   This approach can be beneficial in promoting equal opportunities for talented individuals who may have experienced some barriers due a number of issues.</p>
+
             </div>
 
         </div>
@@ -158,10 +182,12 @@
 
 
 
-    <div class="actions">
+    <div style="margin-top:30px;" class="actions">
         <a  href="sign_up"><button class="btns-margin btns" id="join_btn">Join T.H.T</button> </a>
     </div>
 
+
+    </div>
     </div>
 
     <div class="footer" style="" >
@@ -192,11 +218,11 @@
 
 
             </div> --->
-            <div class="footer-cap" style="display:flex;justifiy-content:center;width:100%;font-size:20px;"><h3 style="color:white">2023, The Hustlers Time (T.H.T) - All Rights Reserved </h3></div>
+            <div class="footer-cap" style="display:flex;justifiy-content:center;width:100%;font-size:30px;"><h3 style="color:white">2023, The Hustlers Time (T.H.T) - All Rights Reserved </h3></div>
         </div>
 
     </div>
 
 
-</div>
+
 {% endblock %}

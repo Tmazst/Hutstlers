@@ -1,4 +1,7 @@
 
+
+@font-face { font-family: "ubuntu"; src: url("./ubuntu/Ubuntu-M.ttf") }
+
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size)
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
@@ -14,6 +17,11 @@ html {-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
 
 p{
     font-weight:300;
+    color:#303030;
+}
+
+h1,h2,h3{
+    color:#303030 ;
 }
 
 body{
@@ -33,6 +41,32 @@ body{
     width:100%;
 }
 
+.banner-container{
+    position:relative;
+    background-color:#0023ab;
+    width:150%;
+    margin-left:-350px;
+    margin-top:-350px;
+    margin-bottom:330px;
+    height:1000px;
+}
+
+.banner-animator{
+    width:100%;
+    height:1200px;
+    overflow:hidden;
+}
+
+.banner-animator img{
+    width:100%;
+}
+
+.banner-cap{
+    position:absolute;
+    top:70%;
+    left:10%;
+    width:40%;
+}
 #title{
 
     padding: 14px 25px;
@@ -123,11 +157,12 @@ a{
     color:#006769;
 }
 .btns {
-    outline:none;
+    //outline:none;
+    background:none;
     margin: 30px 0;
-    background-color:#006769;
+    //background-color:#006769;
     border: 2px solid #006769;
-    color:#fff;
+    color:#006769;
     font-weight:bold;
     border-radius:6px;
     padding:3px 6px;
@@ -138,11 +173,19 @@ a{
     margin: 30px 4%;
 }
 
+.btns:hover{
+    background-color:#006769;
+    color:white;
+    transition:0.7 ease-in-out;
+    cursor:pointer
+}
+
 #join_btn{
 
     height:50px;
     width:200px;
     font-size:20px;
+    margin-top:-10px;
 }
 
 #join_btn1{
@@ -191,12 +234,7 @@ a{
     font-size:12px;
 }
 
-.btns:hover{
-    background-color:rgba(0,0,0,0);
-    color:#006769;
-    transition:0.7 ease-in-out;
-    cursor:pointer
-}
+
 
 .actions a{
     cursor:pointer
@@ -687,32 +725,35 @@ h2{
 }
 
 .home-content{
-    background-color:#eee;
+    //background-color:#eee;
     //height: 300px;
     display:flex;
-    justify-content:space-between;
+    justify-content:center;
     align-items:center;
-    border-radius: 30px;
-    padding-left:10px;
+    //border-radius: 30px;
+    padding:50px;
     margin-top:80px;
+    width:75%;
+    margin:0 auto;
 }
 
 .home-tags{
     display:flex;
     align-items:center;
-    border-radius: 0 30px 30px 0;
+    //border-radius: 0 30px 30px 0;
     height: 300px;
-    padding-left:25px;
-    width:80%;
+    padding:50px;
+    width:50%;
+    background-color:#fafafa;
 
 }
 
 .home-tags p{
-    font-size:20px;
+    font-size:150%;
 }
 
 .home-img-div{
-    border-radius: 30px;
+    //border-radius: 30px;
     height: 300px;
     overflow:hidden;
 }
@@ -805,6 +846,37 @@ h2{
 
 
 @media all and (max-width: 600px) {
+
+  .title-strokes{
+    display:none;
+  }
+  .banner-container{
+    background-color:#eee;
+    width:150%;
+    margin-left:-35px;
+    //margin-top:-350px;
+    margin-bottom:80px;
+    height:200hv;
+    }
+
+  .banner-cap{
+    position:absolute;
+    top:40%;
+    left:10%;
+    width:50%;
+    }
+
+  .banner-cap h1{
+    color:#303030 !important;
+    font-size:240% !important;
+    }
+
+  .banner-cap h2{
+    color:#303030 !important;
+    font-size:280% !important;
+    }
+
+  .banner-animator{display:none;}
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 
@@ -859,25 +931,30 @@ h2{
   }
 
   .home-content{
-    background-color:#eee;
-    width: 350px;
+    //background-color:#eee;
+    width: 80%;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
     align-items:center;
-    border-radius: 30px;
-    //padding-left:10px;
+    //border-radius: 30px;
+    padding:10px;
     margin-top:70px;
     }
   .home-tags{
     display:flex;
     align-items:center;
-    border-radius: 0 30px 30px 0;
+    //border-radius: 0 30px 30px 0;
     //height: 300px;
     //padding-left:25px;
-    width:80%;
-
+    width:100%;
+    background-color:#fafafa;
     }
+
+    .home-tags p{
+        font-size:150%;
+    }
+
     home-img-div{
         width:100%;
     }
@@ -916,7 +993,19 @@ h2{
       display:flex;
       width:150%;
       justify-content:center;
+      margin-left:-30px;
+      margin-right:0px;
       
     }
+
+  /*  .footer{
+
+  margin-top:150px;
+  margin-left:-300px;
+  margin-right:-300px;
+  background-color:#a7a7a7;
+  padding:2%;
+
+}*/
 
 }
