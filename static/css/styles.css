@@ -996,7 +996,7 @@ h2{
 
     .job_ad_group{}
 
-    .form_container{width:95%;min-width:300px;background-color:eabca2}
+    .form_container{width:95% !important;min-width:300px;background-color:eabca2}
 
     .adj-wid{width:100%}
 
