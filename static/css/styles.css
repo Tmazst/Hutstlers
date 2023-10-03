@@ -24,6 +24,12 @@ html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
 html {-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
 
 
+.skateboarding img{
+    color:red;
+    width:300px;
+    height:300px;
+}
+
 p{
     font-weight:300;
     color:#303030;
@@ -39,8 +45,7 @@ body{
 
 }
 .main{
-    margin: 0px;
-
+    //margin: 0px;
 }
 /* H1T CSS */
 
@@ -122,39 +127,51 @@ a{
 }
 
 #nav-div{
+    display:flex;
+    direction:column;
     background-color:#ededed;
-    //background:linear-gradient(to top, rgba(255,255,255,0.2)50%,rgba(255,255,255,0.1)50%);
-    //position:relative;
-    padding:5px 0px;
-    display:inline-block;
-    white-space:nowrap;
+    //padding:5px 0px;
     width:100%;
     height:45px;
-    margin-bottom:10px;
-    //background-color:#ee343a;
+    //margin-bottom:10px;
 
 }
 
 #nav-div-cont{
-
-        width:60%;
+        width:80%;
+        margin-bottom:10px;
         //background-color:#04aa3a;
-
+}
+.user{
+    width:20%;
+    //background-color:#046a3a;
+}
+.navbar-nav{
+    width:100%;
+    display:flex;
+    direction:column;
+    justify-content:flex-start;
+    gap:10px;
+    //background-color:blue;
+}
+.navbar-nav-user{
+    width:100%;
+    display:flex;
+    direction:column !important;
+    justify-content:flex-start;
+    gap:10px;
+    //background-color:red;
 }
 
+.navbar-nav-user li{
+    display:flex !important;
+    //margin:10px;
+}
 #nav-div-cont li{
-
-    width:50px;
-    align-items:left;
-    display: inline-block;
-    //background-color:#334baa;
-
+     display:flex;
+     //margin:10px;
+     text-style-list:none;
     /*display: inline-block;*/
-}
-
-#nav-div-cont ul{
-    white-space:nowrap;
-
 }
 
 #nav-div-cont li a{
@@ -416,6 +433,25 @@ font-weight:400;
     text-align:center;
 }
 
+.grid-div{
+    display:flex;
+}
+.img-div{
+    display:flex;
+    justify-content:center;
+    width:10%;
+    height:7vh;
+    margin-left:-210px;
+    margin-top:95px;
+    //background-color:#006769;
+    //padding:10px;
+    object-fit:cover;
+    //border-radius:50%;
+}
+
+.img-div img{
+    width:150%;
+}
 .home-ads{
     width:40%;
     margin: 20px auto;
@@ -434,6 +470,16 @@ font-weight:400;
     //background-color:#676aee;
 
 }
+.about-team-cont{
+    display:flex;
+    direction:column;
+    gap:10px;
+}
+
+.about-team{
+    
+}
+
 .img-cont{
     width:100px;
     height:100px;
@@ -445,6 +491,10 @@ font-weight:400;
      margin:15% 15% auto auto;
 }
 
+.about-team{
+    width:40% !important;
+
+}
 
 /*-----------------VIeW JOB-------------------*/
 
@@ -569,13 +619,15 @@ font-weight:400;
 
 /* Fill Up Form*/
 .form_container{
-    width:70%;
+    display:flex;
+    //justify-content:center;
+    width:100%;
     min-width:320px;
-    margin: 40px 0 auto 4%;
-    border: 2px solid #34aba7;
+    //border: 2px solid #34aba7;
     border-radius:10px;
     padding:10px;
-    position:relative;
+    height:50vh;
+    //background-color:red;
 }
 
 .form-control{
@@ -606,15 +658,14 @@ h2{
     transition:0.7 ease-in-out;
     cursor:pointer
 }
-.card{
+
+.card-{
   border: 0.40rem solid #f8f9fa;
-  //top: 10%;
   display:flex;
   justify-content:center;
   align-items:center;
-
+  width:
 }
-
 
 .form-control:focus {
 
@@ -852,14 +903,63 @@ h2{
 }
 
 
+:is(p){
+    font-size:130% !important;
+   }
+
+.flex-justify-align p{
+    width:30%;
+}
+
+
+.card {
+  //max-width: 300px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  max-width: 500px;
+  padding: 35px;
+
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+
+  backdrop-filter: blur(15px);
+}
+
+.card-footer {
+  font-size: 0.65em;
+  color: #446;
+}
+
+
+.invite-cards{
+    font-size:90% !important;
+
+}
+
+
+
+
 
 
 
 @media all and (max-width: 600px) {
 
+.invite-cards{
+    font-size:90% !important;
 
-   p{
-    font-size:120% !important;
+}
+
+.flex-justify-align p{
+    width:90% ;
+}
+
+   :is(p){
+    font-size:110% !important;
    }
 
   .title-strokes{
@@ -910,6 +1010,8 @@ h2{
     //background-color:#2393bb;
 
   }
+
+
 
   .forms{
     //width:450px;
@@ -1013,14 +1115,24 @@ h2{
       
     }
 
-  /*  .footer{
+    .img-div{
 
+    width:50%;
+    height:7vh;
+    //margin-left:-210px;
+    margin-top:-95px;
+    //background-color:#006769;
+    //padding:10px;
+    //object-fit:cover;
+    //border-radius:50%;
+}
+
+  /*  .footer{
   margin-top:150px;
   margin-left:-300px;
   margin-right:-300px;
   background-color:#a7a7a7;
   padding:2%;
-
 }*/
 
 }

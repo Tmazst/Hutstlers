@@ -147,7 +147,10 @@ def sign_up():
     # from myproject.models import user
     return render_template("sign_up_form.html",register=register)
 
+@app.route("/about")
+def about():
 
+    return render_template("about.html")
 
 
 #----------------UPDATE ACCOUNT --------------#

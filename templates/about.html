@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tags ">
+        <div class="flash-messages" class="btns">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for  category, message in messages %}
+                        <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}</div>
+        <h1 >Here is everything we like you to know, <br><span class="spans">About Us</span></h1>
+        <div class="">
+            <p>We aim to reduce the unemployement of Eswatini by placing young people at the spot-light where their skills and talents can easily be
+                identified by the prospective employers.By joining hands with local employers we are helping the young people<span><ul>
+                    <li>Collectively accumulate Experience through short-term jobs to build a professional profile</li>
+                    <li>Cultivate their skills & talents that are in demand in the job market</li>
+                    <li>Generate passive income to breach bankrupt</li>
+                    <li>To curb casualties & health issues i.e. depression, stress, robbery, unnecessary uprising due the stress caused by lack employment</li>
+                </ul>
+                </span> We seek to invite local institutions & companies to create short-term,temporary, hourly, or temporary-to-hire jobs as well
+                voluntary jobs. We would to also have them enhance Internship programs, Volunteering opportunities, Job Shadowing and Mentorships. This initiative
+                also provides another way for companies to plough back to the nation by helping young people achieve their dreams from an awkward position because
+                permanent job opportunities are scarce.</p>
+
+        </div>
+        <h1>Our Team</h1>
+        <div class="about-team-cont" >
+
+            <div class="card about-team" >
+                <div class="img-cont"><img src="/static/icons/Eswatini-43.svg" /></div>
+                <h3>Name Surname</h3>
+                <label>Position</label>
+                <p>Email Address</p>
+            </div>
+            <div class="card about-team" >
+                <div class="img-cont"><img src="/static/icons/Eswatini-43.svg" /></div>
+                <h3>Name Surname</h3>
+                <label>Brand Ambassador</label>
+                <p>Email Address</p>
+            </div>
+            <div class="card about-team" >
+                <div class="prf-image"><img src="/static/icons/Eswatini-43.svg" /></div>
+                <h3>Thabo Maziya</h3>
+                <label>Developer</label>
+                <p>thabo@thehustlerstime.co.sz</p>
+            </div>
+            <p></p>
+
+        </div>
+        <div>
+            <h1>The Hustlers Time (THT)</h1>
+            <label>The Hustlers Time is a life-time project brewed by Tech Xolutions Group to help create equal opportunities for all young people in any field in Eswatini</label>
+            <ul>
+                <li>Telephone +268 3424 4434</li>
+                <li>Cellphone +268 7965 1471/7642 7890</li>
+                <li>Email info@thehustlerstime.co.sz</li>
+                <li>Email tht@techxolutions.co.sz</li>
+                <li>facebook</li>
+                <li>whatsapp</li>
+            </ul>
+            <h1>Address</h1>
+            <p>P O Box 420</p>
+            <p>Ezulwini, Ngonini pass Examination Council (~3km)</p>
+        </div>
+    </div>
+{% endblock %}
