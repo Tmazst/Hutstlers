@@ -58,17 +58,18 @@ body{
 
 .banner-container{
     position:relative;
-    background-color:#0023ab;
-    width:150%;
-    margin-left:-350px;
-    margin-top:-350px;
+    top:0;
+    //background-color:#0023ab;
+    width:100%;
+    //margin-left:-350px;
+    //margin-top:-350px;
     margin-bottom:330px;
-    height:1000px;
+    height:100vh;
 }
 
 .banner-animator{
     width:100%;
-    height:1200px;
+    height:1200vh;
     overflow:hidden;
 }
 
@@ -78,9 +79,11 @@ body{
 
 .banner-cap{
     position:absolute;
-    top:70%;
+    top:35vw;
     left:10%;
     width:40%;
+    min-width:400px;
+
 }
 #title{
 
@@ -441,8 +444,8 @@ font-weight:400;
     justify-content:center;
     width:10%;
     height:7vh;
-    margin-left:-210px;
-    margin-top:95px;
+    margin-left:-160px;
+    margin-top:75px;
     //background-color:#006769;
     //padding:10px;
     object-fit:cover;
@@ -471,30 +474,110 @@ font-weight:400;
 
 }
 .about-team-cont{
-    display:flex;
-    direction:column;
+
+    display:flex !important;
+    direction:column !important;
+    max-width:1100px !important;
     gap:10px;
+    flex-wrap:wrap  !important;
+    //background-color:#333;
+    //justify-content:center;
+
+
 }
 
 .about-team{
-    
+
+    width:300px !important;
+    padding:0px !important;
+    overflow:hidden;
+    border:5px solid white !important;
+
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+    margin:10px auto;
+
 }
 
 .img-cont{
+    //display:flex;
     width:100px;
     height:100px;
     border-radius:50%;
-    //background-color:#aaa;
-     overflow:hidden;
-     content-justify:center;
-     //align-items:center;
-     margin:15% 15% auto auto;
+    overflow:hidden;
+    content-justify:center;
+    margin:15% 15% auto auto;
 }
 
-.about-team{
-    width:40% !important;
+.img-cont-about-team{
+    display:flex;
+    width:120px;
+    height:120px;
+    border:5px solid white;
+    border-radius:50%;
+    background-color:#aba;
+    overflow:hidden;
+    content-justify:center;
+    align-items:center;
+    margin:0 auto -15% auto!important;
 
 }
+
+.team-details{
+
+    background-color:#eaeaea;
+    width:100%;
+    height:25vh;
+    //z-index:0;
+
+}
+
+.team-details p{
+    text-align:center;
+    font-weight:bold;
+}
+
+.team-pos{
+
+    text-align:center !important;
+    font-weight:bold !important;
+    font-size:15px !important;
+
+}
+
+.team-email{
+
+    text-align:center !important;
+    margin-top:-10px !important;
+    font-size:15px !important;
+
+
+}
+
+.bg-drop{
+
+    display:flex;
+    align-items:flex-end;
+    width:100%;
+    background-color:#006769;
+    height:15vh;
+    z-index:1;
+
+}
+
+.img-cont-about-team img{
+    width:100%;
+}
+
+
+.objectives-div ul li{
+
+    font-weight:bold;
+
+}
+
 
 /*-----------------VIeW JOB-------------------*/
 
@@ -513,7 +596,9 @@ font-weight:400;
 }
 
 .adj-width-60{
+
     width:60%;
+
 }
 
 .job_ad_group{
@@ -524,7 +609,6 @@ font-weight:400;
     border-radius:10px;
     font-size:25px;
     //display:block;
-
     //white-space:no-nowrap;
 
 }
@@ -552,6 +636,7 @@ font-weight:400;
 
 
 .tags{
+
     margin:150px auto  0px auto ;
     width:70%;
     //background-color:#eee;
@@ -577,7 +662,7 @@ font-weight:400;
     vertical-align:;
     //display:inline-block;
     margin-top:0px;
-    margin-bottom:25px;
+    margin-bottom:5px;
     font-size:18px;
 }
 .card-cont{
@@ -786,7 +871,7 @@ h2{
 }
 
 .home-content{
-    //background-color:#eee;
+    //background-color:#eae;
     //height: 300px;
     display:flex;
     justify-content:center;
@@ -795,6 +880,7 @@ h2{
     padding:50px;
     margin-top:80px;
     width:75%;
+    min-width:800px;
     margin:0 auto;
 }
 
@@ -805,7 +891,7 @@ h2{
     height: 300px;
     padding:50px;
     width:50%;
-    background-color:#fafafa;
+    background-color:#eaeaea;
 
 }
 
@@ -881,14 +967,23 @@ h2{
 .home-content-why-hot{
 
     display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
 }
 
 .home-cont-items{
         font-size:25px;
-        width:35%;
+        width:30%;
+        min-width:300px;
         padding:70px 10px;
         margin:10px;
     }
+
+.home-cont-items p{
+        font-size:1.2vw !important;
+        //font-weight:bold;
+    }
+
 .width-fill-scrn{
     margin-top:150px;
     margin-left:-300px;
@@ -896,7 +991,8 @@ h2{
     background-color:#e7e7e7;
     padding:2%;
 }
-#myButton {
+
+#myButton{
     position: absolute;
     top: -10;
     left:0;
@@ -949,6 +1045,11 @@ h2{
 
 @media all and (max-width: 600px) {
 
+.home-cont-items p{
+        font-size:5vw !important;
+        //font-weight:bold;
+    }
+
 .invite-cards{
     font-size:90% !important;
 
@@ -967,7 +1068,7 @@ h2{
   }
   .banner-container{
     background-color:#eee;
-    width:150%;
+    width:100%;
     margin-left:-35px;
     //margin-top:-350px;
     margin-bottom:80px;
@@ -979,6 +1080,7 @@ h2{
     top:40%;
     left:10%;
     width:50%;
+    min-width:200px;
     }
 
   .banner-cap h1{
@@ -1047,17 +1149,20 @@ h2{
     margin:50px auto 0px auto;
   }
 
+
   .home-content{
-    //background-color:#eee;
+    background-color:#aee;
     width: 80%;
+    min-width:300px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
     align-items:center;
-    //border-radius: 30px;
     padding:10px;
     margin-top:70px;
     }
+
+
   .home-tags{
     display:flex;
     align-items:center;
@@ -1081,6 +1186,7 @@ h2{
     }
     .home-cont-items{
         width:90%;
+        min-width:300px;
     }
     .flex-justify-align{
         flex-direction:column;
