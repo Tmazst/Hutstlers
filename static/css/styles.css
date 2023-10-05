@@ -1062,32 +1062,24 @@ display:none
 
 @media all and (max-width: 600px) {
 
+
+.user{
+    display:none;
+}
+
 #check-menu{
 
 //display:none;
 
 }
 
----------------------------
-
-.dropdown-content {
-  /* ... */
-  visibility: hidden;
-}
-.dropdown-btn:focus + .dropdown-content {
-  visibility: visible;
-}
-.dropdown-btn:focus > .arrow {
-  transform: rotate(180deg);
-}
 
 .navbar-nav{
     //display:block;
     height:30px;
     left:0 !important;
-    //width:130% !important;
+    width:100% !important;
     //background-color:#ed45ed;
-
 }
 
 .navbar-nav li{
@@ -1096,93 +1088,23 @@ display:none
     //width:50%;
     display:flex;
     justify-content:center;
-
 }
 
 .navbar-nav li a{
     text-align:center;
 }
 
-#nav-div{
-    pos:static;
-    background-color:#eee !important;
-    //width:100% !important;
-    //display:none;
-}
 
-#nav-div-mobile{/* Main Container */
-
-    display:flex;
-    direction:row;
-    background-color:#ededed;
-    //padding:5px 0px;
-    width:100%;
-    //height:445px;
-    //margin-bottom:10px;
-
-}
-
-    .navbar-nav-mobile{
-        width:100%;
-        display:block !important;
-        //direction:column;
-        //justify-content:flex-start;
-        //gap:10px;
-        //background-color:coral;
-        //visibility:hidden;
-        //height:445px;
-    }
-
-#check-menu:checked + .navbar-nav-mobile{
-    display:none;
-    height:45px;
-}
-
-#check-menu:checked~.navbar-nav{
-    //visibility:visible;
-    //height:45px;
-}
-
-.menu button:focus + .navbar-nav-mobile{
-    visibility:hidden;
-}
-
-.menu{
-    display:none;
-    position:absolute;
-    width:20%;
-    right:40%;
-    background-color:red;
-    //float:right;
-
-}
-
-/*Ignore*/
-.nav-item-mobile{
-     display:flex;
-     justify-content:center;
-     text-style-list:none;
-}
-
-/*Ignore*/
-.icons-nav{
-    display:none;
-    width:70%;
-    background-color:#abeeae;
-    padding:10px 0;
-
-}
 
 #nav-div{
     display:flex;
     direction:row;
     background-color:#ede5ed;
     //padding:5px 0px;
-    width:80%;
+    width:100%;
     //height:445px;
     //margin-bottom:10px;
 }
-
 
 
 .home-cont-items p{
@@ -1210,7 +1132,7 @@ display:none
   .banner-container{
     background-color:#eee;
     width:100%;
-    margin-left:-35px;
+    //margin-left:-35px;
     //margin-top:-350px;
     margin-bottom:80px;
     height:80vh !important;
@@ -1222,6 +1144,7 @@ display:none
     left:10%;
     width:50%;
     min-width:200px;
+    padding-left:5px;
     }
 
   .banner-cap h1{
