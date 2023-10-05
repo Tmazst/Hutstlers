@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='font-6/css/all.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://storage.googleapis.com/non-spec-apps/mio-icons/latest/outline.css">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
     <!---<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="static/icons/skateboarding.svg"/>
+    <link type="text/css" rel="stylesheet" href="static/icons/skateboarding.svg"/>
 <script>
     document.getElementById('myButton').addEventListener('click', function() {
     var drawer = document.getElementById('myDrawer');
@@ -36,6 +37,38 @@ for (var i = 0; i < closeButtons.length; i++) {
 
         <div id="empty"></div>
 
+        <div class="icons-nav">
+
+<!--            <input type="checkbox" id="check-menu" />-->
+<!--            <label for="check-menu" class="menu">-->
+<!--                <button id="menu-icon">Menu</button>-->
+<!--            </label>-->
+
+            <div id="nav-div-mobile">
+                <ul class="navbar-nav-mobile">
+                  <li class="nav-item-mobile active">
+                    <a class="nav-link-mobile" href="/">Home </a>
+                  </li>
+                  <li class="nav-item-mobile">
+                    <a class="nav-link-mobile" href="/job_ads">Jobs</a>
+                  </li>
+                  <li class="nav-item-mobile">
+                    <a class="nav-link-mobile" href="#">International Jobs</a>
+                  </li>
+                  <li class="nav-item-mobile">
+                    <a class="nav-link-mobile" href="/about">About</a>
+                  </li>
+                  <li class="nav-item-mobile">
+                    <a class="nav-link-mobile" href="/contact" >Contact Us</a>
+                  </li>
+                  <li class="nav-item-mobile">
+                    <a class="nav-link-mobile" href="#" >Freelancers</a>
+                  </li>
+                </ul>
+            </div>
+
+        </div>
+
         <div id="nav-div">
 
             <div id="nav-div-cont">
@@ -46,18 +79,18 @@ for (var i = 0; i < closeButtons.length; i++) {
                   <li class="nav-item">
                     <a class="nav-link" href="/job_ads">Jobs</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">International Jobs</a>
-                  </li>
+<!--                  <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">International Jobs</a>-->
+<!--                  </li>-->
                   <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/contact" >Contact Us</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#" >Freelancers</a>
-                  </li>
+<!--                  <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#" >Freelancers</a>-->
+<!--                  </li>-->
                 </ul>
             </div>
 
@@ -83,6 +116,8 @@ for (var i = 0; i < closeButtons.length; i++) {
 
 
 
+
+
     {% if current_user.is_authenticated and current_user.role== 'company_user' %}
 <!--        SIDE NAV --->
     <button id="myButton">Open Drawer</button>
@@ -91,27 +126,28 @@ for (var i = 0; i < closeButtons.length; i++) {
                 <div id="side-nav-div">
 
                     <div id="side-nav-cont">
-                            <ul class="navbar-side-nav">
-                                  <li class="side-nav-item">
-                                    <a class="side-nav-link" href="/company_account">Account Details</a>
-                                  </li>
-                                  <li class="side-nav-item">
-                                    <a class="side-nav-link" href="/job_ads_form">Publish A Job</a>
-                                  </li>
-                                  <li class="side-nav-item">
-                                    <a class="side-nav-link" href="/job_ads?id={{current_user.id}}">Published Jobs</a>
-                                  </li>
-                                  <li class="side-nav-item">
-                                    <a class="side-nav-link" href="#">Job Seekers</a>
-                                  </li>
-                                  <li class="side-nav-item">
-                                    <a class="side-nav-link" href="/job_applications">Check Applications</a>
-                                  </li>
-                            </ul>
+                         <ul class="navbar-side-nav">
+                              <li class="side-nav-item">
+                                <a class="side-nav-link" href="/company_account">Account Details</a>
+                              </li>
+                              <li class="side-nav-item">
+                                <a class="side-nav-link" href="/job_ads_form">Publish A Job</a>
+                              </li>
+                              <li class="side-nav-item">
+                                <a class="side-nav-link" href="/job_ads?id={{current_user.id}}">Published Jobs</a>
+                              </li>
+                              <li class="side-nav-item">
+                                <a class="side-nav-link" href="#">Job Seekers</a>
+                              </li>
+                              <li class="side-nav-item">
+                                <a class="side-nav-link" href="/job_applications">Check Applications</a>
+                              </li>
+                         </ul>
                     </div>
                 </div>
     </div>{%endif%}
 </div>
+
     <div class="blocks">
         {% block content %}
         {% endblock %}

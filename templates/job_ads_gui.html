@@ -16,9 +16,8 @@
 <!--    {% endif %}-->
 
     <div style="background-color:ae23a3;" class="general-flex">
-    {% for item in job_ads %}
-        <!----FORM----->
-
+            {% for item in job_ads %}
+            <!----FORM----->
             <div style="display:flex;flex-direction:column;width:300px;" class="new_job_ad_style">
 
                         <div style="" class="center-prl-img">
@@ -33,32 +32,30 @@
                             </div>
                         </div>
 
-                        <h2 style="margin-bottom:0px;margin-top:0px;">{{db.query(company_user).get(item.job_posted_by).name}}<br><span><small style="color:#aaa" >{{db.query(company_user).get(item.job_posted_by).name}}</small></span></h2>
-
-<!--                        <div style="width:70%;margin:0 auto;"><hr></div>-->
+                        <h2 style="margin-bottom:0px;margin-top:0px;">{{db.query(company_user).get(item.job_posted_by).name}}<br>
+                        <span><small style="color:#aaa" >{{db.query(company_user).get(item.job_posted_by).name}}</small></span></h2>
 
                         <!-------JOB TITLE--------->
-                            <p class="job-title">{{item.job_title}}</p>
+                        <p class="job-title">{{item.job_title}}</p>
 
                          <!-------JOB TYPE--------->
-
-                <p class="centralise_font"><span class="material-icons">work</span></p>
-                            <p class="centralise_font">{{item.job_type}}</p>
+                        <p class="centralise_font"><span class="material-icons">work</span></p>
+                        <label style="margin-top:-10px" class="centralise_font">{{item.job_type}}</label><hr>
 
 
                         <!-------RESPONSIBILITIES--------->
-                            <p class="centralise_font" ><span class="material-icons">place</span></p>
-                            <div class="centralise_font" ><p>{{db.query(company_user).get(item.job_posted_by).company_address}}</p></div>
+                        <p class="centralise_font" ><span class="material-icons">place</span></p>
+                        <div style="margin-top:-10px" class="centralise_font" ><label>{{db.query(company_user).get(item.job_posted_by).company_address}}</label></div><hr>
 
                         <!--------DEADLINE-------------->
-                            <div class="" >
-                                <p class="centralise_font" ><span class="material-icons">schedule</span></p>
-                                <p style="font-size:10">{{item.application_deadline.strftime("%d %b %y")}}</p>
-                            </div>
+                        <div class="" >
+                             <p class="centralise_font" ><span class="material-icons">schedule</span></p>
+                             <label class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
+                        </div><hr>
 
-                            <div style="background-color:ea2a30;flex-grow:5;" >
-                                <p class="centralise_font" ></p>
-                            </div>
+                        <div style="background-color:ea2a30;flex-grow:5;" >
+                             <p class="centralise_font" ></p>
+                        </div>
 
                         <!--------VIEW BUTTON-------------->
                         <div style="dispaly:block">
