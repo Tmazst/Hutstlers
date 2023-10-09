@@ -295,8 +295,8 @@ def contact_us():
 
 
 
-@app.route("/reset", methods=['POST', "GET"])
-def reset():
+@app.route("/reset/<token>", methods=['POST', "GET"])
+def reset(token):
     from sqlalchemy import update
     reset_form = Reset()
 
@@ -729,6 +729,6 @@ def hire_applicant():
     return render_template("hire_applicant.html", job_usr = job_usr,db=db)
 
 
-if __name__ == "__main__":
-
-    app.run(debug=True)
+# if __name__ == "__main__":
+#
+#     app.run(debug=True)
