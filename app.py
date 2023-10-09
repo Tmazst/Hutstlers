@@ -729,6 +729,6 @@ def hire_applicant():
     return render_template("hire_applicant.html", job_usr = job_usr,db=db)
 
 
-# if __name__ == "__main__":
-#
-#     app.run(debug=True)
+if __name__ == "__main__":
+
+    app.run(debug=True)
