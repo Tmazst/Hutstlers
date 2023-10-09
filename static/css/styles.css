@@ -264,7 +264,9 @@ a{
     font-size:12px;
 }
 
-
+.warning{
+    background-color:#e99 !important;
+}
 
 .actions a{
     cursor:pointer

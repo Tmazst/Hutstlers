@@ -321,6 +321,15 @@ def reset_request():
             #Get user details through their email
             usr_email = db.query(user).filter_by(email=reset_request_form.email.data).first()
             #print("DEBUG EMAIL: ",usr_email.email)
+
+            if usr_email is None:
+                print("The email you are request for is not register with T.H.T, please register first, Please Retry")
+                flash("The email you are requesting a password reset for, is not register with T.H.T, please register first, Please Retry", 'success')
+
+                return redirect(url_for("reset_request"))
+
+                # redirect(url_for())
+
             def send_link(usr_email):
                 app.config["MAIL_SERVER"] = "smtp.googlemail.com"
                 app.config["MAIL_PORT"] = 587
@@ -332,8 +341,13 @@ def reset_request():
 
                 token = user().get_reset_token(usr_email.id)
                 msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[usr_email.email])
-                msg.body = f"""To reset your password, visit the following link:
-                {url_for('reset', token=token, _external=True)}"""
+                msg.body = f"""Gooday, {usr_email.name}
+                
+You have requested a password reset for your The Hustlers Time Account.
+To reset your password, visit the following link:{url_for('reset', token=token, _external=True)}
+
+If you did not requested the above message please ignore it, and your password will remain unchanged.
+"""
 
 
                 try:
@@ -345,7 +359,7 @@ def reset_request():
                     flash('Ooops Something went wrong!! Please Retry', 'warning')
                     return "The mail was not sent"
 
-            #Current User Changing Password
+            #Send the pwd reset request to the above email
             send_link(usr_email)
 
             return redirect(url_for('login'))
@@ -645,7 +659,7 @@ def local_jb_ads():
         #print("Job Ad Title: ",job_ad.job_title)
 
 
-@app.route("/job_ad_opened",methods=["GET", "POST"])
+@app.route("/job_ad_opened", methods=["GET", "POST"])
 def view_job():
 
     if request.method == 'GET':
