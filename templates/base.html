@@ -67,14 +67,14 @@ for (var i = 0; i < closeButtons.length; i++) {
                 {% if current_user.is_authenticated %}
 
                         {% if current_user.role == 'company_user' %}
-                            <li><a class="nav-link" href="company_account">Account</a></li>
+                            <li><a class="nav-link btns" href="company_account">Account</a></li>
                         {%else%}
-                            <li><a href="account">My Account</a></li>
+                            <li><a  class="nav-link btns" href="account">My Account</a></li>
                         {%endif%}
-                            <li><a class="nav-link" href="logout">Logout</a></li>
+                            <li><a class="nav-link btns" href="logout">Logout</a></li>
                 {% else %}
-                            <li><a class="nav-link" href="login">Login</a></li>
-                            <li><a class="nav-link" href="sign_up">Register</a></li>
+                            <li><a class="nav-link btns" href="login">Login</a></li>
+                            <li><a class="nav-link btns" href="sign_up">Register</a></li>
 
                 {% endif %}
                 </ul>

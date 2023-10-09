@@ -261,8 +261,32 @@ def contact_us():
     contact_form = Contact_Form()
     if request.method == "POST":
         if contact_form.validate_on_submit():
-            if request.method == "POST":
-                flash("Message Successfully Sent!!", "success")
+                def send_link():
+                    app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+                    app.config["MAIL_PORT"] = 587
+                    app.config["MAIL_USE_TLS"] = True
+                    em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
+                    app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
+
+                    mail = Mail(app)
+
+                    msg = Message(contact_form.subject.data, sender=contact_form.email.data, recipients=[em])
+                    msg.body = f"""{contact_form.message.data}
+{contact_form.email.data}
+                    """
+
+                    try:
+                        mail.send(msg)
+                        flash("Your Message has been Successfully Sent!!", "success")
+                        return "Email Sent"
+                    except Exception as e:
+                        # print(e)
+                        flash('Ooops Something went wrong!! Please Retry', 'error')
+                        return "The mail was not sent"
+
+                # Send the pwd reset request to the above email
+                send_link()
+
                 #print("Posted")
         else:
             flash("Ooops!! Please be sure to fill both email & message fields, correctly","error")
@@ -324,7 +348,7 @@ def reset_request():
 
             if usr_email is None:
                 print("The email you are request for is not register with T.H.T, please register first, Please Retry")
-                flash("The email you are requesting a password reset for, is not register with T.H.T, please register first, Please Retry", 'success')
+                flash("The email you are requesting a password reset for, is not register with T.H.T, please register as account first", 'error')
 
                 return redirect(url_for("reset_request"))
 
@@ -356,7 +380,7 @@ If you did not requested the above message please ignore it, and your password w
                     return "Email Sent"
                 except Exception as e:
                     #print(e)
-                    flash('Ooops Something went wrong!! Please Retry', 'warning')
+                    flash('Ooops Something went wrong!! Please Retry', 'error')
                     return "The mail was not sent"
 
             #Send the pwd reset request to the above email

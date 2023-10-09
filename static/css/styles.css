@@ -132,11 +132,13 @@ a{
 #nav-div{
     display:flex;
     direction:column;
-    background-color:#ededed;
+    background-color:rgba(170,170,170,0.5);
     //padding:5px 0px;
     width:100%;
     //height:45px;
     //margin-bottom:10px;
+
+    backdrop-filter: blur(15px);
 
 }
 
@@ -189,7 +191,7 @@ a{
 .btns {
     //outline:none;
     background:none;
-    margin: 30px 0;
+    //margin: 30px 0;
     //background-color:#006769;
     border: 2px solid #006769;
     color:#006769;
@@ -230,15 +232,15 @@ a{
 
 
 .flash-messages{
-        height:40px;
+        //height:40px;
         padding:10px;
 }
 
 .footer{
 
-  margin-top:150px;
+  /*margin-top:150px;
   margin-left:-300px;
-  margin-right:-300px;
+  margin-right:-300px;*/
   background-color:#a7a7a7;
   padding:2%;
   
@@ -963,6 +965,13 @@ h2{
     align-items:center
 }
 
+.general-flex-x{
+    display:flex;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+    gap:20;
+}
+
 .general-flex{
     display:flex;
     justify-content:space-around;
@@ -1085,13 +1094,51 @@ h2{
 display:none
 }
 
+.nav-item a{
+    font-weight:bold;
+    color:#505050 !important;
+}
+
+.nav-item a:focus{
+
+    color:#006769;!important;
+}
+
 
 
 @media all and (max-width: 600px) {
 
+.btns{
+    margin:0;
+}
+.tags{
+   margin-top:40% !important;
+}
+
+.flash-messages{
+    position:absolute !important;
+    z-index:3;
+    //bottom:600 !important;
+    height:20vw !important;
+    margin-bottom:5% !important;
+    width:93% !important;
+   // box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+}
 
 .user{
-    display:none;
+    background-color:rgba(255, 255, 255, 0.5) !important;
+    width:95%;
+    margin-top:-15px;
+    backdrop-filter: blur(15px);
+
+    //justify-content:flex-end;
+
+}
+
+.navbar-nav-user{
+    display:flex;
+    justify-content:flex-end;
+    width:90% !important;
 }
 
 #check-menu{
@@ -1125,11 +1172,12 @@ display:none
 
 #nav-div{
     display:flex;
-    direction:row;
+    flex-direction:column;
     background-color:#ede5ed;
+    //flex-wrap:
     //padding:5px 0px;
     width:100%;
-    //height:445px;
+    height:60px;
     //margin-bottom:10px;
 }
 
@@ -1305,9 +1353,9 @@ display:none
     .footer{
       
       display:flex;
-      width:150%;
+      width:100%;
       justify-content:center;
-      margin-left:-30px;
+      //margin-left:-30px;
       margin-right:0px;
       
     }
