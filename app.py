@@ -265,7 +265,7 @@ def contact_us():
                 flash("Message Successfully Sent!!", "success")
                 #print("Posted")
         else:
-            flash("Ooops!! Please be sure fill both email & message fields, correctly","error")
+            flash("Ooops!! Please be sure to fill both email & message fields, correctly","error")
 
     return render_template("contact_page.html",contact_form=contact_form)
 
