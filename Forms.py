@@ -76,6 +76,7 @@ class Update_account_form(FlaskForm):
 
 
 class Reset(FlaskForm):
+
     old_password = PasswordField('old password', validators=[DataRequired(), Length(min=8, max=64)])
     new_password = PasswordField('new password', validators=[DataRequired(), Length(min=8, max=64)])
     confirm_password = PasswordField('confirm password', validators=[DataRequired(), EqualTo('new_password'), Length(min=8, max=64)])
@@ -88,3 +89,6 @@ class Reset_Request(FlaskForm):
     email = StringField('email', validators=[DataRequired(), Email()])
 
     reset = SubmitField('Submit')
+
+    # def validate_email(self,email):
+    #     user = user.query.filter_by

@@ -4,6 +4,8 @@ from sqlalchemy import Integer, String,Column,MetaData,Boolean, ForeignKey, Date
 from flask_login import login_user,UserMixin
 from sqlalchemy.orm import backref, relationship
 from datetime import datetime
+from itsdangerous import  URLSafeTimedSerializer as Serializer
+
 
 
 #from app import login_manager
@@ -27,6 +29,24 @@ class user(Base,UserMixin):
     password = Column(String(120), unique=True)
     confirm_password = Column(String(120), unique=True)
     role = Column(String(120))
+
+
+
+    def get_reset_token(self,c_user_id, expires=1800):
+        from app import app
+        s = Serializer(app.config['SECRET_KEY'],"confirmation")
+
+        return s.dumps({'user_id':c_user_id})
+
+    @staticmethod
+    def verify_reset_token(token):
+        import app
+        s = Serializer(app.app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return app.db.query(user).get(user_id)
 
     __mapper_args__={
 

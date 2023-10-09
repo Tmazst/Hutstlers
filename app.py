@@ -43,12 +43,12 @@ def load_user(user_id):
     return db.query(user).get(user_id)
 
     # if current_user:
-    #     print("-------------------------User: ", user_class.cls_name)
+    #     #print("-------------------------User: ", user_class.cls_name)
     #     return db.query(user_class.cls_name).get(current_user.id)
     #
     # else:
     #     return db.query(user_class.cls_name).get(current_user.id)
-    #     print("-------------------------No Class User: ",user_class.cls_name)
+    #     #print("-------------------------No Class User: ",user_class.cls_name)
 
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 
@@ -65,7 +65,8 @@ def resize_img(img,size_x=30,size_y=30):
 
         i.save(img)
     else:
-        print("Check IMG Size: ",i.size)
+        pass
+        #print("Check IMG Size: ",i.size)
 
     return img
 
@@ -99,7 +100,8 @@ def home():
     companies_ls = db.query(company_user).all()
 
     for cpm in companies_ls:
-        print("DEBUG COMPANIES: ",cpm.name)
+        pass
+        #print("DEBUG COMPANIES: ",cpm.name)
 
     return render_template("index.html",img_1='', img_2  ='',img_3 ='', companies_ls=companies_ls )
 
@@ -118,14 +120,14 @@ def sign_up():
 
     if register.validate_on_submit():
 
-        print(f"Account Successfully Created for {register.name.data}")
+        #print(f"Account Successfully Created for {register.name.data}")
         if request.method == 'POST':
             # context
 
 
             # If the webpage has made a post e.g. form post
             with engine.connect():
-                print('Create All..........................................')
+                #print('Create All..........................................')
                 hashd_pwd = encry_pw.generate_password_hash(register.password.data).decode('utf-8')
                 # Base.metadata.create_all()
                 # ....user has inherited the Base class
@@ -137,10 +139,10 @@ def sign_up():
                 db.add(user1)
                 db.commit()
                 flash(f"Account Successfully Created for {register.name.data}", "success")
-                # print(register.name.data,register.email.data)
+                # #print(register.name.data,register.email.data)
     elif register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
-        print(register.errors)
+        #print(register.errors)
 
 
 
@@ -161,27 +163,27 @@ def account():
     from sqlalchemy import update
 
     cv = Update_account_form()
-    print("Current User: ",current_user.name)
+    #print("Current User: ",current_user.name)
 
     image_fl = url_for('static', filename='images/' + current_user.image)
 
 
     if request.method == 'POST':
-        print("method is POST")
-        print(cv.errors)
+        #print("method is POST")
+        #print(cv.errors)
 
         if cv.validate_on_submit():
             id = current_user.id
             usr = db.query(job_user).get(id)
             if cv.image_pfl.data:
-                print("Debug Image on If: ", cv.image_pfl.data)
+                #print("Debug Image on If: ", cv.image_pfl.data)
                 pfl_pic = save_pic(picture = cv.image_pfl.data)
                 usr.image = pfl_pic
 
             usr.name = cv.name.data
             usr.email = cv.email.data
             usr.contacts = cv.contacts.data
-            print("Current User School: ", current_user.school)
+            #print("Current User School: ", current_user.school)
             usr.school = cv.school.data
             usr.tertiary = cv.tertiary.data
             usr.address = cv.address.data
@@ -196,12 +198,13 @@ def account():
             redirect(url_for('account'))
 
         elif cv.errors:
+            pass
             # for error in cv.errors:
-            print('Update Errors: ',cv.errors)
+            #print('Update Errors: ',cv.errors)
     elif cv.errors:
         # for error in cv.errors:
         flash("Update Unsuccessfull!!, check if all fields are filled", "error")
-        print('Update Errors: ', cv.errors)
+        #print('Update Errors: ', cv.errors)
 
 
     return render_template("account.html",cv=cv, title="Account", image_fl = image_fl)
@@ -219,7 +222,7 @@ def login():
 
 
         if login.validate_on_submit():
-            # print(f"Account Successfully Created for {login.name.data}")
+            # #print(f"Account Successfully Created for {login.name.data}")
             user_login = db.query(user).filter_by(email = login.email.data).first()
             # flash(f"Hey! {user_login.password} Welcome", "success")
             if user_login and encry_pw.check_password_hash(user_login.password,login.password.data):
@@ -230,7 +233,7 @@ def login():
                 return redirect(req_page) if req_page else redirect(url_for('home'))
             else:
                 flash(f"Login Unsuccessful, please use correct email or password", "error")
-                print(login.errors)
+                #print(login.errors)
 
     return render_template('login_form.html', title='Login',login=login)
 
@@ -248,7 +251,7 @@ def user_profile():
     # db has binded the engine's database file
     for ea_user in db.execute(all):
         users.append(list(ea_user))
-        #print(users)
+        ##print(users)
 
     return f"{users}"
 
@@ -260,12 +263,11 @@ def contact_us():
         if contact_form.validate_on_submit():
             if request.method == "POST":
                 flash("Message Successfully Sent!!", "success")
-                print("Posted")
+                #print("Posted")
         else:
             flash("Ooops!! Please be sure fill both email & message fields, correctly","error")
 
     return render_template("contact_page.html",contact_form=contact_form)
-
 
 
 
@@ -274,35 +276,34 @@ def reset():
     from sqlalchemy import update
     reset_form = Reset()
 
-    print("Current User: ",current_user.__dict__)
+    #print("Current User: ",current_user.__dict__)
 
     if request.method == 'POST':
         if reset_form.validate_on_submit():
-            #Current User Changing Password
-            if encry_pw.check_password_hash(current_user.password,reset_form.old_password.data):
-                token = Tokenise().get_reset_token(current_user.id)
-                print("Reset Token: ", token)
-                v_user_id = Tokenise().verify_reset_token(token)
-                print("User_id: ", v_user_id)
+            if current_user.is_authenticated:
+                #Current User Changing Password
+                if encry_pw.check_password_hash(current_user.password,reset_form.old_password.data):
+                    token = Tokenise().get_reset_token(current_user.id)
+                    #print("Reset Token: ", token)
+                    v_user_id = Tokenise().verify_reset_token(token)
+                    #print("User_id: ", v_user_id)
 
-                pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
+                    pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
 
-                usr = db.query(user).get(v_user_id)
-                usr.password = pass_reset_hash
-                db.commit()
+                    usr = db.query(user).get(v_user_id)
+                    usr.password = pass_reset_hash
+                    db.commit()
 
-                # logout_user()
+                    # logout_user()
 
-                flash(f"Password Changed Succesfully!", "success")
-                return redirect(url_for("account"))
+                    flash(f"Password Changed Succesfully!", "success")
+                    return redirect(url_for("account"))
+                else:
+                    flash(f"Ooops! Passwords don't match, You might have forgotten your Old Password", "error")
+
+
             else:
-                flash(f"Ooops! Passwords don't match, You might have forgotten your Old Password", "error")
-            # for field,v in current_user.__dict__.items():
-            #     if not field=="_sa_instance_state" and not field=="id":
-            #         _attr = user1.__dict__[field]
-            #         update(user).where(user1.id == current_user.id).values(field=user1.__dict__[field])
-
-
+                pass
 
 
     return render_template("pass_reset.html",reset_form=reset_form)
@@ -313,27 +314,36 @@ def reset_request():
 
     reset_request_form = Reset_Request()
 
-    print("Current User: ",current_user.__dict__)
+    #print("Current User: ",current_user.__dict__)
 
     if request.method == 'POST':
         if reset_request_form.validate_on_submit():
+            #Get user details through their email
             usr_email = db.query(user).filter_by(email=reset_request_form.email.data).first()
-            print("DEBUG EMAIL: ",usr_email.email)
+            #print("DEBUG EMAIL: ",usr_email.email)
             def send_link(usr_email):
                 app.config["MAIL_SERVER"] = "smtp.googlemail.com"
-                app.config["MAIL_PORT"] = 465
-                app.config["MAIL_USE_SSL"] = True
-                em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL_USER")
-                app.config["MAIL_PASSWORD"] = os.environ.get("EMAIL_PASS")
-
-                token = Tokenise().get_reset_token(usr_email.id)
-                msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=["pro.dignitron@gmail.com"])
-                msg.body = f"""To reset your password, visit the following link:
-                {url_for('reset', token=token, _external=True)}"""
-                flash('An email has been sent with instructions to reset your password', 'success')
+                app.config["MAIL_PORT"] = 587
+                app.config["MAIL_USE_TLS"] = True
+                em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
+                app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
 
                 mail = Mail(app)
-                mail.send(msg)
+
+                token = user().get_reset_token(usr_email.id)
+                msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[usr_email.email])
+                msg.body = f"""To reset your password, visit the following link:
+                {url_for('reset', token=token, _external=True)}"""
+
+
+                try:
+                    mail.send(msg)
+                    flash('An email has been sent with instructions to reset your password', 'success')
+                    return "Email Sent"
+                except Exception as e:
+                    #print(e)
+                    flash('Ooops Something went wrong!! Please Retry', 'warning')
+                    return "The mail was not sent"
 
             #Current User Changing Password
             send_link(usr_email)
@@ -370,7 +380,7 @@ def job_ads_form():
 
             # if bools are True
             if job_ad_form.pay_type_bl.data:
-                print('Job Type: ', job_ad_form.pay_type_bl.data)
+                #print('Job Type: ', job_ad_form.pay_type_bl.data)
                 job_post1.pay_type = job_ad_form.other_pay_type.data
 
             if job_ad_form.other_job_type.data:
@@ -407,7 +417,7 @@ def cmp_user_profile():
     # db has binded the engine's database file
     for ea_user in db.execute(all):
         users.append(list(ea_user))
-        #print(users)
+        ##print(users)
 
 
     return f"{users}"
@@ -417,7 +427,7 @@ def job_adverts():
 
 
     if current_user.is_authenticated:
-        print("Current User")
+        #print("Current User")
         if not current_user.image and not current_user.school:
             flash("Attention!! Your Account needs to be updated Soon, Please go to Account and update the empty fields",
                   "error")
@@ -431,7 +441,7 @@ def job_adverts():
 
     if request.method == 'GET':
         id = request.args.get('id')
-        print("Check Get Id: ",id)
+        #print("Check Get Id: ",id)
         if id:
             #Filter Ads with a specific company's id
             job_ads = db.query(Jobs_Ads).filter_by(job_posted_by=id)
@@ -472,7 +482,7 @@ def company_sign_up_form():
 
             # If the webpage has made a post e.g. form post
             with engine.connect():
-                print('Create All..........................................')
+                #print('Create All..........................................')
                 company_hashd_pwd = encry_pw.generate_password_hash(company_register.company_password.data).decode('utf-8')
                 # Base.metadata.create_all()
                 # ....user has inherited the Base class
@@ -489,10 +499,10 @@ def company_sign_up_form():
 
                 return redirect(url_for('company_login'))
 
-                # print(company_register.name.data,company_register.email.data)
+                # #print(company_register.name.data,company_register.email.data)
     elif company_register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
-        print(company_register.errors)
+        #print(company_register.errors)
 
 
     # from myproject.models import user
@@ -511,7 +521,7 @@ def company_login():
     if request.method == 'POST':
 
         if company_login.validate_on_submit():
-            # print(f"Account Successfully Created for {company_login.name.data}")
+            # #print(f"Account Successfully Created for {company_login.name.data}")
             company_user_login = db.query(company_user).filter_by(email = company_login.company_email.data).first()
             # flash(f"Hey! {user_login.password} Welcome", "success")
             if company_user_login and encry_pw.check_password_hash(company_user_login.password,company_login.company_password.data):
@@ -522,7 +532,7 @@ def company_login():
                 return redirect(req_page) if req_page else redirect(url_for('home'))
             else:
                 flash(f"Login Unsuccessful, please use correct email or password", "error")
-                print(company_login.errors)
+                #print(company_login.errors)
 
     return render_template('company_login_form.html', title='Company Login',company_login=company_login)
 
@@ -545,10 +555,10 @@ def company_account():
         id = current_user.id
         cmp_usr = db.query(company_user).get(id)
 
-        print('DEBUG UPDATE 1: ', cmp_usr.web_link)
+        #print('DEBUG UPDATE 1: ', cmp_usr.web_link)
 
         if company_update.company_logo.data:
-            print("Debug Image on If: ", company_update.company_logo.data)
+            #print("Debug Image on If: ", company_update.company_logo.data)
             pfl_pic = save_pic(picture=company_update.company_logo.data)
             cmp_usr.image = pfl_pic
 
@@ -564,7 +574,7 @@ def company_account():
 
         db.commit()
 
-        print('DEBUG UPDATE: ',cmp_usr.web_link)
+        #print('DEBUG UPDATE: ',cmp_usr.web_link)
 
     return render_template("company_account.html",company_update = company_update,image_fl=image_fl)
 
@@ -608,7 +618,7 @@ def send_application():
                 #Check if application not sent before
                 job_obj = db.query(Applications).filter_by(job_details_id=jb_id).first()
                 company_obj = db.query(company_user).get(apply.employer_id)
-                print('----------------------job_obj: ',job_obj)
+                #print('----------------------job_obj: ',job_obj)
                 if not job_obj:
                     db.add(apply)
                     db.commit()
@@ -632,7 +642,7 @@ def local_jb_ads():
         id = request.args['id']
         job_ad = db.query(Jobs_Ads).get(id)
 
-        print("Job Ad Title: ",job_ad.job_title)
+        #print("Job Ad Title: ",job_ad.job_title)
 
 
 @app.route("/job_ad_opened",methods=["GET", "POST"])
@@ -642,7 +652,7 @@ def view_job():
         id = request.args['id']
         job_ad = db.query(Jobs_Ads).get(id)
 
-        print("Job Ad Title: ",job_ad.job_title)
+        #print("Job Ad Title: ",job_ad.job_title)
 
 
     return render_template('job_ad_opened.html',item=job_ad,db=db,company_user=company_user)
@@ -653,9 +663,7 @@ def applications():
     #Get all applications from Applications database
     all_applications = db.query(Applications).all()
 
-    print("Debug Application List: ", db.query(job_user).get(all_applications[0].applicant_id).name )
-
-
+    #print("Debug Application List: ", db.query(job_user).get(all_applications[0].applicant_id).name )
 
     applications = Applications()
 
