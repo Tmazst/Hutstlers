@@ -92,6 +92,7 @@ class company_user(user):
     youtube = Column(String(120))
     job_ads = relationship("Jobs_Ads", backref='Jobs_Ads.job_title',lazy=True)
     applicantions_posted = relationship("Applications", backref='employer', lazy=True)
+    freelance_job_ads = relationship("Freelance_Jobs_Ads", backref='Freelance_Jobs_Ads.service_title', lazy=True)
 
     __mapper_args__ = {
         "polymorphic_identity": 'company_user'
@@ -130,11 +131,12 @@ class Applications(Base, UserMixin):
     applicant_id = Column(Integer, ForeignKey('job_user.id'),nullable=False)
     employer_id = Column(Integer, ForeignKey('company_user.id'), nullable=False)
     job_details_id = Column(Integer, ForeignKey('job_ads.job_id'), nullable=False)
-    time_stamp =  Column(DateTime,default=datetime.utcnow, nullable=False)
+    #freel_job_details_id = Column(Integer, ForeignKey('freelance_job_ads.job_id'), nullable=False)
+    time_stamp = Column(DateTime,default=datetime.utcnow, nullable=False)
     closed = Column(String(200))
 
 
-class Jobs_Ads(Base, UserMixin):
+class Freelance_Jobs_Ads(Base, UserMixin):
 
     __tablename__ = "freelance_job_ads"
 
@@ -144,15 +146,9 @@ class Jobs_Ads(Base, UserMixin):
     specialty = Column(String(20))      #e.g Graphic Designer
     description = Column(String(200))
     project_duration = Column(String(60))  #Project duration
-    work_days = Column(String(60))
-    work_hours = Column(String(60))
-    responsibilities = Column(String(200))
-    qualifications = Column(String(200))
-    age_range = Column(String(60))
-    benefits = Column(String(200))
+    other_info = Column(String(200))
     application_deadline = Column(DateTime, nullable=False)
     contact_person = Column(String(40))
     date_posted = Column(DateTime, default=datetime.utcnow, nullable=False) #Records itself
-    print("DEBGU: ",company_user.id)
     job_posted_by = Column(Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
-    applicantions = relationship("Applications", backref='All Applications', lazy=True)
+    #applications = relationship("Applications", backref='All Applications', lazy=True)
