@@ -384,7 +384,7 @@ font-weight:400;
 }
 
 .job-title{
-    background-color:#006769;
+    background-color:#808080;
     color:#fff;
     font-weight:bold;
     //display:inline-block;
@@ -397,7 +397,6 @@ font-weight:400;
 
 .job_ad_group{
     //margin-left:-10px;
-
 }
 
 .job_main-cont{
@@ -1100,7 +1099,35 @@ display:none
 
 .nav-item a:focus{
 
-    color:#006769;!important;
+    color:#006769 !important;
+}
+
+.job-sub-title{
+    display:flex;
+    flex-direction:row;
+    gap:15px;
+}
+
+.job-info{
+    display:flex;
+    flex-direction:column;
+    border-radius:10px;
+    width:47%;
+    padding-bottom:10px;
+    background-color:#eee;
+    justify-content:space-between;
+    gap:10px !important;
+}
+
+.size-it span{
+    font-size:20px !important;
+    color:#606060 !important;
+}
+
+.size-it{
+    font-size:16px !important;
+    font-weight:bold !important;
+    color:#006769;
 }
 
 

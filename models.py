@@ -77,6 +77,7 @@ class job_user(user):
             "polymorphic_identity":'job_user'
         }
 
+
 class company_user(user):
 
     __tablename__ = 'company_user'
@@ -131,3 +132,27 @@ class Applications(Base, UserMixin):
     job_details_id = Column(Integer, ForeignKey('job_ads.job_id'), nullable=False)
     time_stamp =  Column(DateTime,default=datetime.utcnow, nullable=False)
     closed = Column(String(200))
+
+
+class Jobs_Ads(Base, UserMixin):
+
+    __tablename__ = "freelance_job_ads"
+
+    job_id = Column(Integer, primary_key=True)
+    service_title = Column(String(20))  #e.g Logo Design
+    service_category = Column(String(20))   #e.g Design & Technology
+    specialty = Column(String(20))      #e.g Graphic Designer
+    description = Column(String(200))
+    project_duration = Column(String(60))  #Project duration
+    work_days = Column(String(60))
+    work_hours = Column(String(60))
+    responsibilities = Column(String(200))
+    qualifications = Column(String(200))
+    age_range = Column(String(60))
+    benefits = Column(String(200))
+    application_deadline = Column(DateTime, nullable=False)
+    contact_person = Column(String(40))
+    date_posted = Column(DateTime, default=datetime.utcnow, nullable=False) #Records itself
+    print("DEBGU: ",company_user.id)
+    job_posted_by = Column(Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
+    applicantions = relationship("Applications", backref='All Applications', lazy=True)

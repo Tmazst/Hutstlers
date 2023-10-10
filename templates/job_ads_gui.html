@@ -38,20 +38,26 @@
                         <!-------JOB TITLE--------->
                         <p class="job-title">{{item.job_title}}</p>
 
-                         <!-------JOB TYPE--------->
-                        <p class="centralise_font"><span class="material-icons">work</span></p>
-                        <label style="margin-top:-10px" class="centralise_font">{{item.job_type}}</label><hr>
+                        <div class="job-sub-title">
+                            <!-------JOB TYPE--------->
+                            <div class="job-info">
+                                <p class="centralise_font size-it"><span class="material-icons ">work</span>    Job Type</p>
+                                <label style="margin-top:-10px" class="centralise_font">{{item.job_type}}</label>
+                            </div>
+                            <!--------DEADLINE-------------->
+                            <div class="job-info">
+                                <p class="centralise_font size-it" ><span class="material-icons ">schedule</span>    Deadline</p>
+                                <label class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
+                            </div>
+
+                        </div>
 
 
-                        <!-------RESPONSIBILITIES--------->
-                        <p class="centralise_font" ><span class="material-icons">place</span></p>
-                        <div style="margin-top:-10px" class="centralise_font" ><label>{{db.query(company_user).get(item.job_posted_by).company_address}}</label></div><hr>
-
-                        <!--------DEADLINE-------------->
-                        <div class="" >
-                             <p class="centralise_font" ><span class="material-icons">schedule</span></p>
-                             <label class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
-                        </div><hr>
+                         <!-------RESPONSIBILITIES--------->
+                        <div class="">
+                                <p class="centralise_font size-it" ><span class="material-icons">place</span></p>
+                                <div style="margin-top:-10px" class="centralise_font" ><label>{{db.query(company_user).get(item.job_posted_by).company_address}}</label></div>
+                        </div>
 
                         <div style="background-color:ea2a30;flex-grow:5;" >
                              <p class="centralise_font" ></p>

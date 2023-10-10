@@ -470,6 +470,8 @@ def cmp_user_profile():
 
     return f"{users}"
 
+
+
 @app.route("/job_ads",methods=["GET", "POST"])
 def job_adverts():
 
@@ -505,7 +507,37 @@ def job_adverts():
     return render_template("job_ads_gui.html",job_ads=job_ads,job_ads_form=job_ads_form,db=db,
                            company_user=company_user,user=usr,no_image_fl =no_image_fl)
 
+    @app.route("/freelance_job_ads", methods=["GET", "POST"])
+    def freelance_job_adverts():
 
+        if current_user.is_authenticated:
+            # print("Current User")
+            if not current_user.image and not current_user.school:
+                flash(
+                    "Attention!! Your Account needs to be updated Soon, Please go to Account and update the empty fields",
+                    "error")
+
+        no_image_fl = 'static/images/default.jpg'
+
+        Jobs_Ads.metadata.create_all(bind=engine)
+        usr = user()
+        # job_ads = []
+        # job_ads = db.query(company_user.job_ads).all()
+
+        if request.method == 'GET':
+            id = request.args.get('id')
+            # print("Check Get Id: ",id)
+            if id:
+                # Filter Ads with a specific company's id
+                job_ads = db.query(Jobs_Ads).filter_by(job_posted_by=id)
+            else:
+                job_ads = db.query(Jobs_Ads).all()
+
+        job_ads_form = Job_Ads_Form()
+
+        # Fix jobs adds does not have hidden tag
+        return render_template("job_ads_gui.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
+                               company_user=company_user, user=usr, no_image_fl=no_image_fl)
 
 
 
