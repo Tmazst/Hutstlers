@@ -1,10 +1,10 @@
 
 from alchemy_db import Base
-from sqlalchemy import Integer, String,Column,MetaData,Boolean, ForeignKey, DateTime
-from flask_login import login_user,UserMixin
+from sqlalchemy import Integer, String, Column, MetaData, Boolean, ForeignKey, DateTime
+from flask_login import login_user, UserMixin
 from sqlalchemy.orm import backref, relationship
 from datetime import datetime
-from itsdangerous import  URLSafeTimedSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 
 
 
