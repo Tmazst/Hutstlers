@@ -31,10 +31,10 @@ class user(Base,UserMixin):
     role = Column(String(120))
 
 
-
     def get_reset_token(self,c_user_id, expires=1800):
-        from app import app
-        s = Serializer(app.config['SECRET_KEY'],"confirmation")
+        global app
+        import app
+        s = Serializer(app.app.config['SECRET_KEY'],"confirmation")
 
         return s.dumps({'user_id':c_user_id})
 
@@ -46,10 +46,10 @@ class user(Base,UserMixin):
             user_id = s.loads(token)['user_id']
         except:
             return None
+
         return app.db.query(user).get(user_id)
 
     __mapper_args__={
-
         "polymorphic_identity":'user',
         'polymorphic_on':role
     }

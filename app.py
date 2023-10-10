@@ -306,28 +306,39 @@ def reset(token):
         if reset_form.validate_on_submit():
             if current_user.is_authenticated:
                 #Current User Changing Password
-                if encry_pw.check_password_hash(current_user.password,reset_form.old_password.data):
+                if encry_pw.check_password_hash(current_user.password, reset_form.old_password.data):
                     token = Tokenise().get_reset_token(current_user.id)
                     #print("Reset Token: ", token)
                     v_user_id = Tokenise().verify_reset_token(token)
                     #print("User_id: ", v_user_id)
 
-                    pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
+                    pass_reset_hash_lc = encry_pw.generate_password_hash(reset_form.new_password.data)
 
                     usr = db.query(user).get(v_user_id)
-                    usr.password = pass_reset_hash
+                    usr.password = pass_reset_hash_lc
                     db.commit()
 
                     # logout_user()
 
-                    flash(f"Password Changed Succesfully!", "success")
-                    return redirect(url_for("account"))
+                    flash(f"Password Changed Successfully!", "success")
+                    return redirect(url_for("login"))
                 else:
                     flash(f"Ooops! Passwords don't match, You might have forgotten your Old Password", "error")
-
-
             else:
-                pass
+
+                try:
+                    usr_obj = user().verify_reset_token(token)
+                    pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
+
+                    usr_obj.password = pass_reset_hash
+
+                    flash(f"Password Changed Successfully!", "success")
+
+                    return redirect(url_for("login"))
+                except:
+                    print("Password Reset Failed!!")
+                    flash(f"Password Reset Failed, Please try again later", "error")
+                    return None
 
 
     return render_template("pass_reset.html",reset_form=reset_form)
@@ -365,7 +376,7 @@ def reset_request():
 
                 token = user().get_reset_token(usr_email.id)
                 msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[usr_email.email])
-                msg.body = f"""Gooday, {usr_email.name}
+                msg.body = f"""Good day, {usr_email.name}
                 
 You have requested a password reset for your The Hustlers Time Account.
 To reset your password, visit the following link:{url_for('reset', token=token, _external=True)}
@@ -380,7 +391,7 @@ If you did not requested the above message please ignore it, and your password w
                     return "Email Sent"
                 except Exception as e:
                     #print(e)
-                    flash('Ooops Something went wrong!! Please Retry', 'error')
+                    flash('Ooops, Something went wrong Please Retry!!', 'error')
                     return "The mail was not sent"
 
             #Send the pwd reset request to the above email
@@ -388,8 +399,7 @@ If you did not requested the above message please ignore it, and your password w
 
             return redirect(url_for('login'))
 
-
-    return render_template("reset_request.html",reset_request_form=reset_request_form)
+    return render_template("reset_request.html", reset_request_form=reset_request_form)
 
 @app.route("/job_ads_form", methods=["POST","GET"])
 @login_required
