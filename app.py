@@ -474,7 +474,7 @@ def fl_job_ads_form():
                 specialty=request.form.get('speciality'),
                 description = fl_job_ad_form.description.data,
                 project_duration = fl_job_ad_form.project_duration.data,
-                other_info=fl_job_ad_form.prerequisites.data,
+                # other_info=fl_job_ad_form.prerequisites.data,
                 service_category = request.form.get('field_category_sel'),
                 contact_person = fl_job_ad_form.posted_by.data,
                 # date_posted = datetime.utcnow(),
