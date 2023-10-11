@@ -149,6 +149,6 @@ class Freelance_Jobs_Ads(Base, UserMixin):
     # other = Column(String(200))
     application_deadline = Column(DateTime, nullable=False)
     contact_person = Column(String(40))
-    date_posted = Column(DateTime, default=datetime.utcnow, nullable=False) #Records itself
+    date_posted = Column(DateTime, default=datetime.utcnow, nullable=False)
     job_posted_by = Column(Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
     #applications = relationship("Applications", backref='All Applications', lazy=True)
