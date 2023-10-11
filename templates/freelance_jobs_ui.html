@@ -14,21 +14,22 @@
   <p class="paras-subtopics"></p>
 <!--    {% if current_user.is_authenticated %}-->
 <!--    {% endif %}-->
-
+    <h1 style="font-size:20px" >Are you a freelancer, and you are looking for more freelance jobs. Here is a good platform for you to
+         make new connections and improve in your<br><span class="spans">Freelance Job Prospects</span></h1>
   <div style="background-color:ae23a3;" class="general-flex-x">
-            {% for item in job_ads %}
+            {% for item in fl_job_ads %}
             <!----FORM----->
-            <div style="display:flex;flex-direction:column;width:300px;" class="new_job_ad_style anim">
+            <div style="display:flex;flex-direction:column;width:300px;border:none;box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);padding: 10px 20px" class="new_job_ad_style anim">
 
                         <div style="" class="center-prl-img">
                             <div style="margin:15px auto 0px auto;"  class="img-cont">
-                              {% if db.query(company_user).get(item.job_posted_by) %}
+                            {% if db.query(company_user).get(item.job_posted_by) %}
                                     {% if not db.query(company_user).get(item.job_posted_by).image == None %}
                                         <img class="prf-image" src="{{url_for('static', filename='images/' + db.query(company_user).get(item.job_posted_by).image)}}"/>
                                     {% endif %}
-                              {% else %}
+                            {% else %}
                                     <img class="prf-image" src="static/images/default.jpg"/>
-                              {% endif %}
+                            {% endif %}
                             </div>
                         </div>
 
@@ -36,17 +37,32 @@
                         <span><small style="color:#aaa" >{{db.query(company_user).get(item.job_posted_by).name}}</small></span></h2>
 
                         <!-------JOB TITLE--------->
-                        <p class="job-title">{{item.job_title}}</p>
+                        <p  style="background-color:coral" class="job-title">{{item.service_title}}</p>
 
                         <div class="job-sub-title">
                             <!-------JOB TYPE--------->
                             <div class="job-info">
-                                <p class="centralise_font size-it"><span class="material-icons ">work</span>    Job Type</p>
-                                <label style="margin-top:-10px" class="centralise_font">{{item.job_type}}</label>
+<!--                                <p class="centralise_font size-it"><span class="material-icons ">badge</span>    Category</p>-->
+                                <label style="font-weight:bold;font-size:1.1em;" class="job-sub-title">{{item.service_category}}</label>
                             </div>
                             <!--------DEADLINE-------------->
                             <div class="job-info">
-                                <p class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Project Due</p>
+<!--                                <p class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Deadline</p>-->
+                                <label  style="font-weight:bold;font-size:1.1em;" class="job-sub-title">{{item.specialty}}</label>
+                            </div>
+
+                        </div>
+                        <br>
+
+                        <div class="job-sub-title">
+                            <!-------JOB TYPE--------->
+                            <div class="job-info">
+                                <p class="centralise_font size-it"><span class="material-icons ">badge</span>    Job Type</p>
+                                <label style="margin-top:-10px" class="centralise_font">{{item.service_type}}</label>
+                            </div>
+                            <!--------DEADLINE-------------->
+                            <div class="job-info">
+                                <p class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Deadline</p>
                                 <label class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
                             </div>
 
@@ -66,7 +82,7 @@
                         <!--------VIEW BUTTON-------------->
                         <div style="dispaly:block">
                              <!--<input class="btns" type="submit" value="Create Account" />-->
-                             <a class="view_job" href="/job_ad_opened?id={{item.job_id}}">View</a>
+                             <a style="background-color:coral" class="view_job" href="/job_ad_opened?id={{item.job_id}}">View</a>
                         </div>
 
                     </div>

@@ -34,6 +34,22 @@ class Job_Ads_Form(FlaskForm):
 
     publish = SubmitField("Publish")
 
+class Freelance_Ads_Form(FlaskForm):
+
+    service_title = StringField('Project Title:', validators=[DataRequired(), Length(min=2, max=60)])
+    speciality = StringField('Expertise or Skills:')
+    category = StringField('Category:')
+    description = TextAreaField('Project Description:', validators=[DataRequired(), Length(min=5, max=400)])
+    project_duration = StringField('Work/Project Duration (Start - End):')
+    prerequisites = TextAreaField('Pre-requisites for Project:', validators=[DataRequired(), Length(min=5, max=400)])
+    benefits_bl = BooleanField('Include Benefits?:')
+    benefits = TextAreaField('Benefits:')
+    application_deadline = DateField('Application Deadline:', format="%Y-%m-%d" )
+    # application_details = TextAreaField('Application Details', validators=[DataRequired(), Length(min=2, max=20)])
+    posted_by = StringField('Posted By:')
+
+    publish = SubmitField("Publish")
+
 class Company_Register_Form(FlaskForm):
 
     company_name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=20)])

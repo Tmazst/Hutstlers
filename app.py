@@ -3,13 +3,13 @@ import secrets
 from flask import Flask,render_template,url_for,redirect,request,flash
 from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
-from models import user,company_user,job_user,Jobs_Ads,Applications
+from models import user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, LoginManager,current_user,logout_user, login_required
 from Forms import Register,Login, Contact_Form,Update_account_form,Reset,Reset_Request
 from Tokeniser import Tokenise
 from flask_mail import Mail,Message
-from Advert_Forms import Job_Ads_Form,Company_Register_Form , Company_Login,Company_UpdateAcc_Form
+from Advert_Forms import Job_Ads_Form,Company_Register_Form , Company_Login,Company_UpdateAcc_Form,Freelance_Ads_Form
 import os
 from PIL import Image
 from sqlalchemy import text
@@ -401,6 +401,7 @@ If you did not requested the above message please ignore it, and your password w
 
     return render_template("reset_request.html", reset_request_form=reset_request_form)
 
+
 @app.route("/job_ads_form", methods=["POST","GET"])
 @login_required
 def job_ads_form():
@@ -409,7 +410,6 @@ def job_ads_form():
     job_ads_model = Jobs_Ads
 
     job_ads_model.metadata.create_all(bind=engine)
-
 
     if request.method == 'POST':
        if job_ad_form.validate_on_submit():
@@ -455,6 +455,50 @@ def job_ads_form():
             db.commit()
 
     return render_template("job_ads_form.html",job_ad_form = job_ad_form)
+
+
+@app.route("/fl_job_ads_form", methods=["POST","GET"])
+@login_required
+def fl_job_ads_form():
+
+    fl_job_ad_form = Freelance_Ads_Form()
+    fl_job_ads_model = Freelance_Jobs_Ads
+
+    fl_job_ads_model.metadata.create_all(bind=engine)
+
+
+    if request.method == 'POST':
+       if fl_job_ad_form.validate_on_submit():
+            job_post1 = fl_job_ads_model(
+                service_title=fl_job_ad_form.service_title.data,
+                specialty=request.form.get('speciality'),
+                description = fl_job_ad_form.description.data,
+                project_duration = fl_job_ad_form.project_duration.data,
+                other_info=fl_job_ad_form.prerequisites.data,
+                service_category = request.form.get('field_category_sel'),
+                contact_person = fl_job_ad_form.posted_by.data,
+                # date_posted = datetime.utcnow(),
+                application_deadline=fl_job_ad_form.application_deadline.data,
+                job_posted_by = current_user.id
+                          )
+
+            # if bools are True
+            if not request.form.get('speciality'):
+                job_post1.service_title = fl_job_ad_form.speciality.data
+            if not request.form.get('field_category_sel'):
+                job_post1.service_category = fl_job_ad_form.service_category.data
+            if fl_job_ad_form.benefits_bl.data:
+                job_post1.benefits = fl_job_ad_form.benefits.data
+
+            db.add(job_post1)
+            db.commit()
+
+            flash('Your Freelance Job Post was succesfull', 'success')
+
+    return render_template("fl_job_ads_form.html",fl_job_ad_form = fl_job_ad_form)
+
+
+
 
 @app.route("/company_retieve")
 def cmp_user_profile():
@@ -507,41 +551,43 @@ def job_adverts():
     return render_template("job_ads_gui.html",job_ads=job_ads,job_ads_form=job_ads_form,db=db,
                            company_user=company_user,user=usr,no_image_fl =no_image_fl)
 
-    @app.route("/freelance_job_ads", methods=["GET", "POST"])
-    def freelance_job_adverts():
+@app.route("/freelance_job_ads", methods=["GET", "POST"])
+def freelance_job_adverts():
 
-        if current_user.is_authenticated:
-            # print("Current User")
-            if not current_user.image and not current_user.school:
-                flash(
-                    "Attention!! Your Account needs to be updated Soon, Please go to Account and update the empty fields",
-                    "error")
+    if current_user.is_authenticated:
+        # print("Current User")
+        if not current_user.image and not current_user.school:
+            flash("Attention!! Your Account needs to be updated Soon, Please go to Account and update the empty fields","error")
+        else:
+            pass
+    else:
+        pass
 
-        no_image_fl = 'static/images/default.jpg'
+    no_image_fl = 'static/images/default.jpg'
 
-        Jobs_Ads.metadata.create_all(bind=engine)
-        usr = user()
-        # job_ads = []
-        # job_ads = db.query(company_user.job_ads).all()
+    Freelance_Jobs_Ads.metadata.create_all(bind=engine)
+    usr = user()
+    # job_ads = []
+    # job_ads = db.query(company_user.job_ads).all()
 
-        if request.method == 'GET':
-            id = request.args.get('id')
-            # print("Check Get Id: ",id)
-            if id:
-                # Filter Ads with a specific company's id
-                job_ads = db.query(Jobs_Ads).filter_by(job_posted_by=id)
-            else:
-                job_ads = db.query(Jobs_Ads).all()
+    if request.method == 'GET':
+        id = request.args.get('id')
+        # print("Check Get Id: ",id)
+        if id:
+            # Filter Ads with a specific company's id
+            fl_job_ads = db.query(Freelance_Jobs_Ads).filter_by(job_posted_by=id)
+        else:
+            fl_job_ads = db.query(Freelance_Jobs_Ads).all()
 
-        job_ads_form = Job_Ads_Form()
+    fl_job_ads_form = Freelance_Ads_Form()
 
-        # Fix jobs adds does not have hidden tag
-        return render_template("job_ads_gui.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
-                               company_user=company_user, user=usr, no_image_fl=no_image_fl)
+    # Fix jobs adds does not have hidden tag
+    return render_template("freelance_jobs_ui.html", fl_job_ads=fl_job_ads, fl_job_ads_form=fl_job_ads_form, db=db,
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl)
 
 
 
-                    #------------------------------COMPANIES DATA-------------------------------#
+#------------------------------COMPANIES DATA-------------------------------#
 
 @app.route("/company_sign_up", methods=["POST","GET"])
 def company_sign_up_form():

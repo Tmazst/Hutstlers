@@ -10,19 +10,17 @@
                     <div class="flash-messages alert-{{category}}"> {{ message }}</div>
                 {% endfor %}
             {% endif %}
-        {% endwith %}</div>
+        {% endwith %}
+    </div>
   <!--<h3>Password Reset<br> <span class="spans"></span></h3>--->
   <p class="paras-subtopics">Post A Job</p>
     <small class="paras-subtopics">Tip: Your will need to Tick Fields with boxes to include them on the Job Advert</small>
     <!----FORM----->
-  <div style="min-width:370px;" class="form_container">
-    <div class="row justify-content-center">
-    <div class="col-md-5">
-     <div style="padding-left:30px;padding-right:30px;display:block;"  class="card">
-
+  <div style="" class="form_container">
+     <div style="padding-left:30px;padding-right:80px;"  class="card">
         <div style="background-color: 12db5a;" class="card-body py-md-4">
-            <h2 class="card-title text-center">Job Advert Details</h2>
-         <form style="background-color: f8db5a;width:;"  _lpchecked="1" action="" method="post">
+        <h2 class="card-title text-center">Job Advert Form</h2>
+        <form style="background-color: f8db5a;width:;"  _lpchecked="1" action="" method="post">
 
              <div style="background-color: f8f95a;" class="job-ad-group marginise-bottom">
                   {{job_ad_form.hidden_tag()}}
@@ -221,6 +219,4 @@
        </div>
     </div>
   </div>
-  </div>
-  </div></div>
 {% endblock %}
