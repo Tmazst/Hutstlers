@@ -897,7 +897,7 @@ h2{
   padding: 8px 8px 8px 0px;
   text-decoration: none;
   font-size: 14px;
-  color: #616161;
+  color: #303030;
   display: block;
   transition: 0.3s;
 }
@@ -1095,7 +1095,7 @@ display:none
 
 .nav-item a{
     font-weight:bold;
-    color:#505050 !important;
+    color:#202020 !important;
 }
 
 .nav-item a:focus{
@@ -1134,6 +1134,12 @@ display:none
 
 
 @media all and (max-width: 600px) {
+
+
+.nav-item a{
+    font-size:0.9em;
+}
+
 
 .btns{
     margin:0;
