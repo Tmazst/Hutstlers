@@ -598,6 +598,12 @@ font-weight:400;
 
 }
 
+#browse-job{
+    border:1px solid #eee;
+    width:1000px !important;
+    padding: 0 50px 50px 50px;
+}
+
 .adj-width-60{
 
     width:60%;
@@ -606,11 +612,10 @@ font-weight:400;
 
 .job_ad_group{
 
-    background-color: #eee;
+
     width:100%;
     padding:5px;
-    border-radius:10px;
-    font-size:25px;
+    //font-size:25px;
     //display:block;
     //white-space:no-nowrap;
 
@@ -618,10 +623,23 @@ font-weight:400;
 
 .job_ad_group p{
 
+    //margin-top:0;
+    color:#404040;
+    font-size:14px !important;
+    padding-left:10px;
+    font-weight:bold;
+
+}
+
+.job_ad_group label{
+
     margin-top:0;
     color:#404040;
     font-size:16px;
     padding-left:10px;
+    border-radius:5px;
+    background-color: #eee;
+    width:900px !important;
 
 }
 
@@ -724,7 +742,7 @@ font-weight:400;
 .form_container{
     display:flex;
     //justify-content:flex-start;
-    max-width:400px !important;
+    max-width:600px !important;
     min-width:350px !important;
     direction:column;
     border-radius:10px;
@@ -932,9 +950,17 @@ h2{
 
 }
 
+.jb-viewed-card-body{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+}
+
 .home-tags p{
     font-size:150%;
 }
+
+
 
 .home-img-div{
     //border-radius: 30px;
@@ -1282,6 +1308,8 @@ display:none
     //background-color:#2393bb;
 
   }
+
+  #browse-job{border:1px solid #eee;width:30% !important;padding: 0 50px 50px 50px;margin:0 auto !important}
 
 
 
