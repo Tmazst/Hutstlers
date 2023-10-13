@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tags">
+
+      <div class="flash-messages" class="btns">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for  category, message in messages %}
+                        <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+     </div>
+<!--      <h3>How are you Today!<br> <span class="spans"></span></h3>-->
+    <br><br><br>
+     <p class="paras-subtopics">Good Day,</p>
+    <h1 >Welcome again, <br><span class="spans">Login</span></h1>
+            <!----FORM----->
+     <div id="login-page" class="general-flex">
+          <div style="max-width:600px;background-color:3ab;" class="form_container anim">
+                <div class="card">
+                    <div style="width:100%;" class="card-body py-md-4">
+                        <h2 style="padding-left:8%;padding-top:8%;color:#006769" class="card-title text-center">Login</h2>
+                        <form _lpchecked="1" action="" method="post">
+
+                             <div class="group">
+                                    <p>Congratulations! You have successfully created a new Account with T.H.T</p>
+                                    <p>Please go to your email account and verify your email, Please click the confirmation link we sent with it.</p>
+                                <!--<input type="email" class="form-control" id="email" name="email" placeholder="Email">-->
+                             </div>
+
+                             <div class="group">
+
+                               <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
+                             </div>
+
+                             <div style="margin:0 auto;" class="group">
+                                     <div style="padding-left:;width:100%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
+                                         {{ login.submit(class="btns") }}
+                                         <!--<input class="btns" type="submit" value="Create Account" />-->
+                                         <a class="form-a links" href="reset_request">Forgot Password?</a>
+                                    </div>
+                             </div>
+
+                        </form>
+                    </div>
+                </div>
+
+          </div>
+         <div class="login-img-cont">
+              <img src="static/icons/login-img_Artboard.svg" />
+         </div>
+    </div>
+    <br><br><br><br><br><br><br><br>
+</div>
+{% endblock %}

@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<br>
+<br><br>
 <div style="margin-bottom:100px"   class="tags">
-    <div class="flash-messages" class="btns">
+    <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for  category, message in messages %}
@@ -31,17 +31,15 @@
             <h2 style="margin-top:-15px" class="card-title text-center">{{db.query(company_user).get(item.job_posted_by).name}}</h2>
 
             <div style="background-color:#fff;" class="job_ad_group marginise-bottom adj-wid">
-                 <h2 style="font-weight:bold;color:#006769;">{{item.job_title}}</h2>
+                <h2 style="font-weight:bold;color:#006769;">{{item.job_title}}</h2>
                 <hr>
             </div>
-
 
              <!-------JOB TYPE--------->
             {% if item.job_type %}
              <div class="job_ad_group marginise-bottom">
                  <label for="Job Type" class="labels">Job Type: </label>
-                  <p>{{ item.job_type}}</p>
-
+                 <p>{{ item.job_type}}</p>
              </div>
             {% endif %}
 
@@ -50,7 +48,6 @@
             <div class="job_ad_group marginise-bottom">
             <label for="Pay Type" class="labels">Pay Type: </label>
                   <p>{{item.pay_type}}</p>
-
             </div>
             {% endif %}
 

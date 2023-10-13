@@ -8,6 +8,7 @@ from itsdangerous import URLSafeTimedSerializer as Serializer
 
 
 
+
 #from app import login_manager
 
 metadata = MetaData()
@@ -28,6 +29,7 @@ class user(Base,UserMixin):
     email = Column(String(120),unique=True)
     password = Column(String(120), unique=True)
     confirm_password = Column(String(120), unique=True)
+    # verified = Column(Boolean)
     role = Column(String(120))
 
 
@@ -97,6 +99,14 @@ class company_user(user):
     __mapper_args__ = {
         "polymorphic_identity": 'company_user'
     }
+
+class Verifications(user):
+
+    __tablename__='verifications'
+
+    id = Column(Integer, ForeignKey('user.id'), primary_key=True)
+    verified = Column(Boolean)
+
 
 class Jobs_Ads(Base, UserMixin):
 

@@ -12,7 +12,9 @@ from flask_mail import Mail,Message
 from Advert_Forms import Job_Ads_Form,Company_Register_Form , Company_Login,Company_UpdateAcc_Form,Freelance_Ads_Form
 import os
 from PIL import Image
+import rsa
 from sqlalchemy import text
+from flask_migrate import Migrate
 
 
 
@@ -23,17 +25,24 @@ db = db_sessions()
 
 #Application
 app = Flask(__name__)
-app.config['SECRET KEY'] = 'Tmazst*@1111'
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users_db.db'
+app.config['SECRET KEY'] = 'Tmazst*@1111Aynwher_isto'
+APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz/users_db"
+
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users_db.db'
 
 
-
+pub, priv = rsa.newkeys(512)
 
 #Login Manager
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 #Encrypt Password
 encry_pw = Bcrypt(app)
+
+migrate = Migrate(app,db)
 
 class user_class:
     cls_name = None
@@ -167,7 +176,6 @@ def account():
 
     image_fl = url_for('static', filename='images/' + current_user.image)
 
-
     if request.method == 'POST':
         #print("method is POST")
         #print(cv.errors)
@@ -195,7 +203,7 @@ def account():
 
             db.commit()
 
-            redirect(url_for('account'))
+            redirect(url_for('verification'))
 
         elif cv.errors:
             pass
@@ -545,8 +553,6 @@ def job_adverts():
     job_ads_form = Job_Ads_Form()
 
 
-
-
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_gui.html",job_ads=job_ads,job_ads_form=job_ads_form,db=db,
                            company_user=company_user,user=usr,no_image_fl =no_image_fl)
@@ -776,12 +782,38 @@ def view_job():
 
     if request.method == 'GET':
         id = request.args['id']
+
         job_ad = db.query(Jobs_Ads).get(id)
 
         #print("Job Ad Title: ",job_ad.job_title)
 
 
     return render_template('job_ad_opened.html',item=job_ad,db=db,company_user=company_user)
+
+
+@app.route("/verification", methods=["POST"])
+def verification():
+
+    def send_veri_mail():
+        if current_user.is_authenticated:
+
+            app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+            app.config["MAIL_PORT"] = 587
+            app.config["MAIL_USE_TLS"] = True
+            app.config["MAIL_USERNAME"] = os.getenv("MAIL")
+            app.config["MAIL_PASSWORD"] = os.getenv("PWD")
+
+            mail = Mail(app)
+
+            msg = Message("Email Verification", sender="noreply@demo.com", recipients=current_user.email)
+
+            msg.body(f""""Hi, {current_user.name}
+
+
+
+""")
+
+    return render_template('verification.html')
 
 @app.route("/job_applications",methods=["GET", "POST"])
 def applications():
