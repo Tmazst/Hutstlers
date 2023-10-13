@@ -29,7 +29,7 @@ class user(Base,UserMixin):
     email = Column(String(120),unique=True)
     password = Column(String(120), unique=True)
     confirm_password = Column(String(120), unique=True)
-    # verified = Column(Boolean)
+    verified = Column(Boolean)
     role = Column(String(120))
 
 
@@ -72,6 +72,7 @@ class job_user(user):
     address = Column(String(120))
     reference_1 = Column(String(120))
     reference_2 = Column(String(120))
+    other = Column(String(120))
     jobs_applied_for = relationship("Applications", backref='Applications.job_title', lazy=True)
 
     __mapper_args__={
@@ -92,6 +93,7 @@ class company_user(user):
     fb_link = Column(String(120))
     twitter_link = Column(String(120))
     youtube = Column(String(120))
+    other = Column(String(120))
     job_ads = relationship("Jobs_Ads", backref='Jobs_Ads.job_title',lazy=True)
     applicantions_posted = relationship("Applications", backref='employer', lazy=True)
     freelance_job_ads = relationship("Freelance_Jobs_Ads", backref='Freelance_Jobs_Ads.service_title', lazy=True)
@@ -126,8 +128,8 @@ class Jobs_Ads(Base, UserMixin):
     benefits = Column(String(200))
     application_deadline = Column(DateTime, nullable=False)
     contact_person = Column(String(40))
+    other = Column(String(120))
     date_posted = Column(DateTime, default=datetime.utcnow, nullable=False) #Records itself
-    print("DEBGU: ",company_user.id)
     job_posted_by = Column(Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
     applicantions = relationship("Applications", backref='All Applications', lazy=True)
 
@@ -141,7 +143,8 @@ class Applications(Base, UserMixin):
     applicant_id = Column(Integer, ForeignKey('job_user.id'),nullable=False)
     employer_id = Column(Integer, ForeignKey('company_user.id'), nullable=False)
     job_details_id = Column(Integer, ForeignKey('job_ads.job_id'), nullable=False)
-    #freel_job_details_id = Column(Integer, ForeignKey('freelance_job_ads.job_id'), nullable=False)
+    other = Column(String(120))
+    freel_job_details_id = Column(Integer, ForeignKey('freelance_job_ads.job_id'), nullable=False)
     time_stamp = Column(DateTime,default=datetime.utcnow, nullable=False)
     closed = Column(String(200))
 
@@ -156,9 +159,9 @@ class Freelance_Jobs_Ads(Base, UserMixin):
     specialty = Column(String(20))      #e.g Graphic Designer
     description = Column(String(200))
     project_duration = Column(String(60))  #Project duration
-    # other = Column(String(200))
+    other = Column(String(200))
     application_deadline = Column(DateTime, nullable=False)
     contact_person = Column(String(40))
     date_posted = Column(DateTime, default=datetime.utcnow, nullable=False)
     job_posted_by = Column(Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
-    #applications = relationship("Applications", backref='All Applications', lazy=True)
+    applications = relationship("Applications", backref='All Applications', lazy=True)
