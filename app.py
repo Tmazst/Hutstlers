@@ -27,7 +27,9 @@ from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelanc
 app = Flask(__name__)
 app.config['SECRET KEY'] = 'Tmazst41'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/tht_database"
+
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
