@@ -1,9 +1,8 @@
 import secrets
 
 from flask import Flask,render_template,url_for,redirect,request,flash
-from alchemy_db import engine
+# from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
-from models import user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, LoginManager,current_user,logout_user, login_required
 from Forms import Register,Login, Contact_Form,Update_account_form,Reset,Reset_Request
@@ -14,24 +13,27 @@ import os
 from PIL import Image
 import rsa
 from sqlalchemy import text
-from flask_migrate import Migrate
-
+from flask_sqlalchemy import SQLAlchemy
+# from flask_migrate import Migrate
+from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads
 
 
 # from models.user import get_reset_token, very_reset_token
 #DB sessions
-db_sessions = sessionmaker(bind=engine)
-db = db_sessions()
+# db_sessions = sessionmaker(bind=engine)
+# db = db_sessions()
 
 #Application
 app = Flask(__name__)
-app.config['SECRET KEY'] = 'Tmazst*@1111Aynwher_isto'
-APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
+app.config['SECRET KEY'] = 'Tmazst41'
+# APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-# app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users_db.db'
+
+db.init_app(app)
 
 
 pub, priv = rsa.newkeys(512)
@@ -42,14 +44,14 @@ login_manager.login_view = 'login'
 #Encrypt Password
 encry_pw = Bcrypt(app)
 
-migrate = Migrate(app,db)
+# migrate = Migrate(app,db)
 
 class user_class:
     cls_name = None
 
 @login_manager.user_loader
 def load_user(user_id):
-    return db.query(user).get(user_id)
+    return user.query.get(user_id)
 
     # if current_user:
     #     #print("-------------------------User: ", user_class.cls_name)
@@ -106,13 +108,19 @@ def home():
     # img_2 = resize_img("/static/images/unnamed.png", 180, 180)
     # img_3 = resize_img("/static/images/image.jpg", 180, 180)
 
-    companies_ls = db.query(company_user).all()
+    try:
+        companies_ls = company_user.query.all()
+        comp_len = len(companies_ls)
+    except:
+        db.create_all()
+        print("Creating Tables")
 
-    for cpm in companies_ls:
-        pass
+    # companies_ls = db.session.query(company_user).all()
+
+
         #print("DEBUG COMPANIES: ",cpm.name)
 
-    return render_template("index.html",img_1='', img_2  ='',img_3 ='', companies_ls=companies_ls )
+    return render_template("index.html",img_1='', img_2  ='',img_3 ='', companies_ls=companies_ls, comp_len=comp_len )
 
 
 @app.route("/sign_up", methods=["POST","GET"])
@@ -120,7 +128,7 @@ def sign_up():
 
     register = Register()
 
-    user.metadata.create_all(bind=engine)
+    db.create_all() 
 
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -135,20 +143,21 @@ def sign_up():
 
 
             # If the webpage has made a post e.g. form post
-            with engine.connect():
-                #print('Create All..........................................')
-                hashd_pwd = encry_pw.generate_password_hash(register.password.data).decode('utf-8')
-                # Base.metadata.create_all()
-                # ....user has inherited the Base class
-                # user.metadata.create_all(bind=engine)
-                user1 = job_user(name=register.name.data, email=register.email.data, password=hashd_pwd,
-                             confirm_password=hashd_pwd,image="default.jpg")
 
-                # db.rollback()
-                db.add(user1)
-                db.commit()
-                flash(f"Account Successfully Created for {register.name.data}", "success")
-                # #print(register.name.data,register.email.data)
+            #print('Create All..........................................')
+            hashd_pwd = encry_pw.generate_password_hash(register.password.data).decode('utf-8')
+            # Base.metadata.create_all()
+            # ....user has inherited the Base class
+            # db.create_all()
+            user1 = job_user(name=register.name.data, email=register.email.data, password=hashd_pwd,
+                         confirm_password=hashd_pwd,image="default.jpg")
+
+            # db.rollback()
+            db.session.add(user1)
+            db.session.commit()
+            flash(f"Account Successfully Created for {register.name.data}", "success")
+            redirect(url_for('login'))
+            # #print(register.name.data,register.email.data)
     elif register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
         #print(register.errors)
@@ -165,8 +174,7 @@ def about():
 
 
 #----------------UPDATE ACCOUNT --------------#
-
-@app.route("/account",methods=['POST','GET'])
+@app.route("/account", methods=['POST','GET'])
 @login_required
 def account():
     from sqlalchemy import update
@@ -182,7 +190,7 @@ def account():
 
         if cv.validate_on_submit():
             id = current_user.id
-            usr = db.query(job_user).get(id)
+            usr = job_user.query.get(id)
             if cv.image_pfl.data:
                 #print("Debug Image on If: ", cv.image_pfl.data)
                 pfl_pic = save_pic(picture = cv.image_pfl.data)
@@ -231,7 +239,7 @@ def login():
 
         if login.validate_on_submit():
             # #print(f"Account Successfully Created for {login.name.data}")
-            user_login = db.query(user).filter_by(email = login.email.data).first()
+            user_login = user.query.filter_by(email = login.email.data).first()
             # flash(f"Hey! {user_login.password} Welcome", "success")
             if user_login and encry_pw.check_password_hash(user_login.password,login.password.data):
                 login_user(user_login)
@@ -269,33 +277,33 @@ def contact_us():
     contact_form = Contact_Form()
     if request.method == "POST":
         if contact_form.validate_on_submit():
-                def send_link():
-                    app.config["MAIL_SERVER"] = "smtp.googlemail.com"
-                    app.config["MAIL_PORT"] = 587
-                    app.config["MAIL_USE_TLS"] = True
-                    em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
-                    app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
+            def send_link():
+                app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+                app.config["MAIL_PORT"] = 587
+                app.config["MAIL_USE_TLS"] = True
+                em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
+                app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
 
-                    mail = Mail(app)
+                mail = Mail(app)
 
-                    msg = Message(contact_form.subject.data, sender=contact_form.email.data, recipients=[em])
-                    msg.body = f"""{contact_form.message.data}
+                msg = Message(contact_form.subject.data, sender=contact_form.email.data, recipients=[em])
+                msg.body = f"""{contact_form.message.data}
 {contact_form.email.data}
                     """
 
-                    try:
-                        mail.send(msg)
-                        flash("Your Message has been Successfully Sent!!", "success")
-                        return "Email Sent"
-                    except Exception as e:
-                        # print(e)
-                        flash('Ooops Something went wrong!! Please Retry', 'error')
-                        return "The mail was not sent"
+                try:
+                    mail.send(msg)
+                    flash("Your Message has been Successfully Sent!!", "success")
+                    return "Email Sent"
+                except Exception as e:
+                    # print(e)
+                    flash('Ooops Something went wrong!! Please Retry', 'error')
+                    return "The mail was not sent"
 
                 # Send the pwd reset request to the above email
-                send_link()
+            send_link()
 
-                #print("Posted")
+            #print("Posted")
         else:
             flash("Ooops!! Please be sure to fill both email & message fields, correctly","error")
 
@@ -322,7 +330,7 @@ def reset(token):
 
                     pass_reset_hash_lc = encry_pw.generate_password_hash(reset_form.new_password.data)
 
-                    usr = db.query(user).get(v_user_id)
+                    usr = user.query.get(v_user_id)
                     usr.password = pass_reset_hash_lc
                     db.commit()
 
@@ -362,7 +370,7 @@ def reset_request():
     if request.method == 'POST':
         if reset_request_form.validate_on_submit():
             #Get user details through their email
-            usr_email = db.query(user).filter_by(email=reset_request_form.email.data).first()
+            usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
             #print("DEBUG EMAIL: ",usr_email.email)
 
             if usr_email is None:
@@ -417,7 +425,7 @@ def job_ads_form():
     job_ad_form = Job_Ads_Form()
     job_ads_model = Jobs_Ads
 
-    job_ads_model.metadata.create_all(bind=engine)
+    db.create_all()
 
     if request.method == 'POST':
        if job_ad_form.validate_on_submit():
@@ -472,7 +480,7 @@ def fl_job_ads_form():
     fl_job_ad_form = Freelance_Ads_Form()
     fl_job_ads_model = Freelance_Jobs_Ads
 
-    fl_job_ads_model.metadata.create_all(bind=engine)
+    db.create_all()
 
 
     if request.method == 'POST':
@@ -536,7 +544,7 @@ def job_adverts():
 
     no_image_fl = 'static/images/default.jpg'
 
-    Jobs_Ads.metadata.create_all(bind=engine)
+    db.create_all()
     usr = user()
     # job_ads = []
     # job_ads = db.query(company_user.job_ads).all()
@@ -546,9 +554,9 @@ def job_adverts():
         #print("Check Get Id: ",id)
         if id:
             #Filter Ads with a specific company's id
-            job_ads = db.query(Jobs_Ads).filter_by(job_posted_by=id)
+            job_ads = Jobs_Ads.query.filter_by(job_posted_by=id)
         else:
-            job_ads = db.query(Jobs_Ads).all()
+            job_ads = Jobs_Ads.query.all()
 
     job_ads_form = Job_Ads_Form()
 
@@ -571,7 +579,7 @@ def freelance_job_adverts():
 
     no_image_fl = 'static/images/default.jpg'
 
-    Freelance_Jobs_Ads.metadata.create_all(bind=engine)
+    db.create_all()
     usr = user()
     # job_ads = []
     # job_ads = db.query(company_user.job_ads).all()
@@ -581,9 +589,9 @@ def freelance_job_adverts():
         # print("Check Get Id: ",id)
         if id:
             # Filter Ads with a specific company's id
-            fl_job_ads = db.query(Freelance_Jobs_Ads).filter_by(job_posted_by=id)
+            fl_job_ads = Freelance_Jobs_Ads.query.filter_by(job_posted_by=id)
         else:
-            fl_job_ads = db.query(Freelance_Jobs_Ads).all()
+            fl_job_ads = Freelance_Jobs_Ads.query.all()
 
     fl_job_ads_form = Freelance_Ads_Form()
 
@@ -600,7 +608,7 @@ def company_sign_up_form():
 
     company_register = Company_Register_Form()
 
-    company_user.metadata.create_all(bind=engine)
+    db.create_all()
 
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -613,23 +621,23 @@ def company_sign_up_form():
 
 
             # If the webpage has made a post e.g. form post
-            with engine.connect():
-                #print('Create All..........................................')
-                company_hashd_pwd = encry_pw.generate_password_hash(company_register.company_password.data).decode('utf-8')
-                # Base.metadata.create_all()
-                # ....user has inherited the Base class
-                # user.metadata.create_all(bind=engine)
-                user1 = company_user(name=company_register.company_name.data, email=company_register.company_email.data, password=company_hashd_pwd,
-                                     confirm_password=company_hashd_pwd ,company_contacts=company_register.company_contacts.data,image="default.jpg",
-                                     company_address=company_register.company_address.data, web_link=company_register.website_link.data,fb_link=company_register.facebook_link.data,
-                                     twitter_link=company_register.twitter_link.data,youtube=company_register.youtube_link.data)
 
-                # db.rollback()
-                db.add(user1)
-                db.commit()
-                flash(f"Account Successfully Created for {company_register.company_name.data}", "success")
+            #print('Create All..........................................')
+            company_hashd_pwd = encry_pw.generate_password_hash(company_register.company_password.data).decode('utf-8')
+            # Base.metadata.create_all()
+            # ....user has inherited the Base class
+            # db.create_all()
+            user1 = company_user(name=company_register.company_name.data, email=company_register.company_email.data, password=company_hashd_pwd,
+                                 confirm_password=company_hashd_pwd ,company_contacts=company_register.company_contacts.data,image="default.jpg",
+                                 company_address=company_register.company_address.data, web_link=company_register.website_link.data,fb_link=company_register.facebook_link.data,
+                                 twitter_link=company_register.twitter_link.data,youtube=company_register.youtube_link.data)
 
-                return redirect(url_for('company_login'))
+            # db.rollback()
+            db.session.add(user1)
+            db.session.commit()
+            flash(f"Account Successfully Created for {company_register.company_name.data}", "success")
+
+            return redirect(url_for('login'))
 
                 # #print(company_register.name.data,company_register.email.data)
     elif company_register.errors:
@@ -654,7 +662,7 @@ def company_login():
 
         if company_login.validate_on_submit():
             # #print(f"Account Successfully Created for {company_login.name.data}")
-            company_user_login = db.query(company_user).filter_by(email = company_login.company_email.data).first()
+            company_user_login = company_user.query.filter_by(email = company_login.company_email.data).first()
             # flash(f"Hey! {user_login.password} Welcome", "success")
             if company_user_login and encry_pw.check_password_hash(company_user_login.password,company_login.company_password.data):
                 login_user(company_user_login)
@@ -685,7 +693,7 @@ def company_account():
 
 
         id = current_user.id
-        cmp_usr = db.query(company_user).get(id)
+        cmp_usr = company_user.query.get(id)
 
         #print('DEBUG UPDATE 1: ', cmp_usr.web_link)
 
@@ -714,7 +722,7 @@ def company_account():
 @app.route("/partnering_companies",methods=["GET", "POST"])
 def partnering_companies():
 
-    job_ads = db.query(Jobs_Ads).all()
+    job_ads = Jobs_Ads.query.all()
 
 
     # Fix jobs adds does not have hidden tag
@@ -728,7 +736,7 @@ def send_application():
 
     send_application = Applications()
 
-    Applications.metadata.create_all(bind=engine)
+    db.create_all()
 
     if not current_user.image and not current_user.school:
         redirect(url_for('account'))
@@ -743,13 +751,13 @@ def send_application():
 
                     applicant_id = current_user.id,
                     job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
-                    employer_id = db.query(Jobs_Ads).get(jb_id).job_posted_by
+                    employer_id = Jobs_Ads.query.get(jb_id).job_posted_by
 
                 )
 
                 #Check if application not sent before
-                job_obj = db.query(Applications).filter_by(job_details_id=jb_id).first()
-                company_obj = db.query(company_user).get(apply.employer_id)
+                job_obj = Applications.query.filter_by(job_details_id=jb_id).first()
+                company_obj = company_user.query.get(apply.employer_id)
                 #print('----------------------job_obj: ',job_obj)
                 if not job_obj:
                     db.add(apply)
@@ -772,7 +780,7 @@ def local_jb_ads():
 
     if request.method == 'GET':
         id = request.args['id']
-        job_ad = db.query(Jobs_Ads).get(id)
+        job_ad = Jobs_Ads.query.get(id)
 
         #print("Job Ad Title: ",job_ad.job_title)
 
@@ -783,7 +791,7 @@ def view_job():
     if request.method == 'GET':
         id = request.args['id']
 
-        job_ad = db.query(Jobs_Ads).get(id)
+        job_ad = Jobs_Ads.query.get(id)
 
         #print("Job Ad Title: ",job_ad.job_title)
 
@@ -819,7 +827,7 @@ def verification():
 def applications():
 
     #Get all applications from Applications database
-    all_applications = db.query(Applications).all()
+    all_applications = Applications.query.all()
 
     #print("Debug Application List: ", db.query(job_user).get(all_applications[0].applicant_id).name )
 
@@ -835,7 +843,7 @@ def view_applicant():
 
     if request.method == 'GET':
         id = request.args['id']
-        job_usr = db.query(job_user).get(id)
+        job_usr = job_user.query.get(id)
 
     return render_template("view_applicant.html", job_usr = job_usr)
 
@@ -844,11 +852,12 @@ def hire_applicant():
 
     if request.method == 'GET':
         id = request.args['id']
-        job_usr = db.query(job_user).get(id)
+        job_usr = job_user.query.get(id)
 
     return render_template("hire_applicant.html", job_usr = job_usr,db=db)
 
 
 if __name__ == "__main__":
+
 
     app.run(debug=True)

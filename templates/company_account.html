@@ -8,7 +8,7 @@
   <div class="">
     <div class="row justify-content-center">
     <div class="col-md-5">
-     <div style="width:100%;margin-left:1px"  class="">
+<!--     <div style="width:100%;margin-left:1px"  class="">-->
 
         <div style="width:80%;margin-left:1px" class="card-body py-md-4">
 
@@ -28,7 +28,7 @@
             <h3 style="font-size:32px;margin-left:10px;" class="card-title text-center">Corporate Details</h3>
 
             <hr>
-
+            <div style="flex-direction:column;"  class="account">
             <div class="group">
                 {{company_update.hidden_tag()}}
                 <div class="acc-labels">{{ company_update.company_name.label(class="acc-form-control-up")}}</div>
@@ -118,14 +118,16 @@
                  {% endif %}
             </div>
 
+                </div>
+
             <div style="padding-left:50px;width:80%;min-width:350px" class="form-group">
                  <h3> Update Compnay Logo</h3>
                  {{ company_update.company_logo(class="acc-form-control",placeholder="reference_2")}}
-            </div>
+            </div><br>
 
 
 
-            <div class="d-flex flex-row align-items-center justify-content-between">
+            <div style="width:40% !important;padding-left:45px;" class="d-flex flex-row align-items-center justify-content-between">
                  {{ company_update.company_submit(class="btns") }}
                  <!--<input class="btns" type="submit" value="Create Account" />-->
                  <a class="form-a links" href="logout">Logout</a>
@@ -134,7 +136,7 @@
          </form>
        </div>
     </div>
-  </div>
+<!--  </div>-->
   </div>
   </div></div>
 {% endblock %}

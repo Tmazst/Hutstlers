@@ -19,7 +19,7 @@ class Register(FlaskForm):
     def validate_email(self,email):
         from app import db, user
 
-        user_email = db.query(user).filter_by(email = self.email.data).first()
+        user_email = user.query.filter_by(email = self.email.data).first()
         if user_email:
             raise ValidationError(f"email, {email.value}, already taken by someone")
 
@@ -67,7 +67,7 @@ class Update_account_form(FlaskForm):
         from app import db, user
         if current_user.email != self.email.data:
             #Check if email exeists in database
-            user_email = db.query(user).filter_by(email = self.email.data).first()
+            user_email = user.query.filter_by(email = self.email.data).first()
             if user_email:
                 raise ValidationError(f"email, {email.value}, already taken by someone")
 

@@ -16,6 +16,7 @@
 
   <p class="paras-subtopics">Join the Large Community of Eswatini's Young People and Showcase Your Skills & Abilities Today;</p>
     <!----FORM----->
+
   <div id="login-page" class="general-flex">
           <div style="max-width:600px;background-color:3ab;" class="form_container anim">
                 <div class="card">
@@ -59,7 +60,7 @@
                                      {{ register.confirm(class="form-control",placeholder="Confirm Password")}}
                                      {% if register.confirm.errors %}
                                         {% for error in register.confirm.errors %}
-                                            <span class="span-error" >*Confirm Password {{error}}</span>
+                                            <span class="span-error" >*Passwords that not match</span>
                                         {% endfor %}
                                      {% endif %}
 
@@ -82,7 +83,9 @@
       <div class="login-img-cont anim">
                   <img src="static/icons/signup-img_Artboard.svg" />
              </div>
-      </div>
+      </div><br>
+    <p style="color:coral;" class="paras-subtopics">To Register a Company Account, Please follow this link below</p>
+    <a  href="company_sign_up"><button class="btns-margin btns" id="join_btn3">Register Company</button> </a>
       <br><br><br><br><br><br><br><br>
 </div>
 {% endblock %}
