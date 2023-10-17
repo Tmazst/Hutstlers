@@ -12,6 +12,7 @@ from Advert_Forms import Job_Ads_Form,Company_Register_Form , Company_Login,Comp
 import os
 from PIL import Image
 import rsa
+import MySQLdb
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
