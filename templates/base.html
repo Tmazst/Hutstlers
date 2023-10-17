@@ -11,19 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
     <!---<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
     <link type="text/css" rel="stylesheet" href="static/icons/skateboarding.svg"/>
-<script>
-    document.getElementById('myButton').addEventListener('click', function() {
-    var drawer = document.getElementById('myDrawer');
-    drawer.style.display = drawer.style.display === 'none' ? 'block' : 'none';
-});
 
-var closeButtons = document.getElementsByClassName('closeDrawer');
-for (var i = 0; i < closeButtons.length; i++) {
-    closeButtons[i].addEventListener('click', function() {
-      document.getElementById('myDrawer').style.display = 'none';
-    });
-}
-</script>
 
 
     <title>The Hustlers Time</title>
@@ -81,6 +69,9 @@ for (var i = 0; i < closeButtons.length; i++) {
             </div>
 
         </div>
+    {% if current_user.is_authenticated %}
+        <div style="width:18%;background-color:;float:right;color:#aaa;font-weight:bold" class="user_captions">Welcome, {{current_user.name}}</div>
+    {% endif %}
 
 
 
@@ -88,9 +79,10 @@ for (var i = 0; i < closeButtons.length; i++) {
 
     {% if current_user.is_authenticated and current_user.role== 'company_user' %}
 <!--        SIDE NAV --->
-    <button id="myButton">Open Drawer</button>
+    <button onclick="unhideHide()" id="myButton">Open Drawer</button>
     <div id="myDrawer" class="sidebar-main">
           <h3>Company Dashboard<br> <span class="spans"></span></h3>
+            <div class="x_cont" ><button onclick="unhideHide()" id="closeButton">X</button></div>
                 <div id="side-nav-div">
 
                     <div id="side-nav-cont">
@@ -125,6 +117,10 @@ for (var i = 0; i < closeButtons.length; i++) {
         {% block content %}
         {% endblock %}
     </div>
+
+    <script src="static/js/js_scrpit.js">
+
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

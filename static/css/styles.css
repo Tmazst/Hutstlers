@@ -220,7 +220,7 @@ a{
     margin-top:-10px;
 }
 
-#join_btn1{
+#join_btn3{
 
     height:50px;
     width:200px;
@@ -228,6 +228,16 @@ a{
     background-color:coral;
     color:#fff;
     border:none;
+}
+
+#join_btn3:hover{
+
+    height:50px;
+    width:200px;
+    font-size:20px;
+    color:coral;
+    background-color:#fff;
+    border:2px solid coral;
 }
 
 
@@ -779,7 +789,7 @@ h2{
 }
 
 .form-a{
-    margin:0 0 0 100px;
+    margin:0 0 0 0px;
     color: #333;
     float:right;
     padding-top:4%;
@@ -867,7 +877,24 @@ h2{
 
 }
 
+#closeButton{
 
+    border:none;
+    background:none;
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+
+}
+
+.x_cont{
+    position:absolute;
+    border-radius:50%;
+    padding:10px;
+    background-color:#006769;
+    right:-10px;
+    top:-10px;
+}
 
 
 
@@ -886,6 +913,7 @@ h2{
     top: 0;
     left:0px;
     position:absolute;
+    display:none;
 
 }
 .d-flex{
@@ -1169,6 +1197,7 @@ display:none
 
 .btns{
     margin:0;
+    width:150px !important;
 }
 .tags{
    margin-top:40% !important;
@@ -1418,6 +1447,15 @@ display:none
       margin-right:0px;
       
     }
+
+    .user_captions{
+        margin-top:70px;
+        width:50% !important;
+        color:#909090 !important;
+
+    }
+
+    .account{margin-left:50px}
 
     .img-div{
 
