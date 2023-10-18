@@ -804,7 +804,7 @@ def view_job():
 
     return render_template('job_ad_opened.html',item=job_ad,db=db,company_user=company_user)
 
-@app.route("/verified/<token>", methods=["POST"])
+@app.route("/verified/<token>", methods=["POST", "METHOD"])
 def verified(token):
 
     usr_obj = user().verify_reset_token(token)
