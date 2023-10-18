@@ -407,7 +407,6 @@ To reset your password, visit the following link:{url_for('reset', token=token, 
 If you did not requested the above message please ignore it, and your password will remain unchanged.
 """
 
-
                 try:
                     mail.send(msg)
                     flash('An email has been sent with instructions to reset your password', 'success')
@@ -831,22 +830,22 @@ def verification():
             app.config["MAIL_SERVER"] = "smtp.googlemail.com"
             app.config["MAIL_PORT"] = 587
             app.config["MAIL_USE_TLS"] = True
-            app.config["MAIL_USERNAME"] = os.getenv("MAIL")
-            app.config["MAIL_PASSWORD"] = os.getenv("PWD")
+            em = app.config["MAIL_USERNAME"] = "pro.dignitron@gmail.com" #os.getenv("MAIL")
+            app.config["MAIL_PASSWORD"] = os.getenv("PWD2")
 
             mail = Mail(app)
 
             token = user().get_reset_token(current_user.id)
+            usr_email = current_user.email
+            # print("Debug Token: ", token)
+            # print("DEBUG CURRENT USER EMAIL: ",current_user.email)
+            # print("DEBUG CURRENT DEFAULT EMAIL: ", em)
 
-            print("Debug Token: ", token)
-            print("DEBUG CURRENT USER EMAIL: ",current_user.email)
+            msg = Message("Email Verification", sender="noreply@demo.com", recipients=[usr_email])
 
-            msg = Message("Email Verification", sender="noreply@demo.com", recipients=[current_user.email])
-
-            msg.body = f""""Hi, {current_user.name}
+            msg.body = f"""Hi, {current_user.name}
 Please follow the link below to verify your email with The Hustlers Time:
 verify email here,{url_for('verified', token=token, _external=True)}
-
 """
             try:
                 mail.send(msg)
