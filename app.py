@@ -304,7 +304,7 @@ def contact_us():
                     return "Email Sent"
                 except Exception as e:
                     # print(e)
-                    flash(f'Ooops Something went wrong!! Please Retry \n {e}', 'error')
+                    flash(f'Ooops Something went wrong!! Please Retry', 'error')
                     return "The mail was not sent"
 
                 # Send the pwd reset request to the above email
@@ -854,7 +854,7 @@ verify email here,{url_for('verified', token=token, _external=True)}
                 return "Email Sent"
             except Exception as e:
                 print("DEBUG ERROR: ", e)
-                flash('Ooops, Something went wrong Please Retry!!', 'error')
+                flash(f'Ooops, Something went wrong Please Retry  \n {e}', 'error')
                 return "The mail was not sent"
 
     send_veri_mail()
