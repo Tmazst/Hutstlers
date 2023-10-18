@@ -45,7 +45,6 @@ class user(db.Model,UserMixin):
     @staticmethod
     def verify_reset_token(token):
         import app
-        db.init_app(app)
 
         s = Serializer(app.app.config['SECRET_KEY'])
         try:
@@ -53,7 +52,7 @@ class user(db.Model,UserMixin):
         except:
             return None
 
-        return user.query.get(user_id)
+        return user_id
 
     __mapper_args__={
         "polymorphic_identity":'user',

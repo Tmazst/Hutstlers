@@ -350,9 +350,10 @@ def reset(token):
             else:
 
                 try:
-                    usr_obj = user().verify_reset_token(token)
-                    pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
+                    usr_id = user().verify_reset_token(token)
 
+                    pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
+                    usr_obj = user.query.get(usr_id)
                     usr_obj.password = pass_reset_hash
 
                     flash(f"Password Changed Successfully!", "success")
@@ -807,14 +808,15 @@ def view_job():
 @app.route("/verified/<token>", methods=["POST", "GET"])
 def verified(token):
 
-    usr_obj = user().verify_reset_token(token)
+    usr_id = user().verify_reset_token(token)
+    usr_obj = user.query.get(usr_id)
 
     if usr_obj:
         try:
             usr_obj.verified = True;
             if usr_obj.verified == True:
-                redirect(url_for('home'))
                 flash(f"Welcome, {usr_obj.name}  Your Email Verification was Successfull!!","success")
+                return redirect(url_for('home'))
         except:
             flash(f"Something went wrong, Please try again","error")
 
