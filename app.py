@@ -822,7 +822,7 @@ def verified(token):
         except:
             flash(f"Something went wrong, Please try again","error")
 
-    return f"Verification in Progress......"
+    return render_template('verified.html',usr_obj = usr_obj)
 
 
 @app.route("/verification", methods=["POST","GET"])
