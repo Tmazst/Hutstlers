@@ -304,7 +304,7 @@ def contact_us():
                     return "Email Sent"
                 except Exception as e:
                     # print(e)
-                    flash('Ooops Something went wrong!! Please Retry', 'error')
+                    flash(f'Ooops Something went wrong!! Please Retry \n {e}', 'error')
                     return "The mail was not sent"
 
                 # Send the pwd reset request to the above email
