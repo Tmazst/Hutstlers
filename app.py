@@ -811,7 +811,7 @@ def verified(token):
     usr_id = user().verify_reset_token(token)
     usr_obj = user.query.get(usr_id)
 
-    flash(f'User ID is {usr_id} is found')
+    flash(f'User ID is {usr_id} is found','error')
 
     if usr_obj:
         try:
