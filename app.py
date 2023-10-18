@@ -159,7 +159,7 @@ def sign_up():
             db.session.add(user1)
             db.session.commit()
             flash(f"Account Successfully Created for {register.name.data}", "success")
-            redirect(url_for('login'))
+            return redirect(url_for('login'))
             # #print(register.name.data,register.email.data)
     elif register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
@@ -214,7 +214,7 @@ def account():
 
             db.commit()
 
-            redirect(url_for('verification'))
+            # redirect(url_for('verification'))
 
         elif cv.errors:
             pass
@@ -246,10 +246,14 @@ def login():
             # flash(f"Hey! {user_login.password} Welcome", "success")
             if user_login and encry_pw.check_password_hash(user_login.password,login.password.data):
                 login_user(user_login)
-                #After login required prompt, take me to the page I requested earlier
-                req_page = request.args.get('next')
-                flash(f"Hey! {user_login.name.title()} You're Logged In!", "success")
-                return redirect(req_page) if req_page else redirect(url_for('home'))
+                if user_login.verified == False or not user_login.verified:
+                    return redirect(url_for('verification'))
+                else:
+                    #After login required prompt, take me to the page I requested earlier
+                    print("No Verification Needed: ",user_login.verified)
+                    req_page = request.args.get('next')
+                    flash(f"Hey! {user_login.name.title()} You're Logged In!", "success")
+                    return redirect(req_page) if req_page else redirect(url_for('home'))
             else:
                 flash(f"Login Unsuccessful, please use correct email or password", "error")
                 #print(login.errors)
@@ -801,8 +805,24 @@ def view_job():
 
     return render_template('job_ad_opened.html',item=job_ad,db=db,company_user=company_user)
 
+@app.route("/verified/<token>", methods=["POST"])
+def verified(token):
 
-@app.route("/verification", methods=["POST"])
+    usr_obj = user().verify_reset_token(token)
+
+    if usr_obj:
+        try:
+            usr_obj.verified = True;
+            if usr_obj.verified == True:
+                redirect(url_for('home'))
+                flash(f"Welcome, {usr_obj.name}  Your Email Verification was Successfull!!","success")
+        except:
+            flash(f"Something went wrong, Please try again","error")
+
+    return f"Verification in Progress......"
+
+
+@app.route("/verification", methods=["POST","GET"])
 def verification():
 
     def send_veri_mail():
@@ -816,13 +836,28 @@ def verification():
 
             mail = Mail(app)
 
-            msg = Message("Email Verification", sender="noreply@demo.com", recipients=current_user.email)
+            token = user().get_reset_token(current_user.id)
 
-            msg.body(f""""Hi, {current_user.name}
+            print("Debug Token: ", token)
+            print("DEBUG CURRENT USER EMAIL: ",current_user.email)
 
+            msg = Message("Email Verification", sender="noreply@demo.com", recipients=[current_user.email])
 
+            msg.body = f""""Hi, {current_user.name}
+Please follow the link below to verify your email with The Hustlers Time:
+verify email here,{url_for('verified', token=token, _external=True)}
 
-""")
+"""
+            try:
+                mail.send(msg)
+                flash('An email has been sent with a verification link to your email account', 'success')
+                return "Email Sent"
+            except Exception as e:
+                print("DEBUG ERROR: ", e)
+                flash('Ooops, Something went wrong Please Retry!!', 'error')
+                return "The mail was not sent"
+
+    send_veri_mail()
 
     return render_template('verification.html')
 

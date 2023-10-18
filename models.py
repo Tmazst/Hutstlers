@@ -31,7 +31,7 @@ class user(db.Model,UserMixin):
     email = db.Column(db.String(120),unique=True)
     password = db.Column(db.String(120), unique=True)
     confirm_password = db.Column(db.String(120), unique=True)
-    verified = db.Column(db.Boolean)
+    verified = db.Column(db.Boolean, default=False)
     role = db.Column(db.String(120))
 
 
