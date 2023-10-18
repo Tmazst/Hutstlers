@@ -752,7 +752,7 @@ font-weight:400;
 .form_container{
     display:flex;
     //justify-content:flex-start;
-    max-width:600px !important;
+    max-width:450px !important;
     min-width:350px !important;
     direction:column;
     border-radius:10px;

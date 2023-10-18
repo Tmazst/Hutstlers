@@ -377,8 +377,8 @@ def reset_request():
             #print("DEBUG EMAIL: ",usr_email.email)
 
             if usr_email is None:
-                print("The email you are request for is not register with T.H.T, please register first, Please Retry")
-                flash("The email you are requesting a password reset for, is not register with T.H.T, please register as account first", 'error')
+                # print("The email you are request for is not register with T.H.T, please register first, Please Retry")
+                flash("The email you are requesting a password reset for, is not registered with T.H.T, please register as account first", 'error')
 
                 return redirect(url_for("reset_request"))
 
