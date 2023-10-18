@@ -351,7 +351,7 @@ def reset(token):
 
                 try:
                     usr_id = user().verify_reset_token(token)
-
+                    flash(f"User Id {usr_id}", "success")
                     pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
                     usr_obj = user.query.get(usr_id)
                     usr_obj.password = pass_reset_hash
