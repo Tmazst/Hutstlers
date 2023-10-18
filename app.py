@@ -831,7 +831,7 @@ def verification():
             app.config["MAIL_PORT"] = 587
             app.config["MAIL_USE_TLS"] = True
             em = app.config["MAIL_USERNAME"] = "pro.dignitron@gmail.com" #os.getenv("MAIL")
-            app.config["MAIL_PASSWORD"] = os.getenv("PWD2")
+            app.config["MAIL_PASSWORD"] = os.getenv("PWD")
 
             mail = Mail(app)
 
