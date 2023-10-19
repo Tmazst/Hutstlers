@@ -824,8 +824,20 @@ def view_job():
 @app.route("/verified/<token>", methods=["POST", "GET"])
 def verified(token):
 
-    usr_obj = user_class().verify_reset_token(token)
 
+
+    def verify(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+            return f'We are trying Token {token} not accessed here is the outcome user {user_id}'
+        except:
+            return f'Token {token} not accessed here is the outcome user'
+
+        return user.query.get(user_id)
+
+    # usr_obj = user_class().verify_reset_token(token)
+    usr_obj = verify(token)
 
     flash(f'User ID is {token} is found','error')
 
@@ -844,6 +856,16 @@ def verified(token):
 @app.route("/verification", methods=["POST","GET"])
 def verification():
 
+
+    def verify(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+            return f'We are trying Token {token} not accessed here is the outcome user {user_id}'
+        except:
+            return f'Token {token} not accessed here is the outcome user'
+
+        return user.query.get(user_id)
     def send_veri_mail():
         if current_user.is_authenticated:
 
@@ -869,7 +891,7 @@ verify email here,{url_for('verified', token=token, _external=True)}
 """
             try:
                 mail.send(msg)
-                flash(f'An email has been sent with a verification link to your email account {current_user.id}', 'success')
+                flash(f'An email has been sent with a verification link to your email account {verify(token)}', 'success')
                 return "Email Sent"
             except Exception as e:
                 print("DEBUG ERROR: ", e)
