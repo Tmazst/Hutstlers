@@ -4,7 +4,6 @@ from sqlalchemy import  MetaData, ForeignKey
 from flask_login import login_user, UserMixin
 from sqlalchemy.orm import backref, relationship
 from datetime import datetime
-from itsdangerous import URLSafeTimedSerializer as Serializer
 from flask_sqlalchemy import SQLAlchemy
 # from app import app
 
@@ -35,24 +34,7 @@ class user(db.Model,UserMixin):
     role = db.Column(db.String(120))
 
 
-    def get_reset_token(self,c_user_id, expires=1800):
-        global app
-        import app
-        s = Serializer(app.app.config['SECRET_KEY'],"confirmation")
 
-        return s.dumps({'user_id':c_user_id})
-
-    @staticmethod
-    def verify_reset_token(token):
-        import app
-
-        s = Serializer(app.app.config['SECRET_KEY'])
-        try:
-            user_id = s.loads(token)['user_id']
-        except:
-            return None
-
-        return user.query.get(user_id)
 
     __mapper_args__={
         "polymorphic_identity":'user',

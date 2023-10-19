@@ -17,6 +17,7 @@ from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads
+from itsdangerous import URLSafeTimedSerializer as Serializer
 
 
 # from models.user import get_reset_token, very_reset_token
@@ -50,7 +51,23 @@ encry_pw = Bcrypt(app)
 # migrate = Migrate(app,db)
 
 class user_class:
-    cls_name = None
+    def get_reset_token(self, c_user_id, expires=1800):
+
+        s = Serializer(app.config['SECRET_KEY'], "confirmation")
+
+        return s.dumps({'user_id': c_user_id})
+
+    @staticmethod
+    def verify_reset_token(token):
+        import app
+
+        s = Serializer(app.app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+
+        return user.query.get(user_id)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -350,7 +367,7 @@ def reset(token):
             else:
 
                 try:
-                    usr_obj = user().verify_reset_token(token)
+                    usr_obj = user_class().verify_reset_token(token)
                     flash(f"User Id {usr_obj}", "success")
                     pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
                     usr_obj = user.query.get(usr_obj)
@@ -398,7 +415,7 @@ def reset_request():
 
                 mail = Mail(app)
 
-                token = user().get_reset_token(usr_email.id)
+                token = user_class().get_reset_token(usr_email.id)
                 msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[usr_email.email])
                 msg.body = f"""Good day, {usr_email.name}
                 
@@ -808,7 +825,7 @@ def view_job():
 @app.route("/verified/<token>", methods=["POST", "GET"])
 def verified(token):
 
-    usr_obj = user().verify_reset_token(token)
+    usr_obj = user_class().verify_reset_token(token)
 
 
     flash(f'User ID is {usr_obj} is found','error')
@@ -839,7 +856,7 @@ def verification():
 
             mail = Mail(app)
 
-            token = user().get_reset_token(current_user.id)
+            token = user_class().get_reset_token(current_user.id)
             usr_email = current_user.email
             # print("Debug Token: ", token)
             # print("DEBUG CURRENT USER EMAIL: ",current_user.email)
