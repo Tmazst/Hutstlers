@@ -63,8 +63,9 @@ class user_class:
         s = Serializer(app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token)['user_id']
+            return f'We are trying Token {token} not accessed here is the outcome user {user_id}'
         except:
-            return None
+            return f'Token {token} not accessed here is the outcome user'
 
         return user.query.get(user_id)
 
