@@ -59,7 +59,6 @@ class user_class:
 
     @staticmethod
     def verify_reset_token(token):
-        import app
 
         s = Serializer(app.app.config['SECRET_KEY'])
         try:
@@ -828,7 +827,7 @@ def verified(token):
     usr_obj = user_class().verify_reset_token(token)
 
 
-    flash(f'User ID is {usr_obj} is found','error')
+    flash(f'User ID is {token} is found','error')
 
     if usr_obj:
         try:
