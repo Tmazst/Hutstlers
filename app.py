@@ -350,10 +350,10 @@ def reset(token):
             else:
 
                 try:
-                    usr_id = user().verify_reset_token(token)
-                    flash(f"User Id {usr_id}", "success")
+                    usr_obj = user().verify_reset_token(token)
+                    flash(f"User Id {usr_obj}", "success")
                     pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
-                    usr_obj = user.query.get(usr_id)
+                    usr_obj = user.query.get(usr_obj)
                     usr_obj.password = pass_reset_hash
 
                     flash(f"Password Changed Successfully!", "success")
@@ -808,10 +808,10 @@ def view_job():
 @app.route("/verified/<token>", methods=["POST", "GET"])
 def verified(token):
 
-    usr_id = user().verify_reset_token(token)
-    usr_obj = user.query.get(usr_id)
+    usr_obj = user().verify_reset_token(token)
 
-    flash(f'User ID is {usr_id} is found','error')
+
+    flash(f'User ID is {usr_obj} is found','error')
 
     if usr_obj:
         try:

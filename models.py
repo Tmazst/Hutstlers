@@ -52,7 +52,7 @@ class user(db.Model,UserMixin):
         except:
             return None
 
-        return s.loads(token)['user_id']
+        return user.query.get(user_id)
 
     __mapper_args__={
         "polymorphic_identity":'user',
