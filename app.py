@@ -81,7 +81,7 @@ def load_user(user_id):
     #     return db.query(user_class.cls_name).get(current_user.id)
     #     #print("-------------------------No Class User: ",user_class.cls_name)
 
-
+app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 
 
 def resize_img(img,size_x=30,size_y=30):
