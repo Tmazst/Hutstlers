@@ -16,8 +16,9 @@ import MySQLdb
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
-from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads
+from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads,Email_Verifications
 from itsdangerous import URLSafeTimedSerializer as Serializer
+from datetime import datetime
 
 
 # from models.user import get_reset_token, very_reset_token
@@ -27,7 +28,8 @@ from itsdangerous import URLSafeTimedSerializer as Serializer
 
 #Application
 app = Flask(__name__)
-app.config['SECRET KEY'] = 'Tmazst41'
+# app.config['SECRET KEY'] = 'Tmazst41'
+app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
@@ -38,6 +40,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
 db.init_app(app)
+
 
 
 pub, priv = rsa.newkeys(512)
@@ -59,11 +62,10 @@ class user_class:
 
     @staticmethod
     def verify_reset_token(token):
-
         s = Serializer(app.config['SECRET_KEY'])
         try:
+             # f'We are trying Token {token} not accessed here is the outcome user'
             user_id = s.loads(token)['user_id']
-            return f'We are trying Token {token} not accessed here is the outcome user {user_id}'
         except:
             return f'Token {token} not accessed here is the outcome user'
 
@@ -81,7 +83,7 @@ def load_user(user_id):
     #     return db.query(user_class.cls_name).get(current_user.id)
     #     #print("-------------------------No Class User: ",user_class.cls_name)
 
-app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
+
 
 
 def resize_img(img,size_x=30,size_y=30):
@@ -825,47 +827,31 @@ def view_job():
 def verified(token):
 
 
+    if current_user.is_authenticated:
+        # usr_obj = user_class().verify_reset_token(token)
+        check_hash = encry_pw.check_password_hash(token,current_user.is_authenticated+str(current_user.id))
+        flash(f'User ID is {token} is found','error')
 
-    def verify(token):
-        s = Serializer(app.config['SECRET_KEY'])
-        try:
-            user_id = s.loads(token)['user_id']
-            return f'We are trying Token {token} not accessed here is the outcome user {user_id}'
-        except:
-            return f'Token {token} not accessed here is the outcome user'
+        if check_hash:
+            try:
+                current_user.verified = True
+                if current_user.verified:
+                    flash(f"Welcome, {current_user.name}  Your Email Verification was Successfull!!","success")
+                    return redirect(url_for('home'))
+            except:
+                flash(f"Something went wrong, Please try again","error")
+        else:
+            flash('Email Verification Failed',"error")
+            return render_template('not_verified.html')
 
-        return user.query.get(user_id)
-
-    # usr_obj = user_class().verify_reset_token(token)
-    usr_obj = verify(token)
-
-    flash(f'User ID is {token} is found','error')
-
-    if usr_obj:
-        try:
-            usr_obj.verified = True;
-            if usr_obj.verified == True:
-                flash(f"Welcome, {usr_obj.name}  Your Email Verification was Successfull!!","success")
-                return redirect(url_for('home'))
-        except:
-            flash(f"Something went wrong, Please try again","error")
-
-    return render_template('verified.html',usr_obj = usr_obj)
+    return render_template('verified.html')
 
 
 @app.route("/verification", methods=["POST","GET"])
 def verification():
 
+    db.create_all()
 
-    def verify(token):
-        s = Serializer(app.config['SECRET_KEY'])
-        try:
-            user_id = s.loads(token)['user_id']
-            return f'We are trying Token {token} not accessed here is the outcome user {user_id}'
-        except:
-            return f'Token {token} not accessed here is the outcome user'
-
-        return user.query.get(user_id)
     def send_veri_mail():
         if current_user.is_authenticated:
 
@@ -877,7 +863,22 @@ def verification():
 
             mail = Mail(app)
 
-            token = user_class().get_reset_token(current_user.id)
+            try:
+                token = encry_pw.generate_password_hash(current_user.email+str(current_user.id)).decode("utf-8")
+
+                store_hash = Email_Verifications(generated_hash = token, time_stamp = datetime.utcnow())
+                print('HASH: ',token)
+
+                db.session.rollback()
+                db.session.add(store_hash)
+                db.session.commit()
+            except Exception as e:
+                flash("Something is wrong, Please try again later", 'error')
+                print("ERROR: ", e)
+
+                return redirect(url_for('verification'))
+
+            #user_class().get_reset_token(current_user.id)
             usr_email = current_user.email
             # print("Debug Token: ", token)
             # print("DEBUG CURRENT USER EMAIL: ",current_user.email)
@@ -890,12 +891,12 @@ Please follow the link below to verify your email with The Hustlers Time:
 verify email here,{url_for('verified', token=token, _external=True)}
 """
             try:
-                mail.send(msg)
-                flash(f'An email has been sent with a verification link to your email account {verify(token)}', 'success')
+                # mail.send(msg)
+                flash(f'An email has been sent with a verification link to your email account {token}', 'success')
                 return "Email Sent"
             except Exception as e:
                 print("DEBUG ERROR: ", e)
-                flash(f'Ooops, Something went wrong Please Retry  \n {e}', 'error')
+                flash(f'Email not sent here\n {e}', 'error')
                 return "The mail was not sent"
 
     send_veri_mail()

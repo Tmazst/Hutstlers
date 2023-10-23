@@ -87,13 +87,15 @@ class company_user(user):
         "polymorphic_identity": 'company_user'
     }
 
-# class Verifications(user):
-#
-#     __tablename__='verifications'
-#
-#     id = db.Column(db.Integer, ForeignKey('user.id'), primary_key=True)
-#     verified = db.Column(db.Boolean)
+class Email_Verifications(db.Model, UserMixin):
 
+    __table_name__='email_verifications'
+
+    email_id = db.Column(db.Integer, primary_key=True)
+    generated_hash = db.Column(db.String(120))
+    time_stamp = db.DateTime()
+
+    # __abstract__ = True
 
 class Jobs_Ads(db.Model, UserMixin):
 
