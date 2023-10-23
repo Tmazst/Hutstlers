@@ -864,7 +864,7 @@ def verification():
             mail = Mail(app)
 
             try:
-                usr_verified = Email_Verifications.query.get(current_user.id)
+                usr_verified = user.query.get(current_user.id)
                 token = encry_pw.generate_password_hash(current_user.email + str(current_user.id)).decode("utf-8")
                 if not usr_verified:
 
