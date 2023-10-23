@@ -864,14 +864,19 @@ def verification():
             mail = Mail(app)
 
             try:
-                token = encry_pw.generate_password_hash(current_user.email+str(current_user.id)).decode("utf-8")
+                usr_verified = Email_Verifications.query.get(current_user.id)
+                token = encry_pw.generate_password_hash(current_user.email + str(current_user.id)).decode("utf-8")
+                if not usr_verified:
 
-                store_hash = Email_Verifications(generated_hash = token, time_stamp = datetime.utcnow())
-                print('HASH: ',token)
+                    store_hash = Email_Verifications(generated_hash = token, time_stamp = datetime.utcnow())
+                    print('HASH: ',token)
 
-                db.session.rollback()
-                db.session.add(store_hash)
-                db.session.commit()
+                    # db.session.rollback()
+                    db.session.add(store_hash)
+                    db.session.commit()
+                else:
+                    usr_verified.generated_hash = token;
+
             except Exception as e:
                 flash("Something is wrong, Please try again later", 'error')
                 print("ERROR: ", e)
@@ -891,7 +896,7 @@ Please follow the link below to verify your email with The Hustlers Time:
 verify email here,{url_for('verified', token=token, _external=True)}
 """
             try:
-                # mail.send(msg)
+                mail.send(msg)
                 flash(f'An email has been sent with a verification link to your email account {token}', 'success')
                 return "Email Sent"
             except Exception as e:

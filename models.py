@@ -91,7 +91,7 @@ class Email_Verifications(db.Model, UserMixin):
 
     __table_name__='email_verifications'
 
-    email_id = db.Column(db.Integer, primary_key=True)
+    email_id = db.Column(db.Integer,ForeignKey('user.id'), primary_key=True)
     generated_hash = db.Column(db.String(120))
     time_stamp = db.DateTime()
 
