@@ -268,7 +268,7 @@ def login():
             # flash(f"Hey! {user_login.password} Welcome", "success")
             if user_login and encry_pw.check_password_hash(user_login.password,login.password.data):
                 login_user(user_login)
-                if user_login.verified == False or not user_login.verified:
+                if not user_login.verified:
                     return redirect(url_for('verification'))
                 else:
                     #After login required prompt, take me to the page I requested earlier
@@ -909,7 +909,7 @@ verify email here,{url_for('verified', token=token, _external=True)}
 """
             try:
                 mail.send(msg)
-                flash(f'An email has been sent with a verification link to your email account {token}', 'success')
+                flash(f'An email has been sent with a verification link to your email account {current_user.veirified}', 'success')
                 return "Email Sent"
             except Exception as e:
                 print("DEBUG ERROR: ", e)
