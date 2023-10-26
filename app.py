@@ -29,7 +29,7 @@ from datetime import datetime
 #Application
 app = Flask(__name__)
 # app.config['SECRET KEY'] = 'Tmazst41'
-app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
+
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
@@ -54,15 +54,16 @@ encry_pw = Bcrypt(app)
 # migrate = Migrate(app,db)
 
 class user_class:
-    def get_reset_token(self, c_user_id, expires=1800):
+    def get_reset_token(self, c_user_id):
 
-        s = Serializer(app.config['SECRET_KEY'], "confirmation")
+        s = Serializer('Tmazst', "confirmation")
 
         return s.dumps({'user_id': c_user_id})
 
     @staticmethod
-    def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+    def verify_reset_token(token, expires=1800):
+
+        s = Serializer('Tmazst')
         try:
              # f'We are trying Token {token} not accessed here is the outcome user'
             user_id = s.loads(token)['user_id']
@@ -84,7 +85,7 @@ def load_user(user_id):
     #     #print("-------------------------No Class User: ",user_class.cls_name)
 
 
-
+app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 
 def resize_img(img,size_x=30,size_y=30):
 
@@ -823,26 +824,28 @@ def view_job():
 
     return render_template('job_ad_opened.html',item=job_ad,db=db,company_user=company_user)
 
+
 @app.route("/verified/<token>", methods=["POST", "GET"])
 def verified(token):
 
+    user_id = user_class.verify_reset_token(token)
 
-    if current_user.is_authenticated:
-        # usr_obj = user_class().verify_reset_token(token)
-        check_hash = encry_pw.check_password_hash(token,current_user.is_authenticated+str(current_user.id))
-        flash(f'User ID is {token} is found','error')
 
-        if check_hash:
-            try:
-                current_user.verified = True
-                if current_user.verified:
-                    flash(f"Welcome, {current_user.name}  Your Email Verification was Successfull!!","success")
-                    return redirect(url_for('home'))
-            except:
-                flash(f"Something went wrong, Please try again","error")
-        else:
-            flash('Email Verification Failed',"error")
-            return render_template('not_verified.html')
+    # if current_user.is_authenticated:
+    #     # usr_obj = user_class().verify_reset_token(token)
+    #     check_hash = encry_pw.check_password_hash(token,current_user.is_authenticated+str(current_user.id))
+    #     flash(f'User ID is {token} is found','error')
+    #
+
+    try:
+        usr = user.query.get(user_id)
+        usr.verified = True
+        if usr.verified:
+            flash(f"Welcome, {current_user.name}  Your Email Verification was Successfully!!","success")
+            return redirect(url_for('home'))
+    except Exception as e:
+        flash(f"Something went wrong, Please try again: {e} ","error")
+
 
     return render_template('verified.html')
 
@@ -863,25 +866,29 @@ def verification():
 
             mail = Mail(app)
 
-            try:
-                usr_verified = user.query.get(current_user.id)
-                token = encry_pw.generate_password_hash(current_user.email + str(current_user.id)).decode("utf-8")
-                if not usr_verified:
+            token = user_class().get_reset_token(current_user.id)
 
-                    store_hash = Email_Verifications(generated_hash = token, time_stamp = datetime.utcnow())
-                    print('HASH: ',token)
 
-                    # db.session.rollback()
-                    db.session.add(store_hash)
-                    db.session.commit()
-                else:
-                    usr_verified.generated_hash = token;
 
-            except Exception as e:
-                flash("Something is wrong, Please try again later", 'error')
-                print("ERROR: ", e)
+            # try:
+            #     usr_verified = user.query.get(current_user.id)
+            #     token = encry_pw.generate_password_hash(current_user.email + str(current_user.id)).decode("utf-8")
+            #     if not usr_verified:
+            #
+            #         store_hash = Email_Verifications(generated_hash = token, time_stamp = datetime.utcnow())
+            #         print('HASH: ',token)
+            #
+            #         # db.session.rollback()
+            #         db.session.add(store_hash)
+            #         db.session.commit()
+            #     else:
+            #         usr_verified.generated_hash = token;
 
-                return redirect(url_for('verification'))
+            # except Exception as e:
+            #     flash("Something is wrong, Please try again later", 'error')
+            #     print("ERROR: ", e)
+            #
+            #     return redirect(url_for('verification'))
 
             #user_class().get_reset_token(current_user.id)
             usr_email = current_user.email
