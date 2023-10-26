@@ -909,7 +909,7 @@ verify email here,{url_for('verified', token=token, _external=True)}
 """
             try:
                 mail.send(msg)
-                flash(f'An email has been sent with a verification link to your email account {current_user.veirified}', 'success')
+                flash(f'An email has been sent with a verification link to your email account {current_user.verified}', 'success')
                 return "Email Sent"
             except Exception as e:
                 print("DEBUG ERROR: ", e)
