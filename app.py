@@ -12,12 +12,12 @@ from Advert_Forms import Job_Ads_Form,Company_Register_Form , Company_Login,Comp
 import os
 from PIL import Image
 import rsa
-import MySQLdb
+# import MySQLdb
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads,Email_Verifications
-from itsdangerous import URLSafeTimedSerializer as Serializer
+from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from datetime import datetime
 
 
@@ -29,10 +29,10 @@ from datetime import datetime
 #Application
 app = Flask(__name__)
 # app.config['SECRET KEY'] = 'Tmazst41'
-
+app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -54,23 +54,26 @@ encry_pw = Bcrypt(app)
 # migrate = Migrate(app,db)
 
 class user_class:
+
+    s = None
     def get_reset_token(self, c_user_id):
 
-        s = Serializer('Tmazst', "confirmation")
+        s = Serializer(app.config['SECRET_KEY'])
 
-        return s.dumps({'user_id': c_user_id})
+        return s.dumps({'user_id': c_user_id}).encode('utf-8')
 
     @staticmethod
     def verify_reset_token(token, expires=1800):
 
-        s = Serializer('Tmazst')
+        s = Serializer(app.config['SECRET_KEY'])
+
         try:
              # f'We are trying Token {token} not accessed here is the outcome user'
             user_id = s.loads(token)['user_id']
         except:
-            return f'Token {token} not accessed here is the outcome user'
+            return f'Token {user_id} not accessed here is the outcome user'
 
-        return user.query.get(user_id)
+        return user_id
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -85,7 +88,7 @@ def load_user(user_id):
     #     #print("-------------------------No Class User: ",user_class.cls_name)
 
 
-app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
+
 
 def resize_img(img,size_x=30,size_y=30):
 
