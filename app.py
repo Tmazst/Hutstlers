@@ -8,16 +8,17 @@ from flask_login import login_user, LoginManager,current_user,logout_user, login
 from Forms import Register,Login, Contact_Form,Update_account_form,Reset,Reset_Request
 from Tokeniser import Tokenise
 from flask_mail import Mail,Message
-from Advert_Forms import Job_Ads_Form,Company_Register_Form , Company_Login,Company_UpdateAcc_Form,Freelance_Ads_Form
+from Advert_Forms import Job_Ads_Form,Company_Register_Form, Company_Login, Company_UpdateAcc_Form, Freelance_Ads_Form
 import os
 from PIL import Image
 import rsa
-import MySQLdb
+# import MySQLdb
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads,Email_Verifications
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
+from wtforms.validators import ValidationError
 from datetime import datetime
 
 
@@ -31,8 +32,8 @@ app = Flask(__name__)
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -138,7 +139,7 @@ def home():
         comp_len = len(companies_ls)
     except:
         db.create_all()
-        print("Creating Tables")
+        #print("Creating Tables")
 
     # companies_ls = db.session.query(company_user).all()
 
@@ -178,10 +179,16 @@ def sign_up():
                          confirm_password=hashd_pwd,image="default.jpg")
 
             # db.rollback()
-            db.session.add(user1)
-            db.session.commit()
-            flash(f"Account Successfully Created for {register.name.data}", "success")
-            return redirect(url_for('login'))
+            try:
+                db.session.add(user1)
+                db.session.commit()
+                flash(f"Account Successfully Created for {register.name.data}", "success")
+                return redirect(url_for('login'))
+            except IntegrityError:
+                flash(f"Something went wrong, check for errors", "success")
+                Register().validate_email(register.email.data)
+
+
             # #print(register.name.data,register.email.data)
     elif register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
@@ -339,6 +346,14 @@ def contact_us():
     return render_template("contact_page.html",contact_form=contact_form)
 
 
+@app.route("/companies")
+def companies():
+
+    companies_list = company_user.query.all()
+
+
+
+    return render_template("companies.html",companies_list=companies_list)
 
 @app.route("/reset/<token>", methods=['POST', "GET"])
 def reset(token):
@@ -662,9 +677,14 @@ def company_sign_up_form():
                                  twitter_link=company_register.twitter_link.data,youtube=company_register.youtube_link.data)
 
             # db.rollback()
-            db.session.add(user1)
-            db.session.commit()
-            flash(f"Account Successfully Created for {company_register.company_name.data}", "success")
+            try:
+                db.session.add(user1)
+                db.session.commit()
+                flash(f"Account Successfully Created for {company_register.name.data}", "success")
+                return redirect(url_for('login'))
+            except IntegrityError:
+                flash(f"Something went wrong, check for errors", "error")
+                Register().validate_email(company_register.email.data)
 
             return redirect(url_for('login'))
 
@@ -741,7 +761,7 @@ def company_account():
         cmp_usr.youtube = company_update.youtube_link.data
 
 
-        db.commit()
+        db.session.commit()
 
         #print('DEBUG UPDATE: ',cmp_usr.web_link)
 
