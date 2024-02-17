@@ -185,7 +185,7 @@ def sign_up():
                 flash(f"Account Successfully Created for {register.name.data}", "success")
                 return redirect(url_for('login'))
             except IntegrityError:
-                flash(f"Something went wrong, check for errors", "success")
+                flash(f"Something went wrong,please check for errors", "success")
                 Register().validate_email(register.email.data)
 
 
