@@ -563,8 +563,8 @@ def users():
     ea_usr = [usr_obj for usr_obj in al_users]
 
     # all_users = text("SELECT * FROM user;")
-    for ea_user in db.execute(al_users):
-        users.append(list(ea_user))
+    # for ea_user in db.execute(al_users):
+    #     users.append(list(ea_user))
 
     return render_template("users.html",al_users=al_users )
 
