@@ -553,6 +553,17 @@ def fl_job_ads_form():
     return render_template("fl_job_ads_form.html",fl_job_ad_form = fl_job_ad_form)
 
 
+@app.route("/all_users")
+def users():
+    from sqlalchemy import text
+
+    users = []
+
+    all_users = text("SELECT * FROM user;")
+    for ea_user in db.execute(all_users):
+        users.append(list(ea_user))
+
+    return f"{users}"
 
 
 @app.route("/company_retieve")
