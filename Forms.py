@@ -17,11 +17,12 @@ class Register(FlaskForm):
 
 
     def validate_email(self,email):
-        from app import db, user
+        from app import db, user,app
 
+        # with db.init_app(app):
         user_email = user.query.filter_by(email = self.email.data).first()
         if user_email:
-            raise ValidationError(f"This email is already registered on our platform")
+            raise ValidationError(f"This email is already registered in this platform")
 
 
 

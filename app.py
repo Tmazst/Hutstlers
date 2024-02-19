@@ -12,7 +12,8 @@ from Advert_Forms import Job_Ads_Form,Company_Register_Form, Company_Login, Comp
 import os
 from PIL import Image
 import rsa
-# import MySQLdb
+#......for local DB
+import MySQLdb
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
@@ -32,8 +33,10 @@ app = Flask(__name__)
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# Local
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+# Online
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -43,12 +46,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 
-
 pub, priv = rsa.newkeys(512)
 
 #Login Manager
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
 #Encrypt Password
 encry_pw = Bcrypt(app)
 
@@ -89,8 +92,6 @@ def load_user(user_id):
     #     #print("-------------------------No Class User: ",user_class.cls_name)
 
 
-
-
 def resize_img(img,size_x=30,size_y=30):
 
     i = Image.open(img)
@@ -106,7 +107,6 @@ def resize_img(img,size_x=30,size_y=30):
         #print("Check IMG Size: ",i.size)
 
     return img
-
 
 
 def save_pic(picture,size_x=25,size_y=25):
@@ -140,10 +140,7 @@ def home():
     except:
         db.create_all()
         #print("Creating Tables")
-
-    # companies_ls = db.session.query(company_user).all()
-
-
+        # companies_ls = db.session.query(company_user).all()
         #print("DEBUG COMPANIES: ",cpm.name)
 
     return render_template("index.html",img_1='', img_2  ='',img_3 ='', companies_ls=companies_ls, comp_len=comp_len )
@@ -166,10 +163,7 @@ def sign_up():
         #print(f"Account Successfully Created for {register.name.data}")
         if request.method == 'POST':
             # context
-
-
             # If the webpage has made a post e.g. form post
-
             #print('Create All..........................................')
             hashd_pwd = encry_pw.generate_password_hash(register.password.data).decode('utf-8')
             # Base.metadata.create_all()
@@ -184,7 +178,7 @@ def sign_up():
                 db.session.commit()
                 flash(f"Account Successfully Created for {register.name.data}", "success")
                 return redirect(url_for('login'))
-            except IntegrityError:
+            except:
                 flash(f"Something went wrong,please check for errors", "success")
                 Register().validate_email(register.email.data)
 
@@ -275,6 +269,7 @@ def login():
             # flash(f"Hey! {user_login.password} Welcome", "success")
             if user_login and encry_pw.check_password_hash(user_login.password,login.password.data):
                 login_user(user_login)
+                #Query DB if User is verified; #Models' user class
                 if not user_login.verified:
                     return redirect(url_for('verification'))
                 else:
@@ -680,11 +675,11 @@ def company_sign_up_form():
             try:
                 db.session.add(user1)
                 db.session.commit()
-                flash(f"Account Successfully Created for {company_register.name.data}", "success")
+                flash(f"Account Successfully Created for {company_register.company_name.data}", "success")
                 return redirect(url_for('login'))
-            except IntegrityError:
+            except:
                 flash(f"Something went wrong, check for errors", "error")
-                Register().validate_email(company_register.email.data)
+                Register().validate_email(company_register.company_email.data)
 
             return redirect(url_for('login'))
 
@@ -739,7 +734,6 @@ def company_account():
     if request.method == "POST":
 
         # if company_update.validate_on
-
 
         id = current_user.id
         cmp_usr = company_user.query.get(id)
@@ -849,10 +843,12 @@ def view_job():
 
 
 @app.route("/verified/<token>", methods=["POST", "GET"])
+#Email verification link verified with a token
 def verified(token):
 
+    #Check to verify the token received from the user email
+    #process the user_id for the following script
     user_id = user_class.verify_reset_token(token)
-
 
     # if current_user.is_authenticated:
     #     # usr_obj = user_class().verify_reset_token(token)
@@ -876,8 +872,10 @@ def verified(token):
 
 
 @app.route("/verification", methods=["POST","GET"])
+#User email verification @login
+#@login the user will register & when the log in the code checks if the user is verified first...
 def verification():
-
+    #Manage DB tables
     db.create_all()
 
     def send_veri_mail():
@@ -886,14 +884,13 @@ def verification():
             app.config["MAIL_SERVER"] = "smtp.googlemail.com"
             app.config["MAIL_PORT"] = 587
             app.config["MAIL_USE_TLS"] = True
+            #Creditentials saved in environmental variables
             em = app.config["MAIL_USERNAME"] = "pro.dignitron@gmail.com" #os.getenv("MAIL")
             app.config["MAIL_PASSWORD"] = os.getenv("PWD")
 
             mail = Mail(app)
 
             token = user_class().get_reset_token(current_user.id)
-
-
 
             # try:
             #     usr_verified = user.query.get(current_user.id)
