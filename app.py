@@ -557,13 +557,16 @@ def fl_job_ads_form():
 def users():
     from sqlalchemy import text
 
-    users = []
+    user_v = []
+    al_users = user.query.all()
 
-    all_users = text("SELECT * FROM user;")
-    for ea_user in db.execute(all_users):
+    ea_usr = [usr_obj for usr_obj in al_users]
+
+    # all_users = text("SELECT * FROM user;")
+    for ea_user in db.execute(al_users):
         users.append(list(ea_user))
 
-    return f"{users}"
+    return render_template("users.html",al_users=al_users )
 
 
 @app.route("/company_retieve")
