@@ -936,7 +936,7 @@ verify email here,{url_for('verified', token=token, _external=True)}
     if not current_user.verified:
         send_veri_mail()
     else:
-        redirect(url_for("home"))
+        return redirect(url_for("home"))
 
     return render_template('verification.html')
 
