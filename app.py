@@ -873,6 +873,7 @@ def verified(token):
     try:
         usr = user.query.get(user_id)
         usr.verified = True
+        db.session.commit()
         if usr.verified:
             qry_usr = user.query.get(user_id)
             if not current_user.is_authenticated:
