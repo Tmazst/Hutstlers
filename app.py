@@ -874,9 +874,10 @@ def verified(token):
         usr = user.query.get(user_id)
         usr.verified = True
         if usr.verified:
+            qry_usr = user.query.get(user_id)
             if not current_user.is_authenticated:
                 login_user(usr)
-            flash(f"Welcome, {current_user.name} ;verified {usr.verified}; Your Email Verification was Successful!!","success")
+            flash(f"Welcome, {qry_usr.name} ;verified {qry_usr.verified}; Your Email Verification was Successful!!","success")
             return redirect(url_for('home'))
     except Exception as e:
         flash(f"Something went wrong, Please try again: {e} ","error")
