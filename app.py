@@ -876,7 +876,7 @@ def verified(token):
         if usr.verified:
             if not current_user.is_authenticated:
                 login_user(usr)
-            flash(f"Welcome, {current_user.name} verified {current_user.verified} Your Email Verification was Successfully!!","success")
+            flash(f"Welcome, {current_user.name} ;verified {usr.verified}; Your Email Verification was Successful!!","success")
             return redirect(url_for('home'))
     except Exception as e:
         flash(f"Something went wrong, Please try again: {e} ","error")
