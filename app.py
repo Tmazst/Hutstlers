@@ -235,7 +235,7 @@ def account():
             usr.skills = cv.skills.data
             usr.experience = cv.experience.data
 
-            db.commit()
+            db.session.commit()
 
             # redirect(url_for('verification'))
 
