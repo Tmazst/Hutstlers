@@ -190,7 +190,7 @@ a{
 }
 .btns {
     //outline:none;
-    width:200px;
+    width:200px !important;
     background:none;
     //margin: 30px 0;
     //background-color:#006769;
