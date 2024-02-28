@@ -126,7 +126,7 @@
 
 
         <div style="padding-left:50px"  class="form-group">
-                 <h2 class="media-h2"> Skills & Hobbies </h2>
+                 <h2 class="media-h2"> Skills & Interests </h2>
                   <!-- ------------SKILLS--------------->
                   <div  class="acc-labels margin-l-15">{{ cv.skills.label()}}</div>
                 {% if current_user.skills %}
@@ -141,13 +141,14 @@
                    {% endfor %}
                 {% endif %}
 
-                <!-- ------------HOBBIES--------------->
+                <!-- ------------INTERESTS--------------->
+<!--                Hobbies is replaced with interests, but hobbies attribute is not change in the code, only on html-->
                   <div  class="acc-labels margin-l-15">{{ cv.hobbies.label()}}</div>
                 {% if current_user.hobbies %}
 
                   <textarea  name="hobbies" class="acc-form-control media-h2">{{current_user.hobbies}}</textarea>
                 {% else %}
-                    {{ cv.hobbies(class="acc-form-control-up",placeholder="Hobbies")}}
+                    {{ cv.hobbies(class="acc-form-control-up",placeholder="e.g Agriculture, Farming, Beekeeping")}}
                 {% endif %}
                 {% if cv.hobbies.errors %}
                    {% for error in cv.hobbies.errors %}

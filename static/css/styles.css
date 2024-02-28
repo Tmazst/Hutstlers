@@ -839,7 +839,105 @@ h2{
   border-radius:10px;
   //display:inline-block;
   width:70%
+}
 
+.topics{
+    padding:1% 1%;
+    height:100%;
+    width:70%;
+}
+
+.legend-ary{
+    border:2px solid #006769;
+    padding:3% 2%;
+    border-radius:15px;
+    height:100%;
+}
+
+
+
+.info-graph{
+    display:flex;
+    position:relative;
+    width:auto;
+    //background-color:#fab;
+    padding:20px;
+    gap:0px;
+    align-items:center;
+}
+
+.label-graphic{
+    display:flex
+    align-items:center;
+    height:auto;
+    min-height:100px;
+    border-radius:70px 70px 70px 70px;
+    //border:1px solid #baf;
+    background-color:purple;
+    padding:0 40px 0 150px;
+    margin-left:-100px;
+
+}
+
+.steps-circle{
+    background-color:#fabafb;
+    min-width:150px;
+    min-height:150px;
+    border-radius:50%;
+    border:9px solid white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1;
+}
+
+.steps-circle p{
+    font-size:36px;
+    font-weight:700;
+}
+
+.descriptor p{
+    color:white;
+}
+
+.arrow-lines{
+    position:absolute;
+    left:400px;
+    height:100px;
+    width:400px;
+    border-bottom:2px solid red;
+    border-left:2px solid red;
+    border-radius: 0 0 0 30px;
+}
+
+.arrow{
+    display:flex;
+    height:auto;
+    background-color:orange;
+    flex-direction:row;
+    position:absolute;
+}
+
+.arrow-lines-r{
+    position:absolute;
+    left:450px;
+    top:98px;
+    height:100px;
+    width:400px;
+    border-top:2px solid red;
+    border-right:2px solid red;
+    border-radius: 0 30px 0 0px;
+}
+
+.step-2{
+    position:absolute;
+    top:650px;
+    //background-color:#ffa;
+    width:100%;
+}
+
+.inf-step-2{
+    left:30%;
 }
 
 .text-area{
@@ -870,6 +968,11 @@ h2{
 
 .marginise-bottom{
     margin-bottom:20px;
+}
+
+
+.marginise{
+    margin:100px 0 50px 0;
 }
 
 .job_ad_group{

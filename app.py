@@ -11,6 +11,7 @@ from flask_mail import Mail,Message
 from Advert_Forms import Job_Ads_Form,Company_Register_Form, Company_Login, Company_UpdateAcc_Form, Freelance_Ads_Form
 import os
 from PIL import Image
+from sqlalchemy import exc
 import rsa
 #......for local DB
 import MySQLdb
@@ -34,9 +35,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -179,8 +180,9 @@ def sign_up():
                 flash(f"Account Successfully Created for {register.name.data}", "success")
                 return redirect(url_for('login'))
             except:
-                flash(f"Something went wrong,please check for errors", "success")
+                flash(f"Something went wrong,please check for errors", "error")
                 Register().validate_email(register.email.data)
+                # return redirect(url_for('sign_up'))
 
 
             # #print(register.name.data,register.email.data)
@@ -399,6 +401,10 @@ def reset(token):
 
     return render_template("pass_reset.html",reset_form=reset_form)
 
+@app.route("/how_does_it_work")
+def tht_how():
+
+    return render_template("how_does_it_work.html")
 
 @app.route("/reset_request", methods=['POST', "GET"])
 def reset_request():
@@ -685,11 +691,20 @@ def company_sign_up_form():
                                  company_address=company_register.company_address.data, web_link=company_register.website_link.data,fb_link=company_register.facebook_link.data,
                                  twitter_link=company_register.twitter_link.data,youtube=company_register.youtube_link.data)
 
-            # db.rollback()
+            db.session.rollback()
+
             try:
-                db.session.add(user1)
-                db.session.commit()
-                flash(f"Account Successfully Created for {company_register.company_name.data}", "success")
+                try:
+                    db.session.add(user1)
+                    db.session.commit()
+                    flash(f"Account Successfully Created for {company_register.company_name.data}", "success")
+                except exc.IntegrityError:
+                    flash(f"This email is already registered on this platform, Please use a regeister a different email", "error")
+                    return render_template("company_signup_form.html",company_register=company_register)
+                except Exception as e:
+                    db.session.rollback()
+                    flash(f"Something went wrong, Please re-enter your details", "error")
+                    return redirect(url_for('company_sign_up_form'))
                 return redirect(url_for('login'))
             except:
                 flash(f"Something went wrong, check for errors", "error")
@@ -767,7 +782,6 @@ def company_account():
         cmp_usr.company_address = company_update.company_address.data
         cmp_usr.twitter_link = company_update.twitter_link.data
         cmp_usr.youtube = company_update.youtube_link.data
-
 
         db.session.commit()
 
