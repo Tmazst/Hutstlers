@@ -108,10 +108,19 @@
         </div>
 
         <div style="margin-top:150px" >
-            <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Join The Hustlers Time (T.H.T) Network </h1><div class="title-strokes" style="background-color:#23aeb2;height:4px;width:550px;"></div></div>
+            <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Testimonials</h1><div class="title-strokes" style="background-color:#23aeb2;height:4px;width:550px;"></div></div>
             <div class="home-content-why-hot">
                 <div style="" class="home-cont-items job_ad_style anim" >
-                    <i style="font-size:120px !important;color:#006769;" class="material-icons">timer</i>
+<!--                    <i style="font-size:120px !important;color:#006769;" class="material-icons">timer</i>-->
+                    <div class="center-prl-img">
+                        <div style="margin-left:50px"   class="img-cont">
+                                  {% if not image_fl == None %}
+                                        <img class="prf-image" src={{image_fl}}/>
+                                  {% else %}
+                                        <img class="prf-image" src="static/default.jpg">
+                                  {% endif %}
+                        </div>
+                    </div>
                     <p class="invite-cards" style="width:90%">Look! Self-directed learning and proactive skill development are highly valuable in demonstrating your commitment, growth mindset, and adaptability to potential employers.
                         By staying ahead and continuously updating your skills, you enhance your chances of standing out in the competitive job market. Good luck!
                     </p>

@@ -35,9 +35,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -363,17 +363,18 @@ def reset(token):
         if reset_form.validate_on_submit():
             if current_user.is_authenticated:
                 #Current User Changing Password
+                #....script compares
                 if encry_pw.check_password_hash(current_user.password, reset_form.old_password.data):
-                    token = Tokenise().get_reset_token(current_user.id)
+                    # token = Tokenise().get_reset_token(current_user.id)
                     #print("Reset Token: ", token)
-                    v_user_id = Tokenise().verify_reset_token(token)
+                    # v_user_id = Tokenise().verify_reset_token(token)
                     #print("User_id: ", v_user_id)
 
                     pass_reset_hash_lc = encry_pw.generate_password_hash(reset_form.new_password.data)
 
-                    usr = user.query.get(v_user_id)
+                    usr = user.query.get(current_user.id)
                     usr.password = pass_reset_hash_lc
-                    db.commit()
+                    db.session.commit()
 
                     # logout_user()
 
@@ -389,6 +390,7 @@ def reset(token):
                     pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
                     usr_obj = user.query.get(usr_obj)
                     usr_obj.password = pass_reset_hash
+                    db.session.commit()
 
                     flash(f"Password Changed Successfully!", "success")
 
