@@ -239,6 +239,8 @@ def account():
 
             db.session.commit()
 
+            flash("Account Updated Successfull!!", "success")
+
             # redirect(url_for('verification'))
 
         elif cv.errors:
