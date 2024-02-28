@@ -148,7 +148,7 @@
 
                   <textarea  name="hobbies" class="acc-form-control media-h2">{{current_user.hobbies}}</textarea>
                 {% else %}
-                    {{ cv.hobbies(class="acc-form-control-up",placeholder="e.g Agriculture, Farming, Beekeeping")}}
+                    {{ cv.hobbies(class="acc-form-control",placeholder="e.g Agriculture, Farming, Beekeeping")}}
                 {% endif %}
                 {% if cv.hobbies.errors %}
                    {% for error in cv.hobbies.errors %}
@@ -183,7 +183,7 @@
                         {% if current_user.reference_1 %}
                             <textarea  name="reference_1" class="acc-form-control-up media-h2">reference1: {{current_user.reference_1}}</textarea>
                         {% else %}
-                            {{ cv.reference_1(class="acc-form-control",placeholder="reference_1")}}
+                            {{ cv.reference_1(class="acc-form-control",placeholder="Name & Contact(s)")}}
                         {% endif %}
                         {% if cv.reference_1.errors %}
                            {% for error in cv.reference_1.errors %}
@@ -197,7 +197,7 @@
                         {% if current_user.reference_2 %}
                            <textarea  name="reference_2" class="acc-form-control-up media-h2"> {{current_user.reference_2}}</textarea>
                         {% else %}
-                            {{ cv.reference_2(class="acc-form-control-up",placeholder="reference_2")}}
+                            {{ cv.reference_2(class="acc-form-control",placeholder="Name & Contact(s)")}}
                         {% endif %}
                         {% if cv.reference_2.errors %}
                            {% for error in cv.reference_2.errors %}
