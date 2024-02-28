@@ -22,6 +22,7 @@
         window.addEventListener("scroll", anim);
 </script>
 <!----BANNER------->
+{% if not current_user.is_authenticated %}
     <div class="banner-container">
         <div class="banner-animator">
             <img src="static/images/b-image.JPG" />
@@ -37,7 +38,7 @@
 
         </div>
     </div>
-
+{% endif %}
 
 <div class="tags">
           <div class="flash-messages" class="btns">
@@ -110,33 +111,51 @@
         <div style="margin-top:150px" >
             <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Testimonials</h1><div class="title-strokes" style="background-color:#23aeb2;height:4px;width:550px;"></div></div>
             <div class="home-content-why-hot">
-                <div style="" class="home-cont-items job_ad_style anim" >
+                <div style="" class="home-cont-items testm_style anim" >
 <!--                    <i style="font-size:120px !important;color:#006769;" class="material-icons">timer</i>-->
-                    <div class="center-prl-img">
-                        <div style="margin-left:50px"   class="img-cont">
-                                  {% if not image_fl == None %}
-                                        <img class="prf-image" src={{image_fl}}/>
-                                  {% else %}
-                                        <img class="prf-image" src="static/default.jpg">
-                                  {% endif %}
+                    <div class="center-testm-img">
+                        <div style="" class="img-testm-cont">
+                              <img class="prf-image" src="static/images/default.jpg">
                         </div>
                     </div>
-                    <p class="invite-cards" style="width:90%">Look! Self-directed learning and proactive skill development are highly valuable in demonstrating your commitment, growth mindset, and adaptability to potential employers.
-                        By staying ahead and continuously updating your skills, you enhance your chances of standing out in the competitive job market. Good luck!
+                    <label><span style="font-weight:600 !important;font-size:22px;color:#006769">Thuli Madonsela</span> <br>
+                        <span style="font-weight:500 !important;font-size:17px;color:#909090">Accountant,</span><br>
+                        <span style="font-weight:500 !important;font-size:17px;color:#909090">Swaziland Revenue Authory</span></label>
+                    <div class="line-separator"></div>
+                    <p class="" style="width:90%;"><span>"</span>Look! Self-directed learning and proactive skill development are highly valuable in demonstrating your commitment, growth mindset, and adaptability to potential employers.
+                        By staying ahead and continuously updating your skills, you enhance your chances of standing out in the competitive job market. Good luck!<span>"</span>
                     </p>
                 </div>
 
-                <div  style="" class="home-cont-items job_ad_style anim">
-                    <i style="font-size:120px;color:#006769;" class="material-symbols-rounded">psychiatry</i>
-                   <p class="invite-cards" style="width:90%">Absolutely! Having a Plan B is always a smart move. By collectively accumulating industry skills and experience with short-term,
-                       temporary, hourly, or temporary-to-hire jobs through The Hustlers Time Network,
-                       you can continue to build your professional profile while remaining flexible in your career search</p>
+                <div style="" class="home-cont-items testm_style anim" >
+<!--                    <i style="font-size:120px !important;color:#006769;" class="material-icons">timer</i>-->
+                    <div class="center-testm-img">
+                        <div style="" class="img-testm-cont">
+                              <img class="prf-image" src="static/images/default.jpg">
+                        </div>
+                    </div>
+                    <label><span style="font-weight:600 !important;font-size:22px;color:#006769">Thembi Mahlalela</span> <br>
+                        <span style="font-weight:500 !important;font-size:17px;color:#909090">Attendant,</span><br>
+                        <span style="font-weight:500 !important;font-size:17px;color:#909090">Ezulwini Total Energies</span></label>
+                    <div class="line-separator"></div>
+                    <p class="" style="width:90%;"><span>"</span>Look! Self-directed learning and proactive skill development are highly valuable in demonstrating your commitment, growth mindset, and adaptability to potential employers.
+                        By staying ahead and continuously updating your skills, you enhance your chances of standing out in the competitive job market. Good luck!<span>"</span>
+                    </p>
                 </div>
 
-                <div style="" class="home-cont-items job_ad_style anim">
-                    <i style="font-size:120px;color:#006769;" class="material-symbols-rounded">skateboarding</i>
-                   <p class="invite-cards" style="width:90%">Embrace temporary jobs as part of your career strategy, you can continue to accumulate skills, gain experience, and maintain your professional momentum.
-                       This approach allows you to be proactive, adaptable, and prepared for the next permanent job opportunity that comes your way. and business ideas you can spot out there, and become a Game-Changer that Leaves an Unforgettable Impression.</p>
+                <div style="" class="home-cont-items testm_style anim" >
+<!--                    <i style="font-size:120px !important;color:#006769;" class="material-icons">timer</i>-->
+                    <div class="center-testm-img">
+                        <div style="" class="img-testm-cont">
+                              <img class="prf-image" src="static/images/default.jpg">
+                        </div>
+                    </div>
+                    <label><span style="font-weight:600 !important;font-size:22px;color:#006769">Sifiso Nkambule</span> <br><span style="font-weight:500 !important;font-size:17px;color:#909090">Communications Officer,</span><br>
+                        <span style="font-weight:500 !important;font-size:17px;color:#909090">Swaziland Revenue Authory</span></label>
+                    <div class="line-separator"></div>
+                    <p class="" style="width:90%;"><span>"</span>Look! Self-directed learning and proactive skill development are highly valuable in demonstrating your commitment, growth mindset, and adaptability to potential employers.
+                        By staying ahead and continuously updating your skills, you enhance your chances of standing out in the competitive job market. Good luck!<span>"</span>
+                    </p>
                 </div>
 
             </div>

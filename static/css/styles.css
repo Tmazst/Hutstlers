@@ -441,6 +441,7 @@ font-weight:400;
     align-items:center;
 }
 
+
 .new_job_ad_style{
     width:100%;
     min-width:250px;
@@ -525,6 +526,8 @@ font-weight:400;
     content-justify:center;
     margin:15% 15% auto auto;
 }
+
+
 
 .img-cont-about-team{
     display:flex;
@@ -1168,11 +1171,56 @@ h2{
     align-items:center;
 
 }
+
+.font-sizer{
+    font-size:10px !important;
+}
+
 .center-prl-img{
     width:100%;
     margin:0 auto;
-    background-color:red;
 }
+.testm_style{
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    width:80px;
+    margin: 10px auto;
+    border-radius:10px;
+    padding:1px 5px;
+    text-align:center;
+    align-items:center;
+    box-shadow:-2px 1px 3px 0px rgba(0,0,0,0.4);
+}
+
+.line-separator{
+    margin-top:15px;
+    background-color:coral;
+    border-radius:1px;
+    height:3px;
+    width:70%;
+}
+
+.img-testm-cont{
+    //display:flex;
+    width:200px;
+    height:200px;
+    border-radius:50%;
+    overflow:hidden;
+    content-justify:center;
+    //margin:15% 15% auto auto;
+    background-color:blue;
+}
+
+.center-testm-img{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    padding:20px 0;
+    //background-color:red;
+}
+
 
 .home-content-why-hot{
 
@@ -1190,7 +1238,9 @@ h2{
     }
 
 .home-cont-items p{
-        font-size:1.2vw !important;
+        font-size:1vw !important;
+        font-weight:400;
+        color:#707070;
     }
 
 .width-fill-scrn{
@@ -1239,12 +1289,6 @@ h2{
 .card-footer {
   font-size: 0.65em;
   color: #446;
-}
-
-
-.invite-cards{
-    font-size:90% !important;
-
 }
 
 
@@ -1380,8 +1424,7 @@ display:none
     }
 
 .invite-cards{
-    font-size:90% !important;
-
+    font-size:20%;
 }
 
 .flex-justify-align p{
