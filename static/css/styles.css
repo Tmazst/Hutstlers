@@ -190,6 +190,7 @@ a{
 }
 .btns {
     //outline:none;
+    width:200px;
     background:none;
     //margin: 30px 0;
     //background-color:#006769;
@@ -203,6 +204,7 @@ a{
 
 .btns-margin{
     margin: 30px 4%;
+
 }
 
 .btns:hover{
