@@ -49,12 +49,7 @@ body{
 }
 /* H1T CSS */
 
-.titles{
-    background-color:#006769;
-    background:linear-gradient(to top, rgba(255,255,255,0.6)50%,rgba(255,255,255,0.6)50%)
-    position:fixed;
-    width:100%;
-}
+
 
 .banner-container{
     position:relative;
@@ -959,6 +954,32 @@ h2{
     border-bottom:2px solid red;
     border-right:2px solid red;
     //border-radius: 0 30px 0 0px;
+}
+
+.titles{
+    float:left;
+    display:flex;
+    align-items:center;
+    width:80%;
+}
+
+.title-bar-cont{
+    display:flex;
+    background-color:#006769 !important;
+    //background:linear-gradient(to top, rgba(255,255,255,0.6)50%,rgba(255,255,255,0.6)50%);
+    //position:fixed;
+    height:70px;
+    width:100%;
+}
+
+.social-icons{
+    display:flex;
+    justify-content:flex-start;
+    align-content:flex-end;
+    //align-items:flex-end;
+    width:20%;
+    height:inherit;
+    //background-color:red;
 }
 
 .arrow-lines-2{
