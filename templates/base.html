@@ -17,16 +17,16 @@
     <title>The Hustlers Time</title>
 
 
-<div class="main">
+    <div class="main">
 
         <div class="title-bar-cont">
             <div class="titles">
                 <div id="title">The Hustlers Time <br><span style="font-size:13px">Youth Empowered To Become Game-Changers</span></div>
             </div>
             <div class="social-icons">
-               <img src="static/icons/fb-icon.png" />
-               <img src="static/icons/whatsapp-icon.png" />
-               <img src="static/icons/x-icon.png" />
+               <img class="social-icon" src="static/icons/fb-icon.png" />
+               <img class="social-icon" src="static/icons/whatsapp-icon.png" />
+               <img class="social-icon" src="static/icons/x-icon.png" />
             </div>
         </div>
 
@@ -60,14 +60,14 @@
                 {% if current_user.is_authenticated %}
 
                         {% if current_user.role == 'company_user' %}
-                            <li><a class="nav-link btns" href="company_account">Account</a></li>
+                            <li><a class="nav-link btns user-btns" href="company_account">Account</a></li>
                         {%else%}
-                            <li><a  class="nav-link btns" href="account">My Account</a></li>
+                            <li><a  class="nav-link btns user-btns" href="account">My Account</a></li>
                         {%endif%}
-                            <li><a class="nav-link btns" href="logout">Logout</a></li>
+                            <li><a class="nav-link btns user-btns" href="logout">Logout</a></li>
                 {% else %}
-                            <li><a class="nav-link btns" href="login">Login</a></li>
-                            <li><a class="nav-link btns" href="sign_up">Register</a></li>
+                            <li><a class="nav-link btns user-btns" href="login">Login</a></li>
+                            <li><a class="nav-link btns user-btns" href="sign_up">Register</a></li>
 
                 {% endif %}
                 </ul>
@@ -84,37 +84,37 @@
 
     {% if current_user.is_authenticated and current_user.role== 'company_user' %}
 <!--        SIDE NAV --->
-    <button onclick="unhideHide()" id="myButton">Open Drawer</button>
+<!--    <button onclick="unhideHide()" id="myButton">Open Drawer</button>-->
     <div id="myDrawer" class="sidebar-main">
-          <h3>Company Dashboard<br> <span class="spans"></span></h3>
-            <div class="x_cont" ><button onclick="unhideHide()" id="closeButton">X</button></div>
-                <div id="side-nav-div">
-
-                    <div id="side-nav-cont">
-                         <ul class="navbar-side-nav">
-                              <li class="side-nav-item">
-                                <a class="side-nav-link" href="/company_account">Account Details</a>
-                              </li>
-                              <li class="side-nav-item">
-                                <a class="side-nav-link" href="/job_ads_form">Publish A Job</a>
-                              </li>
-                             <li class="side-nav-item">
-                                <a class="side-nav-link" href="/fl_job_ads_form">Publish Freelance Job</a>
-                              </li>
-                              <li class="side-nav-item">
-                                <a class="side-nav-link" href="/job_ads?id={{current_user.id}}">Published Jobs</a>
-                              </li>
-                              <li class="side-nav-item">
-                                <a class="side-nav-link" href="#">Job Seekers</a>
-                              </li>
-                              <li class="side-nav-item">
-                                <a class="side-nav-link" href="/job_applications">Check Applications</a>
-                              </li>
-                         </ul>
-                    </div>
-                </div>
-    </div>{%endif%}
-</div>
+        <h3>Company Dashboard<br> <span class="spans"></span></h3>
+        <div class="x_cont" ><button onclick="unhideHide()" id="closeButton">X</button></div>
+        <div id="side-nav-div">
+            <div id="side-nav-cont">
+                 <ul class="navbar-side-nav">
+                      <li class="side-nav-item">
+                        <a class="side-nav-link" href="/company_account">Account Details</a>
+                      </li>
+                      <li class="side-nav-item">
+                        <a class="side-nav-link" href="/job_ads_form">Publish A Job</a>
+                      </li>
+                     <li class="side-nav-item">
+                        <a class="side-nav-link" href="/fl_job_ads_form">Publish Freelance Job</a>
+                      </li>
+                      <li class="side-nav-item">
+                        <a class="side-nav-link" href="/job_ads?id={{current_user.id}}">Published Jobs</a>
+                      </li>
+                      <li class="side-nav-item">
+                        <a class="side-nav-link" href="#">Job Seekers</a>
+                      </li>
+                      <li class="side-nav-item">
+                        <a class="side-nav-link" href="/job_applications">Check Applications</a>
+                      </li>
+                 </ul>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+    </div>
 
 </head>
 <body>

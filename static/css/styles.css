@@ -45,7 +45,7 @@ body{
 
 }
 .main{
-    //margin: 0px;
+    //width:100%;
 }
 /* H1T CSS */
 
@@ -124,6 +124,11 @@ a{
     color:#404040;
 }
 
+.user{
+    width:30%;
+    //background-color:orange;
+}
+
 #nav-div{
     display:flex;
     direction:column;
@@ -142,10 +147,7 @@ a{
         margin-bottom:10px;
         //background-color:#04aa3a;
 }
-.user{
-    width:20%;
-    //background-color:#046a3a;
-}
+
 .navbar-nav{
     width:100%;
     display:flex;
@@ -210,7 +212,6 @@ a{
 }
 
 #join_btn{
-
     height:50px;
     width:200px;
     font-size:20px;
@@ -1426,8 +1427,37 @@ display:none
 
 
 
+
 @media all and (max-width: 600px) {
 
+.optimise-mobile img{
+    width:100%;
+}
+
+
+#join_btn{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color:#006769 ;
+    color:white;
+    height:50px;
+    width:auto !important;
+    font-size:16px;
+    margin-top:0;
+}
+
+.social-icons{
+    position:absolute;
+    left:65%;
+    //background-color:orange;
+    width:20%;
+}
+
+.social-icon{
+    width:45px;
+    height:45px;
+}
 
 .nav-item a{
     font-size:0.9em;
@@ -1435,9 +1465,22 @@ display:none
 
 
 .btns{
-    margin:0;
-    width:150px !important;
+    display:flex;
+    justify-content:center;
+    margin-left:0 !important;
+    width:100px !important;
+    //padding:0 !important;
 }
+
+.btn-how{
+    width:auto !important;
+}
+
+.user-btns{
+    background-color:#006769;
+    color:white;
+}
+
 .tags{
    margin-top:40% !important;
 }
@@ -1453,17 +1496,23 @@ display:none
 }
 
 .user{
-    background-color:rgba(255, 255, 255, 0.8) !important;
+    display:flex;
+    justify-content:center;
+    //background-color: red;
     width:100%;
-    margin-top:-15px;
-
-    backdrop-filter: blur(15px) !important;
+    padding:5px;
+    margin:0 !important;
+    //margin-top:-15px;
+    //rgba(255, 255, 255, 0.8) !important;
+    //backdrop-filter: blur(15px) !important;
 }
 
 .navbar-nav-user{
     display:flex;
-    justify-content:flex-end;
-    width:90% !important;
+    //justify-content:flex-end;
+    width:50% !important;
+    //background-color: orange;
+    margin:0;
 }
 
 #check-menu{
@@ -1494,7 +1543,6 @@ display:none
 }
 
 
-
 #nav-div{
     display:flex;
     flex-direction:column;
@@ -1514,6 +1562,11 @@ display:none
 
 .invite-cards{
     font-size:20%;
+}
+
+
+#title span{
+    font-size:10px !important;
 }
 
 .flex-justify-align p{
