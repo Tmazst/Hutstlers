@@ -878,8 +878,11 @@ h2{
 }
 
 .steps-cont{
-    height:400px;
+    //flex-wrap:wrap;
+    align-items:center;
+    height:auto !important;
     //background-color:red;
+    justify-content:center
 }
 
 .label-graphic{
@@ -893,6 +896,24 @@ h2{
     background-color:purple;
     padding:0 40px 0 150px;
     margin-left:-100px;
+}
+
+#step-1{
+    flex-grow:1;
+    width:80% !important;
+}
+
+.elastic-div{
+    display:flex;
+    align-items:center;
+    width:400px;
+    flex-shrink:2;
+    height:400px;
+    //background-color:red;
+}
+
+.sign-icon-how{
+    width:inherit;
 }
 
 .label-graphic p{
@@ -928,7 +949,7 @@ h2{
 
 .inherent{
     height:inherit;
-    //width:inherit;
+    width:inherit;
 }
 
 .container-img{
@@ -1425,10 +1446,63 @@ display:none
     color:#006769;
 }
 
+.steps-cont label{
+    //display:none;
+    visibility:hidden;
+}
 
-
+.reverse{
+    flex-direction:row-reverse !important;
+}
 
 @media all and (max-width: 600px) {
+
+.steps-cont label{
+    //display:none;
+    visibility:visible;
+}
+
+.title-how{
+    color:#006769 ;
+    font-size:23px;
+    font-weight:600;
+}
+
+.label-graphic{
+    align-items:center;
+    width:100%;
+    height:auto;
+    min-height:100px;
+    border-radius:0px;
+    //border:1px solid #baf;
+    background:none;
+    padding:10px;
+    margin-left:0;
+}
+
+.info-graph{
+    height:auto;
+    width:80%;
+    border-top:2px solid coral;
+    //background-color:#909090;
+    justify-content:center;
+}
+
+.info-graph p{
+    color:#006769 ;
+}
+
+.steps-cont{
+    flex-wrap:wrap;
+    border:1px solid #909090;
+    border-radius:10px;
+    padding:15px 10px;
+}
+
+
+.steps-circle{
+    display:none;
+}
 
 .optimise-mobile img{
     width:100%;

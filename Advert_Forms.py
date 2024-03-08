@@ -52,7 +52,7 @@ class Freelance_Ads_Form(FlaskForm):
 
 class Company_Register_Form(FlaskForm):
 
-    company_name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=64)])
+    company_name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=120)])
     company_email = StringField('Email', validators=[DataRequired(), Email()])
     company_password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=64)])
     company_confirm = PasswordField('Confirm', validators=[DataRequired(), EqualTo('company_password'), Length(min=8, max=64)])
