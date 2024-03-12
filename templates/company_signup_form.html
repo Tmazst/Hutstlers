@@ -10,142 +10,141 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}</div>
-  <h3>Create Account with us<br> <span class="spans"></span></h3>
-  <p class="paras-subtopics">Join the Large Community of Eswatini Companies to enhance our Community Service;</p>
+  <h1 >Welcome, <br><span class="spans">Create Account</span></h1>
+  <p class="paras-subtopics">It’s inspiring to see local companies not only providing
+      job opportunities, but also creating a pathway for training & skill development before settling for a permanent job.</p><br>
     <!----FORM----->
-  <div class="form_container">
-    <div class="row justify-content-center">
-    <div class="col-md-5">
-     <div class="card">
+  <div id="login-page" class="general-flex">
+          <div style="max-width:1000px;background-color:3ab;" class="form_container_comp anim">
+                <div class="card_comp">
+                    <div style="width:100%;" class="card-body py-md-4">
+                        <h2 style="padding-left:8%;padding-top:8%" class="card-title text-center">Company Sign-up</h2>
+                        <form _lpchecked="1" action="" method="post">
 
-        <div style="width:100%;" class="card-body py-md-4">
-            <h2 style="padding-left:8%;padding-top:8%" class="card-title text-center">Company Sign-up</h2>
-            <form _lpchecked="1" action="" method="post">
+                            <div class="group">
+                                {{company_register.hidden_tag()}}
+                                {{   company_register.company_name(class="form-control",placeholder="Name")}}
+                                {% if company_register.company_name.errors %}
+                                    {% for error in company_register.company_name.errors %}
+                                        <span class="span-error" >*[Company Name] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
 
-                <div class="group">
-                    {{company_register.hidden_tag()}}
-                    {{   company_register.company_name(class="form-control",placeholder="Name")}}
-                    {% if company_register.company_name.errors %}
-                        {% for error in company_register.company_name.errors %}
-                            <span class="span-error" >*[Company Name] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
+                               <!--<input type="text" class="form-control" id="name" name="nm" placeholder="Name">-->
+                              </div>
+                              <div class="group">
+                                  {{ company_register.company_email(class="form-control",placeholder="Email")}}
+                                  {% if company_register.company_email.errors %}
+                                    {% for error in company_register.company_email.errors %}
+                                        <span class="span-error" >*Company Email{{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
 
-                   <!--<input type="text" class="form-control" id="name" name="nm" placeholder="Name">-->
-                  </div>
-                  <div class="group">
-                      {{ company_register.company_email(class="form-control",placeholder="Email")}}
-                      {% if company_register.company_email.errors %}
-                        {% for error in company_register.company_email.errors %}
-                            <span class="span-error" >*Company Email{{error}}</span>
-                        {% endfor %}
-                     {% endif %}
+                                <!--<input type="email" class="form-control" id="email" name="email" placeholder="Email">-->
+                              </div>
+                             <div class="group">
+                                 {{ company_register.company_password(class="form-control",placeholder="Password")}}
+                                 {% if company_register.company_password.errors %}
+                                    {% for error in company_register.company_password.errors %}
+                                        <span class="span-error" >*[Password] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
 
-                    <!--<input type="email" class="form-control" id="email" name="email" placeholder="Email">-->
-                  </div>
-                 <div class="group">
-                     {{ company_register.company_password(class="form-control",placeholder="Password")}}
-                     {% if company_register.company_password.errors %}
-                        {% for error in company_register.company_password.errors %}
-                            <span class="span-error" >*[Password] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
-
-                   <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
-                 </div>
+                               <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
+                             </div>
 
 
 
-                 <div class="group">
-                    <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
-                     {{ company_register.company_confirm(class="form-control",placeholder="Confirm Password")}}
-                     {% if company_register.company_confirm.errors %}
-                        {% for error in company_register.company_confirm.errors %}
-                            <span class="span-error" >*[Confirm Password] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
+                             <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 {{ company_register.company_confirm(class="form-control",placeholder="Confirm Password")}}
+                                 {% if company_register.company_confirm.errors %}
+                                    {% for error in company_register.company_confirm.errors %}
+                                        <span class="span-error" >*[Confirm Password] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
 
 
-                 </div>
+                             </div>
 
-                <div class="group">
-                    <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
-                     {{ company_register.company_contacts(class="form-control",placeholder="Contacts")}}
-                     {% if company_register.company_contacts.errors %}
-                        {% for error in company_register.company_contacts.errors %}
-                            <span class="span-error" >*[Contacts] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
-                 </div>
+                            <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 {{ company_register.company_contacts(class="form-control",placeholder="Contacts")}}
+                                 {% if company_register.company_contacts.errors %}
+                                    {% for error in company_register.company_contacts.errors %}
+                                        <span class="span-error" >*[Contacts] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
+                             </div>
 
-                 <div class="group">
-                    <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
-                     {{ company_register.company_address(class="form-control",placeholder="Physical Address")}}
-                     {% if company_register.company_address.errors %}
-                        {% for error in company_register.company_address.errors %}
-                            <span class="span-error" >*[Physical Address] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
-
-
-                 </div>
-
-                 <div class="group">
-                    <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
-                     {{ company_register.website_link(class="form-control",placeholder="Website Link")}}
-                     {% if company_register.website_link.errors %}
-                        {% for error in company_register.facebook_link.errors %}
-                            <span class="span-error" >*[Website Link] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
+                             <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 {{ company_register.company_address(class="form-control",placeholder="Physical Address")}}
+                                 {% if company_register.company_address.errors %}
+                                    {% for error in company_register.company_address.errors %}
+                                        <span class="span-error" >*[Physical Address] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
 
 
-                 </div>
-                 <div class="group">
-                    <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
-                     {{ company_register.facebook_link(class="form-control",placeholder="Facebook Link")}}
-                     {% if company_register.facebook_link.errors %}
-                        {% for error in company_register.facebook_link.errors %}
-                            <span class="span-error" >*[Facebook Link] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
-                 </div>
+                             </div>
+
+                             <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 {{ company_register.website_link(class="form-control",placeholder="Website Link")}}
+                                 {% if company_register.website_link.errors %}
+                                    {% for error in company_register.facebook_link.errors %}
+                                        <span class="span-error" >*[Website Link] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
 
 
-                 <div class="group">
-                    <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
-                     {{ company_register.twitter_link(class="form-control",placeholder="Twitter Link")}}
-                     {% if company_register.twitter_link.errors %}
-                        {% for error in company_register.twitter_link.errors %}
-                            <span class="span-error" >*[Twitter Link] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
-                 </div>
-
-                 <div class="group">
-                    <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
-                     {{ company_register.youtube_link(class="form-control",placeholder="Youtube Link")}}
-                     {% if company_register.youtube_link.errors %}
-                        {% for error in company_register.youtube_link.errors %}
-                            <span class="span-error" >*[Youtube Link] {{error}}</span>
-                        {% endfor %}
-                     {% endif %}
-                 </div>
+                             </div>
+                             <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 {{ company_register.facebook_link(class="form-control",placeholder="Facebook Link")}}
+                                 {% if company_register.facebook_link.errors %}
+                                    {% for error in company_register.facebook_link.errors %}
+                                        <span class="span-error" >*[Facebook Link] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
+                             </div>
 
 
+                             <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 {{ company_register.twitter_link(class="form-control",placeholder="Twitter Link")}}
+                                 {% if company_register.twitter_link.errors %}
+                                    {% for error in company_register.twitter_link.errors %}
+                                        <span class="span-error" >*[Twitter Link] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
+                             </div>
 
-                <div style="margin:0 auto;" class="group">
-                     <div style="padding-left:;width:100%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
-                         {{ company_register.submit(class="btns") }}
-                         <!--<input class="btns" type="submit" value="Create Account" />-->
-                         <a class="form-a links" href="login">Login instead?</a>
+                             <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 {{ company_register.youtube_link(class="form-control",placeholder="Youtube Link")}}
+                                 {% if company_register.youtube_link.errors %}
+                                    {% for error in company_register.youtube_link.errors %}
+                                        <span class="span-error" >*[Youtube Link] {{error}}</span>
+                                    {% endfor %}
+                                 {% endif %}
+                             </div>
+
+
+
+                            <div style="margin:0 auto;" class="group">
+                                 <div style="padding-left:;width:100%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
+                                     {{ company_register.submit(class="btns") }}
+                                     <!--<input class="btns" type="submit" value="Create Account" />-->
+                                     <a class="form-a links" href="login">Login instead?</a>
+                                </div>
+                            </div>
+
+                         </form>
                     </div>
                 </div>
-
-             </form>
-       </div>
-    </div>
-  </div>
-  </div>
-  </div></div>
+            </div>
+          </div>
+</div>
 {% endblock %}

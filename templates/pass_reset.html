@@ -12,12 +12,13 @@
             {% endif %}
         {% endwith %}
     </div>
-  <h3>Password Reset<br> <span class="spans"></span></h3>
+  <h1 ><br><span class="spans">Reset Password</span></h1>
   <p class="paras-subtopics">Please use a more secured password!</p>
     <!----FORM----->
-  <div class="form_container">
-      <div class="row justify-content-center">
-            <div class="card">
+  <div id="login-page" class="general-flex">
+          <div style="max-width:600px;background-color:3ab;" class="form_container anim">
+                <div class="card">
+                    <div style="width:100%;" class="card-body py-md-4">
                     <h2 class="card-title text-center">Reset Details</h2>
                     <form _lpchecked="1" action="" method="post">
                          {% if current_user.is_authenticated %}
@@ -82,6 +83,7 @@
 <!--                             <a class="form-a links" href="sign_up">Back</a>-->
                         </div>
                     </form>
+                </div>
             </div>
       </div>
   </div>
