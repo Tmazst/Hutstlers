@@ -121,13 +121,10 @@ body{
 
 a{
     text-decoration:none;
-    color:#404040;
+    color:#006769;
 }
 
-.user{
-    width:30%;
-    //background-color:orange;
-}
+
 
 #nav-div{
     display:flex;
@@ -142,10 +139,33 @@ a{
 
 }
 
+.user{
+    width:35%;
+    //background-color:orange;
+    justify-content:center;
+}
+
 #nav-div-cont{
-        width:80%;
+        width:30%;
         margin-bottom:10px;
         //background-color:#04aa3a;
+}
+
+.jobs-category{
+    border:1px solid #006769;
+    border-radius:10px;
+    padding:5px;
+    color:#006769;
+}
+.jobs-category:active{
+    border:1px solid coral;
+    color:coral;
+}
+
+
+.other-nav{
+    display:flex;
+    width:35%;
 }
 
 .navbar-nav{
@@ -156,6 +176,44 @@ a{
     gap:10px;
     //background-color:blue;
 }
+
+.other-navbar-nav{
+    width:100%;
+    display:flex;
+    direction:column;
+    justify-content:flex-start;
+    gap:10px;
+    //background-color:blue;
+    list-style-type:none !important;
+}
+
+.other-nav-item{
+    color:white;
+    border:1px solid #eee;
+    padding:5px 10px;
+    border-radius:15px;
+}
+
+.other-nav-item a{
+    color:#eee;
+}
+
+.nav-item-main a{
+    color:#006769 !important;
+    font-size:20px;
+    font-weight:600;
+}
+
+.nav-item-main a:active{
+    border-bottom:2px solid coral !important;
+    font-size:20px;
+    font-weight:600;
+}
+
+.nav-item-main a:visited{
+    border-bottom:2px solid coral !important;
+}
+
 .navbar-nav-user{
     width:100%;
     display:flex;

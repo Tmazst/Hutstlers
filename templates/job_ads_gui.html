@@ -15,6 +15,26 @@
 <!--    {% if current_user.is_authenticated %}-->
 <!--    {% endif %}-->
     <br><br>
+    <label for="Job Category"> <span>Category:</span></label>
+    <select class="jobs-category" style="margin-bottom:10px" name="field_category_sel">
+
+         <option value="Media & Technology">Media & Technology</option>
+         <option value="Information Technology">Information Technology</option>
+         <option value="Occupational Health & Safety">Health & Safety</option>
+         <option value="Miscellenious">Miscellenious</option>
+         <option value="Education">Education</option>
+         <option value="Science & History">Science & History</option>
+         <option value="Engineering">Engineering</option>
+         <option value="Music & Entertainment">Music & Entertainment</option>
+         <option value="Transport & Logistics">Transport & Logistics</option>
+         <option value="Pharmacy">Pharmacy</option>
+         <option value="Tourism & Hospitality">Tourism & Hospitality</option>
+         <option value="Literature">Literature</option>
+         <option value="Life Skills">Life Skills</option>
+         <option value="Geography & Culture">Geography & Culture</option>
+         <option value="Health">Typist</option>
+     </select>
+
   <div style="background-color:ae23a3;" class="general-flex-x">
             {% for item in job_ads %}
             <!----FORM----->
