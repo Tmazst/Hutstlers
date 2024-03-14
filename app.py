@@ -179,7 +179,7 @@ def sign_up():
                 db.session.commit()
                 flash(f"Account Successfully Created for {register.name.data}", "success")
                 return redirect(url_for('login'))
-            except:
+            except Exception as e:
                 flash(f"Something went wrong,please check for errors", "error")
                 Register().validate_email(register.email.data)
                 # return redirect(url_for('sign_up'))
@@ -514,10 +514,8 @@ def job_ads_form():
             if job_ad_form.benefits_bl.data:
                 job_post1.benefits = job_ad_form.benefits.data
 
-
-
-            db.add(job_post1)
-            db.commit()
+            db.session.add(job_post1)
+            db.session.commit()
 
     return render_template("job_ads_form.html",job_ad_form = job_ad_form)
 
@@ -555,8 +553,8 @@ def fl_job_ads_form():
             if fl_job_ad_form.benefits_bl.data:
                 job_post1.benefits = fl_job_ad_form.benefits.data
 
-            db.add(job_post1)
-            db.commit()
+            db.session.add(job_post1)
+            db.session.commit()
 
             flash('Your Freelance Job Post was succesfull', 'success')
 
@@ -835,8 +833,8 @@ def send_application():
                 company_obj = company_user.query.get(apply.employer_id)
                 #print('----------------------job_obj: ',job_obj)
                 if not job_obj:
-                    db.add(apply)
-                    db.commit()
+                    db.session.add(apply)
+                    db.session.commit()
                     return render_template("send_application.html", send_application=send_application, job_obj=job_obj,
                                            company_obj=company_obj)
                 else:
