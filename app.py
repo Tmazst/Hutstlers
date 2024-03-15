@@ -29,7 +29,7 @@ from datetime import datetime
 # db_sessions = sessionmaker(bind=engine)
 # db = db_sessions()
 
-#Application
+#Applications
 app = Flask(__name__)
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
