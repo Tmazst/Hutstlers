@@ -26,6 +26,7 @@
 
              <div style="background-color: f8f95a;" class="job-ad-group marginise-bottom">
                   {{fl_job_ad_form.hidden_tag()}}
+                 {{fl_job_ad_form.csrf_token}}
                  {{ fl_job_ad_form.service_title.label(class="labels")}}
                   {{ fl_job_ad_form.service_title(class="form-control adj-width-60",placeholder="Project Title")}}
                   {% if fl_job_ad_form.service_title.errors %}

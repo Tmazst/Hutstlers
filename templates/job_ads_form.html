@@ -24,6 +24,7 @@
 
              <div style="background-color: f8f95a;" class="job-ad-group marginise-bottom">
                   {{job_ad_form.hidden_tag()}}
+                 {{job_ad_form.csrf_token}}
                  {{ job_ad_form.job_title.label(class="labels")}}
                   {{ job_ad_form.job_title(class="form-control adj-width-60",placeholder="Job Title")}}
                   {% if job_ad_form.job_title.errors %}
