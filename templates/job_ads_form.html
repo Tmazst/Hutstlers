@@ -134,23 +134,11 @@
                  {% endif %}
              </div>
 
-             <!-------RESPONSIBILITIES--------->
-             <div class="job-ad-group marginise-bottom">
-
-                 {{ job_ad_form.responsibilities.label(class="labels")}}<br>
-                  {{ job_ad_form.responsibilities(class="form-control adj-width-60",placeholder="Respnsibilties")}}
-                  {% if job_ad_form.responsibilities.errors %}
-                    {% for error in job_ad_form.responsibilities.errors %}
-                        <span class="span-error" >*{{error}}</span>
-                    {% endfor %}
-                 {% endif %}
-             </div>
-
-             <!-------RESPONSIBILITIES--------->
+             <!-------QUALIFICATIONS--------->
              <div class="job-ad-group marginise-bottom">
 
                  {{ job_ad_form.qualifications.label(class="labels")}}<br>
-                  {{ job_ad_form.qualifications(class="form-control adj-width-60",placeholder="High School Certificate or Diploma in Secretariate")}}
+                  {{ job_ad_form.qualifications(class="form-control adj-width-60",placeholder="e.g. High School Certificate or Diploma in Secretariate")}}
                   {% if job_ad_form.qualifications.errors %}
                     {% for error in job_ad_form.qualifications.errors %}
                         <span class="span-error" >*{{error}}</span>
