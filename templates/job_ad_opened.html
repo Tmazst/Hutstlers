@@ -19,16 +19,16 @@
         <div class="jb-viewed-card-body">
 
             <div style="margin-left:5%"  class="img-cont">
-                  {% if db.query(company_user).get(item.job_posted_by) %}
-                        {% if not db.query(company_user).get(item.job_posted_by).image == None %}
-                            <img class="prf-image" src="{{url_for('static', filename='images/' + db.query(company_user).get(item.job_posted_by).image)}}"/>
+                  {% if db.session.query(company_user).get(item.job_posted_by) %}
+                        {% if not db.session.query(company_user).get(item.job_posted_by).image == None %}
+                            <img class="prf-image" src="{{url_for('static', filename='images/' + db.session.query(company_user).get(item.job_posted_by).image)}}"/>
                         {% endif %}
                   {% else %}
                         <img class="prf-image" src="static/images/default.jpg"/>
                   {% endif %}
             </div>
 
-            <h2 style="margin-top:-15px" class="card-title text-center">{{db.query(company_user).get(item.job_posted_by).name}}</h2>
+            <h2 style="margin-top:-15px" class="card-title text-center">{{db.session.query(company_user).get(item.job_posted_by).name}}</h2>
 
             <div style="background-color:#fff;" class="job_ad_group marginise-bottom adj-wid">
                 <h2 style="font-weight:bold;color:#006769;">{{item.job_title}}</h2>
