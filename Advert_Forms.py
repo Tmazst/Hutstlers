@@ -10,12 +10,13 @@ from Forms import Register
 class Job_Ads_Form(FlaskForm):
 
 
-    job_title = StringField('Job Title:', validators=[DataRequired(), Length(min=2, max=20)])
+    job_title = StringField('Job Title:', validators=[DataRequired(), Length(min=2, max=120)])
     pay_type_bl = BooleanField('Pay Type:')
     other_pay_type = StringField('Other:')
     other_job_bl = BooleanField('Other Job Type:')
     other_job_type = StringField('Other:')
     description = TextAreaField('Job Description or Tasks:', validators=[DataRequired(), Length(min=5, max=400)])
+    category = StringField('Category:')
     work_duration_bl = BooleanField('')
     work_duration = StringField('Work/Project Duration (Start - End):')
     work_days_bl = BooleanField('')
@@ -36,7 +37,7 @@ class Job_Ads_Form(FlaskForm):
 
 class Freelance_Ads_Form(FlaskForm):
 
-    service_title = StringField('Project Title:', validators=[DataRequired(), Length(min=2, max=60)])
+    service_title = StringField('Project Title:', validators=[DataRequired(), Length(min=2, max=120)])
     speciality = StringField('Expertise or Skills:')
     category = StringField('Category:')
     description = TextAreaField('Project Description:', validators=[DataRequired(), Length(min=5, max=400)])

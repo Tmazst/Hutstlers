@@ -221,9 +221,98 @@ a{
     display:flex;
 }
 
-.menu{
+.side-nav-cont{
+
+
+
 
 }
+
+/*    --------LEFT NAV--------   */
+
+.sidebar-main{
+
+    margin-top: 200px;
+    background-color: #eee;
+    width:220px;
+    height:400px;
+    padding:5px 10px;
+    border-radius:0px 10px 10px 0px;
+    border:1px solid #006769;
+    z-index: 1;
+    top: 0;
+    left:-190px;
+    position:absolute;
+    transition:translateX(10%);
+    transition:All 0.5s ease-in;
+    //display:none;
+
+}
+
+.nav-active-drw{
+  transform: translateX(80%);
+}
+
+.d-flex{
+    display:flex;
+    flex-direction:column;
+    //align-items:center;
+}
+
+.sidebar-main h3{
+
+    color:#006769;
+    //width:100%;
+    float:left;
+    padding-bottom:6px;
+    border-bottom:1px solid  #006769;
+    display: inline-block;
+
+}
+
+#dashboard-btn{
+    top:180px;
+    left:150px;
+    width:130px;
+    position:absolute;
+    transform:rotate(-90deg);
+    background-color:#006769;;
+    border:none;
+    border-radius:15px;
+    padding:5px 15px;
+    cursor:pointer;
+    color:white;
+    font-weight:450;
+}
+
+#dashboard-btn:hover{
+    background-color:coral;
+    box-shadow:grey 0px 5px 10px 1px;
+    transition:All 0.2s ease-in;
+}
+.navbar-side-nav{
+ text-decoration: none;
+ list-style-type:none;
+ }
+
+/* The navigation menu links */
+.navbar-side-nav a{
+  padding: 8px 8px 8px 0px;
+  text-decoration: none;
+  font-weight:500;
+  font-size: 14px;
+  color: #303030;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar-main a:hover {
+
+    font-weight:bold;
+
+}
+
 
 /* Menu */
 .other-nav{
@@ -275,6 +364,7 @@ a{
   transform: translateX(0%);
   padding:7px;
 }
+
 
 .nav-links a:hover{
   //color:#006769;
@@ -520,7 +610,7 @@ ul.paras-subtopics{
 .tags h1,h2,h3{
     margin: 35px 4%;
     color:#404040;
-    line-height:1x;
+    //line-height:1x;
 }
 .spans{
     color:#006769;
@@ -529,7 +619,6 @@ ul.paras-subtopics{
 span.spans{
     font-weight:bold;
     font-size:1.3em;
-
 }
 
 /* Account Form*/
@@ -1354,59 +1443,6 @@ h2{
 
 
 
-/*      --------LEFT NAV-------- */
-
-.sidebar-main{
-
-    margin-top: 200px;
-    background-color: #eee;
-    width:200px;
-    height:400px;
-    padding:5px 10px;
-    border-radius:0px 10px 10px 0px;
-    z-index: 1;
-    top: 0;
-    left:0px;
-    position:absolute;
-    //display:none;
-
-}
-.d-flex{
-    display:flex;
-    flex-direction:column;
-    //align-items:center;
-}
-
-.sidebar-main h3{
-
-    color:#006769;
-    //width:100%;
-    float:left;
-    padding-bottom:6px;
-    border-bottom:1px solid  #006769;
-    display: inline-block;
-
-}
-
-.navbar-side-nav{
- text-decoration: none;
- list-style-type:none;
- }
-
-/* The navigation menu links */
-.navbar-side-nav a{
-  padding: 8px 8px 8px 0px;
-  text-decoration: none;
-  font-size: 14px;
-  color: #303030;
-  display: block;
-  transition: 0.3s;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: #f1f1f1;
-}
 
 .home-content{
     //background-color:#eae;
@@ -1710,6 +1746,8 @@ display:none
 }
 
 @media all and (max-width: 600px) {
+
+
 
 
 /* Menu */
@@ -2059,7 +2097,7 @@ width:100%;
   .sidenav a {font-size: 18px;}
 
   .card{
-    width:100%;
+    width:100% !important;
     //padding:0px 20px;
     //background-color:#aaa;
     border-radius:15px;

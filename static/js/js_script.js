@@ -81,6 +81,31 @@ const navSlide = () => {
 navSlide();
 
 
+//Dashboard
+const navSideSlide = () => {
+  const dashboardBtn = document.querySelector("#dashboard-btn");
+  const nav = document.querySelector(".sidebar-main");
+  const navLinks = document.querySelectorAll(".sidebar-main a");
+
+  dashboardBtn.addEventListener("click", () => {
+    nav.classList.toggle("nav-active-drw");
+
+    navLinks.forEach((link, index) => {
+      if (link.style.animation) {
+        link.style.animation = "";
+      } else {
+        link.style.animation = `navLinkFade 0.5s ease forwards ${
+          index / 7 + 0.5
+        }s `;
+      }
+    });
+    dashboardBtn.classList.toggle("toggle");
+  });
+  //
+};
+
+navSideSlide();
+
 //otherNavNone = document.classList
 
 

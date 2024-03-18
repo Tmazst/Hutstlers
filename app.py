@@ -481,6 +481,7 @@ def job_ads_form():
             job_post1 = job_ads_model(
                 job_title=job_ad_form.job_title.data,
                 description = job_ad_form.description.data,
+                category = job_ad_form.category.data,
                 responsibilities = job_ad_form.responsibilities.data,
                 qualifications = job_ad_form.qualifications.data,
                 contact_person = job_ad_form.posted_by.data,
