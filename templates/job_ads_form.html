@@ -89,7 +89,7 @@
 
             <!--   Category  -->
             <div class="job-ad-group marginise-bottom">
-                 <label for="Category" class="labels">Field Category: </label>
+                 <label for="category" class="labels">Field Category: </label>
                  <select style="margin-bottom:10px" name="field_category_sel">
                      <option value="Media & Technology">Media & Technology</option>
                      <option value="Information Technology">Information Technology</option>
@@ -110,7 +110,7 @@
 
                  <div>
                     <label for="Category" class="labels">     </label>
-                    {{ job_ad_form.category(class="form-control adj-width-60",placeholder="other")}}
+                    {{ job_ad_form.category(class="form-control adj-width-60",placeholder="Other")}}
                     {% if job_ad_form.category.errors %}
                     {% for error in job_ad_form.category.errors %}
                         <span class="span-error" >*{{error}}</span>

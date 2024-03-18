@@ -481,7 +481,7 @@ def job_ads_form():
             job_post1 = job_ads_model(
                 job_title=job_ad_form.job_title.data,
                 description = job_ad_form.description.data,
-                category = job_ad_form.category.data,
+                category = request.form.get('field_category_sel'),
                 responsibilities = job_ad_form.responsibilities.data,
                 qualifications = job_ad_form.qualifications.data,
                 contact_person = job_ad_form.posted_by.data,
@@ -515,6 +515,10 @@ def job_ads_form():
             if job_ad_form.benefits_bl.data:
                 job_post1.benefits = job_ad_form.benefits.data
 
+            if not request.form.get('field_category_sel'):
+                job_post1.category = job_ad_form.category.data
+
+            #print("Check Category: ",request.form.get('field_category_sel'))
             db.session.add(job_post1)
             db.session.commit()
 
