@@ -106,6 +106,27 @@ const navSideSlide = () => {
 
 navSideSlide();
 
+//
+//const categoryFilter = document.querySelectorAll("#category-filter");
+//
+//for(i=0;i<categoryFilter.length;i++){
+//
+//categoryFilter[i].addEventListener("change", () => {
+//
+//    categoryValue = event.target.value;
+//
+//    var xhr = new XMLHttpRequest();
+//    xhr.open('GET', '/job_ads_filtered?value=' + categoryValue,true);
+//    xhr.send(categoryValue);
+//
+//    window.location.reload();
+////    return false;
+//
+//    });
+//
+//}
+
+
 //otherNavNone = document.classList
 
 
