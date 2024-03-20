@@ -387,6 +387,7 @@ def reset(token):
             # else:
 
             try:
+                flash(f"Trying to Reset Please wait","success")
                 usr_obj = user_class().verify_reset_token(token)
                 flash(f"User Id {usr_obj}", "success")
                 pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
