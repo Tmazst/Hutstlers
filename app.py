@@ -362,7 +362,7 @@ def reset(token):
     #print("Current User: ",current_user.__dict__)
 
     if request.method == 'POST':
-        if reset_form.validate_on_submit():
+        # if reset_form.validate_on_submit():
             # if current_user.is_authenticated:
             #     #Current User Changing Password
             #     #....script compares
