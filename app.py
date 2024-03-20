@@ -363,52 +363,48 @@ def reset(token):
 
     if request.method == 'POST':
         if reset_form.validate_on_submit():
-            if current_user.is_authenticated:
-                #Current User Changing Password
-                #....script compares
-                if encry_pw.check_password_hash(current_user.password, reset_form.old_password.data):
-                    # token = Tokenise().get_reset_token(current_user.id)
-                    #print("Reset Token: ", token)
-                    # v_user_id = Tokenise().verify_reset_token(token)
-                    #print("User_id: ", v_user_id)
+            # if current_user.is_authenticated:
+            #     #Current User Changing Password
+            #     #....script compares
+            #     if encry_pw.check_password_hash(current_user.password, reset_form.old_password.data):
+            #         # token = Tokenise().get_reset_token(current_user.id)
+            #         #print("Reset Token: ", token)
+            #         # v_user_id = Tokenise().verify_reset_token(token)
+            #         #print("User_id: ", v_user_id)
+            #
+            #         pass_reset_hash_lc = encry_pw.generate_password_hash(reset_form.new_password.data)
+            #
+            #         usr = user.query.get(current_user.id)
+            #         usr.password = pass_reset_hash_lc
+            #         db.session.commit()
+            #
+            #         # logout_user()
+            #
+            #         flash(f"Password Changed Successfully!", "success")
+            #         return redirect(url_for("login"))
+            #     else:
+            #         flash(f"Ooops! Passwords don't match, You might have forgotten your Old Password", "error")
+            # else:
 
-                    pass_reset_hash_lc = encry_pw.generate_password_hash(reset_form.new_password.data)
+            try:
+                usr_obj = user_class().verify_reset_token(token)
+                flash(f"User Id {usr_obj}", "success")
+                pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
+                usr_obj = user.query.get(usr_obj)
+                usr_obj.password = pass_reset_hash
+                db.session.commit()
 
-                    usr = user.query.get(current_user.id)
-                    usr.password = pass_reset_hash_lc
-                    db.session.commit()
+                flash(f"Password Changed Successfully!", "success")
 
-                    # logout_user()
-
-                    flash(f"Password Changed Successfully!", "success")
-                    return redirect(url_for("login"))
-                else:
-                    flash(f"Ooops! Passwords don't match, You might have forgotten your Old Password", "error")
-            else:
-
-                try:
-                    usr_obj = user_class().verify_reset_token(token)
-                    flash(f"User Id {usr_obj}", "success")
-                    pass_reset_hash = encry_pw.generate_password_hash(reset_form.new_password.data)
-                    usr_obj = user.query.get(usr_obj)
-                    usr_obj.password = pass_reset_hash
-                    db.session.commit()
-
-                    flash(f"Password Changed Successfully!", "success")
-
-                    return redirect(url_for("login"))
-                except:
-                    print("Password Reset Failed!!")
-                    flash(f"Password Reset Failed, Please try again later", "error")
-                    return None
+                return redirect(url_for("login"))
+            except:
+                print("Password Reset Failed!!")
+                flash(f"Password Reset Failed, Please try again later", "error")
+                return None
 
 
     return render_template("pass_reset.html",reset_form=reset_form)
 
-@app.route("/how_does_it_work")
-def tht_how():
-
-    return render_template("how_does_it_work.html")
 
 @app.route("/reset_request", methods=['POST', "GET"])
 def reset_request():
@@ -466,6 +462,11 @@ If you did not requested the above message please ignore it, and your password w
 
     return render_template("reset_request.html", reset_request_form=reset_request_form)
 
+
+@app.route("/how_does_it_work")
+def tht_how():
+
+    return render_template("how_does_it_work.html")
 
 @app.route("/job_ads_form", methods=["POST","GET"])
 @login_required
