@@ -15,9 +15,7 @@
 
 <div style="margin-top:150px;" class="tags">
 
-
-
-
+    
  <div class="account_container">
     <div class="card">
         <div style="width:100%;">
@@ -44,7 +42,7 @@
 
                 <!-- -----------NAME--------------->
               <div  class="acc-labels margin-l-15">{{ cv.name.label()}}</div>
-               {{   cv.name(class="acc-form-control-up",placeholder="Name",value=current_user.name)}}
+               {{   cv.name(class="acc-form-control",placeholder="Name",value=current_user.name)}}
                {% if cv.name.errors %}
                    {% for error in cv.name.errors %}
                        <span class="span-error" >*[name], {{error}}</span>
@@ -53,7 +51,7 @@
 
               <!-- ------------EMAIL--------------->
               <div class="acc-labels margin-l-15">{{ cv.email.label()}}</div>
-                 {{ cv.email(class="acc-form-control-up",placeholder="Email", value=current_user.email)}}
+                 {{ cv.email(class="acc-form-control",placeholder="Email", value=current_user.email)}}
                  {% if cv.email.errors %}
                    {% for error in cv.email.errors %}
                        <span class="span-error" >*{{error}}</span>
@@ -83,7 +81,7 @@
                   <!-- ------------SCHOOL--------------->
                 <div  class="acc-labels margin-l-15">{{ cv.school.label()}}</div>
                 {% if current_user.school %}
-                    {{ cv.school(class="acc-form-control-up",value=current_user.school)}}
+                    {{ cv.school(class="acc-form-control",value=current_user.school)}}
                 {% else %}
                     {{ cv.school(class="acc-form-control",placeholder="High School")}}
                 {% endif %}
@@ -97,7 +95,7 @@
                   <!-- ------------TERTIARY--------------->
                   <div  class="acc-labels margin-l-15">{{ cv.tertiary.label()}}</div>
                 {% if current_user.tertiary %}
-                    {{ cv.tertiary(class="acc-form-control-up",placeholder="Higher Certificate (Optional)",value=current_user.tertiary)}}
+                    {{ cv.tertiary(class="acc-form-control",placeholder="Higher Certificate (Optional)",value=current_user.tertiary)}}
                 {% else %}
                     {{ cv.tertiary(class="acc-form-control",placeholder="Higher Certificate (Optional)")}}
                 {% endif %}
@@ -166,7 +164,7 @@
                         <!-- ------------ADDRESS--------------->
                     <div  class="acc-labels margin-l-15">{{ cv.address.label()}}</div>
                         {% if current_user.address %}
-                            {{ cv.address(class="acc-form-control-up",placeholder="Physical Address",value=current_user.address)}}
+                            {{ cv.address(class="acc-form-control",placeholder="Physical Address",value=current_user.address)}}
                         {% else %}
                             {{ cv.address(class="acc-form-control",placeholder="Physical Address")}}
                         {% endif %}
@@ -181,7 +179,7 @@
                         <!-- ------------REFERENCE 1--------------->
 
                         {% if current_user.reference_1 %}
-                            <textarea  name="reference_1" class="acc-form-control-up media-h2">reference1: {{current_user.reference_1}}</textarea>
+                            <textarea  name="reference_1" class="acc-form-control media-h2">reference1: {{current_user.reference_1}}</textarea>
                         {% else %}
                             {{ cv.reference_1(class="acc-form-control",placeholder="Name & Contact(s)")}}
                         {% endif %}
@@ -192,10 +190,9 @@
                         {% endif %}
 
 
-
                         <!-- ------------REFERENCE 2--------------->
                         {% if current_user.reference_2 %}
-                           <textarea  name="reference_2" class="acc-form-control-up media-h2"> {{current_user.reference_2}}</textarea>
+                           <textarea  name="reference_2" class="acc-form-control media-h2"> {{current_user.reference_2}}</textarea>
                         {% else %}
                             {{ cv.reference_2(class="acc-form-control",placeholder="Name & Contact(s)")}}
                         {% endif %}

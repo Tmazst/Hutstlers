@@ -29,6 +29,8 @@ class user(db.Model,UserMixin):
     image = db.Column(db.String(30), nullable=True)
     email = db.Column(db.String(120),unique=True)
     password = db.Column(db.String(120), unique=True)
+    token = db.Column(db.String(255), unique=True,nullable=True)
+    staysigned = db.Column(db.Boolean, default=False)
     confirm_password = db.Column(db.String(120), unique=True)
     verified = db.Column(db.Boolean, default=False)
     role = db.Column(db.String(120))
@@ -132,6 +134,17 @@ class Applications(db.Model, UserMixin):
     employer_id = db.Column(db.Integer, ForeignKey('company_user.id'), nullable=False)
     job_details_id = db.Column(db.Integer, ForeignKey('job_ads.job_id'), nullable=False)
     other = db.Column(db.String(120))
+    time_stamp = db.Column(db.DateTime,default=datetime.utcnow, nullable=False)
+    closed = db.Column(db.String(200))
+
+class FreeL_Applications(db.Model, UserMixin):
+
+    __tablename__ = 'freelance_applications'
+
+    id = db.Column(db.Integer, primary_key=True)
+    applicant_id = db.Column(db.Integer, ForeignKey('job_user.id'),nullable=False)
+    employer_id = db.Column(db.Integer, ForeignKey('company_user.id'), nullable=False)
+    other = db.Column(db.String(120))
     freel_job_details_id = db.Column(db.Integer, ForeignKey('freelance_job_ads.job_id'), nullable=False)
     time_stamp = db.Column(db.DateTime,default=datetime.utcnow, nullable=False)
     closed = db.Column(db.String(200))
@@ -152,4 +165,4 @@ class Freelance_Jobs_Ads(db.Model, UserMixin):
     contact_person = db.Column(db.String(40))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     job_posted_by = db.Column(db.Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
-    applications = relationship("Applications", backref='Applications.id', lazy=True)
+    applications = relationship("FreeL_Applications", backref='FreeL_Applications.id', lazy=True)

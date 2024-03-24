@@ -36,62 +36,61 @@
             </div>
 
              <!-------JOB TYPE--------->
-            {% if item.job_type %}
+            {% if item.service_title %}
              <div class="job_ad_group marginise-bottom">
-                 <label for="Job Type" class="labels">Job Type: </label>
-                 <p>{{ item.job_type}}</p>
+                 <label for="Job Type" class="labels">Service Title: </label>
+                 <p>{{ item.service_title}}</p>
              </div>
             {% endif %}
 
              <!-------PAY TYPE--------->
-            {% if item.pay_type %}
+            {% if item.service_category %}
             <div class="job_ad_group marginise-bottom">
-            <label for="Pay Type" class="labels">Pay Type: </label>
-                  <p>{{item.pay_type}}</p>
+            <label for="Pay Type" class="labels">Service Category: </label>
+                  <p>{{item.service_category}}</p>
             </div>
             {% endif %}
 
             <!-------JOB DESCRIPTION--------->
             <div class="job_ad_group adj-wid marginise-bottom">
-                <label for="Job Descriptions" class="labels">Job Descriptions: </label>
-                  <p>{{ item.description}}</p>
+                <label for="Specialty" class="labels">Specialty: </label>
+                  <p>{{ item.specialty}}</p>
 
             </div>
 
-                {% if item.work_duration %}
+
              <!-------WORK DURATION--------->
             <div class="job_ad_group marginise-bottom">
-                <label for="Work Duration" class="labels">Work Duration: </label>
-                <p>{{item.work_duration}}</p>
+                <label for="Work Duration" class="labels">Description: </label>
+                <p>{{item.description}}</p>
 
             </div>
-            {% endif %}
+
 
 
              <!-------WORK DAYS--------->
-            {% if item.work_days %}
+            {% if item.project_duration %}
              <div class="job_ad_group marginise-bottom">
 
-                <label for="Work Days" class="labels">Work Days: </label>
-                <p>{{ item.work_days}}</p>
+                <label for="Work Days" class="labels">Estimated Project Duration: </label>
+                <p>{{ item.project_duration}}</p>
 
              </div>
             {% endif %}
 
              <!-------WORK HOURS--------->
-            {% if item.work_hours %}
              <div class="job_ad_group marginise-bottom">
-                <label for="Working Hourse" class="labels">Working Hours: </label>
-                <p>{{ item.work_hours}}</p>
+                <label for="Working Hourse" class="labels">Deadline: </label>
+                <p>{{ item.application_deadline}}</p>
 
              </div>
-            {% endif %}
+
 
              <!-------RESPONSIBILITIES--------->
-            {% if item.responsibilities %}
+            {% if item.contact_person %}
              <div class="job_ad_group marginise-bottom">
-                <label for="Responsibilities" class="labels">Responsibilities: </label>
-                <p>{{item.responsibilities}}</p>
+                <label for="Responsibilities" class="labels">Contact Person: </label>
+                <p>{{item.contact_person}}</p>
 
              </div>
             {% endif %}
@@ -99,15 +98,15 @@
              <!-------QUALIFICATIONS--------->
             <div class="job_ad_group marginise-bottom">
                 <label for="Qualifications" class="labels">Qualifications: </label>
-                <p>{{ item.qualifications}}</p>
+                <p>{{ current_user.qualifications}}</p>
 
              </div>
 
              <!-------AGE RANGE--------->
-            {% if item.age_range %}
+            {% if item.date_posted %}
               <div class="job_ad_group marginise-bottom">
-                  <label for="Age Range" class="labels">Age Range: </label>
-                  <p>{{ item.age_range}}</p>
+                  <label for="Age Range" class="labels">Posted: </label>
+                  <p>{{ item.date_posted}}</p>
              </div>
             {% endif %}
 
@@ -122,7 +121,7 @@
              <div>
                  <!--<input class="btns" type="submit" value="Create Account" />-->
                 {% if current_user.role != 'company_user' %}
-                    <a class="btns" href="/send_application?job_id={{item.job_id}}">Apply Now</a>
+                    <a class="btns" href="/send_application_fl?tender_id={{item.job_id}}">Apply Now</a>
                  {% endif %}
              </div>
 

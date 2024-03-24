@@ -31,6 +31,7 @@ class Login(FlaskForm):
 
     email = StringField('email', validators=[DataRequired(),Email()])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=64)])
+    stay_signed = BooleanField("Stay Signed: ")
     submit = SubmitField('Login')
 
 

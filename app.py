@@ -1,6 +1,6 @@
 import secrets
 
-from flask import Flask,render_template,url_for,redirect,request,flash
+from flask import Flask,render_template,url_for,redirect,request,flash,session, make_response
 # from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
 from flask_bcrypt import Bcrypt
@@ -18,7 +18,7 @@ import MySQLdb
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
-from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads,Email_Verifications
+from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads,Email_Verifications,FreeL_Applications
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime
@@ -35,17 +35,15 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-
 db.init_app(app)
-
 
 pub, priv = rsa.newkeys(512)
 
@@ -110,7 +108,7 @@ def resize_img(img,size_x=30,size_y=30):
     return img
 
 
-def save_pic(picture,size_x=25,size_y=25):
+def save_pic(picture,size_x=100,size_y=100):
 
     _img_name, _ext = os.path.splitext(picture.filename)
     gen_random = secrets.token_hex(8)
@@ -120,7 +118,11 @@ def save_pic(picture,size_x=25,size_y=25):
 
     output_size = (size_x, size_y)
     i = Image.open(picture)
-    i.thumbnail(output_size)
+    h,w = i.size
+    if h > 200 and w > 200:
+        i.thumbnail(output_size)
+    else:
+        i.thumbnail(i.size)
 
     i.save(saved_img_path)
 
@@ -258,38 +260,61 @@ def account():
 
 @app.route("/login",methods=["POST","GET"])
 def login():
-    login= Login()
 
+    login= Login()
 
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     if request.method == 'POST':
 
 
-
         if login.validate_on_submit():
             # #print(f"Account Successfully Created for {login.name.data}")
-            user_login = user.query.filter_by(email = login.email.data).first()
+            user_login = user.query.filter_by(email=login.email.data).first()
             # flash(f"Hey! {user_login.password} Welcome", "success")
-            if user_login and encry_pw.check_password_hash(user_login.password,login.password.data):
-                login_user(user_login)
-                #Query DB if User is verified; #Models' user class
-                if not user_login.verified:
-                    return redirect(url_for('verification'))
-                else:
-                    #After login required prompt, take me to the page I requested earlier
-                    print("No Verification Needed: ",user_login.verified)
-                    req_page = request.args.get('next')
-                    flash(f"Hey! {user_login.name.title()} You're Logged In!", "success")
-                    return redirect(req_page) if req_page else redirect(url_for('home'))
+            #Stay sign in
+            session['user_id'] = user.id
+            if request.form.get('stay_signed_in'):
+                token = secrets.token_urlsafe(16)  # Generate a 16-character token
+                user_login.token = token
+                db.session.commit()
+                # Set a persistent cookie with the token
+                resp = make_response("Login successful")
+                resp.set_cookie('stay_signed_in', token, httponly=True, max_age=60 * 60 * 24 * 30)  # 30 days
+                return resp
+
             else:
-                flash(f"Login Unsuccessful, please use correct email or password", "error")
-                #print(login.errors)
+                if user_login and encry_pw.check_password_hash(user_login.password,login.password.data):
+                    login_user(user_login)
+                    #Query DB if User is verified; #Models' user class
+                    if not user_login.verified:
+                        return redirect(url_for('verification'))
+                    else:
+                        #After login required prompt, take me to the page I requested earlier
+                        #print("No Verification Needed: ",user_login.verified)
+                        req_page = request.args.get('next')
+                        flash(f"Hey! {user_login.name.title()} You're Logged In!", "success")
+                        return redirect(req_page) if req_page else redirect(url_for('home'))
+                else:
+                    flash(f"Login Unsuccessful, please use correct email or password", "error")
+                    #print(login.errors)
 
     return render_template('login_form.html', title='Login',login=login)
 
+@app.before_request
+def load_user_from_cookie():
+    if 'user_id' not in session and 'stay_signed_in' in request.cookies:
+        token = request.cookies.get('stay_signed_in')
+        usr = user.query.filter_by(token=token).first()
+        if usr:
+            session['user_id'] = user.id
+            login_user(usr)
+
+
 @app.route('/logout')
 def log_out():
+    session.pop('user_id', None)
+    make_response('Logged out').delete_cookie('stay_signed_in')
     logout_user()
     return redirect(url_for('home'))
 
@@ -349,8 +374,6 @@ def contact_us():
 def companies():
 
     companies_list = company_user.query.all()
-
-
 
     return render_template("companies.html",companies_list=companies_list)
 
@@ -469,6 +492,7 @@ def tht_how():
 
     return render_template("how_does_it_work.html")
 
+
 @app.route("/job_ads_form", methods=["POST","GET"])
 @login_required
 def job_ads_form():
@@ -492,7 +516,6 @@ def job_ads_form():
                 application_deadline=job_ad_form.application_deadline.data,
                 job_posted_by = current_user.id
                           )
-
 
             # if bools are True
             if job_ad_form.pay_type_bl.data:
@@ -524,7 +547,9 @@ def job_ads_form():
             db.session.add(job_post1)
             db.session.commit()
 
-    return render_template("job_ads_form.html",job_ad_form = job_ad_form)
+            flash('Your Job Post was succesfull', 'success')
+
+    return render_template("job_ads_form.html",job_ad_form=job_ad_form)
 
 
 @app.route("/fl_job_ads_form", methods=["POST","GET"])
@@ -535,7 +560,6 @@ def fl_job_ads_form():
     fl_job_ads_model = Freelance_Jobs_Ads
 
     db.create_all()
-
 
     if request.method == 'POST':
        if fl_job_ad_form.validate_on_submit():
@@ -565,7 +589,7 @@ def fl_job_ads_form():
 
             flash('Your Freelance Job Post was succesfull', 'success')
 
-    return render_template("fl_job_ads_form.html",fl_job_ad_form = fl_job_ad_form)
+    return render_template("fl_job_ads_form.html",fl_job_ad_form=fl_job_ad_form)
 
 
 @app.route("/all_users")
@@ -602,7 +626,6 @@ def cmp_user_profile():
 
 @app.route("/job_ads",methods=["GET", "POST"])
 def job_adverts():
-
 
     if current_user.is_authenticated:
         #print("Current User")
@@ -696,7 +719,59 @@ def freelance_job_adverts():
     # Fix jobs adds does not have hidden tag
     return render_template("freelance_jobs_ui.html", fl_job_ads=fl_job_ads, fl_job_ads_form=fl_job_ads_form, db=db,
                            company_user=company_user, user=usr, no_image_fl=no_image_fl)
+@app.route("/send_application_fl", methods=["GET","POST"])
+@login_required
+def send_application_fl():
 
+    send_application = FreeL_Applications()
+
+    db.create_all()
+
+    if not current_user.image and not current_user.school:
+        redirect(url_for('account'))
+        flash("Warning!! Your Account needs to be updated Soon, You won't be able to send Application if not so", "error")
+
+    else:
+        if current_user.is_authenticated:
+
+            if request.method == "GET":
+                tender_id=request.args['tender_id']
+                apply = FreeL_Applications(
+                    applicant_id = current_user.id,
+                    freel_job_details_id= tender_id, #db.query(Jobs_Ads).get(jb_id),
+                    employer_id = Freelance_Jobs_Ads.query.get(tender_id).job_posted_by
+                )
+
+                #Check if application not sent before
+                job_obj = FreeL_Applications.query.filter_by(freel_job_details_id=tender_id).first()
+                company_obj = company_user.query.get(apply.employer_id)
+
+                #print('----------------------job_obj: ',job_obj)
+                if not job_obj:
+                    db.session.add(apply)
+                    db.session.commit()
+                    return render_template("send_application.html", send_application=send_application, job_obj=job_obj,
+                                           company_obj=company_obj)
+                else:
+                    # fl = flash(f"Application with this details Already Submitted!!", "error")
+                    return f'''This Application Already Submitted before.
+                     Please Wait for a Reply!!'''
+
+
+    return f'Something went Wrong, Please return to the previuos page'
+
+@app.route("/tender_ad_opened", methods=["GET", "POST"])
+def view_tender():
+
+    if request.method == 'GET':
+        id = request.args['id']
+
+        tender_ad = Freelance_Jobs_Ads.query.get(id)
+
+        #print("Job Ad Title: ",job_ad.job_title)
+
+
+    return render_template('tender_ad_opened.html',item=tender_ad,db=db,company_user=company_user)
 
 
 #------------------------------COMPANIES DATA-------------------------------#
@@ -713,10 +788,8 @@ def company_sign_up_form():
 
     if company_register.validate_on_submit():
 
-
         if request.method == 'POST':
             # context
-
 
             # If the webpage has made a post e.g. form post
 
@@ -840,6 +913,8 @@ def partnering_companies():
                            company_user=company_user,user=usr,no_image_fl =no_image_fl)
 
 
+
+
 @app.route("/send_application", methods=["GET","POST"])
 @login_required
 def send_application():
@@ -858,16 +933,15 @@ def send_application():
             if request.method == "GET":
                 jb_id = request.args['job_id']
                 apply = Applications(
-
                     applicant_id = current_user.id,
                     job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
                     employer_id = Jobs_Ads.query.get(jb_id).job_posted_by
-
                 )
 
                 #Check if application not sent before
                 job_obj = Applications.query.filter_by(job_details_id=jb_id).first()
                 company_obj = company_user.query.get(apply.employer_id)
+
                 #print('----------------------job_obj: ',job_obj)
                 if not job_obj:
                     db.session.add(apply)
@@ -878,7 +952,6 @@ def send_application():
                     # fl = flash(f"Application with this details Already Submitted!!", "error")
                     return f'''This Application Already Submitted before.
                      Please Wait for a Reply!!'''
-
 
 
     return f'Something went Wrong, Please return to the previuos page'
