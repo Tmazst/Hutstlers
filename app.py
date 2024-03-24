@@ -273,7 +273,7 @@ def login():
             user_login = user.query.filter_by(email=login.email.data).first()
             # flash(f"Hey! {user_login.password} Welcome", "success")
             #Stay sign in
-            session['user_id'] = user.id
+            session['user_id'] = user_login.id
             if request.form.get('stay_signed_in'):
                 token = secrets.token_urlsafe(16)  # Generate a 16-character token
                 user_login.token = token
@@ -307,7 +307,7 @@ def load_user_from_cookie():
         token = request.cookies.get('stay_signed_in')
         usr = user.query.filter_by(token=token).first()
         if usr:
-            session['user_id'] = user.id
+            session['user_id'] = usr.id
             login_user(usr)
 
 
