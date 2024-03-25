@@ -39,7 +39,6 @@
                {{cv.hidden_tag()}}
                <h2 class="media-h2"> Account Details </h2>
 
-
                 <!-- -----------NAME--------------->
               <div  class="acc-labels margin-l-15">{{ cv.name.label()}}</div>
                {{   cv.name(class="acc-form-control",placeholder="Name",value=current_user.name)}}
@@ -66,6 +65,19 @@
                        <span class="span-error" >*[Contacts]{{error}}</span>
                    {% endfor %}
                 {% endif %}
+
+            <!-- ------------ADDRESS--------------->
+              <div  class="acc-labels margin-l-15">{{ cv.address.label()}}</div>
+                    {% if current_user.address %}
+                        {{ cv.address(class="acc-form-control",placeholder="Physical Address",value=current_user.address)}}
+                    {% else %}
+                        {{ cv.address(class="acc-form-control",placeholder="Physical Address")}}
+                    {% endif %}
+                    {% if cv.address.errors %}
+                       {% for error in cv.address.errors %}
+                           <span class="span-error" >*Physical Address {{error}}</span>
+                       {% endfor %}
+                    {% endif %}
 
               <div style="margin-left:0;width:100px;" class="user-links" >
                     <a href="/reset/name"> Change Password </a>
@@ -161,23 +173,8 @@
         <div style="padding-left:50px"  class="form-group">
                         <h2 class="media-h2"> References </h2>
 
-                        <!-- ------------ADDRESS--------------->
-                    <div  class="acc-labels margin-l-15">{{ cv.address.label()}}</div>
-                        {% if current_user.address %}
-                            {{ cv.address(class="acc-form-control",placeholder="Physical Address",value=current_user.address)}}
-                        {% else %}
-                            {{ cv.address(class="acc-form-control",placeholder="Physical Address")}}
-                        {% endif %}
-                        {% if cv.address.errors %}
-                           {% for error in cv.address.errors %}
-                               <span class="span-error" >*Physical Address {{error}}</span>
-                           {% endfor %}
-                        {% endif %}
-
-
-
                         <!-- ------------REFERENCE 1--------------->
-
+                        <div  class="acc-labels margin-l-15">{{ cv.reference_1 .label()}}</div>
                         {% if current_user.reference_1 %}
                             <textarea  name="reference_1" class="acc-form-control media-h2">reference1: {{current_user.reference_1}}</textarea>
                         {% else %}
@@ -191,6 +188,7 @@
 
 
                         <!-- ------------REFERENCE 2--------------->
+                        <div  class="acc-labels margin-l-15">{{ cv.reference_2.label()}}</div>
                         {% if current_user.reference_2 %}
                            <textarea  name="reference_2" class="acc-form-control media-h2"> {{current_user.reference_2}}</textarea>
                         {% else %}

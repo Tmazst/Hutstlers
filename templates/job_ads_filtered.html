@@ -18,23 +18,28 @@
     <h1>Filtered</h1>
     <label for="Job Category"> <span>Category:</span></label>
     <select onchange="location = this.value;" id="category-filter" class="jobs-category" style="margin-bottom:10px" name="field_category_sel">
-
-         <option value="/job_ads_filtered?value=Media & Technology">Media & Technology</option>
-         <option value="/job_ads_filtered?value=Information Technology">Information Technology</option>
-         <option value="/job_ads_filtered?value=Occupational Health & Safety">Health & Safety</option>
-         <option value="/job_ads_filtered?value=Miscellenious">Miscellenious</option>
-         <option value="/job_ads_filtered?value=Education">Education</option>
-         <option value="/job_ads_filtered?value=science">Science & History</option>
-         <option value="/job_ads_filtered?value=Engineering">Engineering</option>
-         <option value="/job_ads_filtered?value=Music & Entertainment">Music & Entertainment</option>
-         <option value="/job_ads_filtered?value=Transport & Logistics">Transport & Logistics</option>
-         <option value="/job_ads_filtered?value=Pharmacy">Pharmacy</option>
-         <option value="/job_ads_filtered?value=Tourism & Hospitality">Tourism & Hospitality</option>
-         <option value="/job_ads_filtered?value=Literature">Literature</option>
-         <option value="/job_ads_filtered?value=Life Skills">Life Skills</option>
-         <option value="/job_ads_filtered?value=Geography & Culture">Geography & Culture</option>
-         <option value="/job_ads_filtered?value=Health">Typist</option>
+        <option value="/job_ads">--All--</option>
+        {% if job_ads %}
+            {% for item in job_ads %}
+             <option value="/job_ads_filtered?value={{item.category}}">{{item.category}}</option>
+<!--             <option value="/job_ads_filtered?value=Information Technology">Information Technology</option>-->
+<!--             <option value="/job_ads_filtered?value=Occupational Health & Safety">Health & Safety</option>-->
+<!--             <option value="/job_ads_filtered?value=Miscellenious">Miscellenious</option>-->
+<!--             <option value="/job_ads_filtered?value=Education">Education</option>-->
+<!--             <option value="/job_ads_filtered?value=science">Science & History</option>-->
+<!--             <option value="/job_ads_filtered?value=Engineering">Engineering</option>-->
+<!--             <option value="/job_ads_filtered?value=Music & Entertainment">Music & Entertainment</option>-->
+<!--             <option value="/job_ads_filtered?value=Transport & Logistics">Transport & Logistics</option>-->
+<!--             <option value="/job_ads_filtered?value=Pharmacy">Pharmacy</option>-->
+<!--             <option value="/job_ads_filtered?value=Tourism & Hospitality">Tourism & Hospitality</option>-->
+<!--             <option value="/job_ads_filtered?value=Literature">Literature</option>-->
+<!--             <option value="/job_ads_filtered?value=Life Skills">Life Skills</option>-->
+<!--             <option value="/job_ads_filtered?value=Geography & Culture">Geography & Culture</option>-->
+<!--             <option value="/job_ads_filtered?value=Health">Typist</option>-->
+            {% endfor %}
+        {% endif %}
      </select>
+    <a href="/job_ads"><button id="view-all" class="btns-margin btns">View All</button></a>
 
 
   <div style="background-color:ae23a3;" class="general-flex-x">

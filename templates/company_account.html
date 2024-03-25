@@ -13,18 +13,16 @@
         <div style="width:80%;margin-left:1px" class="card-body py-md-4">
 
         <form _lpchecked="1" action="" method="post"  enctype="multipart/form-data" >
-            <div style="width:300px;" class="my-card">
-            <div style="margin-left:35px"  class="img-cont">
-                  {% if not image_fl == None %}
-                        <img class="prf-image" src={{image_fl}}/>
-                  {% else %}
-                        <img class="prf-image" src="static/images/default.jpg"/>
-                  {% endif %}
-
-             </div>
-
-            <h3 style="font-size:25px;margin-left:10px;">{{current_user.name.title()}}<br> <span class="spans" style="font-size:16px">{{current_user.email}}</span></h3>
-                </div>
+            <div style="width:300px;background-color:" class="my-card">
+                <div style=""  class="img-cont">
+                      {% if not image_fl == None %}
+                            <img class="prf-image" src={{image_fl}}/>
+                      {% else %}
+                            <img class="prf-image" src="static/images/default.jpg"/>
+                      {% endif %}
+                 </div>
+                <h3 style="font-size:25px;text-align:center;background-color:">{{current_user.name.title()}}<br> <span class="spans" style="font-size:16px">{{current_user.email}}</span></h3>
+            </div>
             <h3 style="font-size:32px;margin-left:10px;" class="card-title text-center">Corporate Details</h3>
 
             <hr>
@@ -88,7 +86,7 @@
             <div class="group">
                 <!--<input type="password" class="acc-form-control-up" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
                  <div class="acc-labels">{{ company_update.facebook_link.label(class="acc-form-control-up")}}</div>
-                 {{ company_update.facebook_link(class="acc-form-control-up",placeholder="Facebook Link",value=current_user.facebook_link)}}
+                 {{ company_update.facebook_link(class="acc-form-control-up",placeholder="Facebook Link",value=current_user.fb_link)}}
                  {% if company_update.facebook_link.errors %}
                     {% for error in company_update.facebook_link.errors %}
                         <span class="span-error" >*[Facebook Link] {{error}}</span>
@@ -110,7 +108,7 @@
             <div class="group">
                 <!--<input type="password" class="acc-form-control-up" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
                  <div class="acc-labels">{{ company_update.youtube_link.label(class="acc-form-control-up")}}</div>
-                 {{ company_update.youtube_link(class="acc-form-control-up",placeholder="Youtube Link",value=current_user.youtube_link)}}
+                 {{ company_update.youtube_link(class="acc-form-control-up",placeholder="YouTube Link",value=current_user.youtube)}}
                  {% if company_update.youtube_link.errors %}
                     {% for error in company_update.youtube_link.errors %}
                         <span class="span-error" >*[Youtube Link] {{error}}</span>

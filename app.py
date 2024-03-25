@@ -1,6 +1,8 @@
 import secrets
 
 from flask import Flask,render_template,url_for,redirect,request,flash,session, make_response
+# from flask_oauthlib.client import OAuth
+from authlib.integrations.flask_client import OAuth
 # from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
 from flask_bcrypt import Bcrypt
@@ -31,6 +33,17 @@ from datetime import datetime
 
 #Applications
 app = Flask(__name__)
+
+oauth = OAuth(app)
+oauth.register(
+    'google',
+    client_id='your_google_client_id',
+    client_secret='your_google_client_secret',
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    client_kwargs={'scope': 'openid profile email'},
+)
+
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
@@ -108,7 +121,7 @@ def resize_img(img,size_x=30,size_y=30):
     return img
 
 
-def save_pic(picture,size_x=100,size_y=100):
+def save_pic(picture,size_x=300,size_y=300):
 
     _img_name, _ext = os.path.splitext(picture.filename)
     gen_random = secrets.token_hex(8)
@@ -119,12 +132,18 @@ def save_pic(picture,size_x=100,size_y=100):
     output_size = (size_x, size_y)
     i = Image.open(picture)
     h,w = i.size
-    if h > 200 and w > 200:
-        i.thumbnail(output_size)
+    if h > 400 and w > 400:
+        # downsize the image with an ANTIALIAS filter (gives the highest quality)
+        img = i.resize(i.size, Image.Resampling.LANCZOS)
+        img.thumbnail(output_size)
     else:
-        i.thumbnail(i.size)
+        img = i.resize(i.size, Image.Resampling.LANCZOS)
+        # img.thumbnail(i.size)
 
-    i.save(saved_img_path)
+    img.save(saved_img_path,optimize=True, quality=95)
+
+
+
 
     return new_img_name
 
@@ -145,6 +164,10 @@ def home():
         #print("Creating Tables")
         # companies_ls = db.session.query(company_user).all()
         #print("DEBUG COMPANIES: ",cpm.name)
+
+    for cmp in companies_ls:
+        print("Check Links: ",cmp.fb_link)
+
 
     return render_template("index.html",img_1='', img_2  ='',img_3 ='', companies_ls=companies_ls, comp_len=comp_len )
 

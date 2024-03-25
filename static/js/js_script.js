@@ -81,6 +81,47 @@ const navSlide = () => {
 navSlide();
 
 
+
+
+function calculateDays() {
+    var adJob = document.querySelectorAll("#deadline-div");
+    var adDeadline = document.querySelectorAll("#deadline");
+
+    var date = new Date();
+    var today = date.getTime(); // Get today's date in milliseconds to compare with deadlines
+
+    for(var i = 0; i < adDeadline.length; i++) {
+        // Get each ad's deadline
+        var targetedAd = adDeadline[i];
+        // Get the targeted ad's date tag and convert it to a Date object
+        var deadline = new Date(targetedAd.innerText);
+        console.log(deadline);
+
+        // Calculate the days between today's date and the deadline
+        var difference = (deadline.getTime() - today) / (1000 * 60 * 60 * 24); // Convert the time difference to days
+        console.log("There are still plenty of time: ",difference);
+        if (difference > 5) {
+            adJob[i].classList.toggle("deadline-is-far");
+            console.log("There are still plenty of time");
+        } else if (difference <= 5 && difference > 0) {
+            adJob[i].classList.toggle("deadline-is-close");
+            console.log("We are getting closer to the deadline");
+        } else if (difference === 0) {
+            adJob[i].classList.toggle("deadline-is-today");
+//            console.log("Deadline is today");
+        } else if (difference < 0) {
+            adJob[i].classList.toggle("deadline-is-over");
+//            targetedAd.innerText = targetedAd.innerText  + "Closed";
+//            console.log("Deadline is Over");
+        }
+    }
+}
+
+calculateDays();
+
+
+
+
 //Dashboard
 const navSideSlide = () => {
   const dashboardBtn = document.querySelector("#dashboard-btn");
@@ -105,7 +146,6 @@ const navSideSlide = () => {
 };
 
 navSideSlide();
-
 //
 //const categoryFilter = document.querySelectorAll("#category-filter");
 //

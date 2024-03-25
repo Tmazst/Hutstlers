@@ -18,7 +18,7 @@
     <div id="browse-job" style="min-width:350px;"  class="form_container">
         <div class="jb-viewed-card-body">
 
-            <div style="margin-left:5%"  class="img-cont">
+            <div style="margin-top:100px"  class="img-cont">
                   {% if db.session.query(company_user).get(item.job_posted_by) %}
                         {% if not db.session.query(company_user).get(item.job_posted_by).image == None %}
                             <img class="prf-image" src="{{url_for('static', filename='images/' + db.session.query(company_user).get(item.job_posted_by).image)}}"/>

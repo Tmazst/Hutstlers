@@ -30,7 +30,7 @@ class user(db.Model,UserMixin):
     email = db.Column(db.String(120),unique=True)
     password = db.Column(db.String(120), unique=True)
     token = db.Column(db.String(255), unique=True,nullable=True)
-    staysigned = db.Column(db.Boolean, default=False)
+    # staysigned = db.Column(db.Boolean, default=False)
     confirm_password = db.Column(db.String(120), unique=True)
     verified = db.Column(db.Boolean, default=False)
     role = db.Column(db.String(120))

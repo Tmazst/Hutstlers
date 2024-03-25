@@ -58,11 +58,11 @@ class Update_account_form(FlaskForm):
     tertiary = StringField('Tertiary (Optional)')
     experience = TextAreaField('Work Experience (Optional)')
     skills = TextAreaField('Skills', validators=[Length(min=8, max=150)])
-    hobbies = StringField('Hobbies (Optional)')
+    hobbies = StringField('Interests (Optional)')
     address = StringField('Physical Address', validators=[DataRequired(), Length(min=8, max=100)])
-    reference_1 = TextAreaField('Reference 1 [Fullname & Contact]',
+    reference_1 = TextAreaField('Reference (1)',
                                 validators=[DataRequired(), Length(min=8, max=64)])
-    reference_2 = TextAreaField('Reference 2  [Fullname & Contact]',
+    reference_2 = TextAreaField('Reference (2)',
                                 validators=[DataRequired(), Length(min=8, max=64)])
 
     def validate_email(self,email):

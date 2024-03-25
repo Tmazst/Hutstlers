@@ -41,7 +41,7 @@
 {% endif %}
 
 <div class="tags">
-          <div class="flash-messages" class="btns">
+          <div class="flash-messages btns">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for  category, message in messages %}
@@ -52,12 +52,11 @@
           </div>
 
 <!--    <div style="position:relative;" >-->
-
 <!--        <div class="skateboarding">-->
-
 <!--            <i class="fa-solid fa-compass"></i>-->
 <!--            <i class="fa-solid fa-bars"></i>-->
 <!--        </div>-->
+
       <div class="flex-justify-align">
 
           <div  class="paras-subtopics topics anim">
@@ -120,7 +119,8 @@
         <div style="margin-top:150px" >
             <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Testimonials</h1><div class="title-strokes" style="background-color:#23aeb2;height:4px;width:550px;"></div></div>
             <div class="home-content-why-hot">
-                <div style="" class="home-cont-items testm_style anim" >
+
+                <div style="" class="home-cont-items testm_style anim">
 <!--                    <i style="font-size:120px !important;color:#006769;" class="material-icons">timer</i>-->
                     <div class="center-testm-img">
                         <div style="" class="img-testm-cont">
@@ -168,7 +168,6 @@
                 </div>
 
             </div>
-
         </div>
 
         <div class="width-fill-scrn" >
@@ -185,9 +184,9 @@
 <!--                    <a  href="sign_up">Join Community</a>-->
 <!--                </div>-->
             </div>
-
       </div>
-        {% if comp_len != 0 %}
+
+      {% if comp_len != 0 %}
       <h1 style="margin-top:80px">Partnering Companies</h1>
       <div style="overflow-x:auto;display:flex;" class="companies-cont border-radius-15">
 
@@ -196,25 +195,48 @@
             <div style="padding:30px;" class="companies-chd-cont">
                 <div class="img-cont"><img class="prf-image" src="static/images/{{cmp.image}}"></div>
                 <h4>{{cmp.name}}</h4>
-                <div style="width:150px" class="flex-justify-align">
+                <div style="width:150px;background-color:" class="flex-gap-align">
                     {% if cmp.web_link %}
-                        <a href="/"><i style="font-size:25px;color:#bbb;" class="material-symbols-rounded a-hover">language</i></a>
+                        <a href="{{cmp.web_link}}"><i style="font-size:25px;color:#bbb;background-color:;padding:10px" class="material-symbols-rounded a-hover">language</i></a>
                     {% endif %}
                     {% if cmp.fb_link %}
-                        <a href="#"><i style="font-size:25px;color:#bbb;" class="material-symbols-rounded">favorite</i></a>
+                        <a href="{{cmp.fb_link}}" ><div style="background-color:" class="social-icons"><img class="social-icon sized" src="static/icons/fb_icon.png" /></div></a>
                     {% endif %}
                     {% if cmp.twitter_link %}
-                        <a href="#"><i style="font-size:25px;color:#bbb;" class="material-symbols-rounded">view_kanban</i></a>
+                        <a href="#"><i style="font-size:25px;color:#bbb;padding:10px" class="material-symbols-rounded">view_kanban</i></a>
                     {% endif %}
                     {% if cmp.youtube %}
-                        <a href="#"><i style="font-size:25px;color:#bbb;" class="material-symbols-rounded">youtube_activity</i></a>
+                        <a href="#"><i style="font-size:25px;color:#bbb;padding:10px" class="material-symbols-rounded">youtube_activity</i></a>
                     {% endif %}
                 </div>
             </div>
 
+            <div class="card-popup">
+                <div class="img-cont-about-team border-insert"><img class="prf-image" src="static/images/{{cmp.image}}"></div><br><br>
+                <h4><span class="spans">{{cmp.name}}</span></h4>
+                <small><span style="color:#707070;font-weight:bold">{{cmp.email}}</span></small><br>
+                <div class="line-separator-cmp"></div><br>
+                <small>{{cmp.company_address}}</small><br>
+                <small>{{cmp.company_contacts}}</small><br>
+                <small><span style="color:#707070;">follow:</span></small>
+                <div style="width:150px;background-color:" class="flex-gap-align">
+                    {% if cmp.web_link %}
+                        <a href="{{cmp.web_link}}"><i style="font-size:25px;color:#bbb;background-color:;padding:10px" class="material-symbols-rounded a-hover">language</i></a>
+                    {% endif %}
+                    {% if cmp.fb_link %}
+                        <a href="{{cmp.fb_link}}" ><div style="background-color:" class="social-icons"><img class="social-icon sized" src="static/icons/fb_icon.png" /></div></a>
+                    {% endif %}
+                    {% if cmp.twitter_link %}
+                        <a href="#"><i style="font-size:25px;color:#bbb;padding:10px" class="material-symbols-rounded">view_kanban</i></a>
+                    {% endif %}
+                    {% if cmp.youtube %}
+                        <a href="#"><i style="font-size:25px;color:#bbb;padding:10px" class="material-symbols-rounded">youtube_activity</i></a>
+                    {% endif %}
+                </div>
+            </div>
             {% endfor %}
-
       </div>
+
         {% endif %}
 
       <div style="display:flex;flex-direction:column;margin-top:150px;" >
