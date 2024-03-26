@@ -1,8 +1,6 @@
 import secrets
 
 from flask import Flask,render_template,url_for,redirect,request,flash,session, make_response
-# from flask_oauthlib.client import OAuth
-from authlib.integrations.flask_client import OAuth
 # from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
 from flask_bcrypt import Bcrypt
@@ -34,15 +32,6 @@ from datetime import datetime
 #Applications
 app = Flask(__name__)
 
-oauth = OAuth(app)
-oauth.register(
-    'google',
-    client_id='your_google_client_id',
-    client_secret='your_google_client_secret',
-    authorize_url='https://accounts.google.com/o/oauth2/auth',
-    access_token_url='https://accounts.google.com/o/oauth2/token',
-    client_kwargs={'scope': 'openid profile email'},
-)
 
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
@@ -137,7 +126,7 @@ def save_pic(picture,size_x=300,size_y=300):
         img = i.resize(i.size, Image.Resampling.LANCZOS)
         img.thumbnail(output_size)
     else:
-        img = i.resize(i.size, Image.Resampling.LANCZOS)
+        img = i.resize(i.size, Image.LANCZOS)
         # img.thumbnail(i.size)
 
     img.save(saved_img_path,optimize=True, quality=95)
@@ -761,12 +750,12 @@ def send_application_fl():
                 tender_id=request.args['tender_id']
                 apply = FreeL_Applications(
                     applicant_id = current_user.id,
-                    freel_job_details_id= tender_id, #db.query(Jobs_Ads).get(jb_id),
+                    jfreel_job_details_id = tender_id, #db.query(Jobs_Ads).get(jb_id),
                     employer_id = Freelance_Jobs_Ads.query.get(tender_id).job_posted_by
                 )
 
                 #Check if application not sent before
-                job_obj = FreeL_Applications.query.filter_by(freel_job_details_id=tender_id).first()
+                job_obj = FreeL_Applications.query.filter_by(jfreel_job_details_id =tender_id).first()
                 company_obj = company_user.query.get(apply.employer_id)
 
                 #print('----------------------job_obj: ',job_obj)
@@ -957,12 +946,12 @@ def send_application():
                 jb_id = request.args['job_id']
                 apply = Applications(
                     applicant_id = current_user.id,
-                    jfreel_job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
+                    freel_job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
                     employer_id = Jobs_Ads.query.get(jb_id).job_posted_by
                 )
 
                 #Check if application not sent before
-                job_obj = Applications.query.filter_by(job_details_id=jb_id).first()
+                job_obj = Applications.query.filter_by(freel_job_details_id=jb_id).first()
                 company_obj = company_user.query.get(apply.employer_id)
 
                 #print('----------------------job_obj: ',job_obj)
