@@ -946,12 +946,12 @@ def send_application():
                 jb_id = request.args['job_id']
                 apply = Applications(
                     applicant_id = current_user.id,
-                    freel_job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
+                    jfreel_job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
                     employer_id = Jobs_Ads.query.get(jb_id).job_posted_by
                 )
 
                 #Check if application not sent before
-                job_obj = Applications.query.filter_by(freel_job_details_id=jb_id).first()
+                job_obj = Applications.query.filter_by(jfreel_job_details_id=jb_id).first()
                 company_obj = company_user.query.get(apply.employer_id)
 
                 #print('----------------------job_obj: ',job_obj)
