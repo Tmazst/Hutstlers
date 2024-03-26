@@ -957,7 +957,7 @@ def send_application():
                 jb_id = request.args['job_id']
                 apply = Applications(
                     applicant_id = current_user.id,
-                    freel_job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
+                    jfreel_job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
                     employer_id = Jobs_Ads.query.get(jb_id).job_posted_by
                 )
 
