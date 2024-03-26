@@ -388,7 +388,7 @@ def contact_us():
 
             #print("Posted")
         else:
-            flash("Ooops!! Please be sure to fill both email & message fields, correctly","error")
+            flash("Please be sure to fill both email & message fields, correctly","error")
 
     return render_template("contact_page.html",contact_form=contact_form)
 
