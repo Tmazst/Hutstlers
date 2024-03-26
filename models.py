@@ -132,7 +132,7 @@ class Applications(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     applicant_id = db.Column(db.Integer, ForeignKey('job_user.id'),nullable=False)
     employer_id = db.Column(db.Integer, ForeignKey('company_user.id'), nullable=False)
-    job_details_id = db.Column(db.Integer, ForeignKey('job_ads.job_id'), nullable=False)
+    jfreel_job_details_id = db.Column(db.Integer, ForeignKey('job_ads.job_id'), nullable=False)
     other = db.Column(db.String(120))
     time_stamp = db.Column(db.DateTime,default=datetime.utcnow, nullable=False)
     closed = db.Column(db.String(200))
