@@ -35,9 +35,6 @@ class user(db.Model,UserMixin):
     verified = db.Column(db.Boolean, default=False)
     role = db.Column(db.String(120))
 
-
-
-
     __mapper_args__={
         "polymorphic_identity":'user',
         'polymorphic_on':role
@@ -63,7 +60,6 @@ class job_user(user):
     jobs_applied_for = relationship("Applications", backref='Applications.job_title', lazy=True)
 
     __mapper_args__={
-
             "polymorphic_identity":'job_user'
         }
 
@@ -166,3 +162,13 @@ class Freelance_Jobs_Ads(db.Model, UserMixin):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     job_posted_by = db.Column(db.Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
     applications = relationship("FreeL_Applications", backref='FreeL_Applications.id', lazy=True)
+
+class testimonials(db.Model, UserMixin):
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    title = db.Column(db.String(10)) #db.Column(db.Boolean, default=False)
+    occupation = db.Column(db.String(80))
+    company = db.Column(db.String(80))
+    testimony = db.Column(db.String(200))
+    image = db.Column(db.String(120))

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div   class="tags">
+    <div class="flash-messages" class="btn">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for  category, message in messages %}
+                    <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}</div>
+<!--    <h3>Password Reset<br> <span class="spans"></span></h3>  -->
+    <p class="paras-subtopics"></p>
+<!--    {% if current_user.is_authenticated %}  -->
+<!--    {% endif %}  -->
+    <br><br>
+<!--    <label for="Job Category"><span>Category:</span></label>   -->
+<!--    <select onchange="location=this.value;" id="category-filter" class="jobs-category" style="margin-bottom:10px" name="field_category_sel">    -->
+<!--         <option value="/job_ads">&#45;&#45;Filter by Category&#45;&#45;</option>   -->
+<!--        {% if job_ads %}    -->
+<!--            {% for item in users %}    -->
+<!--            {% endfor %}    -->
+<!--        {% endif %}     -->
+<!--    </select>   -->
+<!--    <a href="/job_ads"><button id="view-all" class="btns-margin btns">View All</button></a>     -->
+  <div style="background-color:ae23a3;" class="general-flex-x">
+        {% if users %}
+            {% for item in users %}
+                {% if item.role == 'job_user' %}
+            <!----FORM----->
+                    <div style="display:flex;flex-direction:column;width:300px;" class="new_job_ad_style_usr anim">
+
+                            <div style="" class="center-prl-img">
+                                <div style="margin:15px auto 0px auto;"  class="img-cont">
+                                   {% if item.image %}
+                                        <img class="prf-image" src="{{url_for('static', filename='images/' + item.image)}}"/>
+                                  {% else %}
+                                        <img class="prf-image" src="static/images/default.jpg"/>
+                                  {% endif %}
+                                </div>
+                            </div>
+
+                            <h2 style="margin-bottom:0px;margin-top:0px;">{{item.name}}<br></h2>
+                            <span><small style="color:#aaa" >{{item.email}}</small></span>
+                            <span><small style="color:#aaa" >{{item.address}}</small></span>
+
+                            <!-------JOB TITLE--------->
+                        {% if item.other %}
+                            <p class="job-title">{{item.other}}</p>
+                        {% endif %}
+                        {% if item.tertiary %}
+                            <p class="">{{item.tertiary}}</p>
+                        {% endif %}
+                            <!---------JOB TYPE--------->
+                        {% if item.experience %}
+                            <span><small style="color:#909090" >{{item.experience}}</small></span>
+                        {% endif %}
+                        {% if item.skills %}
+                            <p class="">{{item.skills}}</p>
+                        {% endif %}<br><br>
+
+                        <div style="dispaly:block">
+                                 <!--<input class="btns" type="submit" value="Create Account" />-->
+                                 <a class="view_user" href="/user_viewed?id={{item.id}}">View</a>
+                        </div>
+                    </div>
+                    {% endif %}
+            {% endfor %}
+        {% endif %}
+  </div>
+{% endblock %}

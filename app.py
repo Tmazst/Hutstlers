@@ -1,6 +1,6 @@
 import secrets
 
-from flask import Flask,render_template,url_for,redirect,request,flash,session, make_response
+from flask import Flask,render_template,url_for,redirect,request,flash,session, make_response,send_from_directory
 # from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
 from flask_bcrypt import Bcrypt
@@ -32,14 +32,13 @@ from datetime import datetime
 #Applications
 app = Flask(__name__)
 
-
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -136,6 +135,28 @@ def save_pic(picture,size_x=300,size_y=300):
 
     return new_img_name
 
+def save_cv(cv_file):
+
+    _file_name, _ext = os.path.splitext(cv_file.filename)
+    gen_random = secrets.token_hex(8)
+    new_cv_name = _file_name+gen_random + _ext
+
+    os.path.join(app.root_path,'static/files', new_cv_name)
+
+    return new_cv_name
+@app.route('/static/css/style.css')
+def serve_static(filename):
+    return send_from_directory('static', filename)
+
+
+@app.after_request
+def add_header(response):
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
+
 
 #Web
 @app.route("/")
@@ -156,7 +177,6 @@ def home():
 
     for cmp in companies_ls:
         print("Check Links: ",cmp.fb_link)
-
 
     return render_template("index.html",img_1='', img_2  ='',img_3 ='', companies_ls=companies_ls, comp_len=comp_len )
 
@@ -198,13 +218,10 @@ def sign_up():
                 Register().validate_email(register.email.data)
                 # return redirect(url_for('sign_up'))
 
-
             # #print(register.name.data,register.email.data)
     elif register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
         #print(register.errors)
-
-
 
     # from myproject.models import user
     return render_template("sign_up_form.html",register=register)
@@ -238,6 +255,10 @@ def account():
                 pfl_pic = save_pic(picture = cv.image_pfl.data)
                 usr.image = pfl_pic
 
+            if cv.cv_file.data:
+                cv_file_ = save_cv(cv_file=cv.cv_file.data)
+                usr.other = cv_file_
+
             usr.name = cv.name.data
             usr.email = cv.email.data
             usr.contacts = cv.contacts.data
@@ -250,6 +271,7 @@ def account():
             usr.reference_2 = cv.reference_2.data
             usr.skills = cv.skills.data
             usr.experience = cv.experience.data
+
 
             db.session.commit()
 
@@ -514,6 +536,8 @@ def job_ads_form():
 
     db.create_all()
 
+    print("Check Benefits: ",request.form.get('benefits'))
+
     if request.method == 'POST':
        if job_ad_form.validate_on_submit():
             job_post1 = job_ads_model(
@@ -524,6 +548,7 @@ def job_ads_form():
                 qualifications = job_ad_form.qualifications.data,
                 contact_person = job_ad_form.posted_by.data,
                 job_type= request.form.get('job_type_sel'),
+                #benefits =request.form.get('benefits'),
                 # date_posted = datetime.utcnow(),
                 application_deadline=job_ad_form.application_deadline.data,
                 job_posted_by = current_user.id
@@ -601,23 +626,22 @@ def fl_job_ads_form():
 
             flash('Your Freelance Job Post was succesfull', 'success')
 
-    return render_template("fl_job_ads_form.html",fl_job_ad_form=fl_job_ad_form)
+    return render_template("fl_job_ads_form.html", fl_job_ad_form=fl_job_ad_form)
 
 
-@app.route("/all_users")
+@app.route("/users")
 def users():
     from sqlalchemy import text
 
     user_v = []
-    al_users = user.query.all()
+    users_ = user.query.all()
 
-    ea_usr = [usr_obj for usr_obj in al_users]
-
+    # ea_usr = [usr_obj for usr_obj in al_users]
     # all_users = text("SELECT * FROM user;")
     # for ea_user in db.execute(al_users):
     #     users.append(list(ea_user))
 
-    return render_template("users.html",al_users=al_users )
+    return render_template("user.html",users=users_ )
 
 
 @app.route("/company_retieve")
@@ -750,12 +774,12 @@ def send_application_fl():
                 tender_id=request.args['tender_id']
                 apply = FreeL_Applications(
                     applicant_id = current_user.id,
-                    jfreel_job_details_id = tender_id, #db.query(Jobs_Ads).get(jb_id),
+                    freel_job_details_id = tender_id, #db.query(Jobs_Ads).get(jb_id),
                     employer_id = Freelance_Jobs_Ads.query.get(tender_id).job_posted_by
                 )
 
                 #Check if application not sent before
-                job_obj = FreeL_Applications.query.filter_by(jfreel_job_details_id =tender_id).first()
+                job_obj = FreeL_Applications.query.filter_by(freel_job_details_id =tender_id).first()
                 company_obj = company_user.query.get(apply.employer_id)
 
                 #print('----------------------job_obj: ',job_obj)
@@ -766,8 +790,7 @@ def send_application_fl():
                                            company_obj=company_obj)
                 else:
                     # fl = flash(f"Application with this details Already Submitted!!", "error")
-                    return f'''This Application Already Submitted before.
-                     Please Wait for a Reply!!'''
+                    return f'''This Application Already Submitted.'''
 
 
     return f'Something went Wrong, Please return to the previuos page'
@@ -992,6 +1015,19 @@ def view_job():
 
 
     return render_template('job_ad_opened.html',item=job_ad,db=db,company_user=company_user)
+
+@app.route("/user_viewed", methods=["GET", "POST"])
+def view_user():
+
+    if request.method == 'GET':
+        id = request.args['id']
+
+        job_ad = user.query.get(id)
+
+        #print("Job Ad Title: ",job_ad.job_title)
+
+
+    return render_template('user_viewed.html',item=job_ad,db=db,company_user=company_user)
 
 
 @app.route("/verified/<token>", methods=["POST", "GET"])

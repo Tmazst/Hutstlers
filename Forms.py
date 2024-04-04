@@ -60,6 +60,7 @@ class Update_account_form(FlaskForm):
     skills = TextAreaField('Skills', validators=[Length(min=8, max=150)])
     hobbies = StringField('Interests (Optional)')
     address = StringField('Physical Address', validators=[DataRequired(), Length(min=8, max=100)])
+    cv_file = FileField('Upload CV/Resume', validators=[FileAllowed(['pdf', 'docx'])])
     reference_1 = TextAreaField('Reference (1)',
                                 validators=[DataRequired(), Length(min=8, max=64)])
     reference_2 = TextAreaField('Reference (2)',

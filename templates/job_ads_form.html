@@ -209,12 +209,30 @@
                  {{ job_ad_form.benefits_bl.label(class="labels")}}
                   {{ job_ad_form.benefits_bl()}}<br>
 
-                  {{ job_ad_form.benefits(class="form-control adj-width-60",placeholder="Free House for Accomodation")}}
+                  <div class="job-ad-group marginise-bottom">
+                 <label for="benefits" class="labels">Benefits: </label>
+                 <select id="benefits" style="margin-bottom:10px" name="benefits" multiple >
+                     <option value="Flexible working hours">Flexible working hours</option>
+                     <option value="Free House for Accommodation">Free House for Accommodation</option>
+                     <option value="Work From Home">Work From Home</option>
+                     <option value="Training & Development">Training & Development</option>
+                     <option value="Free Food ">Free Food </option>
+                     <option value="Performance Bonus"> Performance Bonus/Awards/Gifts</option>
+                     <option value="Wellness Resources"> Wellness Resources</option>
+                     <option value="Employee Discounts"> Employee Discounts</option>
+                     <option value="Employee Assistance Program">Employee Assistance Program - Counselling</option>
+                 </select>
+
+                 <div>
+                    <label for="benefits" class="labels">     </label>
+                    {{ job_ad_form.benefits(class="form-control adj-width-60",placeholder="Free House for Accommodation")}}
                   {% if job_ad_form.benefits.errors %}
                     {% for error in job_ad_form.benefits.errors %}
                         <span class="span-error" >*{{error}}</span>
                     {% endfor %}
                  {% endif %}
+                 </div>
+             </div>
 
              </div>
 

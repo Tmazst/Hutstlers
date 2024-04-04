@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField, TextAreaField,BooleanField
+from wtforms import StringField,PasswordField,SubmitField, TextAreaField,BooleanField,RadioField
 from wtforms.validators import DataRequired,Length,Email, EqualTo, ValidationError,URL
 from flask_login import current_user
 from wtforms.fields import DateField, TelField
@@ -120,3 +120,19 @@ class Reset_Request(FlaskForm):
     email = StringField('email', validators=[DataRequired(), Email()])
 
     reset = SubmitField('Submit')
+
+
+class Testimonials(FlaskForm):
+
+    name = StringField('Name:', validators=[DataRequired(), Length(min=2, max=120)])
+    title = RadioField('Title:',('Mr.','Mr.'),('Ms.','Ms.'),('Other','Other'), validators=[DataRequired()])
+    occupation_choices = RadioField('Please Choose:', ('Working', 'Working'),('Not Working Yet', 'Not Working Yet'), ('Own Boss', 'Own Boss'), ('Student', 'Student'),
+                                    ('Graduate', 'Graduate'),('Other', 'Other'), validators=[DataRequired()])
+    occupation = StringField('Occupation/Company/College/etc:(Optional)', validators=[DataRequired(), Length(min=2, max=120)])
+    image = FileField('Upload Image', validators=[FileAllowed(['jpg', 'png'])])
+
+    pay_type_bl = BooleanField('Pay Type:')
+    testimony = TextAreaField('Testimony/Comments:', validators=[DataRequired(), Length(min=5, max=400)])
+    qualifications = TextAreaField('Requirements or Qualifications:', validators=[DataRequired(), Length(min=5, max=400)])
+    age_range_bl = BooleanField('Age Range:')
+    age_range = StringField('Age Range:')

@@ -65,32 +65,34 @@
                         <!-------JOB TITLE--------->
                         <p class="job-title">{{item.job_title}}</p>
                         <p style="color:#006769;font-weight:600;font-size:13px">{{item.category}}</p>
+
                         <div class="job-sub-title">
-                            <!-------JOB TYPE--------->
+
+                            <!---------JOB TYPE--------->
                             <div class="job-info">
                                 <p class="centralise_font size-it"><span class="material-icons ">work</span>    Job Type</p>
                                 <label style="margin-top:-10px" class="centralise_font">{{item.job_type}}</label>
                             </div>
-                            <!--------DEADLINE-------------->
+
+                            <!--------------DEADLINE-------------->
                             <div id="deadline-div"  class="job-info">
                                 <p class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Project Due</p>
                                 <label id="deadline" class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
                             </div>
-
                         </div>
 
-
-                         <!-------RESPONSIBILITIES--------->
+                         <!-------------RESPONSIBILITIES--------->
                         <div class="">
                                 <p class="centralise_font size-it" ><span class="material-icons">place</span></p>
                                 <div style="margin-top:-10px" class="centralise_font" ><label>{{db.session.query(company_user).get(item.job_posted_by).company_address}}</label></div>
+                            <embed class="pdf" src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101201653/PDF.pdf" width="800" height="500">
                         </div>
 
                         <div style="background-color:ea2a30;flex-grow:5;" >
-                             <p class="centralise_font" ></p>
+                             <p class="centralise_font"></p>
                         </div>
 
-                        <!--------VIEW BUTTON-------------->
+                        <!------------VIEW BUTTON-------------->
                         <div style="dispaly:block">
                              <!--<input class="btns" type="submit" value="Create Account" />-->
                              <a class="view_job" href="/job_ad_opened?id={{item.job_id}}">View</a>
