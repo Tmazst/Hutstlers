@@ -953,13 +953,15 @@ font-weight:400;
 
 }
 
-.team-email{
+.portfolio-row{
+    display:flex;
+    gap:20px;
+}
 
+.team-email{
     text-align:center !important;
     margin-top:-10px !important;
     font-size:15px !important;
-
-
 }
 
 .bg-drop{
@@ -984,7 +986,11 @@ font-weight:400;
 
 }
 
+.portfolio-div{
+    background-color:#fea;
+    width:100%;
 
+}
 /*-----------------VIeW JOB-------------------*/
 
 .view_job{
@@ -1015,7 +1021,7 @@ font-weight:400;
 
 }
 
-#browse-job{
+.browse-job{
     border:1px solid #eee;
     width:1000px !important;
     padding: 0 50px 50px 50px;
@@ -1184,6 +1190,17 @@ font-weight:400;
     padding:10px;
     //height:50vh;
     //background-color:red;
+}
+
+.form_container_{
+    display:flex;
+    flex-direction:row;
+    justify-content: !important;
+    //flex-wrap:wrap;
+    max-width:600px !important;
+    min-width:350px !important;
+    border-radius:10px;
+    padding:50px;
 }
 
 .form-control{
@@ -2135,6 +2152,7 @@ width:100%;
 .tags{
    margin-top:40% !important;
 }
+
 
 .flash-messages{
     position:absolute !important;

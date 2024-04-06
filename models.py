@@ -15,11 +15,9 @@ db = SQLAlchemy()
 metadata = MetaData()
 
 
-
 #Users class, The class table name 'h1t_users_cvs'
 class user(db.Model,UserMixin):
 
-    
     __tablename__ = 'user'
     # __table_args__ = {'extend_existing': True}
 
@@ -40,8 +38,6 @@ class user(db.Model,UserMixin):
         'polymorphic_on':role
     }
 
-
-
 class job_user(user):
 
     __tablename__ = 'job_user'
@@ -58,11 +54,11 @@ class job_user(user):
     reference_2 = db.Column(db.String(120))
     other = db.Column(db.String(120))
     jobs_applied_for = relationship("Applications", backref='Applications.job_title', lazy=True)
+    hired_user = relationship("hired", backref='Hired Applicant', lazy=True)
 
     __mapper_args__={
             "polymorphic_identity":'job_user'
         }
-
 
 class company_user(user):
 
@@ -85,6 +81,46 @@ class company_user(user):
         "polymorphic_identity": 'company_user'
     }
 
+class user_experince_entries(job_user): #A table form filling prior tht experience
+    id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
+    portfolio_pdf = db.Column(db.String(120))
+    fl_experience = db.Column(db.String(120))
+    other_fl = db.Column(db.String(120))
+    what_do_you_do = db.Column(db.String(1000))
+
+    __mapper_args__ = {
+        "polymorphic_identity": 'user_experince_entries'
+    }
+
+class Freelancers(job_user): #A table form filling prior tht experience
+    id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
+    portfolio_pdf = db.Column(db.String(120))
+    fl_experience = db.Column(db.String(120))
+    other_fl = db.Column(db.String(120))
+    what_do_you_do = db.Column(db.String(1000))
+
+    __mapper_args__ = {
+        "polymorphic_identity": 'freelancers'
+    }
+
+#After the user finishes the current(latest) job contract they supposed to fill a form to be used to stored their work experience
+class users_tht_portfolio(job_user): #A table for tht experince
+    id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
+    job_details = db.Column(db.Integer, ForeignKey('job_ads.job_id')) #these entery I will the company(job_posted_by) which posted the job & other details about the job
+    portfolio_feedback = db.Column(db.String(1000))
+    date_employed = db.DateTime()
+    portfolio_other = db.Column(db.String(120))
+    other2 = db.Column(db.String(120))
+
+    __mapper_args__ = {
+        "polymorphic_identity": 'users_tht_portfolio'
+    }
+
+class hired(db.Model, UserMixin):
+    id = db.Column(db.Integer, ForeignKey('company_user.id'), primary_key=True)
+    hired_user = db.Column(db.Integer, ForeignKey('user.id'))
+    job_details = db.Column(db.String(120)) #Job Id will sent to the route and be stored in database
+
 class Email_Verifications(db.Model, UserMixin):
 
     __table_name__='email_verifications'
@@ -92,8 +128,6 @@ class Email_Verifications(db.Model, UserMixin):
     email_id = db.Column(db.Integer,ForeignKey('user.id'), primary_key=True)
     generated_hash = db.Column(db.String(120))
     time_stamp = db.DateTime()
-
-    # __abstract__ = True
 
 class Jobs_Ads(db.Model, UserMixin):
 
@@ -118,19 +152,18 @@ class Jobs_Ads(db.Model, UserMixin):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow, nullable=False) #Records itself
     job_posted_by = db.Column(db.Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
     applicantions = relationship("Applications", backref='All Applications', lazy=True)
-
-
+    tht_portfolio_hired = relationship("users_tht_portfolio", backref='users_tht_portfolio.id', lazy=True)
 
 class Applications(db.Model, UserMixin):
 
     __tablename__ = 'job_applications'
 
     id = db.Column(db.Integer, primary_key=True)
-    applicant_id = db.Column(db.Integer, ForeignKey('job_user.id'),nullable=False)
+    applicant_id = db.Column(db.Integer, ForeignKey('job_user.id'), nullable=False)
     employer_id = db.Column(db.Integer, ForeignKey('company_user.id'), nullable=False)
-    jfreel_job_details_id = db.Column(db.Integer, ForeignKey('job_ads.job_id'), nullable=False)
+    job_details_id = db.Column(db.Integer, ForeignKey('job_ads.job_id'), nullable=False)
     other = db.Column(db.String(120))
-    time_stamp = db.Column(db.DateTime,default=datetime.utcnow, nullable=False)
+    time_stamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     closed = db.Column(db.String(200))
 
 class FreeL_Applications(db.Model, UserMixin):
@@ -138,13 +171,12 @@ class FreeL_Applications(db.Model, UserMixin):
     __tablename__ = 'freelance_applications'
 
     id = db.Column(db.Integer, primary_key=True)
-    applicant_id = db.Column(db.Integer, ForeignKey('job_user.id'),nullable=False)
+    applicant_id = db.Column(db.Integer, ForeignKey('job_user.id'), nullable=False)
     employer_id = db.Column(db.Integer, ForeignKey('company_user.id'), nullable=False)
     other = db.Column(db.String(120))
     freel_job_details_id = db.Column(db.Integer, ForeignKey('freelance_job_ads.job_id'), nullable=False)
-    time_stamp = db.Column(db.DateTime,default=datetime.utcnow, nullable=False)
+    time_stamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     closed = db.Column(db.String(200))
-
 
 class Freelance_Jobs_Ads(db.Model, UserMixin):
 

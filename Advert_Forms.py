@@ -38,7 +38,7 @@ class Job_Ads_Form(FlaskForm):
 class Freelance_Ads_Form(FlaskForm):
 
     service_title = StringField('Project Title:', validators=[DataRequired(), Length(min=2, max=120)])
-    speciality = StringField('Expertise or Skills:')
+    speciality = StringField('Expertise or Skill:')
     category = StringField('Category:')
     description = TextAreaField('Project Description:', validators=[DataRequired(), Length(min=5, max=400)])
     project_duration = StringField('Work/Project Duration (Start - End):')
@@ -114,13 +114,27 @@ class Reset(FlaskForm):
 
     reset = SubmitField('Reset')
 
-
 class Reset_Request(FlaskForm):
 
     email = StringField('email', validators=[DataRequired(), Email()])
 
     reset = SubmitField('Submit')
 
+class Work_Feedback(FlaskForm):
+    comment = TextAreaField('Work Feedback:', validators=[DataRequired(), Length(min=10, max=1000)])
+    submit = SubmitField('Submit')
+
+class Freelance_Section(FlaskForm):
+    title = StringField('Title:', validators=[DataRequired(), Length(min=10, max=60)])
+    experience = StringField('Years of Experience(Optional):', validators=[DataRequired(), Length(min=10, max=60)])
+    what_do_you_do = TextAreaField('Explain your Work:', validators=[DataRequired(), Length(min=10, max=1000)])
+    portfolio_file = FileField('Upload Portfolio', validators=[FileAllowed(['pdf', 'docx'])])
+    submit = SubmitField('Submit')
+
+class Job_Feedback():
+    job_feedback = TextAreaField('Explain your Work:', validators=[DataRequired(), Length(min=10, max=1000)])
+
+    submit = SubmitField('Submit')
 
 class Testimonials(FlaskForm):
 
@@ -130,7 +144,6 @@ class Testimonials(FlaskForm):
                                     ('Graduate', 'Graduate'),('Other', 'Other'), validators=[DataRequired()])
     occupation = StringField('Occupation/Company/College/etc:(Optional)', validators=[DataRequired(), Length(min=2, max=120)])
     image = FileField('Upload Image', validators=[FileAllowed(['jpg', 'png'])])
-
     pay_type_bl = BooleanField('Pay Type:')
     testimony = TextAreaField('Testimony/Comments:', validators=[DataRequired(), Length(min=5, max=400)])
     qualifications = TextAreaField('Requirements or Qualifications:', validators=[DataRequired(), Length(min=5, max=400)])

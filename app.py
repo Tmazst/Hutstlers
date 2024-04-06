@@ -8,7 +8,7 @@ from flask_login import login_user, LoginManager,current_user,logout_user, login
 from Forms import Register,Login, Contact_Form,Update_account_form,Reset,Reset_Request
 from Tokeniser import Tokenise
 from flask_mail import Mail,Message
-from Advert_Forms import Job_Ads_Form,Company_Register_Form, Company_Login, Company_UpdateAcc_Form, Freelance_Ads_Form
+from Advert_Forms import Job_Ads_Form,Company_Register_Form, Company_Login, Company_UpdateAcc_Form, Freelance_Ads_Form,Freelance_Section,Job_Feedback
 import os
 from PIL import Image
 from sqlalchemy import exc
@@ -18,11 +18,10 @@ import MySQLdb
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
-from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads,Email_Verifications,FreeL_Applications
+from models import db, user,company_user,job_user,Jobs_Ads,Applications,Freelance_Jobs_Ads,Email_Verifications,FreeL_Applications,Freelancers,users_tht_portfolio,hired
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime
-
 
 # from models.user import get_reset_token, very_reset_token
 #DB sessions
@@ -36,9 +35,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -108,7 +107,6 @@ def resize_img(img,size_x=30,size_y=30):
 
     return img
 
-
 def save_pic(picture,size_x=300,size_y=300):
 
     _img_name, _ext = os.path.splitext(picture.filename)
@@ -130,9 +128,6 @@ def save_pic(picture,size_x=300,size_y=300):
 
     img.save(saved_img_path,optimize=True, quality=95)
 
-
-
-
     return new_img_name
 
 def save_cv(cv_file):
@@ -144,10 +139,10 @@ def save_cv(cv_file):
     os.path.join(app.root_path,'static/files', new_cv_name)
 
     return new_cv_name
+
 @app.route('/static/css/style.css')
 def serve_static(filename):
     return send_from_directory('static', filename)
-
 
 @app.after_request
 def add_header(response):
@@ -156,7 +151,6 @@ def add_header(response):
     response.headers['Expires'] = '0'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
-
 
 #Web
 @app.route("/")
@@ -272,7 +266,6 @@ def account():
             usr.skills = cv.skills.data
             usr.experience = cv.experience.data
 
-
             db.session.commit()
 
             flash("Account Updated Successfull!!", "success")
@@ -295,12 +288,11 @@ def account():
 @app.route("/login",methods=["POST","GET"])
 def login():
 
-    login= Login()
+    login = Login()
 
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     if request.method == 'POST':
-
 
         if login.validate_on_submit():
             # #print(f"Account Successfully Created for {login.name.data}")
@@ -343,7 +335,6 @@ def load_user_from_cookie():
         if usr:
             session['user_id'] = usr.id
             login_user(usr)
-
 
 @app.route('/logout')
 def log_out():
@@ -402,7 +393,6 @@ def contact_us():
             flash("Please be sure to fill both email & message fields, correctly","error")
 
     return render_template("contact_page.html",contact_form=contact_form)
-
 
 @app.route("/companies")
 def companies():
@@ -526,7 +516,6 @@ def tht_how():
 
     return render_template("how_does_it_work.html")
 
-
 @app.route("/job_ads_form", methods=["POST","GET"])
 @login_required
 def job_ads_form():
@@ -629,20 +618,37 @@ def fl_job_ads_form():
     return render_template("fl_job_ads_form.html", fl_job_ad_form=fl_job_ad_form)
 
 
-@app.route("/users")
-def users():
-    from sqlalchemy import text
+@app.route("/job_feedback_form")
+def job_feedback():
 
-    user_v = []
-    users_ = user.query.all()
+    feedback_form = Job_Feedback()
+    the_freelancer = users_tht_portfolio.query.get(current_user.id)
 
-    # ea_usr = [usr_obj for usr_obj in al_users]
-    # all_users = text("SELECT * FROM user;")
-    # for ea_user in db.execute(al_users):
-    #     users.append(list(ea_user))
+    db.create_all()
 
-    return render_template("user.html",users=users_ )
+    if current_user.is_authenticated:
+        freelancer_details = users_tht_portfolio(
+            portfolio_feedback = feedback_form.job_feedback.data
+        )
 
+    return render_template("job_feedback.html", feedback_form=feedback_form, the_freelancer=the_freelancer)
+
+@app.route("/freelancers_form")
+def freelancers():
+    freelancer = Freelance_Section()
+
+    the_freelancer = Freelancers.query.get(current_user.id)
+
+    db.create_all()
+
+    if current_user.is_authenticated:
+        freelancer_details = Freelancers(
+            fl_experience = freelancer.experience.data,
+            what_do_you_do = freelancer.what_do_you_do.data,
+            portfolio_pdf = freelancer.portfolio_file.data
+        )
+
+    return render_template("freelance_form.html",freelancer=freelancer,the_freelancer=the_freelancer)
 
 @app.route("/company_retieve")
 def cmp_user_profile():
@@ -655,10 +661,7 @@ def cmp_user_profile():
         users.append(list(ea_user))
         ##print(users)
 
-
     return f"{users}"
-
-
 
 @app.route("/job_ads",methods=["GET", "POST"])
 def job_adverts():
@@ -675,6 +678,7 @@ def job_adverts():
     usr = user()
     # job_ads = []
     # job_ads = db.query(company_user.job_ads).all()
+
     job_ads_form = Job_Ads_Form()
     if request.method == 'GET':
         id = request.args.get('id')
@@ -694,7 +698,6 @@ def job_adverts():
 
 @app.route("/job_ads_filtered",methods=["GET", "POST"])
 def job_adverts_filtered():
-
 
     if current_user.is_authenticated:
         #print("Current User")
@@ -755,6 +758,7 @@ def freelance_job_adverts():
     # Fix jobs adds does not have hidden tag
     return render_template("freelance_jobs_ui.html", fl_job_ads=fl_job_ads, fl_job_ads_form=fl_job_ads_form, db=db,
                            company_user=company_user, user=usr, no_image_fl=no_image_fl)
+
 @app.route("/send_application_fl", methods=["GET","POST"])
 @login_required
 def send_application_fl():
@@ -810,7 +814,6 @@ def view_tender():
 
 
 #------------------------------COMPANIES DATA-------------------------------#
-
 @app.route("/company_sign_up", methods=["POST","GET"])
 def company_sign_up_form():
 
@@ -969,7 +972,7 @@ def send_application():
                 jb_id = request.args['job_id']
                 apply = Applications(
                     applicant_id = current_user.id,
-                    jfreel_job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
+                    job_details_id= jb_id, #db.query(Jobs_Ads).get(jb_id),
                     employer_id = Jobs_Ads.query.get(jb_id).job_posted_by
                 )
 
@@ -1016,18 +1019,27 @@ def view_job():
 
     return render_template('job_ad_opened.html',item=job_ad,db=db,company_user=company_user)
 
+@app.route("/users")
+def users():
+    from sqlalchemy import text
+
+    user_v = []
+    users_ = user.query.all()
+
+    return render_template("user.html",users=users_)
+
 @app.route("/user_viewed", methods=["GET", "POST"])
 def view_user():
 
     if request.method == 'GET':
-        id = request.args['id']
+        uid = request.args['id']
 
-        job_ad = user.query.get(id)
+        job_usr = user.query.get(uid)
 
         #print("Job Ad Title: ",job_ad.job_title)
 
 
-    return render_template('user_viewed.html',item=job_ad,db=db,company_user=company_user)
+    return render_template('user_viewed.html',job_usr=job_usr,db=db,company_user=company_user)
 
 
 @app.route("/verified/<token>", methods=["POST", "GET"])
@@ -1130,6 +1142,7 @@ verify email here,{url_for('verified', token=token, _external=True)}
 
     return render_template('verification.html')
 
+#(1) Company Views All Applications under her name
 @app.route("/job_applications",methods=["GET", "POST"])
 def applications():
 
@@ -1145,21 +1158,45 @@ def applications():
 
     return render_template("applications.html", all_applications = all_applications, job_user = job_usr, job_ads = job_ads, applications = applications,db=db)
 
+#(2) They view each applicant of their choice
 @app.route("/view_applicant")
 def view_applicant():
 
     if request.method == 'GET':
-        id = request.args['id']
+        id = request.args['uid']
+        app_id = request.args['app_id']
         job_usr = job_user.query.get(id)
 
-    return render_template("view_applicant.html", job_usr = job_usr)
+    return render_template("view_applicant.html", job_usr = job_usr, app_id = app_id)
 
+#(3) After viewing the applicant, they hire the applicant
 @app.route("/hire_applicant")
 def hire_applicant():
 
-    if request.method == 'GET':
-        id = request.args['id']
-        job_usr = job_user.query.get(id)
+    # hired_job_usr = hired
+    if current_user.is_authenticated:
+        if request.method == 'GET':
+            try:
+                id = request.args['id']
+                app_id = request.args['app_id']
+                job_usr = job_user.query.get(id)
+
+                hire_user = hired(
+                    id = current_user.id,
+                    hired_user = id,
+                    job_details = request.args['app_id']
+                )
+                db.session.add(hire_user)
+                db.session.commit()
+
+                #Close The Post
+                close_appl = Applications.query.get(app_id)
+                close_appl.closed = "Yes"
+                db.session.commit()
+
+                flash(f'You Have Successfully hired {user.query.get(id)} for {Jobs_Ads.query.get(id).job_title}', 'success')
+            except:
+                return flash(f'Something Went Wrong, try again later', 'error')
 
     return render_template("hire_applicant.html", job_usr = job_usr,db=db)
 

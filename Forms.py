@@ -44,8 +44,7 @@ class Contact_Form(FlaskForm):
     submit = SubmitField("Send")
 
 
-def open_passchange_gui():
-    return True
+
 
 class Update_account_form(FlaskForm):
 
