@@ -2,7 +2,7 @@
 
 {% block content %}
 <div   class="tags">
-
+    
     <div class="flash-messages btn">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -12,7 +12,7 @@
             {% endif %}
         {% endwith %}
     </div>
-
+    
     <p class="paras-subtopics"></p>
 
 <br><br>
@@ -52,12 +52,22 @@
                             <p class="">{{item.skills}}</p>
                         {% endif %}<br><br>
 
+                        <p>At the end of the term of contract with the young employee, you requested to issue <br> an 'End of Term Report Form'
+                        for your employee to fill. After filling the form the young person will send it back you to read and approve <br>
+                        if the content written is true or not.</p>
+                        <small>The "End of Term Form" is used by The Hustlers Time create a portfolio for the young person
+                            <br> This forms will be consolidated together consecutively to create a single work experience profile</small>
+                        <small>Thank You for your valuable contribution in sharping young generation future for a better economy,<br> thus contributing back to
+                        the community for a lasting solution</small>
+
+                        <small>Click submit below to issue the 'End of Term Report Form'</small>
                         <div style="dispaly:block">
-                                 <a class="view_user" href="/user_viewed?id={{item.id}}">View</a>
+                                 <a class="view_user" href="/send_endofterm_form?id={{item.id}}">Submit</a>
                         </div>
                     </div>
                     {% endif %}
             {% endfor %}
               {% endif %}
+      </div>
   </div>
 {% endblock %}

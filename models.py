@@ -105,10 +105,12 @@ class Freelancers(job_user): #A table form filling prior tht experience
 
 #After the user finishes the current(latest) job contract they supposed to fill a form to be used to stored their work experience
 class users_tht_portfolio(job_user): #A table for tht experince
-    id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    usr_id = db.Column(db.Integer, ForeignKey('job_user.id'))
     job_details = db.Column(db.Integer, ForeignKey('job_ads.job_id')) #these entery I will the company(job_posted_by) which posted the job & other details about the job
     portfolio_feedback = db.Column(db.String(1000))
-    date_employed = db.DateTime()
+    date_employed = db.Column(db.DateTime())
+    approved = db.Column(db.Boolean)
     portfolio_other = db.Column(db.String(120))
     other2 = db.Column(db.String(120))
 
@@ -117,9 +119,14 @@ class users_tht_portfolio(job_user): #A table for tht experince
     }
 
 class hired(db.Model, UserMixin):
-    id = db.Column(db.Integer, ForeignKey('company_user.id'), primary_key=True)
-    hired_user = db.Column(db.Integer, ForeignKey('user.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    comp_id = db.Column(db.Integer, ForeignKey('company_user.id'))
+    hired_user_id = db.Column(db.Integer, ForeignKey('user.id'))
     job_details = db.Column(db.String(120)) #Job Id will sent to the route and be stored in database
+    usr_cur_job = db.Column(db.Boolean) #To check which job is open(current job) for the user
+    hired_date = db.Column(db.DateTime())
+    #I need to add a pending entry checker; a current job of the job_user to identify entry here   ----pending
+
 
 class Email_Verifications(db.Model, UserMixin):
 

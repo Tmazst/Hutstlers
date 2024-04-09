@@ -30,7 +30,12 @@
 
         <div style="padding-left:50px"  class="form-group">
                  <h2 class="media-h2"> Exposure & Work Experience Acquired </h2>
-                  {{ feedback_form.job_feedback(class="acc-form-control",placeholder="Name & Contact(s)")}}
+                  {{ usr_portfolio.portfolio_feedback}}
+                    <form _lpchecked="1" action="" method="post">
+                    <div class="form-group">
+                        <input class="btns" type="submit" value="Approved" />
+                    </div>
+                    </form>
                 {{ feedback_form.submit(class="btns",placeholder="Name & Contact(s)")}}
         </div>
 

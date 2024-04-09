@@ -13,10 +13,8 @@
 <!--    <link type="text/css" rel="stylesheet" href="static/icons/skateboarding.svg"/>-->
 
 
-
     <title>The Hustlers Time</title>
     <link rel="icon" type="image/x-icon" href=static/images/tht_logo.jpg">
-
 
     <div class="main">
 
@@ -24,10 +22,10 @@
             <div class="titles">
                 <div id="title">The Hustlers Time <br><span style="font-size:13px">Youth Empowered To Become Game-Changers</span></div>
             </div>
-            <div class="social-icons">
+            <div class="social-icons"><!--- Temporally closed
                <img class="social-icon" src="static/icons/fb-icon.png" />
                <img class="social-icon" src="static/icons/whatsapp-icon.png" />
-               <img class="social-icon" src="static/icons/x-icon.png" />
+               <img class="social-icon" src="static/icons/x-icon.png" />        --->
             </div>
         </div>
 
@@ -40,7 +38,6 @@
                   <a href="#">Partner with Us</a>
                   <a href="#">Sponsorships & Donations</a>
                  <a href="#">Coming Up!</a>
-
               </ul>
               <div class="burger">
                 <div class="line1"></div>
@@ -66,12 +63,8 @@
                   <li class="nav-item-main">
                     <a class="nav-link" href="/contact" >Contact Us</a>
                   </li>
-<!--                  <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#" >Freelancers</a>-->
-<!--                  </li>-->
                 </ul>
             </div>
-
 
 
 <!--            <button onclick="openMenuFunc()" class="menu">Menu</button>-->
@@ -92,11 +85,8 @@
 <!--                  <li class="other-nav-item">-->
 <!--                    <a class="nav-link" href="/contact" >Coming Up!</a>-->
 <!--                  </li>-->
-
 <!--                </ul>-->
-
 <!--            </div>-->
-
 
 
             <div class="user">
@@ -124,7 +114,6 @@
 
     {% if current_user.is_authenticated and current_user.role== 'company_user' %}
 <!--        SIDE NAV --->
-<!--    <button onclick="unhideHide()" id="myButton">Open Drawer</button>-->
     <div id="myDrawer" class="sidebar-main">
         <h3>Company Dashboard<br> <span class="spans">Menu</span></h3>
         <div id="side-nav-div">
@@ -148,6 +137,9 @@
                       <li class="side-nav-item">
                         <a class="side-nav-link" href="/job_applications">Check Applications</a>
                       </li>
+                     <li class="side-nav-item">
+                        <a class="side-nav-link" href="/show_hired_users">Hired</a>
+                     </li>
                  </ul>
             </div>
             <div class="dashboard-btn"><button id="dashboard-btn"><span style="background-color:rgba(170,170,170,0.5);padding:0px 5px;

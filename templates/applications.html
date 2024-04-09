@@ -2,10 +2,7 @@
 
 {% block content %}
 <div   class="tags">
-        <!--<h3>Password Reset<br> <span class="spans"></span></h3>--->
         <p class="paras-subtopics"></p><br><br>
-        <!--    {% if current_user.is_authenticated %}-->
-        <!--    {% endif %}-->
         <div class="job_main-cont">
         {% if all_applications %}
         {% for ea_application in all_applications %}
@@ -54,7 +51,6 @@
                         </div>
                     </div>
                         <div style="dispaly:block">
-                                 <!--<input class="btns" type="submit" value="Create Account" />-->
 
                                  <a class="view_job" href="/view_applicant?uid={{ea_application.applicant_id}}&app_id={{ea_application.id}}">View Applicant</a>
                         </div>

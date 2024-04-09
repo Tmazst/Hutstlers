@@ -35,9 +35,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -71,7 +71,6 @@ class user_class:
         s = Serializer(app.config['SECRET_KEY'])
 
         try:
-             # f'We are trying Token {token} not accessed here is the outcome user'
             user_id = s.loads(token)['user_id']
         except:
             return f'Token {user_id} not accessed here is the outcome user'
@@ -82,13 +81,6 @@ class user_class:
 def load_user(user_id):
     return user.query.get(user_id)
 
-    # if current_user:
-    #     #print("-------------------------User: ", user_class.cls_name)
-    #     return db.query(user_class.cls_name).get(current_user.id)
-    #
-    # else:
-    #     return db.query(user_class.cls_name).get(current_user.id)
-    #     #print("-------------------------No Class User: ",user_class.cls_name)
 
 
 def resize_img(img,size_x=30,size_y=30):
@@ -103,7 +95,7 @@ def resize_img(img,size_x=30,size_y=30):
         i.save(img)
     else:
         pass
-        #print("Check IMG Size: ",i.size)
+
 
     return img
 
@@ -124,7 +116,7 @@ def save_pic(picture,size_x=300,size_y=300):
         img.thumbnail(output_size)
     else:
         img = i.resize(i.size, Image.LANCZOS)
-        # img.thumbnail(i.size)
+
 
     img.save(saved_img_path,optimize=True, quality=95)
 
@@ -156,18 +148,12 @@ def add_header(response):
 @app.route("/")
 def home():
 
-    # img_1 = resize_img("/static/images/default.jpg",180,180)
-    # img_2 = resize_img("/static/images/unnamed.png", 180, 180)
-    # img_3 = resize_img("/static/images/image.jpg", 180, 180)
 
     try:
         companies_ls = company_user.query.all()
         comp_len = len(companies_ls)
     except:
         db.create_all()
-        #print("Creating Tables")
-        # companies_ls = db.session.query(company_user).all()
-        #print("DEBUG COMPANIES: ",cpm.name)
 
     for cmp in companies_ls:
         print("Check Links: ",cmp.fb_link)
@@ -193,15 +179,10 @@ def sign_up():
         if request.method == 'POST':
             # context
             # If the webpage has made a post e.g. form post
-            #print('Create All..........................................')
             hashd_pwd = encry_pw.generate_password_hash(register.password.data).decode('utf-8')
-            # Base.metadata.create_all()
-            # ....user has inherited the Base class
-            # db.create_all()
             user1 = job_user(name=register.name.data, email=register.email.data, password=hashd_pwd,
                          confirm_password=hashd_pwd,image="default.jpg")
 
-            # db.rollback()
             try:
                 db.session.add(user1)
                 db.session.commit()
@@ -210,14 +191,11 @@ def sign_up():
             except Exception as e:
                 flash(f"Something went wrong,please check for errors", "error")
                 Register().validate_email(register.email.data)
-                # return redirect(url_for('sign_up'))
 
-            # #print(register.name.data,register.email.data)
     elif register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
-        #print(register.errors)
 
-    # from myproject.models import user
+
     return render_template("sign_up_form.html",register=register)
 
 @app.route("/about")
@@ -238,14 +216,11 @@ def account():
     image_fl = url_for('static', filename='images/' + current_user.image)
 
     if request.method == 'POST':
-        #print("method is POST")
-        #print(cv.errors)
 
         if cv.validate_on_submit():
             id = current_user.id
             usr = job_user.query.get(id)
             if cv.image_pfl.data:
-                #print("Debug Image on If: ", cv.image_pfl.data)
                 pfl_pic = save_pic(picture = cv.image_pfl.data)
                 usr.image = pfl_pic
 
@@ -256,7 +231,6 @@ def account():
             usr.name = cv.name.data
             usr.email = cv.email.data
             usr.contacts = cv.contacts.data
-            #print("Current User School: ", current_user.school)
             usr.school = cv.school.data
             usr.tertiary = cv.tertiary.data
             usr.address = cv.address.data
@@ -270,16 +244,13 @@ def account():
 
             flash("Account Updated Successfull!!", "success")
 
-            # redirect(url_for('verification'))
 
         elif cv.errors:
             pass
-            # for error in cv.errors:
-            #print('Update Errors: ',cv.errors)
+
     elif cv.errors:
-        # for error in cv.errors:
         flash("Update Unsuccessfull!!, check if all fields are filled", "error")
-        #print('Update Errors: ', cv.errors)
+
 
 
     return render_template("account.html",cv=cv, title="Account", image_fl = image_fl)
@@ -295,9 +266,7 @@ def login():
     if request.method == 'POST':
 
         if login.validate_on_submit():
-            # #print(f"Account Successfully Created for {login.name.data}")
             user_login = user.query.filter_by(email=login.email.data).first()
-            # flash(f"Hey! {user_login.password} Welcome", "success")
             #Stay sign in
             session['user_id'] = user_login.id
             if request.form.get('stay_signed_in'):
@@ -317,13 +286,11 @@ def login():
                         return redirect(url_for('verification'))
                     else:
                         #After login required prompt, take me to the page I requested earlier
-                        #print("No Verification Needed: ",user_login.verified)
                         req_page = request.args.get('next')
                         flash(f"Hey! {user_login.name.title()} You're Logged In!", "success")
                         return redirect(req_page) if req_page else redirect(url_for('home'))
                 else:
                     flash(f"Login Unsuccessful, please use correct email or password", "error")
-                    #print(login.errors)
 
     return render_template('login_form.html', title='Login',login=login)
 
@@ -352,7 +319,6 @@ def user_profile():
     # db has binded the engine's database file
     for ea_user in db.execute(all):
         users.append(list(ea_user))
-        ##print(users)
 
     return f"{users}"
 
@@ -375,7 +341,6 @@ def contact_us():
                 msg.body = f"""{contact_form.message.data}
 {contact_form.email.data}
                     """
-
                 try:
                     mail.send(msg)
                     flash("Your Message has been Successfully Sent!!", "success")
@@ -388,7 +353,6 @@ def contact_us():
                 # Send the pwd reset request to the above email
             send_link()
 
-            #print("Posted")
         else:
             flash("Please be sure to fill both email & message fields, correctly","error")
 
@@ -403,10 +367,7 @@ def companies():
 
 @app.route("/reset/<token>", methods=['POST', "GET"])
 def reset(token):
-    from sqlalchemy import update
     reset_form = Reset()
-
-    #print("Current User: ",current_user.__dict__)
 
     if request.method == 'POST':
         # if reset_form.validate_on_submit():
@@ -459,13 +420,10 @@ def reset_request():
 
     reset_request_form = Reset_Request()
 
-    #print("Current User: ",current_user.__dict__)
-
     if request.method == 'POST':
         if reset_request_form.validate_on_submit():
             #Get user details through their email
             usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
-            #print("DEBUG EMAIL: ",usr_email.email)
 
             if usr_email is None:
                 # print("The email you are request for is not register with T.H.T, please register first, Please Retry")
@@ -473,7 +431,6 @@ def reset_request():
 
                 return redirect(url_for("reset_request"))
 
-                # redirect(url_for())
 
             def send_link(usr_email):
                 app.config["MAIL_SERVER"] = "smtp.googlemail.com"
@@ -499,7 +456,7 @@ If you did not requested the above message please ignore it, and your password w
                     flash('An email has been sent with instructions to reset your password', 'success')
                     return "Email Sent"
                 except Exception as e:
-                    #print(e)
+
                     flash('Ooops, Something went wrong Please Retry!!', 'error')
                     return "The mail was not sent"
 
@@ -537,8 +494,6 @@ def job_ads_form():
                 qualifications = job_ad_form.qualifications.data,
                 contact_person = job_ad_form.posted_by.data,
                 job_type= request.form.get('job_type_sel'),
-                #benefits =request.form.get('benefits'),
-                # date_posted = datetime.utcnow(),
                 application_deadline=job_ad_form.application_deadline.data,
                 job_posted_by = current_user.id
                           )
@@ -617,21 +572,160 @@ def fl_job_ads_form():
 
     return render_template("fl_job_ads_form.html", fl_job_ad_form=fl_job_ad_form)
 
+#Companies will issues end of contract form to they employees/user
+#.....they wil fill it for a feedback end of term report report
+# @app.route("/show_hired_users")
+# def show_hired_users():
+#
+#     hired_users = hired.query.all()
+#
+#     return render_template("show_hired_users.html", users=hired_users)
 
-@app.route("/job_feedback_form")
-def job_feedback():
 
-    feedback_form = Job_Feedback()
-    the_freelancer = users_tht_portfolio.query.get(current_user.id)
+@app.route("/show_hired_users")
+def show_hired_users():
 
-    db.create_all()
+    hired_users = hired.query.all()
 
-    if current_user.is_authenticated:
-        freelancer_details = users_tht_portfolio(
-            portfolio_feedback = feedback_form.job_feedback.data
-        )
+    if request.method == 'Get':
+        if current_user.is_authenticated:
+            # Get user details through their email
+            hired_user = user.query.filter_by(request.args.get('id'))
+            # usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
 
-    return render_template("job_feedback.html", feedback_form=feedback_form, the_freelancer=the_freelancer)
+            if hired_user:
+                def send_link(hired_user):
+                    app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+                    app.config["MAIL_PORT"] = 587
+                    app.config["MAIL_USE_TLS"] = True
+                    em = app.config["MAIL_USERNAME"] = os.getenv("EMAIL")
+                    app.config["MAIL_PASSWORD"] = os.getenv("PWD")
+
+                    mail = Mail(app)
+
+                    token = user_class().get_reset_token(hired_user.hired_user_id)
+                    msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[hired_user.email])
+                    msg.body = f"""Good day, {hired_user.name}
+    
+Thank you for your valuable skills you have displayed while working with us.
+Before we settle down our deal we would love to follow the link below & fill the form you will be
+presented with.The "End of Term Form" is used by The Hustlers Time create a portfolio for you This forms will be 
+consolidated together consecutively to create a single work experience profile
+Please visit the following link:{url_for('job_feedback', token=token, _external=True)}
+    
+We {current_user.name} wish you all the best as you are climbing the ladder of success.
+        """
+
+                    try:
+                        mail.send(msg)
+                        flash(f'You have sent an email of the "/End of Term Form/" to {hired_user.name} successfully', 'success')
+                        return "Email Sent"
+                    except Exception as e:
+
+                        flash('Ooops, Something went wrong Please Retry!!', 'error')
+                        return "The mail was not sent"
+
+                # Send the pwd reset request to the above email
+                send_link(hired_user)
+
+    return render_template("show_hired_users.html", users=hired_users)
+
+@app.route("/approve_report/<token>",methods=['POST','GET'])
+@login_required
+def approve_report(token):
+
+        #Get user'identity
+        approve_user_rp = user_class().verify_reset_token(token)
+        #Check the users entry that is not yet approved
+        usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp.id, approved=True).first()
+
+        if request.method == 'POST':
+                usr_portfolio_entry.approved = False #The company has approved the end of term form, it will not be changed again
+
+                db.session.commit()
+
+                if approve_user_rp:
+                    return flash('Approval Successful', 'success')
+                else:
+                    return flash('Approval Unsuccessful, if persists please report error', 'error')
+
+        return render_template('approve_report.html',approve_user_rp=approve_user_rp,usr_portfolio_entry=usr_portfolio_entry)
+
+
+@app.route("/job_feedback_form/<token>",methods=['POST','GET'])
+@login_required
+def job_feedback(token):
+
+        feedback_form = Job_Feedback()
+
+        db.create_all()
+
+        try:
+            the_freelancer = users_tht_portfolio.query.get(current_user.id)
+            flash(f"Trying Verify Please wait", "success")
+            hired_user = user_class().verify_reset_token(token)
+            #Check current job where the current user is engaged on
+            criteria = {hired_user: current_user.id}
+            user_ = hired.query.filter_by(hired_user_id=current_user.id,usr_cur_job=1)
+            # session.query(entity).filter_by(**criteria)
+            # createria = {current_user.id}
+            # curr_job = hired.query.filter_by=)
+            if hired_user:
+                freelancer_details = users_tht_portfolio(
+                    id= hired_user.usr_id,
+                    portfolio_feedback=feedback_form.job_feedback.data,
+                    date_employed = user.hired_date,
+                    job_details= user.job_details,
+                )
+
+                db.session.add(freelancer_details)
+                db.session.commit()
+
+                flash(f"Update Successfully!", "success")
+
+                # Get user details through their email
+                # hired_user = hired.query.get(request.args.get('id'))
+                # usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
+
+                def send_link(hired_user):
+                    app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+                    app.config["MAIL_PORT"] = 587
+                    app.config["MAIL_USE_TLS"] = True
+                    em = app.config["MAIL_USERNAME"] = os.getenv("EMAIL")
+                    app.config["MAIL_PASSWORD"] = os.getenv("PWD")
+
+                    mail = Mail(app)
+
+                    token = user_class().get_reset_token(hired_user.usr_id)
+                    msg = Message("RE:End of Term Form", sender="noreply@demo.com",
+                                  recipients=[hired_user.email])
+                    msg.body = f"""Good day, 
+
+Please received my 'End of Term' report. Upon approving the infromation contained in it, please click 'approve' button to confirm.
+Visit the following link to approve:{url_for('approve_report', token=token, _external=True)}
+
+Thank you for being part of my future endeavors, I hope to meet you again.
+                            """
+
+                    try:
+                        mail.send(msg)
+                        flash(
+                            f'You have sent an email of the "/End of Term Form/" to {user.query.get(user_.id)} for approval',
+                            'success')
+                        return "Email Sent"
+                    except Exception as e:
+
+                        flash('Ooops, Something went wrong Please Retry!!', 'error')
+                        return "The mail was not sent"
+
+                        # Send the pwd reset request to the above email
+                send_link(hired_user)
+
+        except:
+            flash(f"Something went wrong please try again later", "error")
+            return None
+
+        return render_template("job_feedback.html", feedback_form=feedback_form, the_freelancer=the_freelancer)
 
 @app.route("/freelancers_form")
 def freelancers():
@@ -1184,7 +1278,9 @@ def hire_applicant():
                 hire_user = hired(
                     id = current_user.id,
                     hired_user = id,
-                    job_details = request.args['app_id']
+                    job_details = request.args['app_id'],
+                    usr_cur_job = 1,
+                    hired_date=datetime.utcnow()
                 )
                 db.session.add(hire_user)
                 db.session.commit()
@@ -1203,5 +1299,6 @@ def hire_applicant():
 
 if __name__ == "__main__":
 
-
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
