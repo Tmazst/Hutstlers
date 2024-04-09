@@ -1181,7 +1181,8 @@ def verification():
             #Creditentials saved in environmental variables
             em = app.config["MAIL_USERNAME"] = "pro.dignitron@gmail.com" #os.getenv("MAIL")
             app.config["MAIL_PASSWORD"] = os.getenv("PWD")
-            app.config["EMAIL_SENDER"] = "no-reply@gmail.com"
+            app.config["MAIL_DEFAULT_SENDER"] = '"The Hustlers Time" <no-reply@gmail.com>'
+            app.config["MAIL_DEFAULT_SENDER"] = '"noreply@gmail.com"'
 
             mail = Mail(app)
 
@@ -1216,8 +1217,11 @@ def verification():
             msg = Message(subject="Email Verification", sender="no-reply@gmail.com", recipients=[usr_email])
 
             msg.body = f"""Hi, {current_user.name}
+            
 Please follow the link below to verify your email with The Hustlers Time:
-verify email here,{url_for('verified', token=token, _external=True)}
+
+Verification link;
+{url_for('verified', token=token, _external=True)}
 """
             try:
                 mail.send(msg)
