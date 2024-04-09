@@ -3,7 +3,7 @@
 {% block content %}
 
 <div  style="margin-bottom:700px" class="tags">
-    <div class="flash-messages" class="btns">
+    <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for  category, message in messages %}

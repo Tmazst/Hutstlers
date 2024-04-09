@@ -224,7 +224,10 @@ a{
 .side-nav-cont{
 
 
-
+.flash-messages{
+    border:1px solid #006769 !important;
+    border-radius:15px !important;
+}
 
 }
 
@@ -1928,6 +1931,9 @@ display:none
 
 @media all and (max-width: 600px) {
 
+.mobile-top-space{
+    height:40px;
+}
 
 .margin-ise{
     margin-bottom:100px;
