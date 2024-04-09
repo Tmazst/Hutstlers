@@ -753,7 +753,6 @@ def cmp_user_profile():
     # db has binded the engine's database file
     for ea_user in db.execute(all):
         users.append(list(ea_user))
-        ##print(users)
 
     return f"{users}"
 
@@ -761,7 +760,6 @@ def cmp_user_profile():
 def job_adverts():
 
     if current_user.is_authenticated:
-        #print("Current User")
         if not current_user.image and not current_user.school:
             flash("Attention!! Your Account needs to be updated Soon, Please go to Account and update the empty fields",
                   "error")
@@ -1183,6 +1181,7 @@ def verification():
             #Creditentials saved in environmental variables
             em = app.config["MAIL_USERNAME"] = "pro.dignitron@gmail.com" #os.getenv("MAIL")
             app.config["MAIL_PASSWORD"] = os.getenv("PWD")
+            app.config["EMAIL_SENDER"] = "no-reply@gmail.com"
 
             mail = Mail(app)
 
@@ -1214,7 +1213,7 @@ def verification():
             # print("DEBUG CURRENT USER EMAIL: ",current_user.email)
             # print("DEBUG CURRENT DEFAULT EMAIL: ", em)
 
-            msg = Message("Email Verification", sender="noreply@demo.com", recipients=[usr_email])
+            msg = Message(subject="Email Verification", sender="no-reply@gmail.com", recipients=[usr_email])
 
             msg.body = f"""Hi, {current_user.name}
 Please follow the link below to verify your email with The Hustlers Time:
@@ -1222,11 +1221,10 @@ verify email here,{url_for('verified', token=token, _external=True)}
 """
             try:
                 mail.send(msg)
-                flash(f'An email has been sent with a verification link to your email account {current_user.verified}', 'success')
+                flash(f'An email has been sent with a verification link to your email account', 'success')
                 return "Email Sent"
             except Exception as e:
-                print("DEBUG ERROR: ", e)
-                flash(f'Email not sent here\n {e}', 'error')
+                flash(f'Email not sent here', 'error')
                 return "The mail was not sent"
 
     if not current_user.verified:
