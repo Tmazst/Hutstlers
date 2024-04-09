@@ -112,7 +112,7 @@ def save_pic(picture,size_x=300,size_y=300):
     h,w = i.size
     if h > 400 and w > 400:
         # downsize the image with an ANTIALIAS filter (gives the highest quality)
-        img = i.resize(i.size, Image.Resampling.LANCZOS)
+        img = i.resize(i.size, Image.LANCZOS)
         img.thumbnail(output_size)
     else:
         img = i.resize(i.size, Image.LANCZOS)
@@ -268,7 +268,8 @@ def login():
         if login.validate_on_submit():
             user_login = user.query.filter_by(email=login.email.data).first()
             #Stay sign in
-            session['user_id'] = user_login.id
+            if user_login:
+                session['user_id'] = user_login.id
             if request.form.get('stay_signed_in'):
                 token = secrets.token_urlsafe(16)  # Generate a 16-character token
                 user_login.token = token
