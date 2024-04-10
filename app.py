@@ -1077,7 +1077,8 @@ def send_application():
                 if not job_obj:
                     db.session.add(apply)
                     db.session.commit()
-                    return render_template("send_application.html", send_application=send_application, job_obj=job_obj,
+                    job_data = Applications.query.filter_by(job_details_id=jb_id).first()
+                    return render_template("send_application.html", send_application=send_application, job_obj=job_data,
                                            company_obj=company_obj)
                 else:
                     # fl = flash(f"Application with this details Already Submitted!!", "error")

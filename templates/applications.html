@@ -20,16 +20,16 @@
                                         <h2>Hire Applicant</h2>
 
                                         <div class="img-cont">
-                                            <img class="prf-image" src="static/images/{{db.query(job_user).get(ea_application.applicant_id).image}}"/>
+                                            <img class="prf-image" src="static/images/{{job_user.query.get(ea_application.applicant_id).image}}"/>
                                         </div>
 
                                         <!-------JOB TITLE--------->
 
-                                        <h2 style="margin-bottom:0px">{{db.query(job_user).get(ea_application.applicant_id).name}}</h2>
+                                        <h2 style="margin-bottom:0px">{{job_user.query.get(ea_application.applicant_id).name}}</h2>
 
                                         <!-------THEIR ADDRESS--------->
                                         <p><span class="material-icons">place</span>
-                                            {{db.query(job_user).get(ea_application.applicant_id).address}}</p>
+                                            {{job_user.query.get(ea_application.applicant_id).address}}</p>
 
                                         <hr>
 
@@ -40,10 +40,10 @@
 
                                          <!-------THEIR QUALIFICATIONS--------->
                                         <p><label for="Job Type" class="labels"></label></p>
-                                        <div><p>{{db.query(job_user).get(ea_application.applicant_id).qualifications}}</p></div>
+                                        <div><p>{{job_user.query.get(ea_application.applicant_id).qualifications}}</p></div>
 
                                          <!--------ADVERT'S DEADLINE-------------->
-                                        <div><p style="font-size:10">{{db.query(job_user).get(ea_application.applicant_id).deadline}}</p></div>
+                                        <div><p style="font-size:10">{{job_user.query.get(ea_application.applicant_id).deadline}}</p></div>
 
                                     </div>
                                 </div>

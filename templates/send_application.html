@@ -3,15 +3,16 @@
 
 {% block content %}
 <!-----------------SIDEBAR----------------->
+<div   class="tags">
+  <div style="width:500px;padding-left:50px;" class="application-sent-msg">
+    <h2 style=" color:#006769;">Application Sent!!</h2>
+    <h2>Please Confirm<br> <span class="spans"></span></h2>
+      <p>   From: {{current_user.name}}</p>
+    <p>    Job Title: {{job_obj.job_title}}</p>
+    <p>    To: {{company_obj.name}}</p>
 
-<div style="width:500px;padding-left:50px;" class="application-sent-msg">
-  <h2 style=" color:#006769;">Application Sent!!</h2>
-  <h2>Please Confirm<br> <span class="spans"></span></h2>
-    <p>   From: {{current_user.name}}</p>
-  <p>    Job Title: {{job_obj.job_title}}</p>
-  <p>    To: {{company_obj.name}}</p>
+    <submit tpe="submit" class="btns">Undo</submit>
 
-  <submit tpe="submit" class="btns">Undo</submit>
-
+  </div>
 </div>
 {% endblock %}
