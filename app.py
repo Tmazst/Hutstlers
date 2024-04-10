@@ -1284,7 +1284,7 @@ def hire_applicant():
                 # Logic to hire the user and update the application status
                 hire_user = hired(
                     comp_id=current_user.id,
-                    hired_user=id_,
+                    hired_user_id=id_,
                     job_details=request.args['app_id'],
                     usr_cur_job=1,
                     hired_date=datetime.utcnow()
