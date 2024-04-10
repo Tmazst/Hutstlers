@@ -1297,7 +1297,7 @@ def hire_applicant():
                 db.session.commit()
 
                 # flash message for successful hiring
-                flash(f'You have successfully hired {user.query.get(id_)} for {Jobs_Ads.query.get(id_).job_title}', 'success')
+                flash(f'You have successfully hired {user.query.get(id_).name} for {Jobs_Ads.query.get(id_).job_title}', 'success')
             except Exception as e:
                 # flash message for error
                 flash(f'Something went wrong: {e}', 'error')
