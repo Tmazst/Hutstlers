@@ -33,30 +33,30 @@
                                         <h2>Job Application Card</h2>
 
                                         <div class="img-cont">
-                                            <img class="prf-image" src="static/images/{{db.query(job_user).get(ea_application.applicant_id).image}}"/>
+                                            <img class="prf-image" src="static/images/{{job_user.query.get(ea_application.applicant_id).image}}"/>
                                         </div>
 
                                         <!-------JOB TITLE--------->
 
-                                        <h2 style="margin-bottom:0px">{{db.query(job_user).get(ea_application.applicant_id).name}}</h2>
+                                        <h2 style="margin-bottom:0px">{{job_user.query.get(ea_application.applicant_id).name}}</h2>
 
                                         <!-------THEIR ADDRESS--------->
                                         <p><span class="material-icons">place</span>
-                                            {{db.query(job_user).get(ea_application.applicant_id).address}}
+                                            {{job_user.query.get(ea_application.applicant_id).address}}
                                         </p>
 
                                         <hr>
-                                        <legend >You can contact {{db.query(job_user).get(ea_application.applicant_id).name}} on the following:</legend>
+                                        <legend >You can contact {{job_user.query.get(ea_application.applicant_id).name}} on the following:</legend>
 
                                         <div>
                                             <label>Watsapp</label>
-                                            <p><span></span>{{db.query(job_user).get(ea_application.applicant_id).contacts}}</p>
+                                            <p><span></span>{{job_user.query.get(ea_application.applicant_id).contacts}}</p>
 
                                             <Label>Call / SMS</Label>
-                                            <p><span></span>{{db.query(job_user).get(ea_application.applicant_id).contacts}}</p>
+                                            <p><span></span>{{job_user.query.get(ea_application.applicant_id).contacts}}</p>
 
                                             <label>Email</label>
-                                            <p><span></span>{{db.query(job_user).get(ea_application.applicant_id).email}}</p>
+                                            <p><span></span>{{job_user.query.get(ea_application.applicant_id).email}}</p>
 
                                         </div>
 

@@ -1275,13 +1275,13 @@ def hire_applicant():
     if current_user.is_authenticated:
         if request.method == 'GET':
             try:
-                id = request.args['id']
+                id_ = request.args['id']
                 app_id = request.args['app_id']
-                job_usr = job_user.query.get(id)
+                job_usr = job_user.query.get(id_)
 
                 hire_user = hired(
-                    id = current_user.id,
-                    hired_user = id,
+                    comp_id = current_user.id,
+                    hired_user = id_,
                     job_details = request.args['app_id'],
                     usr_cur_job = 1,
                     hired_date=datetime.utcnow()
@@ -1294,7 +1294,7 @@ def hire_applicant():
                 close_appl.closed = "Yes"
                 db.session.commit()
 
-                flash(f'You Have Successfully hired {user.query.get(id)} for {Jobs_Ads.query.get(id).job_title}', 'success')
+                flash(f'You Have Successfully hired {user.query.get(id_)} for {Jobs_Ads.query.get(id_).job_title}', 'success')
             except:
                 return flash(f'Something Went Wrong, try again later', 'error')
 
