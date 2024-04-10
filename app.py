@@ -1268,38 +1268,50 @@ def view_applicant():
     return render_template("view_applicant.html", job_usr = job_usr, app_id = app_id)
 
 #(3) After viewing the applicant, they hire the applicant
-@app.route("/hire_applicant",methods=["GET", "POST"])
+
+@app.route("/hire_applicant", methods=["GET", "POST"])
 def hire_applicant():
 
-    # hired_job_usr = hired
     if current_user.is_authenticated:
         if request.method == 'GET':
+            # Based on the context, consider handling the 'POST' method as well
+
             try:
                 id_ = request.args['id']
                 app_id = request.args['app_id']
                 job_usr = job_user.query.get(id_)
 
+                # Logic to hire the user and update the application status
                 hire_user = hired(
-                    comp_id = current_user.id,
-                    hired_user = id_,
-                    job_details = request.args['app_id'],
-                    usr_cur_job = 1,
+                    comp_id=current_user.id,
+                    hired_user=id_,
+                    job_details=request.args['app_id'],
+                    usr_cur_job=1,
                     hired_date=datetime.utcnow()
                 )
                 db.session.add(hire_user)
-                db.session.commit()
 
-                #Close The Post
                 close_appl = Applications.query.get(app_id)
                 close_appl.closed = "Yes"
+
                 db.session.commit()
 
-                flash(f'You Have Successfully hired {user.query.get(id_)} for {Jobs_Ads.query.get(id_).job_title}', 'success')
-            except:
-                return flash(f'Something Went Wrong, try again later', 'error')
+                # flash message for successful hiring
+                flash(f'You have successfully hired {user.query.get(id_)} for {Jobs_Ads.query.get(id_).job_title}', 'success')
+            except Exception as e:
+                # flash message for error
+                flash(f'Something went wrong: {e}', 'error')
 
-    return render_template("hire_applicant.html", job_usr = job_usr,db=db)
+            # return a response for the GET request
+            return render_template("hire_applicant.html", job_usr=job_usr, db=db)
 
+        elif request.method == 'POST':
+            # Logic for POST method (if needed)
+            # return a response for the POST request
+            return redirect(url_for('desired_endpoint'))
+
+    # return a response for scenarios other than GET or POST request
+    return render_template("hire_applicant.html", job_usr=None, db=db)
 
 if __name__ == "__main__":
 
