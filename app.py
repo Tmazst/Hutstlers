@@ -1257,7 +1257,7 @@ def applications():
     return render_template("applications.html", all_applications = all_applications, job_user = job_usr, job_ads = job_ads, applications = applications,db=db)
 
 #(2) They view each applicant of their choice
-@app.route("/view_applicant")
+@app.route("/view_applicant",methods=["GET", "POST"])
 def view_applicant():
 
     if request.method == 'GET':
@@ -1268,7 +1268,7 @@ def view_applicant():
     return render_template("view_applicant.html", job_usr = job_usr, app_id = app_id)
 
 #(3) After viewing the applicant, they hire the applicant
-@app.route("/hire_applicant")
+@app.route("/hire_applicant",methods=["GET", "POST"])
 def hire_applicant():
 
     # hired_job_usr = hired
