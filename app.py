@@ -1070,7 +1070,7 @@ def send_application():
                 )
 
                 #Check if application not sent before
-                job_obj = Applications.query.filter_by(jfreel_job_details_id=jb_id).first()
+                job_obj = Applications.query.filter_by(job_details_id=jb_id).first()
                 company_obj = company_user.query.get(apply.employer_id)
 
                 #print('----------------------job_obj: ',job_obj)
