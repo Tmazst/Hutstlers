@@ -33,7 +33,7 @@
 
                                         <hr>
 
-                                        <h3><span style="color:#909090" class="material-icons">work</span> <br><span>{{db.query(job_ads).get(ea_application.job_details_id).job_title}}</span></h3>
+                                        <h3><span style="color:#909090" class="material-icons">work</span> <br><span>{{job_ads.query.get(ea_application.job_details_id).job_title}}</span></h3>
 
                                         <!-------DATE OF APPLICATION--------->
                                         <p><span style="color:#aaa"  class="material-icons">schedule</span><br>{{ea_application.time_stamp.strftime("%d %B %y,  %H:%M" )}}</p>
