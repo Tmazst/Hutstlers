@@ -1,6 +1,7 @@
 import secrets
 
 from flask import Flask,render_template,url_for,redirect,request,flash,session, make_response,send_from_directory
+from flask_basicauth import BasicAuth
 # from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
 from flask_bcrypt import Bcrypt
@@ -42,6 +43,8 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['BASIC_AUTH_USERNAME'] = 'tmaz'
+app.config['BASIC_AUTH_PASSWORD'] = 'tmaz'
 
 db.init_app(app)
 
@@ -55,6 +58,7 @@ login_manager.login_view = 'login'
 encry_pw = Bcrypt(app)
 
 # migrate = Migrate(app,db)
+basic_auth = BasicAuth(app)
 
 class user_class:
 
@@ -81,7 +85,9 @@ class user_class:
 def load_user(user_id):
     return user.query.get(user_id)
 
-
+@app.errorhandler(401)
+def custom_401(error):
+    return "Authentication failed. Please check your username and password.", 401
 
 def resize_img(img,size_x=30,size_y=30):
 
@@ -432,7 +438,6 @@ def reset_request():
 
                 return redirect(url_for("reset_request"))
 
-
             def send_link(usr_email):
                 app.config["MAIL_SERVER"] = "smtp.googlemail.com"
                 app.config["MAIL_PORT"] = 587
@@ -584,6 +589,7 @@ def fl_job_ads_form():
 
 
 @app.route("/show_hired_users")
+# @basic_auth.required
 def show_hired_users():
 
     hired_users = hired.query.all()
@@ -613,10 +619,9 @@ Before we settle down our deal we would love to follow the link below & fill the
 presented with.The "End of Term Form" is used by The Hustlers Time create a portfolio for you This forms will be 
 consolidated together consecutively to create a single work experience profile
 Please visit the following link:{url_for('job_feedback', token=token, _external=True)}
-    
+
 We {current_user.name} wish you all the best as you are climbing the ladder of success.
         """
-
                     try:
                         mail.send(msg)
                         flash(f'You have sent an email of the "/End of Term Form/" to {hired_user.name} successfully', 'success')
@@ -758,6 +763,7 @@ def cmp_user_profile():
     return f"{users}"
 
 @app.route("/job_ads",methods=["GET", "POST"])
+# @basic_auth.required
 def job_adverts():
 
     if current_user.is_authenticated:
@@ -790,6 +796,7 @@ def job_adverts():
                            company_user=company_user,user=usr,no_image_fl =no_image_fl)
 
 @app.route("/job_ads_filtered",methods=["GET", "POST"])
+# @basic_auth.required
 def job_adverts_filtered():
 
     if current_user.is_authenticated:
@@ -960,10 +967,8 @@ def company_sign_up_form():
         flash(f"Account Creation Unsuccessful ", "error")
         #print(company_register.errors)
 
-
     # from myproject.models import user
     return render_template("company_signup_form.html",company_register=company_register)
-
 
 @app.route("/company_login",methods=["POST","GET"])
 def company_login():
@@ -991,7 +996,6 @@ def company_login():
                 #print(company_login.errors)
 
     return render_template('company_login_form.html', title='Company Login',company_login=company_login)
-
 
 
 #---------------COMPANY ACCOUNT---------------------#
@@ -1163,7 +1167,6 @@ def verified(token):
     except Exception as e:
         flash(f"Something went wrong, Please try again: {e} ","error")
 
-
     return render_template('verified.html')
 
 
@@ -1254,21 +1257,20 @@ def applications():
     job_usr = job_user
     job_ads = Jobs_Ads
 
-    return render_template("applications.html", all_applications = all_applications, job_user = job_usr, job_ads = job_ads, applications = applications,db=db)
+    return render_template("applications.html", all_applications=all_applications, job_user=job_usr, job_ads=job_ads, applications=applications,db=db)
 
 #(2) They view each applicant of their choice
 @app.route("/view_applicant",methods=["GET", "POST"])
 def view_applicant():
 
     if request.method == 'GET':
-        id = request.args['uid']
+        id_ = request.args['uid']
         app_id = request.args['app_id']
-        job_usr = job_user.query.get(id)
+        job_usr = job_user.query.get(id_)
 
-    return render_template("view_applicant.html", job_usr = job_usr, app_id = app_id)
+    return render_template("view_applicant.html", job_usr=job_usr, app_id=app_id)
 
 #(3) After viewing the applicant, they hire the applicant
-
 @app.route("/hire_applicant", methods=["GET", "POST"])
 def hire_applicant():
 
@@ -1292,12 +1294,12 @@ def hire_applicant():
                 db.session.add(hire_user)
 
                 close_appl = Applications.query.get(app_id)
-                close_appl.closed = "Yes"
+                close_appl.closed = "Yes" #This means that this user is hired
 
                 db.session.commit()
 
                 # flash message for successful hiring
-                flash(f'You have successfully hired {user.query.get(id_).name} for {Jobs_Ads.query.get(id_).job_title}', 'success')
+                flash(f'You have successfully hired {user.query.get(id_).name} for {Jobs_Ads.query.get(app_id).job_title}', 'success')
             except Exception as e:
                 # flash message for error
                 flash(f'Something went wrong: {e}', 'error')
