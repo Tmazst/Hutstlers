@@ -42,12 +42,12 @@
                         {% endif %}<br>
 
                         {% if job_ads.query.get(item.job_details).job_title %}
-                            <small>Hired for:</small>
+                            <small class="small-bold-color">Hired for:</small>
                             <small style="font-size:16px" class="">{{job_ads.query.get(item.job_details).job_title}}</small>
                         {% endif %}<br>
 
                         {% if job_ads.query.get(item.job_details).job_title %}
-                            <small>Job Type:</small>
+                            <small class="small-bold-color">Job Type:</small>
                             <small style="font-size:16px"  class="">{{job_ads.query.get(item.job_details).job_type}}</small>
                         {% endif %}<br>
 
