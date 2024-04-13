@@ -58,7 +58,7 @@ login_manager.login_view = 'login'
 encry_pw = Bcrypt(app)
 
 # migrate = Migrate(app,db)
-basic_auth = BasicAuth(app)
+# basic_auth = BasicAuth(app)
 
 class user_class:
 
