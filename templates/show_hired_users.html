@@ -32,32 +32,32 @@
                                 </div>
                             </div>
 
-                            <h2 style="margin-bottom:0px;margin-top:0px;">{{item.name}}<br></h2>
-                            <span><small style="color:#aaa" >{{item.email}}</small></span>
-                            <span><small style="color:#aaa" >{{item.address}}</small></span>
+                            <h2 style="margin-bottom:0px;margin-top:0px;">{{user.query.get(item.job_applicant_id).name}}<br></h2>
+                            <span><small style="color:#aaa" >{{user.query.get(item.job_applicant_id).email}}</small></span>
+                            <span><small style="color:#aaa" >{{user.query.get(item.job_applicant_id).address}}</small></span>
 
                             <!-------JOB TITLE--------->
-                        {% if item.other %}
-                            <p class="job-title">{{item.other}}</p>
+                        {% if user.query.get(item.job_applicant_id).other %}
+                            <p class="job-title">{{user.query.get(item.job_applicant_id).other}}</p>
                         {% endif %}
-                        {% if item.tertiary %}
+                        {% if user.query.get(item.job_applicant_id).tertiary %}
                             <p class="">{{item.tertiary}}</p>
                         {% endif %}
                             <!---------JOB TYPE--------->
-                        {% if item.experience %}
-                            <span><small style="color:#909090" >{{item.experience}}</small></span>
+                        {% if user.query.get(item.job_applicant_id).experience %}
+                            <span><small style="color:#909090" >{{user.query.get(item.job_applicant_id).experience}}</small></span>
                         {% endif %}
-                        {% if item.skills %}
-                            <p class="">{{item.skills}}</p>
+                        {% if user.query.get(item.job_applicant_id).skills %}
+                            <p class="">{{user.query.get(item.job_applicant_id).skills}}</p>
                         {% endif %}<br><br>
 
-                        <p>At the end of the term of contract with the young employee, you requested to issue <br> an 'End of Term Report Form'
-                        for your employee to fill. After filling the form the young person will send it back you to read and approve <br>
-                        if the content written is true or not.</p>
-                        <small>The "End of Term Form" is used by The Hustlers Time create a portfolio for the young person
-                            <br> This forms will be consolidated together consecutively to create a single work experience profile</small>
-                        <small>Thank You for your valuable contribution in sharping young generation future for a better economy,<br> thus contributing back to
-                        the community for a lasting solution</small>
+<!--                        <p>At the end of the term of contract with the young employee, you requested to issue <br> an 'End of Term Report Form'-->
+<!--                        for your employee to fill. After filling the form the young person will send it back you to read and approve <br>-->
+<!--                        if the content written is true or not.</p>-->
+<!--                        <small>The "End of Term Form" is used by The Hustlers Time create a portfolio for the young person-->
+<!--                            <br> This forms will be consolidated together consecutively to create a single work experience profile</small>-->
+<!--                        <small>Thank You for your valuable contribution in sharping young generation future for a better economy,<br> thus contributing back to-->
+<!--                        the community for a lasting solution</small>-->
 
                         <small>Click submit below to issue the 'End of Term Report Form'</small>
                         <div style="dispaly:block">
