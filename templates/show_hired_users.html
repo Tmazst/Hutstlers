@@ -19,7 +19,6 @@
   <div style="background-color:ae23a3;" class="general-flex-x">
         {% if users %}
             {% for item in users %}
-                {% if item.role == 'job_user' %}
             <!----FORM----->
                     <div style="display:flex;flex-direction:column;width:300px;" class="new_job_ad_style_usr anim">
 
@@ -65,7 +64,6 @@
                                  <a class="view_user" href="/send_endofterm_form?id={{item.id}}">Submit</a>
                         </div>
                     </div>
-                    {% endif %}
             {% endfor %}
               {% endif %}
       </div>
