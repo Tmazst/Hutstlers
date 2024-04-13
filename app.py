@@ -1081,7 +1081,7 @@ def send_application():
                 if not job_obj:
                     db.session.add(apply)
                     db.session.commit()
-                    job_data = Applications.query.filter_by(job_details_id=jb_id).first()
+                    job_data = Jobs_Ads.query.filter_by(job_details_id=jb_id).first()
                     return render_template("send_application.html", send_application=send_application, job_obj=job_data,
                                            company_obj=company_obj)
                 else:
@@ -1293,7 +1293,7 @@ def hire_applicant():
                 )
                 db.session.add(hire_user)
 
-                close_appl = Applications.query.get(app_id)
+                close_appl = Applications.query.filter_by(job_details_id=app_id).first()
                 close_appl.closed = "Yes" #This means that this user is hired
 
                 db.session.commit()
