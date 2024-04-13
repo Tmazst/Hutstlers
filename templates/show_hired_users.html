@@ -33,22 +33,28 @@
                             </div>
 
                             <h2 style="margin-bottom:0px;margin-top:0px;">{{user.query.get(item.hired_user_id ).name}}<br></h2>
-                            <span><small style="color:#aaa" >{{user.query.get(item.hired_user_id ).email}}</small></span>
-                            <span><small style="color:#aaa" >{{user.query.get(item.hired_user_id ).address}}</small></span>
+                            <span><small style="color:#aaa" >{{user.query.get(item.hired_user_id).email}}</small></span>
+                            <span><small style="color:#aaa" >{{user.query.get(item.hired_user_id).address}}</small></span>
 
                             <!-------JOB TITLE--------->
-                        {% if user.query.get(item.hired_user_id ).other %}
+                        {% if user.query.get(item.hired_user_id).other %}
                             <p class="job-title">{{user.query.get(item.hired_user_id ).other}}</p>
                         {% endif %}
-                        {% if user.query.get(item.hired_user_id ).tertiary %}
-                            <p class="">{{item.tertiary}}</p>
-                        {% endif %}
-                            <!---------JOB TYPE--------->
-                        {% if user.query.get(item.hired_user_id ).experience %}
-                            <span><small style="color:#909090" >{{user.query.get(item.hired_user_id ).experience}}</small></span>
-                        {% endif %}
-                        {% if user.query.get(item.hired_user_id ).skills %}
-                            <p class="">{{user.query.get(item.hired_user_id ).skills}}</p>
+
+                        {% if job_ads.query.get(item.job_details).job_title %}
+                            <small>Hired for:</small>
+                            <p class="">{{job_ads.query.get(item.job_details).job_title}}</p>
+                        {% endif %}<br><br>
+
+                        {% if job_ads.query.get(item.job_details).job_title %}
+                            <small>Job Type:</small>
+                            <p class="">{{job_ads.query.get(item.job_details).job_type}}</p>
+                        {% endif %}<br><br>
+
+                        {% if item.usr_cur_job == 1 %}
+                            <small class="user-btns">Currently Employed</small>
+                        {% else %}
+                            <small style="background-color:red" class="user-btns">Closed</small>
                         {% endif %}<br><br>
 
 <!--                        <p>At the end of the term of contract with the young employee, you requested to issue <br> an 'End of Term Report Form'-->
@@ -59,7 +65,7 @@
 <!--                        <small>Thank You for your valuable contribution in sharping young generation future for a better economy,<br> thus contributing back to-->
 <!--                        the community for a lasting solution</small>-->
 
-                        <small>Click submit below to issue the 'End of Term Report Form'</small>
+                        <small>Click submit below to issue the 'End of Term Report Form'</small><br>
                         <div style="dispaly:block">
                                  <a class="view_user" href="/send_endofterm_form?id={{item.id}}">Submit</a>
                         </div>

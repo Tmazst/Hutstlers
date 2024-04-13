@@ -593,6 +593,7 @@ def fl_job_ads_form():
 def show_hired_users():
 
     hired_users = hired.query.all()
+    job_ads = Jobs_Ads
 
     if request.method == 'Get':
         if current_user.is_authenticated:
@@ -634,7 +635,7 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
                 # Send the pwd reset request to the above email
                 send_link(hired_user)
 
-    return render_template("show_hired_users.html", users=hired_users,user=user)
+    return render_template("show_hired_users.html", users=hired_users,user=user,job_ads=job_ads)
 
 @app.route("/approve_report/<token>",methods=['POST','GET'])
 @login_required
