@@ -39,22 +39,22 @@
                             <!-------JOB TITLE--------->
                         {% if user.query.get(item.hired_user_id).other %}
                             <p class="job-title">{{user.query.get(item.hired_user_id ).other}}</p>
-                        {% endif %}
+                        {% endif %}<br>
 
                         {% if job_ads.query.get(item.job_details).job_title %}
                             <small>Hired for:</small>
-                            <p class="">{{job_ads.query.get(item.job_details).job_title}}</p>
-                        {% endif %}<br><br>
+                            <small style="font-size:16px" class="">{{job_ads.query.get(item.job_details).job_title}}</small>
+                        {% endif %}<br>
 
                         {% if job_ads.query.get(item.job_details).job_title %}
                             <small>Job Type:</small>
-                            <p class="">{{job_ads.query.get(item.job_details).job_type}}</p>
-                        {% endif %}<br><br>
+                            <small style="font-size:16px"  class="">{{job_ads.query.get(item.job_details).job_type}}</small>
+                        {% endif %}<br>
 
                         {% if item.usr_cur_job == 1 %}
-                            <small class="btns">Currently Employed</small>
+                            <small style="margin:0 auto" class="btns">Currently Employed</small>
                         {% else %}
-                            <small style="background-color:red" class="btns">Closed</small>
+                            <small style="background-color:red;margin:0 auto" class="btns">Closed</small>
                         {% endif %}<br><br>
 
 <!--                        <p>At the end of the term of contract with the young employee, you requested to issue <br> an 'End of Term Report Form'-->
