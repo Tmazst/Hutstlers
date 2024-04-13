@@ -634,7 +634,7 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
                 # Send the pwd reset request to the above email
                 send_link(hired_user)
 
-    return render_template("show_hired_users.html", users=hired_users)
+    return render_template("show_hired_users.html", users=hired_users,user=user)
 
 @app.route("/approve_report/<token>",methods=['POST','GET'])
 @login_required
