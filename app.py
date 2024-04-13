@@ -1,7 +1,7 @@
 import secrets
 
 from flask import Flask,render_template,url_for,redirect,request,flash,session, make_response,send_from_directory
-from flask_basicauth import BasicAuth
+# from flask_basicauth import BasicAuth
 # from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
 from flask_bcrypt import Bcrypt
