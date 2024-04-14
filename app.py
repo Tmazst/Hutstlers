@@ -642,7 +642,7 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
                 # Send the pwd reset request to the above email
                 send_link(job_user_obj)
 
-                return f'/"End of Term Form/" succesfully sent to {hired_user.name}'
+                return f'/"End of Term Form/" successfully sent to {job_user_obj.name}'
 @app.route("/approve_report/<token>",methods=['POST','GET'])
 @login_required
 def approve_report(token):
