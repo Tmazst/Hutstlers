@@ -595,7 +595,7 @@ def show_hired_users():
     hired_users = hired.query.all()
     job_ads = Jobs_Ads
 
-    if request.method == 'Get':
+    if request.method == 'GET':
         if current_user.is_authenticated:
             # Get user details through their email
             hired_user = user.query.filter_by(request.args.get('id'))
@@ -616,9 +616,9 @@ def show_hired_users():
                     msg.body = f"""Good day, {hired_user.name}
     
 Thank you for your valuable skills you have displayed while working with us.
-Before we settle down our deal we would love to follow the link below & fill the form you will be
-presented with.The "End of Term Form" is used by The Hustlers Time create a portfolio for you This forms will be 
-consolidated together consecutively to create a single work experience profile
+Before we settle down our deal, please click to follow the link below & fill the form you will be
+presented with.The "End of Term Form" is used by The Hustlers Time create a portfolio for you. After you have consecutively 
+filled 2 or more placements the forms will be consolidated together to create a single work experience profile for you.
 Please visit the following link:{url_for('job_feedback', token=token, _external=True)}
 
 We {current_user.name} wish you all the best as you are climbing the ladder of success.
