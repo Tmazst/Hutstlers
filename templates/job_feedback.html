@@ -22,7 +22,7 @@
         <div  style="width:60%;margin-left:30px;" ><hr></div>
 
         <div style="padding-left:50px" class="form-group">
-               {{cv.hidden_tag()}}
+               {{feedback_form.hidden_tag()}}
                <h2 class="media-h2"> Work Experience Generator Form </h2>
 
         <p>Hey! Users after finishing the current(latest) Job Contract or Post, All users are required to fill an 'End of Term Form' </p>
@@ -30,7 +30,7 @@
 
         <div style="padding-left:50px"  class="form-group">
                  <h2 class="media-h2"> Exposure & Work Experience Acquired </h2>
-                  {{ feedback_form.job_feedback(class="acc-form-control",placeholder="Name & Contact(s)")}}
+                  {{ .job_feedback(class="acc-form-control",placeholder="Name & Contact(s)")}}
                 {{ feedback_form.submit(class="btns",placeholder="Name & Contact(s)")}}
         </div>
 
