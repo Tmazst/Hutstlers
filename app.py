@@ -315,8 +315,8 @@ def load_user_from_cookie():
 @app.route('/logout')
 def log_out():
     logout_user()
-    session.pop('user_id', None)
-    make_response('Logged out').delete_cookie('stay_signed_in')
+    # session.pop('user_id', None)
+    # make_response('Logged out').delete_cookie('stay_signed_in')
 
     return redirect(url_for('home'))
 
