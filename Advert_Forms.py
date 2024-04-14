@@ -131,7 +131,7 @@ class Freelance_Section(FlaskForm):
     portfolio_file = FileField('Upload Portfolio', validators=[FileAllowed(['pdf', 'docx'])])
     submit = SubmitField('Submit')
 
-class Job_Feedback_Form():
+class Job_Feedback_Form(FlaskForm):
     job_feedback = TextAreaField('Explain your Work:', validators=[DataRequired(), Length(min=10, max=1000)])
 
     submit = SubmitField('Submit')
