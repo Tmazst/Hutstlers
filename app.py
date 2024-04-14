@@ -595,6 +595,12 @@ def show_hired_users():
     hired_users = hired.query.all()
     job_ads = Jobs_Ads
 
+
+    return render_template("show_hired_users.html", users=hired_users,user=user,job_ads=job_ads)
+
+@app.route("/send_endof_term_form")
+# @basic_auth.required
+def send_endof_term_form():
     if request.method == 'GET':
         if current_user.is_authenticated:
             # Get user details through their email
@@ -614,7 +620,7 @@ def show_hired_users():
                     token = user_class().get_reset_token(hired_user.hired_user_id)
                     msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[hired_user.email])
                     msg.body = f"""Good day, {hired_user.name}
-    
+
 Thank you for your valuable skills you have displayed while working with us.
 Before we settle down our deal, please click to follow the link below & fill the form you will be
 presented with.The "End of Term Form" is used by The Hustlers Time create a portfolio for you. After you have consecutively 
@@ -625,7 +631,8 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
         """
                     try:
                         mail.send(msg)
-                        flash(f'You have sent an email of the "/End of Term Form/" to {hired_user.name} successfully', 'success')
+                        flash(f'You have sent an email of the "/End of Term Form/" to {hired_user.name} successfully',
+                              'success')
                         return "Email Sent"
                     except Exception as e:
 
@@ -635,8 +642,7 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
                 # Send the pwd reset request to the above email
                 send_link(hired_user)
 
-    return render_template("show_hired_users.html", users=hired_users,user=user,job_ads=job_ads)
-
+                return f'/"End of Term Form/" succesfully sent to {hired_user.name}'
 @app.route("/approve_report/<token>",methods=['POST','GET'])
 @login_required
 def approve_report(token):
