@@ -647,6 +647,7 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
 
 
 @app.route("/job_feedback_form/<token>",methods=['POST','GET'])
+@login_required
 def job_feedback(token):
 
         feedback_form = Job_Feedback_Form()
@@ -665,7 +666,7 @@ def job_feedback(token):
                 # curr_job = hired.query.filter_by=)
                 if job_user_obj and user_hired:
                     portfolio_details = users_tht_portfolio(
-                        usr_id= job_user_obj.id,
+                        usr_id= job_user_obj,
                         portfolio_feedback=feedback_form.job_feedback.data,
                         date_employed = user_hired.hired_date,
                         job_details= user_hired.job_details #Use job_posted_by to get company details
