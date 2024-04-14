@@ -604,7 +604,7 @@ def send_endof_term_form():
     if request.method == 'GET':
         if current_user.is_authenticated:
             # Get user details through their email
-            hired_user = user.query.filter_by(request.args.get('id'))
+            hired_user = user.query.filter_by(id=request.args.get('id')).first()
             # usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
 
             if hired_user:
