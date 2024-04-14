@@ -314,9 +314,10 @@ def load_user_from_cookie():
 
 @app.route('/logout')
 def log_out():
+    logout_user()
     session.pop('user_id', None)
     make_response('Logged out').delete_cookie('stay_signed_in')
-    logout_user()
+
     return redirect(url_for('home'))
 
 
@@ -716,9 +717,9 @@ def job_feedback(token):
 
                 send_link(job_user_obj)
 
-        except:
-            flash(f"Something went wrong please try again later", "error")
-            return None
+        except Exception as e:
+            flash(f"Something went wrong please try again later, : {e}", "error")
+            return "The mail was not sent"
 
     return render_template("job_feedback.html", feedback_form=feedback_form)
 
