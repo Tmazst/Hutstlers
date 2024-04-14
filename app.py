@@ -714,7 +714,7 @@ def job_feedback(token):
                 flash(f"Something went wrong please try again later", "error")
                 return None
 
-        return render_template("job_feedback.html", feedback_form=feedback_form, the_freelancer=the_freelancer)
+        return render_template("job_feedback.html", feedback_form=feedback_form)
 
 @app.route("/approve_report/<token>",methods=['POST','GET'])
 def approve_report(token):
