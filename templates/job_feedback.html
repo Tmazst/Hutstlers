@@ -22,15 +22,16 @@
         <div  style="width:60%;margin-left:30px;" ><hr></div>
 
         <div style="padding-left:50px" class="form-group">
-               {{feedback_form.csrf_token}}
-               <h2 class="media-h2"> Work Experience Generator Form </h2>
+            {{feedback_form.csrf_token}}
+            <h2 class="media-h2"> Work Experience Generator Form </h2>
 
-        <p>Hey! Users after finishing the current(latest) Job Contract or Post, All users are required to fill an 'End of Term Form' </p>
-        <p>This info will be converted into the Work Experience Profile in your account to place you at competitive advantage in the job market</p>
+            <small>Hey! Users after finishing the current(latest) Job Contract or Post, All users are required to fill an 'End of Term Form' </small>
+            <small>This info will be converted into the Work Experience Profile in your account to place you at competitive advantage in the job market</small>
+        </div>
 
         <div style="padding-left:50px"  class="form-group">
                  <h2 class="media-h2"> Exposure & Work Experience Acquired </h2>
-                {{feedback_form.job_feedback(class="acc-form-control",placeholder="")}}
+                {{feedback_form.job_feedback(style="width:90%;height:200px;" class="acc-form-control",placeholder="Write Work Experience")}}
                 {{ feedback_form.submit(class="btns",placeholder="Name & Contact(s)")}}
         </div>
 
