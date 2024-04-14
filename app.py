@@ -604,11 +604,11 @@ def send_endof_term_form():
     if request.method == 'GET':
         if current_user.is_authenticated:
             # Get user details through their email
-            hired_user = user.query.filter_by(id=request.args.get('id')).first()
+            job_user_obj = user.query.filter_by(id=request.args.get('id')).first()
             # usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
 
-            if hired_user:
-                def send_link(hired_user):
+            if job_user_obj:
+                def send_link(job_user_obj):
                     app.config["MAIL_SERVER"] = "smtp.googlemail.com"
                     app.config["MAIL_PORT"] = 587
                     app.config["MAIL_USE_TLS"] = True
@@ -617,9 +617,9 @@ def send_endof_term_form():
 
                     mail = Mail(app)
 
-                    token = user_class().get_reset_token(hired_user.hired_user_id)
-                    msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[hired_user.email])
-                    msg.body = f"""Good day, {hired_user.name}
+                    token = user_class().get_reset_token(job_user_obj.id)
+                    msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[job_user_obj.email])
+                    msg.body = f"""Good day, {job_user_obj.name}
 
 Thank you for your valuable skills you have displayed while working with us.
 Before we settle down our deal, please click to follow the link below & fill the form you will be
@@ -631,7 +631,7 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
         """
                     try:
                         mail.send(msg)
-                        flash(f'You have sent an email of the "/End of Term Form/" to {hired_user.name} successfully',
+                        flash(f'You have sent an email of the "/End of Term Form/" to {job_user_obj.name} successfully',
                               'success')
                         return "Email Sent"
                     except Exception as e:
@@ -640,7 +640,7 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
                         return "The mail was not sent"
 
                 # Send the pwd reset request to the above email
-                send_link(hired_user)
+                send_link(job_user_obj)
 
                 return f'/"End of Term Form/" succesfully sent to {hired_user.name}'
 @app.route("/approve_report/<token>",methods=['POST','GET'])
