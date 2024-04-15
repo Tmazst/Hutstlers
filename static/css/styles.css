@@ -45,7 +45,7 @@ body{
 
 }
 .main{
-    //width:100%;
+    width:100%;
 }
 /* H1T CSS */
 
@@ -129,7 +129,7 @@ a{
 #nav-div{
     display:flex;
     direction:column;
-    background-color:rgba(170,170,170,0.5);
+    background-color:rgba(190,190,190,0.5);
     //padding:5px 0px;
     width:100%;
     //height:45px;
@@ -517,6 +517,7 @@ a{
      display:flex;
      //margin:10px;
      text-style-list:none;
+     //background:blue;
     /*display: inline-block;*/
 }
 
@@ -1968,7 +1969,36 @@ display:none
     height:30px !important;
 }
 
+.nav-link-img{
+    display:none
+}
+
 @media all and (max-width: 600px) {
+
+.nav-item-main a{
+    color:#006769 !important;
+    font-size:18px;
+    font-weight:500;
+    border:none;
+    border-radius:10px;
+    padding:0px;
+    //background-color:red;
+    height:inherit;
+}
+
+.nav-item-main{
+    height:90%;
+}
+
+.nav-link-img{
+    display:flex;
+
+}
+
+.social-icon-main{
+    //width:90px;
+    height:inherit;
+}
 
 .elastic-div{
     display:flex;
@@ -2014,7 +2044,10 @@ display:none
 }*/
 
 #nav-div-cont{
-width:100%;
+    width:100%;
+    background-color:rgba(190,190,190,0.7);
+    //overflow:auto;
+    height:inherit !important;
 }
 
 .nav-links{
@@ -2064,7 +2097,7 @@ width:100%;
   display: block;
   position:absolute;
   right:10px;
-  top:-40px;
+  top:-65px;
   background-color: rgba(255,127,80,0.4);
   padding:5px;
   hover:pointer;
@@ -2147,6 +2180,10 @@ width:100%;
     color:#006769 ;
 }
 
+.nav-link{
+    display:none
+}
+
 .steps-cont{
     flex-wrap:wrap;
     border:1px solid #909090;
@@ -2191,6 +2228,8 @@ width:100%;
 .nav-item a{
     font-size:0.9em;
 }
+
+
 
 
 .btns{
@@ -2255,10 +2294,11 @@ width:100%;
 
 .navbar-nav{
     //display:block;
-    height:40px;
-    margin-left:-25px !important;
+    height:70px !important;
+    //margin-left:-25px !important;
     width:100% !important;
-    //background-color:#ed45ed;
+    background:none;
+    padding: 0 !important;
 }
 
 .navbar-nav li{
@@ -2267,6 +2307,7 @@ width:100%;
     //width:50%;
     display:flex;
     justify-content:center;
+    background:none;
 }
 
 .navbar-nav li a{
@@ -2277,12 +2318,13 @@ width:100%;
 #nav-div{
     display:flex;
     flex-direction:column;
-    //background-color:#ededed;
+    justify-content:center;
+    background:none !important;
     //flex-wrap:
     //padding:5px 0px;
     width:100%;
-    height:60px;
-    //margin-bottom:10px;
+    height:80px;
+    margin-top:20px;
 }
 
 
