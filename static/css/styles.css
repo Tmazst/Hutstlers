@@ -1970,6 +1970,17 @@ display:none
 
 @media all and (max-width: 600px) {
 
+.elastic-div{
+    display:flex;
+    align-items:center;
+    width:100%;
+    flex-shrink:2;
+    height:400px;
+    //background-color:red;
+}
+
+
+
 .mobile-top-space{
     height:60px;
 }
