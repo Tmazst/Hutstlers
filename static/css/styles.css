@@ -2448,6 +2448,7 @@ display:none
     position:absolute;
     width:95%;
     margin:50px auto 0px auto;
+    background-color:blue;
   }
 
   .small-bold-color{
