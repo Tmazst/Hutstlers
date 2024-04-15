@@ -38,10 +38,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config[
-    "SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -111,6 +110,19 @@ def resize_img(img, size_x=30, size_y=30):
     return img
 
 
+def count_ads():
+    from sqlalchemy import text
+
+    users = []
+    all = text("SELECT COUNT(*) as total_jobs FROM job_ads")
+    jobs = db.session.execute(all).scalar()
+
+    return jobs
+
+
+    # db has binded the engine's database file
+
+
 def save_pic(picture, size_x=300, size_y=300):
     _img_name, _ext = os.path.splitext(picture.filename)
     gen_random = secrets.token_hex(8)
@@ -160,6 +172,7 @@ def add_header(response):
 # Web
 @app.route("/")
 def home():
+    count_jobs = count_ads()
     try:
         companies_ls = company_user.query.all()
         comp_len = len(companies_ls)
@@ -169,7 +182,7 @@ def home():
     for cmp in companies_ls:
         print("Check Links: ", cmp.fb_link)
 
-    return render_template("index.html", img_1='', img_2='', img_3='', companies_ls=companies_ls, comp_len=comp_len)
+    return render_template("index.html", img_1='', img_2='', img_3='', companies_ls=companies_ls, comp_len=comp_len,count_jobs =count_jobs )
 
 
 @app.route("/sign_up", methods=["POST", "GET"])

@@ -51,8 +51,10 @@
                   <li class="nav-item-main active">
                     <a class="nav-link" href="/">Home </a>
                   </li>
-                  <li class="nav-item-main">
+                  <li style="position:relative" class="nav-item-main">
                     <a class="nav-link" href="/job_ads">Jobs</a>
+                      {% if count_jobs %}
+                     <div class="notif-numb-div"><p style="font-size:10px;" class="notif-numb-update">{{count_jobs}}</p></div>{% endif%}
                   </li>
                   <li class="nav-item-main">
                     <a class="nav-link" href="/freelance_job_ads">Freelancers</a>

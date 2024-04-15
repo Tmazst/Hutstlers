@@ -692,6 +692,27 @@ span.spans{
     background-color:#FFD68A !important;
 }
 
+.notif-numb-update{
+    color:white;
+    font-size:inherit;
+    font-weight:550;
+    //left:300px;
+}
+
+.notif-numb-div{
+    position:absolute;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:50%;
+    background-color:#fc6c85;
+    //padding:50px;
+    width:25px;
+    height:25px;
+    right:-10px;
+    top:-10px;
+}
+
 .deadline-is-over{
     background-color:#f44 !important;
 }
