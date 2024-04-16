@@ -54,6 +54,24 @@ var labelGraphic = document.querySelector(".label-graphic");
 var progressCountIncr = document.createElement("div");
 */
 
+//Fixed Sticky
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  var scrollingElement = document.getElementById("nav-div");
+  // Distance from the top of the document to the top of the scrolling element
+  var elementOffset = scrollingElement.offsetTop;
+  // Viewport (window) top position
+  var windowTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  if (windowTop > elementOffset) {
+    scrollingElement.style.position = "fixed";
+    scrollingElement.style.top = "0";
+  } else {
+    scrollingElement.style.position = "relative";
+  }
+}
+
 
 //Navigation Dropdown
 const navSlide = () => {
