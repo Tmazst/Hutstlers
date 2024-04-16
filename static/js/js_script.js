@@ -66,7 +66,7 @@ function scrollFunction() {
 
   if (windowTop > elementOffset) {
     scrollingElement.style.position = "fixed";
-    scrollingElement.style.top = "0";
+    scrollingElement.style.top = "-5px";
   } else {
     scrollingElement.style.position = "relative";
   }

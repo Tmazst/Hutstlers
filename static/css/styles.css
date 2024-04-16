@@ -40,10 +40,8 @@ h1,h2,h3{
 }
 
 body{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    width:inherit !important;
+    max-width:100% !important;
+    box-sizing: border-box;
     margin:0 auto;
     font-family:Montserrat !important;
     padding:0;
@@ -61,7 +59,7 @@ body{
     top:0;
     //background-color:#0023ab;
     width:100%;
-    //margin-left:-350px;
+    margin-left:-10px;
     //margin-top:-350px;
     margin-bottom:330px;
     height:100vh;
@@ -131,7 +129,7 @@ a{
 
 
 
-.nav-div{
+#nav-div {
     display:flex;
     direction:column;
     position:relative;
@@ -142,7 +140,7 @@ a{
     //height:45px;
     //margin-bottom:10px;
 
-    backdrop-filter: blur(15px);
+    //backdrop-filter: blur(15px);
 
 }
 
@@ -157,7 +155,9 @@ a{
 #nav-div-cont{
         width:65%;
         //margin-bottom:10px;
+        background-color:rgba(190,190,190,0.4);
         //background-color:#04aa3a;
+        backdrop-filter: blur(20px);
 }
 
 
@@ -2053,16 +2053,18 @@ display:none
     text-transform: uppercase;
 }*/
 
+
+
 #nav-div-cont{
     width:100%;
-    background-color:rgba(190,190,190,0.7);
+    //background-color:rgba(190,190,190,0.7);
     //overflow:auto;
     height:inherit !important;
 }
 
 .nav-links{
     background-color: rgba(0,103,105,0.8);
-    backdrop-filter: blur(15px);
+    //backdrop-filter: blur(15px);
     position: absolute;
     right: 0;
     top:0vh;
@@ -2308,7 +2310,8 @@ display:none
     //margin-left:-25px !important;
     width:100% !important;
     background:none;
-    padding: 0 !important;
+    padding-left:20px !important;
+    padding-right:20px !important;
 }
 
 .navbar-nav li{
@@ -2325,7 +2328,7 @@ display:none
 }
 
 
-.nav-div{
+#nav-div {
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -2364,12 +2367,14 @@ display:none
   .title-strokes{
     display:none;
   }
-
+#tags-in-mobile{
+    margin-top:70px !important;
+}
   .banner-container{
     background-color:#eee;
+    margin-top:-100px !important;
     width:100%;
-    //margin-left:-35px;
-    //margin-top:-350px;
+    margin-left:-10px;
     margin-bottom:80px;
     height:100vh !important;
     }
@@ -2381,6 +2386,8 @@ display:none
     width:50%;
     min-width:200px;
     padding-left:5px;
+
+
     }
 
   .banner-cap h1{
@@ -2458,7 +2465,7 @@ display:none
     position:absolute;
     width:95%;
     margin:30px auto 0px auto !important;
-    background-color:blue;
+    //background-color:blue;
   }
 
   .small-bold-color{
