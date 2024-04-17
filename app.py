@@ -89,11 +89,9 @@ class user_class:
 def load_user(user_id):
     return user.query.get(user_id)
 
-
 @app.errorhandler(401)
 def custom_401(error):
     return "Authentication failed. Please check your username and password.", 401
-
 
 def resize_img(img, size_x=30, size_y=30):
     i = Image.open(img)
