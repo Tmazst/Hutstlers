@@ -99,7 +99,8 @@ body{
 }*/
 
 .portfolio-row h3{
-    font-weight:500;
+    font-weight:600;
+    margin-bottom:-10px;
 }
 .view_applicant_p{
     font-size:16px !important;
