@@ -73,7 +73,7 @@
 
                 <div style="dispaly:block">
                        <!--<input class="btns" type="submit" value="Create Account" />-->
-                       <a class="btns" href="{{ url_for('hire_applicant', id=job_usr.id, app_id=app_id) }}">Hire {{ job_usr.name }}</a>
+                       <a class="btns" href="{{ url_for('hire_applicant', id=ser.dumps({'data2':job_usr.id}), app_id=ser.dumps({'data3':app_id})) }}">Hire {{ job_usr.name }}</a>
                 </div>
             </div>
 

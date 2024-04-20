@@ -38,9 +38,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -50,7 +50,7 @@ app.config['BASIC_AUTH_PASSWORD'] = 'tmaz'
 
 db.init_app(app)
 
-pub, priv = rsa.newkeys(512)
+pub, priv = rsa.newkeys(128)
 
 # Login Manager
 login_manager = LoginManager(app)
@@ -59,6 +59,7 @@ login_manager.login_view = 'login'
 # Encrypt Password
 encry_pw = Bcrypt(app)
 
+ser = Serializer(app.config['SECRET_KEY'])
 
 # migrate = Migrate(app,db)
 # basic_auth = BasicAuth(app)
@@ -80,7 +81,7 @@ class user_class:
         try:
             user_id = s.loads(token)['user_id']
         except:
-            return f'Token {user_id} not accessed here is the outcome user'
+            return f'Something Went Wrong'  #f'Token {user_id} not accessed here is the outcome user'
 
         return user_id
 
@@ -168,7 +169,7 @@ def add_header(response):
 
 
 # Web
-@app.route("/")
+@app.route("/",methods=["POST","GET"])
 def home():
     count_jobs = count_ads()
     try:
@@ -176,6 +177,9 @@ def home():
         comp_len = len(companies_ls)
     except:
         db.create_all()
+    if request.method == 'GET':
+        pass
+        # id_ = request.args.get()
 
     for cmp in companies_ls:
         print("Check Links: ", cmp.fb_link)
@@ -264,12 +268,11 @@ def account():
 
             flash("Account Updated Successfull!!", "success")
 
-
         elif cv.errors:
             pass
 
     elif cv.errors:
-        flash("Update Unsuccessfull!!, check if all fields are filled", "error")
+        flash("Update Unsuccessful!!, check if all fields are filled", "error")
 
     return render_template("account.html", cv=cv, title="Account", image_fl=image_fl)
 
@@ -332,17 +335,17 @@ def log_out():
     return redirect(url_for('home'))
 
 
-@app.route("/user")
-def user_profile():
-    from sqlalchemy import text
-
-    users = []
-    all = text('''SELECT * FROM company_user;''')
-    # db has binded the engine's database file
-    for ea_user in db.execute(all):
-        users.append(list(ea_user))
-
-    return f"{users}"
+# @app.route("/user")
+# def user_profile():
+#     from sqlalchemy import text
+#
+#     users = []
+#     all = text('''SELECT * FROM company_user;''')
+#     # db has binded the engine's database file
+#     for ea_user in db.execute(all):
+#         users.append(list(ea_user))
+#
+#     return f"{users}"
 
 
 @app.route("/contact", methods=["POST", "GET"])
@@ -504,7 +507,7 @@ def job_ads_form():
 
     db.create_all()
 
-    print("Check Benefits: ", request.form.get('benefits'))
+    # print("Check Benefits: ", request.form.get('benefits'))
 
     if request.method == 'POST':
         if job_ad_form.validate_on_submit():
@@ -610,7 +613,7 @@ def show_hired_users():
     hired_users = hired.query.all()
     job_ads = Jobs_Ads
 
-    return render_template("show_hired_users.html", users=hired_users, user=user, job_ads=job_ads)
+    return render_template("show_hired_users.html", users=hired_users, user=user, job_ads=job_ads,ser=ser)
 
 
 @app.route("/send_endof_term_form")
@@ -619,7 +622,7 @@ def send_endof_term_form():
     if request.method == 'GET':
         if current_user.is_authenticated:
             # Get user details through their email
-            job_user_obj = user.query.filter_by(id=request.args.get('id')).first()
+            job_user_obj = user.query.filter_by(id=ser.loads(request.args.get('id'))['data7']).first()
             # usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
 
             if job_user_obj:
@@ -790,6 +793,9 @@ def cmp_user_profile():
 @app.route("/job_ads", methods=["GET", "POST"])
 # @basic_auth.required
 def job_adverts():
+
+    token = user_class()
+    encry = encry_pw
     if current_user.is_authenticated:
         if not current_user.image and not current_user.school:
             flash("Attention!! Your Account needs to be updated Soon, Please go to Account and update the empty fields",
@@ -804,20 +810,34 @@ def job_adverts():
 
     job_ads_form = Job_Ads_Form()
     if request.method == 'GET':
-        id = request.args.get('id')
-        value = request.args.get('value')
-        # print("Check Get Id: ",id)
-        if id:
-            # Filter Ads with a specific company's id
-            job_ads = Jobs_Ads.query.filter_by(job_posted_by=id)
-        elif not value and not id:
+        # id = request.args.get()
+        id_ = request.args.get('id')
+        if id_:
+            enc_id = ser.loads(id_)["data"]
+            value = request.args.get('value')
+            # print("Check Get Id: ",id)
+            if enc_id:
+                # Filter Ads with a specific company's id
+                job_ads = Jobs_Ads.query.filter_by(job_posted_by=enc_id)
+        elif not id_: #not value and
             job_ads = Jobs_Ads.query.all()
             print("ESLE is Printed: ")
 
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_gui.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
 
+
+@app.route("/job_ad_opened", methods=["GET", "POST"])
+def view_job():
+    if request.method == 'GET':
+        id_ = request.args.get('id')
+        dcry_id = ser.loads(id_)["data"]
+        job_ad = Jobs_Ads.query.get(dcry_id)
+
+        # print("Job Ad Title: ",job_ad.job_title)
+
+    return render_template('job_ad_opened.html', item=job_ad, db=db, company_user=company_user,ser=ser)
 
 @app.route("/job_ads_filtered", methods=["GET", "POST"])
 # @basic_auth.required
@@ -1091,7 +1111,8 @@ def send_application():
         if current_user.is_authenticated:
 
             if request.method == "GET":
-                jb_id = request.args['job_id']
+                id_ = request.args['job_id']
+                jb_id = ser.loads(id_)['data1']
                 apply = Applications(
                     applicant_id=current_user.id,
                     job_details_id=jb_id,  # db.query(Jobs_Ads).get(jb_id),
@@ -1121,22 +1142,11 @@ def send_application():
 @login_required
 def local_jb_ads():
     if request.method == 'GET':
-        id = request.args['id']
+        id = ser.loads(request.args['id'])
         job_ad = Jobs_Ads.query.get(id)
 
         # print("Job Ad Title: ",job_ad.job_title)
 
-
-@app.route("/job_ad_opened", methods=["GET", "POST"])
-def view_job():
-    if request.method == 'GET':
-        id = request.args['id']
-
-        job_ad = Jobs_Ads.query.get(id)
-
-        # print("Job Ad Title: ",job_ad.job_title)
-
-    return render_template('job_ad_opened.html', item=job_ad, db=db, company_user=company_user)
 
 
 @app.route("/users")
@@ -1146,13 +1156,13 @@ def users():
     user_v = []
     users_ = user.query.all()
 
-    return render_template("user.html", users=users_)
+    return render_template("user.html", users=users_,ser=ser)
 
 
 @app.route("/user_viewed", methods=["GET", "POST"])
 def view_user():
     if request.method == 'GET':
-        uid = request.args['id']
+        uid = ser.loads(request.args['id'])['data6']
 
         job_usr = user.query.get(uid)
 
@@ -1278,18 +1288,18 @@ def applications():
     job_ads = Jobs_Ads
 
     return render_template("applications.html", all_applications=all_applications, job_user=job_usr, job_ads=job_ads,
-                           applications=applications, db=db)
+                           applications=applications, db=db,ser=ser)
 
 
 # (2) They view each applicant of their choice
 @app.route("/view_applicant", methods=["GET", "POST"])
 def view_applicant():
     if request.method == 'GET':
-        id_ = request.args['uid']
-        app_id = request.args['app_id']
+        id_ = ser.loads(request.args['uid'])['data4']
+        app_id = ser.loads(request.args['app_id'])['data5']
         job_usr = job_user.query.get(id_)
 
-    return render_template("view_applicant.html", job_usr=job_usr, app_id=app_id)
+    return render_template("view_applicant.html", job_usr=job_usr, app_id=app_id,ser=ser)
 
 
 # (3) After viewing the applicant, they hire the applicant
@@ -1300,15 +1310,17 @@ def hire_applicant():
             # Based on the context, consider handling the 'POST' method as well
 
             try:
-                id_ = request.args['id']
-                app_id = request.args['app_id']
+                encr_id = request.args['id']
+                id_ = ser.loads(encr_id)['data2']
+                encr_app_id = request.args['app_id']
+                app_id = ser.loads(encr_app_id)['data3']
                 job_usr = job_user.query.get(id_)
 
                 # Logic to hire the user and update the application status
                 hire_user = hired(
                     comp_id=current_user.id,
                     hired_user_id=id_,
-                    job_details=request.args['app_id'],
+                    job_details=app_id,
                     usr_cur_job=1,
                     hired_date=datetime.utcnow()
                 )

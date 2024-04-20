@@ -1516,6 +1516,24 @@ h2{
     //background-color:red;
 }
 
+.contact-icons-div small{
+    font-size:16px;
+    font-weight:500;
+    color:#404040;
+}
+
+.contact-icons-div{
+    display:flex;
+    align-items:center;
+}
+
+
+.contact-icons{
+    width:50px;
+    height:50px;
+    //background-color:red;
+}
+
 .arrow-lines-2{
     //position:absolute;
     height:100px;
@@ -1689,6 +1707,11 @@ h2{
 .login-img-cont{
     background-color:3ec;
     //margin-left:-200px;
+}
+
+.img-link:hover{
+    //height:1000px;
+    cursor:pointer;
 }
 
 .border-radius-15{
@@ -1963,6 +1986,7 @@ display:none
 
 .sized{
     height:23px !important;
+    width:23px !important;
 }
 .a-hover{
     height:inherit !important;
@@ -1970,10 +1994,13 @@ display:none
 
 .a-hover:hover{
     font-size:30px !important;
+    transition:0.1s ease-in;
 }
 
 .sized:hover{
     height:30px !important;
+    width:30px !important;
+    transition:0.1s ease-in;
 }
 
 .nav-link-img{

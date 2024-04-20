@@ -37,9 +37,8 @@
 <!--             <option value="/job_ads_filtered?value=Health">Typist</option>-->
             {% endfor %}
         {% endif %}
-     </select>
+    </select>
     <a href="/job_ads"><button id="view-all" class="btns-margin btns">View All</button></a>
-
 
   <div style="background-color:ae23a3;" class="general-flex-x">
         {% if job_ads %}
@@ -79,6 +78,7 @@
                                 <p class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Project Due</p>
                                 <label id="deadline" class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
                             </div>
+
                         </div>
 
                          <!-------------RESPONSIBILITIES--------->
@@ -94,7 +94,7 @@
                         <!------------VIEW BUTTON-------------->
                         <div style="dispaly:block">
                              <!--<input class="btns" type="submit" value="Create Account" />-->
-                             <a class="view_job" href="/job_ad_opened?id={{item.job_id}}">View</a>
+                             <a class="view_job" href="/job_ad_opened?id={{ser.dumps({'data':item.job_id})}}">View</a>
                         </div>
 
                     </div>

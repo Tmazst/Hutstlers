@@ -51,7 +51,7 @@
                         </div>
 
                         <div style="dispaly:block">
-                             <a class="view_job" href="/view_applicant?uid={{ea_application.applicant_id}}&app_id={{ea_application.job_details_id}}">View Applicant</a>
+                             <a class="view_job" href="/view_applicant?uid={{ser.dumps({'data4':ea_application.applicant_id})}}&app_id={{ser.dumps({'data5':ea_application.job_details_id})}}">View Applicant</a>
                         </div>
                 </div>
             </div>

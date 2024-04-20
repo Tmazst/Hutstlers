@@ -122,7 +122,7 @@
              <div>
                  <!--<input class="btns" type="submit" value="Create Account" />-->
                 {% if current_user.role != 'company_user' %}
-                    <a class="btns" href="/send_application?job_id={{item.job_id}}">Apply Now</a>
+                    <a class="btns" href="/send_application?job_id={{ser.dumps({'data1':item.job_id})}}">Apply Now</a>
                  {% endif %}
              </div>
 

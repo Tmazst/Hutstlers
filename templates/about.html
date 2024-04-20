@@ -2,6 +2,7 @@
 
 {% block content %}
 <div style="padding:0 20px;margin-top:250px !important" class="tags">
+
         <div class="flash-messages" class="btns">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -9,14 +10,16 @@
                         <div class="flash-messages alert-{{category}}"> {{ message }}</div>
                     {% endfor %}
                 {% endif %}
-            {% endwith %}</div>
-        <h1 >Here is everything we like you to know, <br><span class="spans">About Us</span></h1>
+            {% endwith %}
+        </div>
+
+        <h1>Here is everything we like you to know, <br><span class="spans">About Us</span></h1>
+
         <div class="objectives-div">
             <p>We aim to reduce the unemployement of Eswatini by placing young people at the spot-light where their skills and talents can easily be
                 identified by the prospective employers.By joining hands with local employers we are helping the young people</p>
                 <ul>
-                    <li><span class="material-symbols-outlined">priority</span>
-                        Collectively accumulate Experience through short-term jobs to build a professional profile</li>
+                    <li>Collectively accumulate Experience through short-term jobs to build a professional profile</li>
                     <li>Cultivate their skills & talents that are in demand in the job market</li>
                     <li>Generate passive income to breach bankrupt</li>
                     <li>To curb casualties & health issues i.e. depression, stress, robbery due the stress caused by lack employment</li>
@@ -40,6 +43,7 @@
             </div>
 
         <h1 class="spans">Our Team</h1>
+
         <div class="about-team-cont" >
 
             <div class="about-team" >
@@ -48,23 +52,23 @@
                 </div>
                 <div class="team-details">
                     <br><br>
-                    <p>Name Surname</p>
-                    <p class="team-pos">Position</p>
-                    <p class="team-email">name@thehustlerstime.co.sz</p>
+                    <p>Nompumelelo Mdlovu</p>
+                    <p class="team-pos">Administration Support Assistant(TechX-ASA)</p>
+                    <p class="team-email">mpumi@thehustlerstime.com</p>
                 </div>
             </div>
-            <div class="about-team" >
-                <div class="bg-drop">
-                    <div class="img-cont-about-team"><img src="/static/images/default.jpg" /></div>
-                </div>
+<!--            <div class="about-team" >-->
+<!--                <div class="bg-drop">-->
+<!--                    <div class="img-cont-about-team"><img src="/static/images/default.jpg" /></div>-->
+<!--                </div>-->
 
-                <div class="team-details">
-                    <br><br>
-                    <p>Name Surname</p>
-                    <p class="team-pos">Position</p>
-                    <p class="team-email">name@thehustlerstime.co.sz</p>
-                </div>
-            </div>
+<!--                <div class="team-details">-->
+<!--                    <br><br>-->
+<!--                    <p>Name Surname</p>-->
+<!--                    <p class="team-pos">Position</p>-->
+<!--                    <p class="team-email">name@thehustlerstime.co.sz</p>-->
+<!--                </div>-->
+<!--            </div>-->
             <div style class="about-team" >
                 <div class="bg-drop">
                     <div class="img-cont-about-team"><img src="/static/images/image.jpg" /></div>
@@ -72,53 +76,52 @@
                 <div class="team-details">
                     <br><br>
                     <p>Thabo Maziya</p>
-                    <p class="team-pos">Developer</p>
-                    <p class="team-email">thabo@thehustlerstime.co.sz</p>
+                    <p class="team-pos">Developer(TechX-Dev)</p>
+                    <p class="team-email">Founder</p>
+                    <p class="team-email">thabo@thehustlerstime.com</p>
                 </div>
             </div>
         </div>
-
+        <br><br><br>
         <div>
             <h1>The Hustlers Time (THT)</h1>
-            <label>The Hustlers Time is a life-time project brewed by Tech Xolutions Group to help create equal opportunities for all young people in any field in Eswatini</label>
+            <label>P O Box 647 Ezulwini,</label><br>
+            <label>Ngonini pass Examination Council (~3km)</label><br><br>
             <ul>
-                <li>Telephone +268 3424 4434</li>
-                <li>Cellphone +268 7965 1471/7642 7890</li>
-                <li>Email info@thehustlerstime.co.sz</li>
-                <li>Email tht@techxolutions.co.sz</li>
-                <li>facebook</li>
-                <li>whatsapp</li>
+                <div class="contact-icons-div"><img class="contact-icons" alt="The Hustlers Time contacts" src="/static/icons/telephone_icon.png" /> <small>+268 3424 4434</small></div>
+                <div class="contact-icons-div"><img style="height:x;width:x;" class="contact-icons" alt="The Hustlers Time contacts-whatsapp" src="/static/icons/whatsapp_icon.png" /> <small>+268 7965 1471 / 7945 6089</small></div>
+                <div class="contact-icons-div"><img class="contact-icons" alt="The Hustlers Time contacts-whatsapp" src="/static/icons/email_icon.png" /> <small>info@thehustlerstime.com</small></div>
+                <div class="contact-icons-div"><img class="contact-icons" alt="The Hustlers Time contacts-whatsapp" src="/static/icons/facebook_icon.png" /> <small>The Hustlers Time</small></div>
             </ul>
-            <h1>Addresses</h1>
-            <label>P O Box 420</label><br>
-            <label>Ezulwini, Ngonini pass Examination Council (~3km)</label><br><br>
+
         </div>
-    </div>
+
 
     <div style="margin-top:150px" >
-            <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Join The Hustlers Time (T.H.T) Network </h1><div class="title-strokes" style="background-color:#23aeb2;height:4px;width:550px;"></div></div>
-            <div class="home-content-why-hot">
-                <div style="" class="home-cont-items job_ad_style anim" >
-                    <i style="font-size:120px !important;color:#006769;" class="material-icons">timer</i>
-                    <p class="invite-cards" style="width:90%">Look! Self-directed learning and proactive skill development are highly valuable in demonstrating your commitment, growth mindset, and adaptability to potential employers.
-                        By staying ahead and continuously updating your skills, you enhance your chances of standing out in the competitive job market. Good luck!
-                    </p>
-                </div>
+<!--        <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Join The Hustlers Time (T.H.T) Network </h1><div class="title-strokes" style="background-color:#23aeb2;height:4px;width:550px;"></div></div>-->
 
-                <div  style="" class="home-cont-items job_ad_style anim">
-                    <i style="font-size:120px;color:#006769;" class="material-symbols-rounded">psychiatry</i>
-                   <p class="invite-cards" style="width:90%">Absolutely! Having a Plan B is always a smart move. By collectively accumulating industry skills and experience with short-term,
-                       temporary, hourly, or temporary-to-hire jobs through The Hustlers Time Network,
-                       you can continue to build your professional profile while remaining flexible in your career search</p>
-                </div>
+<!--        <div class="home-content-why-hot">-->
+<!--            <div style="" class="home-cont-items job_ad_style anim" >-->
+<!--                <i style="font-size:120px !important;color:#006769;" class="material-icons">timer</i>-->
+<!--                <p class="invite-cards" style="width:90%">Look! Self-directed learning and proactive skill development are highly valuable in demonstrating your commitment, growth mindset, and adaptability to potential employers.-->
+<!--                    By staying ahead and continuously updating your skills, you enhance your chances of standing out in the competitive job market. Good luck!-->
+<!--                </p>-->
+<!--            </div>-->
 
-                <div style="" class="home-cont-items job_ad_style anim">
-                    <i style="font-size:120px;color:#006769;" class="material-symbols-rounded">skateboarding</i>
-                   <p class="invite-cards" style="width:90%">Embrace temporary jobs as part of your career strategy, you can continue to accumulate skills, gain experience, and maintain your professional momentum.
-                       This approach allows you to be proactive, adaptable, and prepared for the next permanent job opportunity that comes your way. and business ideas you can spot out there, and become a Game-Changer that Leaves an Unforgettable Impression.</p>
-                </div>
+<!--            <div style="" class="home-cont-items job_ad_style anim">-->
+<!--                <i style="font-size:120px;color:#006769;" class="material-symbols-rounded">psychiatry</i>-->
+<!--               <p class="invite-cards" style="width:90%">Absolutely! Having a Plan B is always a smart move. By collectively accumulating industry skills and experience with short-term,-->
+<!--                   temporary, hourly, or temporary-to-hire jobs through The Hustlers Time Network,-->
+<!--                   you can continue to build your professional profile while remaining flexible in your career search</p>-->
+<!--            </div>-->
 
-            </div>
+<!--            <div style="" class="home-cont-items job_ad_style anim">-->
+<!--                <i style="font-size:120px;color:#006769;" class="material-symbols-rounded">skateboarding</i>-->
+<!--               <p class="invite-cards" style="width:90%">Embrace temporary jobs as part of your career strategy, you can continue to accumulate skills, gain experience, and maintain your professional momentum.-->
+<!--                   This approach allows you to be proactive, adaptable, and prepared for the next permanent job opportunity that comes your way. and business ideas you can spot out there, and become a Game-Changer that Leaves an Unforgettable Impression.</p>-->
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
+    </div>
+</div>
 {% endblock %}
