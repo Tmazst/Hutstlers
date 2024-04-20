@@ -10,8 +10,8 @@ class Register(FlaskForm):
 
     name = StringField('name', validators=[DataRequired(),Length(min=2,max=20)])
     email = StringField('email', validators=[DataRequired(),Email()])
-    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=64)])
-    confirm = PasswordField('confirm', validators=[DataRequired(),EqualTo('password'), Length(min=8, max=64)])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=120)])
+    confirm = PasswordField('confirm', validators=[DataRequired(),EqualTo('password'), Length(min=8, max=120)])
 
     submit = SubmitField('Create Account!')
 
@@ -49,21 +49,21 @@ class Contact_Form(FlaskForm):
 class Update_account_form(FlaskForm):
 
 
-    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
+    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=40)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     image_pfl = FileField('Profile Image', validators=[FileAllowed(['jpg','png'])])
-    contacts = StringField('Contact(s)', validators=[Length(min=8, max=64)])
-    school = StringField('High School', validators=[Length(min=8, max=64)])
-    tertiary = StringField('Tertiary (Optional)')
-    experience = TextAreaField('Work Experience (Optional)')
+    contacts = StringField('Contact(s)', validators=[Length(min=8, max=120)])
+    school = StringField('High School', validators=[Length(min=8, max=120)])
+    tertiary = StringField('Tertiary (Optional)',validators=[Length(min=0, max=120)])
+    experience = TextAreaField('Work Experience (Optional)',validators=[Length(min=0, max=120)])
     skills = TextAreaField('Skills', validators=[Length(min=8, max=150)])
     hobbies = StringField('Interests (Optional)')
-    address = StringField('Physical Address', validators=[DataRequired(), Length(min=8, max=100)])
+    address = StringField('Physical Address', validators=[DataRequired(), Length(min=8, max=120)])
     cv_file = FileField('Upload CV/Resume', validators=[FileAllowed(['pdf', 'docx'])])
     reference_1 = TextAreaField('Reference (1)',
-                                validators=[DataRequired(), Length(min=8, max=64)])
+                                validators=[DataRequired(), Length(min=8, max=200)])
     reference_2 = TextAreaField('Reference (2)',
-                                validators=[DataRequired(), Length(min=8, max=64)])
+                                validators=[DataRequired(), Length(min=8, max=200)])
 
     def validate_email(self,email):
         from app import db, user
@@ -79,9 +79,9 @@ class Update_account_form(FlaskForm):
 
 class Reset(FlaskForm):
 
-    old_password = PasswordField('old password', validators=[DataRequired(), Length(min=8, max=64)])
-    new_password = PasswordField('new password', validators=[DataRequired(), Length(min=8, max=64)])
-    confirm_password = PasswordField('confirm password', validators=[DataRequired(), EqualTo('new_password'), Length(min=8, max=64)])
+    old_password = PasswordField('old password', validators=[DataRequired(), Length(min=8, max=120)])
+    new_password = PasswordField('new password', validators=[DataRequired(), Length(min=8, max=120)])
+    confirm_password = PasswordField('confirm password', validators=[DataRequired(), EqualTo('new_password'), Length(min=8, max=120)])
 
     reset = SubmitField('Reset')
 
