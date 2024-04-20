@@ -1693,7 +1693,10 @@ h2{
     gap:30px;
     //background-color:red;
 }
-
+.add-border{
+    border:1px solid #eee;
+    border-radius:15px;
+}
 .general-flex{
     display:flex;
     justify-content:space-around;
