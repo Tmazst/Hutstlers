@@ -98,11 +98,12 @@ body{
  background-color:#ede6ed;
 }*/
 
-.portfolio-row{
+.portfolio-row h3{
     font-weight:500;
 }
 .view_applicant_p{
     font-size:16px !important;
+    font-weight:400;
     padding-left:15px;
 }
 
