@@ -99,7 +99,7 @@ body{
 }*/
 
 .portfolio-row h3{
-    font-weight:600;
+    font-weight:600 ;
     margin-bottom:-10px;
 }
 .portfolio-row span{
@@ -109,7 +109,7 @@ body{
 
 .view_applicant_p{
     font-size:16px !important;
-    font-weight:500;
+    font-weight:600 !important;
     padding-left:15px;
 }
 
