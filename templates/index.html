@@ -179,13 +179,13 @@
 <!--                </div>-->
             </div>
       </div><br><br>
-        <div>
+
+      <div>
       {% if comp_len != 0 %}
 <!--      <fieldset style="font-size:25px;color:#006769;border:2px solid #006769;padding:3% 2%;border-radius:15px;height:100%;" class="paras-subtopics"><legend><h1 style="margin-top:80px;color:coral">Partnering Companies</h1>-->
           <fieldset style="overflow-x:auto;display:flex;border:1px solid coral;z-index:1000" class="companies-cont border-radius-15"><legend><h3 style="margin-top:;color:coral;font-weight:500">Partnering Companies</h3></legend>
 
             {%for cmp in companies_ls %}
-
             <div style="padding:30px;" class="companies-chd-cont">
                 <a class="img-link" href="/"><div class="img-cont"><img class="prf-image" src="static/images/{{cmp.image}}"></div></a>
                 <h4>{{cmp.name}}</h4>
@@ -197,20 +197,21 @@
                         <a href="{{cmp.fb_link}}" ><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/fb_icon.png" /></div></a>
                     {% endif %}
                     {% if cmp.twitter_link %}
-                        <a href="#"><i style="font-size:25px;color:#bbb;padding:10px" class="material-symbols-rounded">view_kanban</i></a>
+                        <a href="{{cmp.twitter_link}}"><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/fb_icon.png" /></div></a>
                     {% endif %}
                     {% if cmp.youtube %}
-                        <a href="#"><i style="font-size:25px;color:#bbb;padding:10px" class="material-symbols-rounded">youtube_activity</i></a>
+                        <a href="{{cmp.youtube}}"><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/youtube_icon.png" /></div></a>
                     {% endif %}
                 </div>
             </div>
             {% endfor %}
             </fieldset>
-        {% endif %}
-        </div>
 
-      <div style="display:flex;flex-direction:column;margin-top:100px;" >
-            <div style="display:flex;align-items:center;width:100%;font-size:20px;"  ><div style="background-color:coral;height:4px;width:550px;" class="title-strokes"></div><h1 style=""  >The Hustlers Time Project</h1></div>
+        {% endif %}
+      </div>
+
+      <div style="display:flex;flex-direction:column;margin-top:100px;">
+            <div style="display:flex;align-items:center;width:100%;font-size:20px;"><div style="background-color:coral;height:4px;width:550px;" class="title-strokes"></div><h1 style=""  >The Hustlers Time Project</h1></div>
 
 <!--            <div style="margin-top:20px;" >-->
 <!--                <p>T.H.T is highly interested in finding alternative ways for the unemployed youth of Eswatini to consecutively get short-term job opportunities from various employers.-->
