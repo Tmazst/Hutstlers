@@ -119,7 +119,7 @@
 
         </div>
     {% if current_user.is_authenticated %}
-        <div style="width:18%;background-color:;float:right;color:#aaa;font-weight:bold" class="user_captions">Welcome, {{current_user.name}}</div>
+        <div style="" class="user_captions user-acc-captions"><small>Welcome, {{current_user.name}}</small></div>
     {% endif %}
 
     {% if current_user.is_authenticated and current_user.role== 'company_user' %}
@@ -139,7 +139,7 @@
                         <a class="side-nav-link" href="/fl_job_ads_form">Publish Freelance Job</a>
                       </li>
                       <li class="side-nav-item">
-                        <a class="side-nav-link" href="/job_ads?id={{current_user.id}}">Published Jobs</a>
+                        <a class="side-nav-link" href="/job_ads?id={{ser.dumps({'data_1':current_user.id})}}">Published Jobs</a>
                       </li>
                       <li class="side-nav-item">
                         <a class="side-nav-link" href="/users">Job Seekers</a>
@@ -164,6 +164,7 @@
 
 <!--    <div class="mobile-top-space"></div>-->
     <div style="margin-left:10px;width:100%" class="blocks">
+        <div class="mobile-top-space"></div>
         {% block content %}
         {% endblock %}
     </div>

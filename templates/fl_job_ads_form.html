@@ -12,16 +12,16 @@
             {% endif %}
         {% endwith %}</div>
   <!--<h3>Password Reset<br> <span class="spans"></span></h3>--->
-  <p class="paras-subtopics">Post A Job</p>
-    <small class="paras-subtopics">Tip: Your will need to Tick Fields with boxes to include them on the Job Advert</small>
+
+    <small style="font-weight:500" class="paras-subtopics">Tip: Please Tick Fields with tick boxes to include them on the Job Advert</small>
     <!----FORM----->
-  <div style="min-width:;" class="form_container">
+  <div style="min-width:border:none;" class="form_container">
     <div class="row justify-content-center">
     <div class="col-md-5">
-     <div style="padding-left:30px;padding-right:30px;display:block;"  class="card">
+    <div style="padding-left:30px;padding-right:30px;display:block;"  class="ard">
 
         <div style="background-color: 12db5a;" class="card-body py-md-4">
-            <h2 class="card-title text-center">Freelance Job Advert Form</h2>
+        <h2 class="card-title text-center">Freelance Job Advert Form</h2>
         <form style="background-color: f8db5a;width:;"  _lpchecked="1" action="" method="post">
 
              <div style="background-color: f8f95a;" class="job-ad-group marginise-bottom">
@@ -37,10 +37,9 @@
              </div>
 
              <!-------JOB TYPE--------->
-             <div class="job-ad-group marginise-bottom">
-                 <label for="Expertise" class="labels">Expertise / Skill: </label>
-
-                 <select style="margin-bottom:10px" name="speciality" inputmode="text">
+             <div class="job-ad-group marginise-bottom ">
+                 <label for="Expertise" class="labels ">Expertise / Skill: </label>
+                 <select class="form-control" style="margin-bottom:10px;width:40%;" name="speciality" inputmode="text">
                      <option value="Graphic Designer">Graphic Designer</option>
                      <option value="Software Developer">Full-Time on Part-Time</option>
                      <option value="Illustration Specialist">Software Developer</option>
@@ -62,12 +61,12 @@
                      <option value="Event MC">Event MC</option>
                      <option value="Event Planner">Event Planner</option>
                      <option value="Wedding Organiser">Wedding Organiser</option>
-                     <option value="Project Management Specialist">Project Management Specialist</option>
+                     <option value="Project Management Specialist">Project Management Spec. </option>
                  </select>
 
                  <div>
                     <label for="Expertise" class="labels">     </label>
-                  {{ fl_job_ad_form.speciality(class="form-control adj-width-60",placeholder="Other")}}
+                  {{ fl_job_ad_form.speciality(class="form-control adj-width-other",placeholder="Other")}}
                   {% if fl_job_ad_form.speciality.errors %}
                     {% for error in fl_job_ad_form.speciality.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -79,7 +78,7 @@
              <!-------PAY TYPE--------->
              <div class="job-ad-group marginise-bottom">
                  <label for="Category" class="labels">Field Category: </label>
-                 <select style="margin-bottom:10px" name="field_category_sel">
+                 <select class="form-control"  style="margin-bottom:10px;width:40%" name="field_category_sel">
                      <option value="Media & Technology">Media & Technology</option>
                      <option value="Information Technology">Information Technology</option>
                      <option value="Occupational Health & Safety">Health & Safety</option>
@@ -99,7 +98,7 @@
 
                  <div>
                     <label for="Category" class="labels">     </label>
-                    {{ fl_job_ad_form.category(class="form-control adj-width-60",placeholder="other")}}
+                    {{ fl_job_ad_form.category(class="form-control adj-width-other",placeholder="other")}}
                     {% if fl_job_ad_form.category.errors %}
                     {% for error in fl_job_ad_form.category.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -120,18 +119,28 @@
              </div>
 
              <!-------WORK DURATION--------->
+            <div style="display:flex">
              <div class="job-ad-group marginise-bottom">
 
+                 {{ fl_job_ad_form.start_date.label(class="labels")}}
+                  {{ fl_job_ad_form.start_date(class="form-control adj-width-60",placeholder="e.g Mon 23 May 2023 - Fri 23 June 2023")}}
+                  {% if fl_job_ad_form.start_date.errors %}
+                    {% for error in fl_job_ad_form.start_date.errors %}
+                        <span class="span-error" >*{{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+             </div><p style="margin:0 5px;">   </p>
+            <div class="job-ad-group marginise-bottom">
 
-                 {{ fl_job_ad_form.project_duration.label(class="labels")}}
-
-                  {{ fl_job_ad_form.project_duration(class="form-control adj-width-60",placeholder="e.g Mon 23 May 2023 - Fri 23 June 2023")}}
-                  {% if fl_job_ad_form.project_duration.errors %}
-                    {% for error in fl_job_ad_form.project_duration.errors %}
+                 {{ fl_job_ad_form.end_date.label(class="labels")}}
+                  {{ fl_job_ad_form.start_date(class="form-control adj-width-60",placeholder="e.g Mon 23 May 2023 - Fri 23 June 2023")}}
+                  {% if fl_job_ad_form.end_date.errors %}
+                    {% for error in fl_job_ad_form.end_date.errors %}
                         <span class="span-error" >*{{error}}</span>
                     {% endfor %}
                  {% endif %}
              </div>
+            </div>
 
              <!-------prerequisites--------->
              <div class="job-ad-group marginise-bottom">

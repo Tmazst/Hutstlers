@@ -38,9 +38,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -184,7 +184,7 @@ def home():
     for cmp in companies_ls:
         print("Check Links: ", cmp.fb_link)
 
-    return render_template("index.html", img_1='', img_2='', img_3='', companies_ls=companies_ls, comp_len=comp_len,count_jobs =count_jobs )
+    return render_template("index.html", img_1='', img_2='', img_3='', companies_ls=companies_ls, comp_len=comp_len,count_jobs =count_jobs,ser=ser)
 
 
 @app.route("/sign_up", methods=["POST", "GET"])
@@ -220,7 +220,7 @@ def sign_up():
     elif register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
 
-    return render_template("sign_up_form.html", register=register)
+    return render_template("sign_up_form.html", register=register,ser=ser)
 
 
 @app.route("/about")
@@ -266,7 +266,7 @@ def account():
 
             db.session.commit()
 
-            flash("Account Updated Successfull!!", "success")
+            flash("Account Updated Successfully!!", "success")
 
         elif cv.errors:
             pass
@@ -274,7 +274,7 @@ def account():
     elif cv.errors:
         flash("Update Unsuccessful!!, check if all fields are filled", "error")
 
-    return render_template("account.html", cv=cv, title="Account", image_fl=image_fl)
+    return render_template("account.html", cv=cv, title="Account", image_fl=image_fl,ser=ser)
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -496,7 +496,7 @@ If you did not requested the above message please ignore it, and your password w
 
 @app.route("/how_does_it_work")
 def tht_how():
-    return render_template("how_does_it_work.html")
+    return render_template("how_does_it_work.html",ser=ser)
 
 
 @app.route("/job_ads_form", methods=["POST", "GET"])
@@ -538,7 +538,7 @@ def job_ads_form():
                 job_post1.work_days = job_ad_form.work_days.data
 
             if job_ad_form.work_hours_bl.data:
-                job_post1.work_hours = job_ad_form.work_hours.data
+                job_post1.work_hours = str(job_ad_form.start_date.data) + " - " + str(job_ad_form.end_date.data)
 
             if job_ad_form.age_range_bl.data:
                 job_post1.age_range = job_ad_form.age_range.data
@@ -553,9 +553,9 @@ def job_ads_form():
             db.session.add(job_post1)
             db.session.commit()
 
-            flash('Your Job Post was succesfull', 'success')
+            flash('Job Post was successful', 'success')
 
-    return render_template("job_ads_form.html", job_ad_form=job_ad_form)
+    return render_template("job_ads_form.html", job_ad_form=job_ad_form,ser=ser)
 
 
 @app.route("/fl_job_ads_form", methods=["POST", "GET"])
@@ -572,7 +572,7 @@ def fl_job_ads_form():
                 service_title=fl_job_ad_form.service_title.data,
                 specialty=request.form.get('speciality'),
                 description=fl_job_ad_form.description.data,
-                project_duration=fl_job_ad_form.project_duration.data,
+                project_duration=str(fl_job_ad_form.start_date.data) + " - " + str(fl_job_ad_form.end_date.data) ,
                 # other_info=fl_job_ad_form.prerequisites.data,
                 service_category=request.form.get('field_category_sel'),
                 contact_person=fl_job_ad_form.posted_by.data,
@@ -592,9 +592,9 @@ def fl_job_ads_form():
             db.session.add(job_post1)
             db.session.commit()
 
-            flash('Your Freelance Job Post was succesfull', 'success')
+            flash('Job Post was successful', 'success')
 
-    return render_template("fl_job_ads_form.html", fl_job_ad_form=fl_job_ad_form)
+    return render_template("fl_job_ads_form.html", fl_job_ad_form=fl_job_ad_form,ser=ser)
 
 
 # Companies will issues end of contract form to they employees/user
@@ -813,7 +813,7 @@ def job_adverts():
         # id = request.args.get()
         id_ = request.args.get('id')
         if id_:
-            enc_id = ser.loads(id_)["data"]
+            enc_id = ser.loads(id_)["data_1"]
             value = request.args.get('value')
             # print("Check Get Id: ",id)
             if enc_id:
@@ -899,7 +899,7 @@ def freelance_job_adverts():
 
     # Fix jobs adds does not have hidden tag
     return render_template("freelance_jobs_ui.html", fl_job_ads=fl_job_ads, fl_job_ads_form=fl_job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
 
 
 @app.route("/send_application_fl", methods=["GET", "POST"])
@@ -1080,9 +1080,11 @@ def company_account():
 
         db.session.commit()
 
+        flash(f"Updated Successful!!", "success")
+
         # print('DEBUG UPDATE: ',cmp_usr.web_link)
 
-    return render_template("company_account.html", company_update=company_update, image_fl=image_fl)
+    return render_template("company_account.html", company_update=company_update, image_fl=image_fl,ser=ser)
 
 
 # -------------------PARTNERING COMPANIES----------------------#
@@ -1147,7 +1149,14 @@ def local_jb_ads():
 
         # print("Job Ad Title: ",job_ad.job_title)
 
+@app.route("/delete_entry", methods=["GET", "POST"])
+def delete_entry():
 
+    if request.method == 'GET':
+        j_id = ser.loads(request.args.get("jo_id"))['data_2']
+        appl_tions = applications.query.filter_by(job_details=j_id).first()
+
+    return f''
 
 @app.route("/users")
 def users():
@@ -1168,7 +1177,7 @@ def view_user():
 
         # print("Job Ad Title: ",job_ad.job_title)
 
-    return render_template('user_viewed.html', job_usr=job_usr, db=db, company_user=company_user)
+    return render_template('user_viewed.html', job_usr=job_usr, db=db, company_user=company_user,ser=ser)
 
 
 @app.route("/verified/<token>", methods=["POST", "GET"])
@@ -1271,7 +1280,7 @@ Verification link;
     else:
         return redirect(url_for("home"))
 
-    return render_template('verification.html')
+    return render_template('verification.html',ser=ser)
 
 
 # (1) Company Views All Applications under her name

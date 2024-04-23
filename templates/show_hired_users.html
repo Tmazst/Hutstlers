@@ -71,7 +71,11 @@
                         </div>
                     </div>
             {% endfor %}
-              {% endif %}
+            {% else %}
+                <div style="padding-left:30px;padding-right:70px"  class="job_ad_container">
+                  <div class="flash-messages alert-error"> You have not hired anyone yet!!</div>
+                </div>
+            {% endif %}
       </div>
   </div>
 {% endblock %}

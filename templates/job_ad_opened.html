@@ -119,11 +119,19 @@
              </div>
             {% endif %}
 
-             <div>
+             <!-------DEADLINE--------->
+            {% if item.application_deadline %}
+              <div  class="job_ad_group marginise-bottom">
+                  <label for="Benefits" class="labels">Deadline: </label>
+                  <p id="deadline" >{{item.application_deadline}}</p>
+             </div>
+            {% endif %}
+
+             <div id="apply" >
                  <!--<input class="btns" type="submit" value="Create Account" />-->
                 {% if current_user.role != 'company_user' %}
-                    <a class="btns" href="/send_application?job_id={{ser.dumps({'data1':item.job_id})}}">Apply Now</a>
-                 {% endif %}
+                    <a class="btns" href="/send_application?job_id={{ser.dumps({'data1':item.job_id})}}" >Apply Now</a>
+                {% endif %}
              </div>
 
         </div>

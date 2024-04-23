@@ -12,9 +12,9 @@
             {% endif %}
         {% endwith %}
     </div>
+
   <!--<h3>Password Reset<br> <span class="spans"></span></h3>--->
-  <p class="paras-subtopics">Post A Job</p>
-    <small class="paras-subtopics">Tip: Your will need to Tick Fields with boxes to include them on the Job Advert</small>
+    <small class="paras-subtopics ">Tip: Tick Fields with boxes to include them on the Job Advert</small>
     <!----FORM----->
   <div style="" class="form_container">
      <div class="row justify-content-center">
@@ -41,7 +41,7 @@
              <div class="job-ad-group marginise-bottom">
                  <label for="Job Type" class="labels">Job Type: </label>
 
-                 <select style="margin-bottom:10px" name="job_type_sel" inputmode="text">
+                 <select  class="form-control"  style="margin-bottom:10px;width:40%" name="job_type_sel" inputmode="text">
                      <option value="Part-Time">Part-Time</option>
                      <option value="Full-Time on Part-Time">Full-Time on Part-Time</option>
                      <option value="Internship">Internship</option>
@@ -56,19 +56,20 @@
 
                  <div>
                     <label for="Pay Type" class="labels">     </label>
-                  {{ job_ad_form.other_job_type(class="form-control adj-width-60",placeholder="Other")}}
-                  {% if job_ad_form.other_job_type.errors %}
-                    {% for error in job_ad_form.other_job_type.errors %}
-                        <span class="span-error" >*{{error}}</span>
-                    {% endfor %}
-                 {% endif %}
+                      {{ job_ad_form.other_job_type(class="form-control adj-width-other",placeholder="Other")}}
+                      {% if job_ad_form.other_job_type.errors %}
+                        {% for error in job_ad_form.other_job_type.errors %}
+                            <span class="span-error" >*{{error}}</span>
+                        {% endfor %}
+                     {% endif %}
                  </div>
+
              </div>
 
              <!-------PAY TYPE--------->
              <div class="job-ad-group marginise-bottom">
                  <label for="Pay Type" class="labels">Pay Type: </label>
-                 <select style="margin-bottom:10px" name="pay_type_sel">
+                 <select  class="form-control" style="margin-bottom:10px;width:40%" name="pay_type_sel">
                      <option value="Full-Time on Part-Time">Pay-per-Hour</option>
                      <option value="Part-Time">Paid Daily</option>
                      <option value="Full-Time on Part-Time">Pay-per-Week</option>
@@ -78,7 +79,7 @@
                  {{ job_ad_form.pay_type_bl()}}
                  <div>
                     <label for="Pay Type" class="labels">     </label>
-                  {{ job_ad_form.other_pay_type(class="form-control adj-width-60",placeholder="Other")}}
+                  {{ job_ad_form.other_pay_type(class="form-control adj-width-other",placeholder="Other")}}
                   {% if job_ad_form.other_pay_type.errors %}
                     {% for error in job_ad_form.other_pay_type.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -90,11 +91,11 @@
             <!--   Category  -->
             <div class="job-ad-group marginise-bottom">
                  <label for="category" class="labels">Field Category: </label>
-                 <select style="margin-bottom:10px" name="field_category_sel">
+                 <select class="form-control" style="margin-bottom:10px;width:40%" name="field_category_sel">
                      <option value="Media & Technology">Media & Technology</option>
                      <option value="Information Technology">Information Technology</option>
                      <option value="Occupational Health & Safety">Health & Safety</option>
-                     <option value="Miscellenious">Miscellenious</option>
+                     <option value="Miscellaneous">Miscellaneous</option>
                      <option value="Education">Education</option>
                      <option value="Science & History">Science & History</option>
                      <option value="Engineering">Engineering</option>
@@ -110,7 +111,7 @@
 
                  <div>
                     <label for="Category" class="labels">     </label>
-                    {{ job_ad_form.category(class="form-control adj-width-60",placeholder="Other")}}
+                    {{ job_ad_form.category(class="form-control adj-width-other",placeholder="Other")}}
                     {% if job_ad_form.category.errors %}
                     {% for error in job_ad_form.category.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -132,21 +133,29 @@
              </div>
 
              <!-------WORK DURATION--------->
-             <div class="job-ad-group marginise-bottom">
+             <div style="display:flex;" class="work-days">
+                 <div class="job-ad-group marginise-bottom">
 
+                     {{ job_ad_form.start_date.label(class="labels")}}
+                      {{ job_ad_form.start_date(class="form-control adj-width-other",placeholder="e.g Mon 23 May 2023 - Fri 23 June 2023")}}
+                      {% if job_ad_form.start_date.errors %}
+                        {% for error in job_ad_form.start_date.errors %}
+                            <span class="span-error" >*{{error}}</span>
+                        {% endfor %}
+                     {% endif %}
+                 </div><p style="margin:0 5px;">   </p>
+                <div class="job-ad-group marginise-bottom">
 
-                 {{ job_ad_form.work_duration.label(class="labels")}}
+                     {{ job_ad_form.end_date.label(class="labels")}}{{ job_ad_form.work_duration_bl()}}
+                      {{ job_ad_form.start_date(class="form-control adj-width-other",placeholder="e.g Mon 23 May 2023 - Fri 23 June 2023")}}
 
-                  {{ job_ad_form.work_duration_bl()}}<br>
-
-                  {{ job_ad_form.work_duration(class="form-control adj-width-60",placeholder="e.g. Mon 23 May 2023 - Fri 23 June 2023")}}
-                  {% if job_ad_form.work_duration.errors %}
-                    {% for error in job_ad_form.work_duration.errors %}
-                        <span class="span-error" >*{{error}}</span>
-                    {% endfor %}
-                 {% endif %}
-
-             </div>
+                      {% if job_ad_form.end_date.errors %}
+                        {% for error in job_ad_form.end_date.errors %}
+                            <span class="span-error" >*{{error}}</span>
+                        {% endfor %}
+                     {% endif %}
+                 </div>
+            </div>
 
              <!-------WORK DAYS--------->
              <div class="job-ad-group marginise-bottom">
@@ -206,25 +215,25 @@
 
              <!-------BENEFITS--------->
               <div class="job-ad-group marginise-bottom">
-                 {{ job_ad_form.benefits_bl.label(class="labels")}}
-                  {{ job_ad_form.benefits_bl()}}<br>
+
+
 
                   <div class="job-ad-group marginise-bottom">
-                 <label for="benefits" class="labels">Benefits: </label>
-                 <select id="benefits" style="margin-bottom:10px" name="benefits" multiple >
-                     <option value="Flexible working hours">Flexible working hours</option>
-                     <option value="Free House for Accommodation">Free House for Accommodation</option>
-                     <option value="Work From Home">Work From Home</option>
-                     <option value="Training & Development">Training & Development</option>
-                     <option value="Free Food ">Free Food </option>
-                     <option value="Performance Bonus"> Performance Bonus/Awards/Gifts</option>
-                     <option value="Wellness Resources"> Wellness Resources</option>
-                     <option value="Employee Discounts"> Employee Discounts</option>
-                     <option value="Employee Assistance Program">Employee Assistance Program - Counselling</option>
-                 </select>
+                     <label for="benefits" class="labels">Benefits (Press + Hold CRTL): </label>{{ job_ad_form.benefits_bl()}}<br>
+                     <select class="form-control id="benefits" style="margin-bottom:10px;width:100%" name="benefits" multiple >
+                         <option value="Flexible working hours">Flexible working hours</option>
+                         <option value="Free House for Accommodation">Free House for Accommodation</option>
+                         <option value="Work From Home">Work From Home</option>
+                         <option value="Training & Development">Training & Development</option>
+                         <option value="Free Food ">Free Food </option>
+                         <option value="Performance Bonus"> Performance Bonus/Awards/Gifts</option>
+                         <option value="Wellness Resources"> Wellness Resources</option>
+                         <option value="Employee Discounts"> Employee Discounts</option>
+                         <option value="Employee Assistance Program">Employee Assistance Program - Counselling</option>
+                     </select>
 
-                 <div>
-                    <label for="benefits" class="labels">     </label>
+                 <div><br>
+                    {{ job_ad_form.benefits.label(class="labels")}}
                     {{ job_ad_form.benefits(class="form-control adj-width-60",placeholder="Free House for Accommodation")}}
                   {% if job_ad_form.benefits.errors %}
                     {% for error in job_ad_form.benefits.errors %}

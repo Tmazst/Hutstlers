@@ -16,80 +16,87 @@
 <!--    {% if current_user.is_authenticated %}-->
 <!--    {% endif %}-->
     <br><br>
-    <h1 style="font-size:20px" >Are you a freelancer, and you are looking for more freelance jobs. Here is a good platform for you to
+    <h1 style="font-size:20px" >Are you a freelancer, Here is a good platform for you to
          make new connections and improve in your<br><span class="spans">Freelance Job Prospects</span></h1>
   <div style="background-color:ae23a3;" class="general-flex-x">
             {{fl_job_ads.csrf_token}}
-            {% for item in fl_job_ads %}
-            <!----FORM----->
-            <div style="display:flex;flex-direction:column;width:300px;border:none;box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);padding: 10px 20px" class="new_job_ad_style anim">
+            {% if fl_job_ads %}
+                {% for item in fl_job_ads %}
+                <!----FORM----->
+                <div style="display:flex;flex-direction:column;width:300px;border:none;box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);padding: 10px 20px" class="new_job_ad_style anim">
 
-                        <div style="" class="center-prl-img">
-                            <div style="margin:15px auto 0px auto;"  class="img-cont">
-                            {% if db.session.query(company_user).get(item.job_posted_by) %}
-                                    {% if not db.session.query(company_user).get(item.job_posted_by).image == None %}
-                                        <img class="prf-image" src="{{url_for('static', filename='images/' + db.session.query(company_user).get(item.job_posted_by).image)}}"/>
-                                    {% endif %}
-                            {% else %}
-                                    <img class="prf-image" src="static/images/default.jpg"/>
-                            {% endif %}
-                            </div>
-                        </div>
-
-                        <h2 style="margin-bottom:0px;margin-top:0px;">{{db.session.query(company_user).get(item.job_posted_by).name}}<br>
-                        <span><small style="color:#aaa" >{{db.session.query(company_user).get(item.job_posted_by).name}}</small></span></h2>
-
-                        <!-------JOB TITLE--------->
-                        <p  style="background-color:coral" class="job-title">{{item.service_title}}</p>
-
-                        <div class="job-sub-title">
-                            <!-------JOB TYPE--------->
-                            <div class="job-info">
-<!--                                <p class="centralise_font size-it"><span class="material-icons ">badge</span>    Category</p>-->
-                                <label style="font-weight:bold;font-size:1.1em;" class="job-sub-title">{{item.service_category}}</label>
-                            </div>
-                            <!--------DEADLINE-------------->
-                            <div class="job-info">
-<!--                                <p class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Deadline</p>-->
-                                <label  style="font-weight:bold;font-size:1.1em;" class="job-sub-title">{{item.specialty}}</label>
+                            <div style="" class="center-prl-img">
+                                <div style="margin:15px auto 0px auto;"  class="img-cont">
+                                {% if db.session.query(company_user).get(item.job_posted_by) %}
+                                        {% if not db.session.query(company_user).get(item.job_posted_by).image == None %}
+                                            <img class="prf-image" src="{{url_for('static', filename='images/' + db.session.query(company_user).get(item.job_posted_by).image)}}"/>
+                                        {% endif %}
+                                {% else %}
+                                        <img class="prf-image" src="static/images/default.jpg"/>
+                                {% endif %}
+                                </div>
                             </div>
 
-                        </div>
-                        <br>
+                            <h2 style="margin-bottom:0px;margin-top:0px;">{{db.session.query(company_user).get(item.job_posted_by).name}}<br>
+                            <span><small style="color:#aaa" >{{db.session.query(company_user).get(item.job_posted_by).name}}</small></span></h2>
 
-                        <div class="job-sub-title">
-                            <!-------JOB TYPE--------->
-                            <div class="job-info">
-                                <p class="centralise_font size-it"><span class="material-icons ">badge</span>    Service Type</p>
-                                <label style="margin-top:-10px" class="centralise_font">{{item.service_type}}</label>
+                            <!-------JOB TITLE--------->
+                            <p  style="background-color:coral" class="job-title">{{item.service_title}}</p>
+
+                            <div class="job-sub-title">
+                                <!-------JOB TYPE--------->
+                                <div class="job-info">
+    <!--                                <p class="centralise_font size-it"><span class="material-icons ">badge</span>    Category</p>-->
+                                    <label style="font-weight:bold;font-size:1.1em;" class="job-sub-title">{{item.service_category}}</label>
+                                </div>
+                                <!--------DEADLINE-------------->
+                                <div class="job-info">
+    <!--                                <p class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Deadline</p>-->
+                                    <label  style="font-weight:bold;font-size:1.1em;" class="job-sub-title">{{item.specialty}}</label>
+                                </div>
+
                             </div>
-                            <!--------DEADLINE-------------->
-                            <div class="job-info">
-                                <p id="deadline-div" class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Deadline</p>
-                                <label id="deadline" class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
+                            <br>
+
+                            <div class="job-sub-title">
+                                <!-------JOB TYPE--------->
+                                <div class="job-info">
+                                    <p class="centralise_font size-it"><span class="material-icons ">badge</span>    Service Type</p>
+                                    <label style="margin-top:-10px" class="centralise_font">{{item.service_type}}</label>
+                                </div>
+                                <!--------DEADLINE-------------->
+                                <div class="job-info">
+                                    <p id="deadline-div" class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Deadline</p>
+                                    <label id="deadline" class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
+                                </div>
+
+                            </div>
+
+
+                             <!-------RESPONSIBILITIES--------->
+                            <div class="">
+                                    <p class="centralise_font size-it" ><span class="material-icons">place</span></p>
+                                    <div style="margin-top:-10px" class="centralise_font" ><label>{{db.session.query(company_user).get(item.job_posted_by).company_address}}</label></div>
+                            </div>
+
+                            <div style="background-color:ea2a30;flex-grow:5;" >
+                                 <p class="centralise_font" ></p>
+                            </div>
+
+                            <!--------VIEW BUTTON-------------->
+                            <div style="dispaly:block">
+                                 <!--<input class="btns" type="submit" value="Create Account" />-->
+                                 <a style="background-color:coral" class="view_job" href="/tender_ad_opened?id={{item.job_id}}">View</a>
                             </div>
 
                         </div>
-
-
-                         <!-------RESPONSIBILITIES--------->
-                        <div class="">
-                                <p class="centralise_font size-it" ><span class="material-icons">place</span></p>
-                                <div style="margin-top:-10px" class="centralise_font" ><label>{{db.session.query(company_user).get(item.job_posted_by).company_address}}</label></div>
-                        </div>
-
-                        <div style="background-color:ea2a30;flex-grow:5;" >
-                             <p class="centralise_font" ></p>
-                        </div>
-
-                        <!--------VIEW BUTTON-------------->
-                        <div style="dispaly:block">
-                             <!--<input class="btns" type="submit" value="Create Account" />-->
-                             <a style="background-color:coral" class="view_job" href="/tender_ad_opened?id={{item.job_id}}">View</a>
-                        </div>
-
-                    </div>
-                    {% endfor %}
+                        {% endfor %}
+                        {% else %}
+                            <div style="padding-left:30px;padding-right:70px"  class="job_ad_container">
+                              <div class="flash-messages alert-error"> Coming Soon!!, check again later</div>
+                            </div>
+                        {% endif %}
             </div>
+
         </div>
 {% endblock %}
