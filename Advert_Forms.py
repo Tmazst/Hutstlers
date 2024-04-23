@@ -28,7 +28,7 @@ class Job_Ads_Form(FlaskForm):
     responsibilities = TextAreaField('Responsibilities:')
     qualifications = TextAreaField('Requirements or Qualifications:', validators=[DataRequired(), Length(min=5, max=400)])
     age_range_bl = BooleanField('Age Range: (Tick To Include)')
-    age_range = StringField('Age Range:')
+    age_range = StringField('Age Range: ')
     benefits_bl = BooleanField('Benefits: (Tick To Include)')
     benefits = TextAreaField('Other Benefits: ')
     application_deadline = DateField('Application Deadline:',format="%Y-%m-%d" )
