@@ -654,7 +654,7 @@ def eidt_job_ads_form():
             start_date = datetime.strptime(strt_date, "%Y-%m-%d")
             end_date = datetime.strptime(d_date, "%Y-%m-%d")
             posted_by = user.query.get(job_ad.job_posted_by).name
-            print("CHECK TEXTAREA DESC 2:", type(start_date)  , " and ", type(end_date))
+            print("CHECK TEXTAREA DESC 2:", start_date  , " and ", end_date)
             print("CHECKID:", jo_id_cls.id_)
         else:
             # if job_ad_form.validate_on_submit():
