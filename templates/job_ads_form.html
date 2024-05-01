@@ -56,7 +56,7 @@
 
                  <div>
                     <label for="Pay Type" class="labels">     </label>
-                      {{ job_ad_form.other_job_type(class="form-control adj-width-other",placeholder="Other",value=job_ad.job_type)}}
+                      {{ job_ad_form.other_job_type(class="form-control adj-width-other",placeholder="Other")}}
                       {% if job_ad_form.other_job_type.errors %}
                         {% for error in job_ad_form.other_job_type.errors %}
                             <span class="span-error" >*{{error}}</span>
@@ -163,7 +163,7 @@
 
                  {{ job_ad_form.work_days_bl()}}<br>
 
-                  {{ job_ad_form.work_days(class="form-control adj-width-60",placeholder="e.g Mondays - Wednesday",value=job_ad.work_days)}}
+                  {{ job_ad_form.work_days(class="form-control adj-width-60",placeholder="e.g Mondays - Wednesday")}}
                   {% if job_ad_form.work_days.errors %}
                     {% for error in job_ad_form.work_days.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -178,7 +178,7 @@
 
                  {{ job_ad_form.work_hours_bl()}}<br>
 
-                  {{ job_ad_form.work_hours(class="form-control adj-width-60",placeholder="e.g 8:00am - 1:00pm",value=job_ad.work_hours)}}
+                  {{ job_ad_form.work_hours(class="form-control adj-width-60",placeholder="e.g 8:00am - 1:00pm")}}
                   {% if job_ad_form.work_hours.errors %}
                     {% for error in job_ad_form.work_hours.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -190,7 +190,7 @@
              <div class="job-ad-group marginise-bottom">
 
                  {{ job_ad_form.qualifications.label(class="labels")}}<br>
-                  {{ job_ad_form.qualifications(class="form-control adj-width-60",placeholder="e.g. High School Certificate or Diploma in Secretariate",value=job_ad.qualifications)}}
+                  {{ job_ad_form.qualifications(class="form-control adj-width-60",placeholder="e.g. High School Certificate or Diploma in Secretariate")}}
                   {% if job_ad_form.qualifications.errors %}
                     {% for error in job_ad_form.qualifications.errors %}
                         <span class="span-error" >*{{error}}</span>

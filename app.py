@@ -556,14 +556,14 @@ def job_ads_form():
 
             flash('Job Posted successfully!!', 'success')
 
-    elif request.method == "GET":
-        job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(request.args.get("jo_id"))['data_11']).first()
+    # elif request.method == "GET":
+    #     job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(request.args.get("jo_id"))['data_11']).first()
 
 
 
         print("Start Date: ",str(job_ad_form.start_date.data))
 
-    return render_template("job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad,job_descrptn_value=job_descrptn_value)
+    return render_template("job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad)
 
 class jo_id_cls:
     id_ = None
@@ -905,8 +905,8 @@ def job_adverts():
 
     db.create_all()
     usr = user()
-    # job_ads = []
-    # job_ads = db.query(company_user.job_ads).all()
+    job_ads_latest = []
+    job_ads_older = []
 
     job_ads_form = Job_Ads_Form()
     if request.method == 'GET':
@@ -919,12 +919,15 @@ def job_adverts():
             if enc_id:
                 # Filter Ads with a specific company's id
                 job_ads = Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted))
+        #For all companies
         elif not id_: #not value and
-            job_ads = Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all()
+            job_ads_latest = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if (job.application_deadline - date_today).days >= 0]
+            job_ads_older = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if
+                              (job.application_deadline - date_today).days < 0]
 
 
     # Fix jobs adds does not have hidden tag
-    return render_template("job_ads_gui.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
+    return render_template("job_ads_gui.html", job_ads_latest=job_ads_latest,job_ads_older=job_ads_older, job_ads_form=job_ads_form, db=db,
                            company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser,date_today=date_today)
 
 
