@@ -46,7 +46,9 @@
         {% if job_ads %}
             {% for item in job_ads %}
             <!----FORM----->
+            <p>{{(item.application_deadline - date_today).days}}</p>
             {% if not (item.application_deadline - date_today).days < 0 %}
+
             <div style="display:flex;flex-direction:column;width:300px;" class="new_job_ad_style anim">
 
                         <div style="" class="center-prl-img">
