@@ -22,7 +22,7 @@ class Job_Ads_Form(FlaskForm):
     start_date = DateField('Project Starts:', format="%Y-%m-%d")
     end_date = DateField('Ends: (Tick To Include)', format="%Y-%m-%d")
     work_days_bl = BooleanField('')
-    work_days = StringField('Work Days: (Tick To Include)')
+    work_days = StringField('Working Days: (Tick To Include)')
     work_hours_bl = BooleanField('')
     work_hours = StringField('Work Hours: (Tick To Include)' )
     responsibilities = TextAreaField('Responsibilities:')
@@ -46,7 +46,8 @@ class Freelance_Ads_Form(FlaskForm):
     start_date = DateField('Project Starts:',format="%Y-%m-%d")
     end_date = DateField('Ends:',format="%Y-%m-%d")
     project_duration = StringField('Project Duration (Start - End):')
-    prerequisites = TextAreaField('Pre-requisites for Project:', validators=[DataRequired(), Length(min=5, max=400)])
+    working_days = StringField('Project Working Days:')
+    project_prerequits = TextAreaField('Pre-requisites for Project:', validators=[DataRequired(), Length(min=5, max=500)])
     benefits_bl = BooleanField('Include Benefits?:')
     benefits = TextAreaField('Benefits: (Tick To Include)')
     application_deadline = DateField('Application Deadline:', format="%Y-%m-%d" )
@@ -73,7 +74,7 @@ class Company_Register_Form(FlaskForm):
 
 class Company_UpdateAcc_Form(FlaskForm):
 
-    company_name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=20)])
+    company_name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=60)])
     company_email = StringField('Email', validators=[DataRequired(), Email()])
     company_logo = FileField('Company Logo', validators=[ FileAllowed(['jpg','png'])])
     company_contacts = StringField('Contact(s)', validators=[Length(min=8, max=64)])
@@ -129,7 +130,7 @@ class Work_Feedback(FlaskForm):
     submit = SubmitField('Submit')
 
 class Freelance_Section(FlaskForm):
-    title = StringField('Title:', validators=[DataRequired(), Length(min=10, max=60)])
+    title = StringField('Title:', validators=[DataRequired(), Length(min=5, max=100)])
     experience = StringField('Years of Experience(Optional):', validators=[DataRequired(), Length(min=10, max=60)])
     what_do_you_do = TextAreaField('Explain your Work:', validators=[DataRequired(), Length(min=10, max=1000)])
     portfolio_file = FileField('Upload Portfolio', validators=[FileAllowed(['pdf', 'docx'])])

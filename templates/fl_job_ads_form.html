@@ -117,6 +117,18 @@
                     {% endfor %}
                  {% endif %}
              </div>
+            <!-------prerequisites--------->
+             <div class="job-ad-group marginise-bottom">
+
+                 {{ fl_job_ad_form.working_days.label(class="labels")}}
+
+                  {{ fl_job_ad_form.working_days(class="form-control adj-width-60",placeholder="e.g. Multimeter,Safety Clothing, Computer")}}
+                  {% if fl_job_ad_form.working_days.errors %}
+                    {% for error in fl_job_ad_form.working_days.errors %}
+                        <span class="span-error" >*{{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+             </div>
 
              <!-------WORK DURATION--------->
             <div style="display:flex">
@@ -145,12 +157,10 @@
              <!-------prerequisites--------->
              <div class="job-ad-group marginise-bottom">
 
-                 {{ fl_job_ad_form.prerequisites.label(class="labels")}}
-
-
-                  {{ fl_job_ad_form.prerequisites(class="form-control adj-width-60",placeholder="e.g Mondays - Wednesday")}}
-                  {% if fl_job_ad_form.prerequisites.errors %}
-                    {% for error in fl_job_ad_form.prerequisites.errors %}
+                 {{ fl_job_ad_form.project_prerequits.label(class="labels")}}
+                  {{ fl_job_ad_form.project_prerequits(class="form-control adj-width-60",placeholder="e.g. Multimeter,Safety Clothing, Computer")}}
+                  {% if fl_job_ad_form.project_prerequits.errors %}
+                    {% for error in fl_job_ad_form.project_prerequits.errors %}
                         <span class="span-error" >*{{error}}</span>
                     {% endfor %}
                  {% endif %}

@@ -254,6 +254,7 @@ def account():
 
             usr.name = cv.name.data
             usr.email = cv.email.data
+            usr.date_of_birth = cv.date_of_birth.data
             usr.contacts = cv.contacts.data
             usr.school = cv.school.data
             usr.tertiary = cv.tertiary.data
@@ -672,7 +673,8 @@ def fl_job_ads_form():
                 specialty=request.form.get('speciality'),
                 description=fl_job_ad_form.description.data,
                 project_duration=str(fl_job_ad_form.start_date.data) + " - " + str(fl_job_ad_form.end_date.data) ,
-                # other_info=fl_job_ad_form.prerequisites.data,
+                project_prerequits=fl_job_ad_form.project_prerequits.data,
+                working_days=fl_job_ad_form.working_days.data,
                 service_category=request.form.get('field_category_sel'),
                 contact_person=fl_job_ad_form.posted_by.data,
                 # date_posted = datetime.utcnow(),

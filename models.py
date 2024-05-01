@@ -44,8 +44,9 @@ class job_user(user):
 
     id = db.Column(db.Integer, ForeignKey('user.id'), primary_key=True)
     school = db.Column(db.String(120))
-    tertiary = db.Column(db.String(30))
+    tertiary = db.Column(db.String(255))
     contacts = db.Column(db.String(20))
+    date_of_birth = db.Column(db.DateTime())
     experience = db.Column(db.String(500))
     skills = db.Column(db.String(500))
     hobbies = db.Column(db.String(120))
@@ -141,9 +142,9 @@ class Jobs_Ads(db.Model, UserMixin):
     __tablename__ = "job_ads"
 
     job_id = db.Column(db.Integer, primary_key=True)
-    job_title = db.Column(db.String(20))
-    pay_type = db.Column(db.String(20))
-    job_type = db.Column(db.String(20))
+    job_title = db.Column(db.String(100))
+    pay_type = db.Column(db.String(50))
+    job_type = db.Column(db.String(50))
     category = db.Column(db.String(255))
     description = db.Column(db.String(200))
     work_duration = db.Column(db.String(60))
@@ -154,7 +155,7 @@ class Jobs_Ads(db.Model, UserMixin):
     age_range = db.Column(db.String(60))
     benefits = db.Column(db.String(200))
     application_deadline = db.Column(db.DateTime, nullable=False)
-    contact_person = db.Column(db.String(40))
+    contact_person = db.Column(db.String(60))
     other = db.Column(db.String(120))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow, nullable=False) #Records itself
     job_posted_by = db.Column(db.Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
@@ -190,14 +191,16 @@ class Freelance_Jobs_Ads(db.Model, UserMixin):
     __tablename__ = "freelance_job_ads"
 
     job_id = db.Column(db.Integer, primary_key=True)
-    service_title = db.Column(db.String(20))  #e.g Logo Design
-    service_category = db.Column(db.String(20))   #e.g Design & Technology
-    specialty = db.Column(db.String(20))      #e.g Graphic Designer
+    service_title = db.Column(db.String(100))  #e.g Logo Design
+    service_category = db.Column(db.String(100))   #e.g Design & Technology
+    specialty = db.Column(db.String(100))      #e.g Graphic Designer
     description = db.Column(db.String(200))
     project_duration = db.Column(db.String(60))  #Project duration
+    project_prerequits = db.Column(db.String(500))
+    working_days = db.Column(db.String(60))
     other = db.Column(db.String(200))
     application_deadline = db.Column(db.DateTime, nullable=False)
-    contact_person = db.Column(db.String(40))
+    contact_person = db.Column(db.String(60))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     job_posted_by = db.Column(db.Integer, ForeignKey('company_user.id'),nullable=False) #Records itself
     applications = relationship("FreeL_Applications", backref='FreeL_Applications.id', lazy=True)

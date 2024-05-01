@@ -66,6 +66,15 @@
                    {% endfor %}
                 {% endif %}
 
+            <!-- ------------DOB--------------->
+              <div class="acc-labels margin-l-15">{{ cv.date_of_birth.label()}}</div>
+                {{ cv.date_of_birth(class="acc-form-control",placeholder="Contacts", value=current_user.date_of_birth)}}
+                 {% if cv.date_of_birth.errors %}
+                   {% for error in cv.date_of_birth.errors %}
+                       <span class="span-error" >*[Contacts]{{error}}</span>
+                   {% endfor %}
+                {% endif %}
+
             <!-- ------------ADDRESS--------------->
               <div  class="acc-labels margin-l-15">{{ cv.address.label()}}</div>
                     {% if current_user.address %}

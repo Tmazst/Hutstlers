@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField, TextAreaField,BooleanField
+from wtforms import StringField,PasswordField,SubmitField, TextAreaField,BooleanField,DateField
 from wtforms.validators import DataRequired,Length,Email, EqualTo, ValidationError
 from flask_login import current_user
 from flask_wtf.file import FileField , FileAllowed
@@ -53,6 +53,7 @@ class Update_account_form(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     image_pfl = FileField('Profile Image', validators=[FileAllowed(['jpg','png'])])
     contacts = StringField('Contact(s)', validators=[Length(min=8, max=120)])
+    date_of_birth = DateField('Date of Birth:', format="%Y-%m-%d")
     school = StringField('High School', validators=[Length(min=8, max=120)])
     tertiary = StringField('Tertiary (Optional)',validators=[Length(min=0, max=120)])
     experience = TextAreaField('Work Experience (Optional)',validators=[Length(min=0, max=120)])
