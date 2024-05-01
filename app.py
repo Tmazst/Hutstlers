@@ -653,12 +653,18 @@ def eidt_job_ads_form():
             jo_id_cls.id_ = jo_id
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id)['data_11']).first()
             # start_date, end_date = datetime.strptime(job_ad.work_duration.split(" "), "%Y-%m-%d")
-            strt_date = job_ad.work_duration.split(" ")[0]
-            d_date = job_ad.work_duration.split(" ")[1]
+            if job_ad.work_duration:
+                strt_date = job_ad.work_duration.split(" ")[0]
+                d_date = job_ad.work_duration.split(" ")[1]
+                start_date = datetime.strptime(strt_date, "%Y-%m-%d")
+                end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
+            else:
+                start_date = None;
+                end_date = None;
 
-            start_date = datetime.strptime(strt_date, "%Y-%m-%d")
-            end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
+
             posted_by = user.query.get(job_ad.job_posted_by).name
+
             print("CHECK TEXTAREA DESC 2:", len(job_ad.work_duration))
             print("CHECKID:", jo_id_cls.id_)
         else:
