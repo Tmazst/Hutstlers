@@ -25,6 +25,7 @@ from models import db, user, company_user, job_user, Jobs_Ads, Applications, Fre
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime
+import platform
 
 # from models.user import get_reset_token, very_reset_token
 # DB sessions
@@ -40,7 +41,15 @@ app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # Local
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+
+
+
+if os.environ.get('ENV') == 'LOCAL':
+    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -621,7 +630,7 @@ def eidt_job_ads_form():
                 job_post1.category = job_ad_form.category.data
 
             # print("Check Category: ",request.form.get('field_category_sel'))
-            db.session.add(job_post1)
+            # db.session.add(job_post1)
             db.session.commit()
 
             flash('Post Successfully Updated!!', 'success')
@@ -639,24 +648,30 @@ def eidt_job_ads_form():
         if jo_id:
             jo_id_cls.id_ = jo_id
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id)['data_11']).first()
-            start_date = datetime.strptime(job_ad.work_duration.split(" ")[0], "%Y-%m-%d")
-            end_date = datetime.strptime(job_ad.work_duration.split(" ")[1], "%Y-%m-%d")
-            print("CHECK TEXTAREA DESC 2:", job_ad.work_duration.split(" ")[0])
+            # start_date, end_date = datetime.strptime(job_ad.work_duration.split(" "), "%Y-%m-%d")
+            strt_date = job_ad.work_duration.split(" ")[0]
+            d_date = job_ad.work_duration.split(" ")[1]
+            start_date = datetime.strptime(strt_date, "%Y-%m-%d")
+            end_date = datetime.strptime(d_date, "%Y-%m-%d")
+            posted_by = user.query.get(job_ad.job_posted_by).name
+            print("CHECK TEXTAREA DESC 2:", type(start_date)  , " and ", type(end_date))
             print("CHECKID:", jo_id_cls.id_)
         else:
             # if job_ad_form.validate_on_submit():
             print("CHECKID 2:", jo_id_cls.id_)
 
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
+            posted_by = user.query.get(job_ad.job_posted_by).name
             start_date = datetime.strptime(job_ad.work_duration.split(" ")[0], "%Y-%m-%d")
-            end_date = datetime.strptime(job_ad.work_duration.split(" ")[1], "%Y-%m-%d")
+            end_date = datetime.strptime(job_ad.work_duration.split(" ")[1].strip(), "%Y-%m-%d")
             # job_descrptn_value = job_ad.description
-            print("CHECK TEXTAREA DESC 2:",job_ad.work_duration)
+            print("CHECK TEXTAREA DESC 23:",start_date,end_date)
 
 
         # print("Start Date: ",str(job_ad_form.start_date.data))
 
-    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad,start_date=start_date,end_date=end_date)
+    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad,start_date=start_date,
+                           end_date=end_date,posted_by=posted_by)
 
 @app.route("/fl_job_ads_form", methods=["POST", "GET"])
 @login_required

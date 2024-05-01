@@ -204,7 +204,9 @@ a{
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-
+.font-color{
+    color:coral
+}
 /* Links inside the dropdown */
 .dropdown-content a {
   color: black;
@@ -263,7 +265,7 @@ a{
     z-index: 999;
     top: 0;
     left:-190px;
-    position:absolute;
+    position:fixed;
     transition:translateX(10%);
     transition:All 0.5s ease-in;
     //display:none;
@@ -581,6 +583,23 @@ a{
     text-align:center;
 }
 
+.caption-btn {
+    //outline:none;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:120px !important;
+    min-width:100px;
+    background-color:coral;
+    //border: 2px solid #006769;
+    color:white;
+    font-weight:bold;
+    border-radius:6px;
+    padding:3px 6px;
+    text-decoration:none;
+    text-align:center;
+}
+
 
 
 .btns-margin{
@@ -716,6 +735,8 @@ span.spans{
 .font-color{
     color:red;
 }
+
+
 
 .deadline-is-today{
     background-color:#f99 !important;
