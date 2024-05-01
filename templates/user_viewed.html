@@ -32,10 +32,13 @@
                      </div>
 
                      <div class="form-group">
-                         <h3>Contact Information</h3>
+                         <h3>Personal Information</h3>
                             <div style="width:60%;margin-bottom:-10px" class="line-separator"></div>
                        <p class="view_applicant_p" ><span  class="acc-labels" style="font-wight:bold;" > </span>{{job_usr.name}}</p>
                       <p class="view_applicant_p"><span style="font-wight:bold;float:left" > </span>{{job_usr.email}}</p>
+                         {% if job_usr.date_of_birth %}
+                            <p class="view_applicant_p"><span style="font-wight:bold;float:left" > </span>{{job_usr.date_of_birth}}</p>
+                         {% endif %}
                     </div>
 
                       <div class="form-group">
