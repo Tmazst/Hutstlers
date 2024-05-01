@@ -186,7 +186,7 @@
 
                  {{ job_ad_form.work_days_bl()}}<br>
 
-                  {{ job_ad_form.work_days(class="form-control adj-width-60 font-color",placeholder="e.g Mondays - Wednesday",value=job_ad.work_days)}}
+                  {{ job_ad_form.work_days(class="form-control adj-width-60 font-color",placeholder="e.g Mondays - Wednesdays",value=job_ad.work_days)}}
                   {% if job_ad_form.work_days.errors %}
                     {% for error in job_ad_form.work_days.errors %}
                         <span class="span-error" >*{{error}}</span>

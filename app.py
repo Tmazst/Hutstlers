@@ -644,7 +644,7 @@ def eidt_job_ads_form():
                 for field, errors in job_ad_form.errors.items():
                     for error in errors:
                         print("ERRORS:", error)
-            # return redirect(url_for("eidt_job_ads_form", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad))
+            return redirect(url_for("job_adverts"))
 
     elif request.method == "GET":
         jo_id = request.args.get("jo_id")
@@ -671,10 +671,14 @@ def eidt_job_ads_form():
 
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
             posted_by = user.query.get(job_ad.job_posted_by).name
-            start_date = datetime.strptime(job_ad.work_duration.split(" ")[0], "%Y-%m-%d")
-            end_date = datetime.strptime(job_ad.work_duration.split(" ")[1].strip(), "%Y-%m-%d")
-            # job_descrptn_value = job_ad.description
-            print("CHECK TEXTAREA DESC 23:",start_date,end_date)
+            if job_ad.work_duration:
+                strt_date = job_ad.work_duration.split(" ")[0]
+                d_date = job_ad.work_duration.split(" ")[1]
+                start_date = datetime.strptime(strt_date, "%Y-%m-%d")
+                end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
+            else:
+                start_date = None;
+                end_date = None;
 
 
         # print("Start Date: ",str(job_ad_form.start_date.data))
