@@ -665,8 +665,6 @@ def eidt_job_ads_form():
 
             posted_by = user.query.get(job_ad.job_posted_by).name
 
-            print("CHECK TEXTAREA DESC 2:", len(job_ad.work_duration))
-            print("CHECKID:", jo_id_cls.id_)
         else:
             # if job_ad_form.validate_on_submit():
             print("CHECKID 2:", jo_id_cls.id_)
