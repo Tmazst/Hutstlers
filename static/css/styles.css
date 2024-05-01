@@ -1729,6 +1729,10 @@ h2{
 
 }
 
+.inline_block{
+    display:inline-block;
+}
+
 .flex-gap-align{
     display:flex;
     flex-direction:row;
