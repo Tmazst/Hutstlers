@@ -640,7 +640,7 @@ def eidt_job_ads_form():
                 for field, errors in job_ad_form.errors.items():
                     for error in errors:
                         print("ERRORS:", error)
-            return redirect(url_for("eidt_job_ads_form", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad))
+            # return redirect(url_for("eidt_job_ads_form", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad))
 
     elif request.method == "GET":
         jo_id = request.args.get("jo_id")
