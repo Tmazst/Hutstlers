@@ -3,23 +3,7 @@
 {% block content %}
 
 <script>
-        function reveal() {
-          var reveals = document.querySelectorAll(".anim");
 
-          for (var i = 0; i < reveals.length; i++) {
-            var windowHeight = window.innerHeight;
-            var elementTop = reveals[i].getBoundingClientRect().top;
-            var elementVisible = 100;
-
-            if (elementTop < windowHeight - elementVisible) {
-              reveals[i].classList.add("active");
-            } else {
-              reveals[i].classList.remove("active");
-            }
-          }
-        }
-
-        window.addEventListener("scroll", reveal);
 </script>
 <!----BANNER------->
 {% if not current_user.is_authenticated %}
@@ -73,7 +57,7 @@
 
       <div class="marginise"></div>
 
-      <fieldset style="font-size:25px;color:#006769;border:2px solid #006769;padding:3% 2%;border-radius:15px;height:100%;" class="paras-subtopics"><legend><span><img  style="width:80px" src="static/icons/handshake-01.svg" /></span></legend>
+      <fieldset style="font-size:25px;color:#006769;border:2px solid #006769;padding:3% 2%;border-radius:15px;height:100%;" class="paras"><legend><span><img  style="width:80px" src="static/icons/handshake-01.svg" /></span></legend>
           “We partner with local employers to provide flexible job opportunities for young people across various industries.
           Gain experience, develop competitive skills, and overcome barriers to employment.”
       </fieldset><br>
@@ -106,7 +90,7 @@
         <div class="home-content anim">
             <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" src="/static/images/businesswomen-working-laptop.jpg"/></div>
             <div class='home-tags' style="margin-left:;">
-                <p><span style="font-size:1.5em" >Maximize Your Potential</span><br> Ignite Your Career with Must-Have Skills for the Modern Job Market.
+                <p><span style="font-size:1.5em" >Maximize Your Potential</span><br> Ignite Your Career with Must-Have Skills for Innovative Entrepreneurial skills.
                     </p>
             </div>
         </div>
@@ -226,12 +210,12 @@
             <div class="flex-justify-align">
 
                     <div style="padding:70px 10px;margin:10px;" class="home-ads anim">
-                       <p style="width:90%;color:white">Are you jobless and finding it hard to get employed? Join the T.H.T (The Hustlers Time) Network and to explore other alternatives to increase your changes
+                       <p style="width:90%;color:#006769;font-weight:500">Are you jobless and finding it hard to get employed? Join the T.H.T (The Hustlers Time) Network and to explore other alternatives to increase your changes
                             of employment, today. Stop looking for adverts and starts adverting yourself, make companies start to chase you!</p>
                     </div>
 
                     <div style="padding:70px 10px;margin:10px;" class="home-ads anim">
-                       <p style="width:90%;color:white"> We are offering this services free of charge (to young people) to prioritize placing individuals in positions of preference based on their potential in the industry.
+                       <p style="width:90%;color:#006769;font-weight:500"> We are offering this services free of charge (to young people) to prioritize placing individuals in positions of preference based on their potential in the industry.
                            This approach can be beneficial in promoting equal opportunities for talented individuals who may have experienced some barriers due a number of issues.</p>
                     </div>
 

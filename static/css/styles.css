@@ -664,11 +664,7 @@ a{
 
 }
 
-.paras-subtopics{
-    margin: 5px 4%;
-    //font-size:18px;
-    color:#404040;
-}
+
 ul.paras-subtopics{
     font-size:0.9em;
     color:#606060;
@@ -715,6 +711,10 @@ span.spans{
 
 .deadline-is-far{
     background-color:#8AD58F !important;
+}
+
+.font-color{
+    color:red;
 }
 
 .deadline-is-today{
@@ -828,12 +828,12 @@ font-weight:400;
 }
 
 .job-title{
-    background-color:#808080;
+    background-color:#909090;
     color:#fff;
-    font-weight:bold;
+    font-weight:bol;
     white-space:normal;
     overflow-x:auto;
-    font-size:1.3vw;
+    font-size:0.6 vw !important;
     //display:inline-block;
     padding:5px;
     border-radius:5px;
@@ -917,9 +917,12 @@ font-weight:400;
     width:150%;
 }
 .home-ads{
+    display:flex;
+    justify-content:center;
+    align-items:center;
     width:40%;
     margin: 20px auto;
-    background-color:#006769;
+    border:1px solid #006769;
     border-radius:10px;
     color:#fff;
     padding:10px 10px;
@@ -1164,13 +1167,13 @@ font-weight:400;
 }
 
 .centralise_font{
-    font-weight:bold;
+    font-weight:;
     color:#505050 !important;
     //margin-top:-5px
 }
 
 .centralise_font label{
-    font-weight:bold;
+    font-weight:bld;
     color:#505050 !important;
     //margin-top:-5px
 }
@@ -1392,7 +1395,7 @@ h2{
     align-items:center;
     max-width:550px;
     height:auto;
-    min-height:100px;
+    min-height:130px;
     border-radius:70px 70px 70px 70px;
     //border:1px solid #baf;
     background-color:purple;
@@ -2052,6 +2055,10 @@ display:none
 
 @media all and (max-width: 600px) {
 
+.marginise{
+    margin:50px 0 25px 0;
+}
+
 .pad-on-mobile{
     //padding-left:40px;
 }
@@ -2100,6 +2107,13 @@ display:none
 
 .category-filter{
 
+}
+
+.paras{
+    margin: 5px 4%;
+    font-size:18px !important;
+    color:#404040;
+    padding:20px;
 }
 
 .paras-subtopics{

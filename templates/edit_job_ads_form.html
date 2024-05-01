@@ -12,9 +12,9 @@
             {% endif %}
         {% endwith %}
     </div>
-
+{% if job_ad %}
   <!--<h3>Password Reset<br> <span class="spans"></span></h3>--->
-    <small style="font-weight:500;" class="paras-subtopics "><span stlye="color:coral">Tip:</span></span> Tick Fields with boxes to include them on the Job Advert</small>
+    <small style="font-weight:600;" class="paras-subtopics "><span style="color:coral">   Tip:</span> Tick Fields with boxes to include them on the Job Advert</small>
     <!----FORM----->
   <div style="" class="form_container">
      <div class="row justify-content-center">
@@ -48,15 +48,15 @@
                      <option value="Internship">Internship</option>
                      <option value="Internship">Volunteer</option>
                      <option value="Contract">Contract</option>
-                     <option value="Apprenticeship">Apprenticeship</option>
-                     <option value="Casual Employment">Casual Employment</option>
-                     <option value="Seasonal Employment">Seasonal Employment</option>
-                     <option value="Employment-on-Commission">Employment-on-Commission</option>
+                     <option value="Contract">Apprenticeship</option>
+                     <option value="Contract">Casual Employment</option>
+                     <option value="Contract">Seasonal Employment</option>
+                     <option value="Contract">Employment-on-Commission</option>
                  </select>
 
                  <div>
                     <label for="Pay Type" class="labels">     </label>
-                      {{ job_ad_form.other_job_type(class="form-control adj-width-other",placeholder="Other",value=job_ad.job_type)}}
+                      {{ job_ad_form.other_job_type(class="form-control adj-width-other",placeholder="Other")}}
                       {% if job_ad_form.other_job_type.errors %}
                         {% for error in job_ad_form.other_job_type.errors %}
                             <span class="span-error" >*{{error}}</span>
@@ -71,11 +71,11 @@
                  <label for="Pay Type" class="labels">Pay Type: </label>
                  <select  class="form-control" style="margin-bottom:10px;width:40%" name="pay_type_sel">
                      <option value="">--------Choose Options--------</option>
-                     <option value="Pay-per-Hour">Pay-per-Hour</option>
-                     <option value="Paid Daily">Paid Daily</option>
-                     <option value="Pay-per-Week">Pay-per-Week</option>
-                     <option value="Monthly">Monthly</option>
-                     <option value="Pay-per-Project">Pay-per-Project</option>
+                     <option value="Full-Time on Part-Time">Pay-per-Hour</option>
+                     <option value="Part-Time" >Paid Daily</option>
+                     <option value="Full-Time on Part-Time" >Pay-per-Week</option>
+                     <option value="Full-Time on Part-Time">Monthly</option>
+                     <option value="Contract" >Pay-per-Project</option>
                  </select>
                  {{ job_ad_form.pay_type_bl()}}
                  <div>
@@ -126,7 +126,7 @@
              <div class="job-ad-group marginise-bottom">
 
                  {{ job_ad_form.description.label(class="labels")}}<br>
-                  {{ job_ad_form.description(class="form-control adj-width-60",placeholder="Job Description")}}
+                 <textarea class="form-control adj-width-60" style="height:100px" name="description">{{job_ad.description}}</textarea>
                   {% if job_ad_form.description.errors %}
                     {% for error in job_ad_form.description.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -138,7 +138,7 @@
              <div style="display:flex;" class="work-days">
                  <div class="job-ad-group marginise-bottom">
                      {{ job_ad_form.start_date.label(class="labels")}}
-                      {{ job_ad_form.start_date(class="form-control adj-width-other")}}
+                      {{ job_ad_form.start_date(class="form-control adj-width-other", value=start_date)}}
                       {% if job_ad_form.start_date.errors %}
                         {% for error in job_ad_form.start_date.errors %}
                             <span class="span-error" >*{{error}}</span>
@@ -147,7 +147,7 @@
                  </div><p style="margin:0 5px;">   </p>
                 <div class="job-ad-group marginise-bottom">
                      {{ job_ad_form.end_date.label(class="labels")}}{{ job_ad_form.work_duration_bl()}}
-                      {{ job_ad_form.end_date(class="form-control adj-width-other")}}
+                      {{ job_ad_form.end_date(class="form-control adj-width-other",value=end_date)}}
                       {% if job_ad_form.end_date.errors %}
                         {% for error in job_ad_form.end_date.errors %}
                             <span class="span-error" >*{{error}}</span>
@@ -190,7 +190,7 @@
              <div class="job-ad-group marginise-bottom">
 
                  {{ job_ad_form.qualifications.label(class="labels")}}<br>
-                  {{ job_ad_form.qualifications(class="form-control adj-width-60",placeholder="e.g. High School Certificate or Diploma in Secretariate",value=job_ad.qualifications)}}
+                 <textarea class="form-control adj-width-60" style="height:100px" name="qualifications">{{job_ad.qualifications}}</textarea>
                   {% if job_ad_form.qualifications.errors %}
                     {% for error in job_ad_form.qualifications.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -214,9 +214,6 @@
 
              <!-------BENEFITS--------->
               <div class="job-ad-group marginise-bottom">
-
-
-
                   <div class="job-ad-group marginise-bottom">
                      <label for="benefits" class="labels">Benefits (Press + Hold CRTL): </label>{{ job_ad_form.benefits_bl()}}<br>
                      <select class="form-control id="benefits" style="margin-bottom:10px;width:100%" name="benefits" multiple >
@@ -233,7 +230,7 @@
 
                  <div><br>
                     {{ job_ad_form.benefits.label(class="labels")}}
-                    {{ job_ad_form.benefits(class="form-control adj-width-60",placeholder="Free House for Accommodation")}}
+                     <textarea class="form-control adj-width-60" style="height:100px" name="benefits">{{job_ad.benefits}}</textarea>
                   {% if job_ad_form.benefits.errors %}
                     {% for error in job_ad_form.benefits.errors %}
                         <span class="span-error" >*{{error}}</span>
@@ -269,7 +266,7 @@
              </div>
 
              <div>
-                 {{ job_ad_form.publish(class="btns") }}
+                 {{ job_ad_form.publish(class="btns", value="Update") }}
                  <!--<input class="btns" type="submit" value="Create Account" />-->
 
             </div>
@@ -277,6 +274,9 @@
          </form>
        </div>
     </div>
-  </div>
+  </div></div></div>
+{% else %}
 
+{% endif %}
+</div>
 {% endblock %}

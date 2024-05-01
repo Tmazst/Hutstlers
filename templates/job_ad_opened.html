@@ -126,13 +126,21 @@
                   <p id="deadline" >{{item.application_deadline}}</p>
              </div>
             {% endif %}
-
+            {% if days_left >= 0 %}
              <div id="apply" >
                  <!--<input class="btns" type="submit" value="Create Account" />-->
-                {% if current_user.role != 'company_user' %}
+                {% if current_user.role != 'company_user' and not chekif_usr_applied %}
                     <a class="btns" href="/send_application?job_id={{ser.dumps({'data1':item.job_id})}}" >Apply Now</a>
+                  {% elif chekif_usr_applied %}
+                    <a class="btns" href="/delete_entry?jo_id={{ser.dumps({'data_2':item.job_id})}}" > Undo Application </a>
+<!--                 Check the company_user -->
+                 {% elif current_user.role == 'company_user' and current_user.id == item.job_posted_by %}
+                    <a class="btns" href="/edit_job_ads_form?jo_id={{ser.dumps({'data_11':item.job_id})}}" > Edit </a>
                 {% endif %}
              </div>
+            {% else %}
+                <a style="background-color:#bbb;border:none;color:white" class="btns"  >Closed</a>
+            {% endif %}
 
         </div>
     </div>

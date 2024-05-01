@@ -13,7 +13,7 @@ from Advert_Forms import Job_Ads_Form, Company_Register_Form, Company_Login, Com
     Freelance_Section, Job_Feedback_Form
 import os
 from PIL import Image
-from sqlalchemy import exc
+from sqlalchemy import exc,desc
 import rsa
 # ......for local DB
 import MySQLdb
@@ -38,9 +38,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -506,10 +506,11 @@ def job_ads_form():
     job_ads_model = Jobs_Ads
 
     db.create_all()
-
-    # print("Check Benefits: ", request.form.get('benefits'))
+    job_ad = None
+    print("Check Benefits: ", request.form.get('start_date'))
 
     if request.method == 'POST':
+        print("Check Start Date: ", job_ad_form.start_date.data,job_ad_form.work_hours_bl.data)
         if job_ad_form.validate_on_submit():
             job_post1 = job_ads_model(
                 job_title=job_ad_form.job_title.data,
@@ -532,19 +533,19 @@ def job_ads_form():
                 job_post1.job_type = job_ad_form.other_job_type.data
 
             if job_ad_form.work_duration_bl.data:
-                job_post1.work_duration = job_ad_form.work_duration.data
+                job_post1.work_duration = str(job_ad_form.start_date.data) + " - " + str(job_ad_form.end_date.data)
 
             if job_ad_form.work_days_bl.data:
                 job_post1.work_days = job_ad_form.work_days.data
 
             if job_ad_form.work_hours_bl.data:
-                job_post1.work_hours = str(job_ad_form.start_date.data) + " - " + str(job_ad_form.end_date.data)
+                job_post1.work_hours = job_ad_form.work_hours.data
 
             if job_ad_form.age_range_bl.data:
                 job_post1.age_range = job_ad_form.age_range.data
 
             if job_ad_form.benefits_bl.data:
-                job_post1.benefits = job_ad_form.benefits.data
+                job_post1.benefits =job_ad_form.benefits.data
 
             if not request.form.get('field_category_sel'):
                 job_post1.category = job_ad_form.category.data
@@ -553,10 +554,108 @@ def job_ads_form():
             db.session.add(job_post1)
             db.session.commit()
 
-            flash('Job Post was successful', 'success')
+            flash('Job Posted successfully!!', 'success')
 
-    return render_template("job_ads_form.html", job_ad_form=job_ad_form,ser=ser)
+    elif request.method == "GET":
+        job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(request.args.get("jo_id"))['data_11']).first()
 
+
+
+        print("Start Date: ",str(job_ad_form.start_date.data))
+
+    return render_template("job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad,job_descrptn_value=job_descrptn_value)
+
+class jo_id_cls:
+    id_ = None
+
+@app.route("/edit_job_ads_form", methods=["POST", "GET"])
+@login_required
+def eidt_job_ads_form():
+    job_ad_form = Job_Ads_Form()
+    job_ads_model = Jobs_Ads
+
+    db.create_all()
+    job_ad = None
+    jo_id = None
+    print("Check Benefits: ", request.form.get('start_date'))
+
+    if request.method == 'POST':
+        print("Check Start Date: ", job_ad_form.start_date.data,job_ad_form.work_hours_bl.data)
+        if job_ad_form.validate_on_submit():
+            job_post1 = Jobs_Ads.query.filter_by(job_id=ser.loads(request.args.get("jo_id"))['data_11']).first()
+
+            job_post1.job_title = job_ad_form.job_title.data,
+            job_post1.description = request.form.get('description'),
+            job_post1.category = request.form.get('field_category_sel'),
+            job_post1.responsibilities = job_ad_form.responsibilities.data,
+            job_post1.qualifications = request.form.get('qualifications'),
+            job_post1.contact_person = job_ad_form.posted_by.data,
+            job_post1.job_type = request.form.get('job_type_sel'),
+            job_post1.application_deadline = job_ad_form.application_deadline.data,
+
+            # if bools are True
+            if job_ad_form.pay_type_bl.data:
+                # print('Job Type: ', job_ad_form.pay_type_bl.data)
+                job_post1.pay_type = job_ad_form.other_pay_type.data
+
+            if job_ad_form.other_job_type.data:
+                job_post1.job_type = job_ad_form.other_job_type.data
+
+            if job_ad_form.work_duration_bl.data:
+                job_post1.work_duration = str(job_ad_form.start_date.data) + " - " + str(job_ad_form.end_date.data)
+
+            if job_ad_form.work_days_bl.data:
+                job_post1.work_days = job_ad_form.work_days.data
+
+            if job_ad_form.work_hours_bl.data:
+                job_post1.work_hours = job_ad_form.work_hours.data
+
+            if job_ad_form.age_range_bl.data:
+                job_post1.age_range = job_ad_form.age_range.data
+
+            if job_ad_form.benefits_bl.data:
+                job_post1.benefits = request.form.get('benefits')
+
+            if not request.form.get('field_category_sel'):
+                job_post1.category = job_ad_form.category.data
+
+            # print("Check Category: ",request.form.get('field_category_sel'))
+            db.session.add(job_post1)
+            db.session.commit()
+
+            flash('Post Successfully Updated!!', 'success')
+        else:
+            flash('Could not update, please check if all fields are filled', 'error')
+            if job_ad_form.errors:
+                for field, errors in job_ad_form.errors.items():
+                    for error in errors:
+                        print("ERRORS:", error)
+            return redirect(url_for("eidt_job_ads_form", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad))
+
+    elif request.method == "GET":
+        jo_id = request.args.get("jo_id")
+        # jo_id_func(jo_id)
+        if jo_id:
+            jo_id_cls.id_ = jo_id
+            job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id)['data_11']).first()
+            start_date = datetime.strptime(job_ad.work_duration.split(" ")[0], "%Y-%m-%d")
+            end_date = datetime.strptime(job_ad.work_duration.split(" ")[1], "%Y-%m-%d")
+            print("CHECK TEXTAREA DESC 2:", job_ad.work_duration.split(" ")[0])
+            print("CHECKID:", jo_id_cls.id_)
+        else:
+            # if job_ad_form.validate_on_submit():
+            print("CHECKID 2:", jo_id_cls.id_)
+
+            job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
+            start_date = datetime.strptime(job_ad.work_duration.split(" ")[0], "%Y-%m-%d")
+            end_date = datetime.strptime(job_ad.work_duration.split(" ")[1], "%Y-%m-%d")
+            # job_descrptn_value = job_ad.description
+            print("CHECK TEXTAREA DESC 2:",job_ad.work_duration)
+
+
+        # print("Start Date: ",str(job_ad_form.start_date.data))
+
+    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad,start_date=start_date,end_date=end_date)
 
 @app.route("/fl_job_ads_form", methods=["POST", "GET"])
 @login_required
@@ -794,6 +893,7 @@ def cmp_user_profile():
 # @basic_auth.required
 def job_adverts():
 
+    date_today = datetime.now()
     token = user_class()
     encry = encry_pw
     if current_user.is_authenticated:
@@ -818,26 +918,31 @@ def job_adverts():
             # print("Check Get Id: ",id)
             if enc_id:
                 # Filter Ads with a specific company's id
-                job_ads = Jobs_Ads.query.filter_by(job_posted_by=enc_id)
+                job_ads = Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted))
         elif not id_: #not value and
-            job_ads = Jobs_Ads.query.all()
-            print("ESLE is Printed: ")
+            job_ads = Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all()
+
 
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_gui.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser,date_today=date_today)
 
 
 @app.route("/job_ad_opened", methods=["GET", "POST"])
+@login_required
 def view_job():
     if request.method == 'GET':
         id_ = request.args.get('id')
-        dcry_id = ser.loads(id_)["data"]
-        job_ad = Jobs_Ads.query.get(dcry_id)
+        dcry_jbid = ser.loads(id_)["data"]
+        job_ad = Jobs_Ads.query.get(dcry_jbid)
 
-        # print("Job Ad Title: ",job_ad.job_title)
+        deadln = job_ad.application_deadline - datetime.now()
+        days_left = deadln.days
+        chekif_usr_applied = Applications.query.filter_by(job_details_id=dcry_jbid,applicant_id=current_user.id).first()
+        print("User Applied Before? : ", chekif_usr_applied)
 
-    return render_template('job_ad_opened.html', item=job_ad, db=db, company_user=company_user,ser=ser)
+    return render_template('job_ad_opened.html', item=job_ad, db=db, company_user=company_user,ser=ser,days_left=days_left
+                           ,chekif_usr_applied=chekif_usr_applied)
 
 @app.route("/job_ads_filtered", methods=["GET", "POST"])
 # @basic_auth.required
@@ -864,7 +969,7 @@ def job_adverts_filtered():
 
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_filtered.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
 
 
 @app.route("/freelance_job_ads", methods=["GET", "POST"])
@@ -951,10 +1056,10 @@ def view_tender():
 
         # print("Job Ad Title: ",job_ad.job_title)
 
-    return render_template('tender_ad_opened.html', item=tender_ad, db=db, company_user=company_user)
+    return render_template('tender_ad_opened.html', item=tender_ad, db=db, company_user=company_user,ser=ser)
 
 
-# ------------------------------COMPANIES DATA-------------------------------#
+# ------------------------------COMPANIES DATA------------------------------- #
 @app.route("/company_sign_up", methods=["POST", "GET"])
 def company_sign_up_form():
     company_register = Company_Register_Form()
@@ -1015,7 +1120,7 @@ def company_sign_up_form():
         # print(company_register.errors)
 
     # from myproject.models import user
-    return render_template("company_signup_form.html", company_register=company_register)
+    return render_template("company_signup_form.html", company_register=company_register,ser=ser)
 
 
 @app.route("/company_login", methods=["POST", "GET"])
@@ -1044,7 +1149,7 @@ def company_login():
                 flash(f"Login Unsuccessful, please use correct email or password", "error")
                 # print(company_login.errors)
 
-    return render_template('company_login_form.html', title='Company Login', company_login=company_login)
+    return render_template('company_login_form.html', title='Company Login', company_login=company_login,ser=ser)
 
 
 # ---------------COMPANY ACCOUNT---------------------#
@@ -1094,7 +1199,7 @@ def partnering_companies():
 
     # Fix jobs adds does not have hidden tag
     return render_template("partnering_companies.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
 
 
 @app.route("/send_application", methods=["GET", "POST"])
@@ -1122,16 +1227,17 @@ def send_application():
                 )
 
                 # Check if application not sent before
-                job_obj = Applications.query.filter_by(job_details_id=jb_id).first()
+                job_appl = Applications.query.filter_by(job_details_id=jb_id, applicant_id=current_user.id).first()
                 company_obj = company_user.query.get(apply.employer_id)
 
-                # print('----------------------job_obj: ',job_obj)
-                if not job_obj:
+                # print('----------------------job_appl: ',job_appl)
+                if not job_appl:
                     db.session.add(apply)
                     db.session.commit()
-                    job_data = Jobs_Ads.query.filter_by(job_details_id=jb_id).first()
-                    return render_template("send_application.html", send_application=send_application, job_obj=job_data,
-                                           company_obj=company_obj)
+                    job_title = Jobs_Ads.query.get(jb_id).job_title
+                    job_id = Jobs_Ads.query.get(jb_id).job_id
+                    return render_template("send_application.html", send_application=send_application, job_id=job_id, job_title=job_title,
+                                           company_obj=company_obj, ser=ser)
                 else:
                     # fl = flash(f"Application with this details Already Submitted!!", "error")
                     return f'''This Application Already Submitted before.
@@ -1139,22 +1245,26 @@ def send_application():
 
     return f'Something went Wrong, Please return to the previuos page'
 
-
 @app.route("/company_jb_ads", methods=["GET", "POST"])
 @login_required
 def local_jb_ads():
     if request.method == 'GET':
         id = ser.loads(request.args['id'])
         job_ad = Jobs_Ads.query.get(id)
-
         # print("Job Ad Title: ",job_ad.job_title)
 
 @app.route("/delete_entry", methods=["GET", "POST"])
 def delete_entry():
-
     if request.method == 'GET':
         j_id = ser.loads(request.args.get("jo_id"))['data_2']
-        appl_tions = applications.query.filter_by(job_details=j_id).first()
+        appl_tions = Applications.query.filter_by(job_details_id=j_id,applicant_id=current_user.id).first()
+
+        db.session.delete(appl_tions)
+        db.session.commit()
+
+        flash("Successfully Deleted!!", "success")
+
+        return redirect(url_for("job_adverts"))
 
     return f''
 
