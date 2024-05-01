@@ -692,7 +692,7 @@ def fl_job_ads_form():
                 service_title=fl_job_ad_form.service_title.data,
                 specialty=request.form.get('speciality'),
                 description=fl_job_ad_form.description.data,
-                project_duration=str(fl_job_ad_form.start_date.data) + "  " + str(fl_job_ad_form.end_date.data) ,
+                project_duration=str(fl_job_ad_form.start_date.data) + "   " + str(fl_job_ad_form.end_date.data) ,
                 project_prerequits=fl_job_ad_form.project_prerequits.data,
                 working_days=fl_job_ad_form.working_days.data,
                 service_category=request.form.get('field_category_sel'),
