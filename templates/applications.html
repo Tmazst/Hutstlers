@@ -23,12 +23,12 @@
                             <label style="margin-top:-10px;font-weight:600" class="centralise_font">{{job_user.query.get(ea_application.applicant_id).name}}</label>
                         <!-------THEIR ADDRESS--------->
                         <div><p class="centralise_font size-it"><span class="material-icons">place</span><br></p></div>
-                            <label style="margin-top:-10px" class="centralise_font"> {{job_user.query.get(ea_application.applicant_id).address}}</label>
+                            <label style="margin-top:-10px;font-weight:600" class="centralise_font"> {{job_user.query.get(ea_application.applicant_id).address}}</label>
                         <h3 style="background-color:"><span style="color:#909090" class="material-icons">work</span> <br><span>{{job_ads.query.get(ea_application.job_details_id).job_title}}</span></h3>
                         <!-------DATE OF APPLICATION--------->
                          <!-------THEIR QUALIFICATIONS--------->
                         <div><p style="background-color:"><label for="Job Type" class="labels"></label></p></div>
-                        <div><p class="centralise_font size-it">{{job_user.query.get(ea_application.applicant_id).qualifications}}</p></div>
+                        <label style="margin-top:-10px;font-weight:600" class="centralise_font">{{job_user.query.get(ea_application.applicant_id).qualifications}}</label>
                          <!--------ADVERT'S DEADLINE-------------->
                         <div style="dispaly:block">
                             <a class="view_job" href="/view_applicant?uid={{ser.dumps({'data4':ea_application.applicant_id})}}&app_id={{ser.dumps({'data5':ea_application.job_details_id})}}">View Applicant</a>
