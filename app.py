@@ -656,17 +656,10 @@ def eidt_job_ads_form():
             strt_date = job_ad.work_duration.split(" ")[0]
             d_date = job_ad.work_duration.split(" ")[1]
 
-            # import re
-            # date_pattern = re.compile(r'(\d{4})-(\d{2})-(\d{2})')
-            # match_start = date_pattern.search(strt_date)
-            # match_end = date_pattern.search(d_date)
-            # start_date = datetime(int(match_start.group(1)), int(match_start.group(2)), int(match_start.group(3)))
-            # end_date = datetime(int(match_end.group(1)), int(match_end.group(2)), int(match_end.group(3)))
-
             start_date = datetime.strptime(strt_date, "%Y-%m-%d")
             end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
             posted_by = user.query.get(job_ad.job_posted_by).name
-            print("CHECK TEXTAREA DESC 2:", start_date  , " and ", end_date)
+            print("CHECK TEXTAREA DESC 2:", len(job_ad.work_duration))
             print("CHECKID:", jo_id_cls.id_)
         else:
             # if job_ad_form.validate_on_submit():
@@ -699,7 +692,7 @@ def fl_job_ads_form():
                 service_title=fl_job_ad_form.service_title.data,
                 specialty=request.form.get('speciality'),
                 description=fl_job_ad_form.description.data,
-                project_duration=str(fl_job_ad_form.start_date.data) + " - " + str(fl_job_ad_form.end_date.data) ,
+                project_duration=str(fl_job_ad_form.start_date.data) + "  " + str(fl_job_ad_form.end_date.data) ,
                 project_prerequits=fl_job_ad_form.project_prerequits.data,
                 working_days=fl_job_ad_form.working_days.data,
                 service_category=request.form.get('field_category_sel'),
