@@ -20,10 +20,9 @@
 
                                         <div style="" class="center-prl-img">
                                             <div style="margin:15px auto 0px auto;"  class="img-cont">
-                                              {% if db.session.query(company_user).get(item.job_posted_by) %}
-                                                    {% if not db.session.query(company_user).get(item.job_posted_by).image == None %}
+                                              {% if job_user.query.get(ea_application.applicant_id).image %}
                                                         <img class="prf-image" src="static/images/{{job_user.query.get(ea_application.applicant_id).image}}"/>
-                                                    {% endif %}
+
                                               {% else %}
                                                     <img class="prf-image" src="static/images/default.jpg"/>
                                               {% endif %}
@@ -51,10 +50,10 @@
 
                                          <!--------ADVERT'S DEADLINE-------------->
                                         <div class="job-info">
-                                            <p class="centralise_font size-it"><span class="material-icons "></span> Deadline</p>
+                                            <p class="centralise_font size-it"><span class="material-icons ">work</span>    Job Type</p>
                                             <label style="margin-top:-10px" class="centralise_font">{{job_user.query.get(ea_application.applicant_id).deadline}}</label>
                                         </div>
-
+                                        <div><p style="font-size:10">{{job_user.query.get(ea_application.applicant_id).deadline}}</p></div>
 
                                     <div style="dispaly:block">
                                         <a class="view_job" href="/view_applicant?uid={{ser.dumps({'data4':ea_application.applicant_id})}}&app_id={{ser.dumps({'data5':ea_application.job_details_id})}}">View Applicant</a>
