@@ -2,19 +2,15 @@
 
 {% block content %}
 <div   class="tags">
-        <p class="paras-subtopics"></p><br><br>
-        <div class="job_main-cont">
         {% if all_applications %}
-
-
             <!----FORM----->
             <div style="background-color:ae23a3;position:relative" class="general-flex-x">
 
                 {% for ea_application in all_applications %}
-                {% if ea_application.employer_id == current_user.id %}
-            <!----FORM----->
+                    {% if ea_application.employer_id == current_user.id %}
 
-                <div style="display:flex;flex-direction:column;width:300px;height:500px" class="new_job_ad_style anim">
+
+                        <div style="display:flex;flex-direction:column;width:300px;height:500px" class="new_job_ad_style anim">
 
                                         <h2>Job Applicant</h2>
 
@@ -56,22 +52,12 @@
                                         <a class="view_job" href="/view_applicant?uid={{ser.dumps({'data4':ea_application.applicant_id})}}&app_id={{ser.dumps({'data5':ea_application.job_details_id})}}">View Applicant</a>
                                     </div>
 
-                                    </div>
-                                {% endif %}
-                                {% endfor %}
-
-                                </div>
-                            </div>
                         </div>
+                    {% endif %}
+            {% endfor %}
 
-
-
-
-            {% else %}
-            <div style="padding-left:30px;padding-right:70px"  class="job_ad_container">
-                <div class="flash-messages alert-error">No Job Applications yet!! Post a Job Advert or check again later</div>
-            </div>
-            {% endif %}
         </div>
 </div>
+
+
 {% endblock %}
