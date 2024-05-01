@@ -917,7 +917,11 @@ def job_adverts():
             # print("Check Get Id: ",id)
             if enc_id:
                 # Filter Ads with a specific company's id
-                job_ads = Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted))
+                # job_ads = Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted))
+                job_ads_latest = [job for job in Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted)) if
+                                  (job.application_deadline - date_today).days >= 0]
+                job_ads_older = [job for job in Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted)) if
+                                 (job.application_deadline - date_today).days < 0]
         #For all companies
         elif not id_: #not value and
             job_ads_latest = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if (job.application_deadline - date_today).days >= 0]
@@ -1000,9 +1004,10 @@ def freelance_job_adverts():
         # print("Check Get Id: ",id)
         if id:
             # Filter Ads with a specific company's id
-            fl_job_ads = Freelance_Jobs_Ads.query.filter_by(job_posted_by=id)
+            fl_job_ads = Freelance_Jobs_Ads.query.filter_by(job_posted_by=id).order_by(desc(Freelance_Jobs_Ads.date_posted))
         else:
-            fl_job_ads = Freelance_Jobs_Ads.query.all()
+            fl_job_ads = Freelance_Jobs_Ads.query.order_by(desc(Freelance_Jobs_Ads.date_posted))
+
 
     fl_job_ads_form = Freelance_Ads_Form()
 
