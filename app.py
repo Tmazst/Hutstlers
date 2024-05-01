@@ -651,8 +651,16 @@ def eidt_job_ads_form():
             # start_date, end_date = datetime.strptime(job_ad.work_duration.split(" "), "%Y-%m-%d")
             strt_date = job_ad.work_duration.split(" ")[0]
             d_date = job_ad.work_duration.split(" ")[1]
-            start_date = datetime.strptime(strt_date, "%Y-%m-%d")
-            end_date = datetime.strptime(d_date, "%Y-%m-%d")
+
+            import re
+            date_pattern = re.compile(r'(\d{4})-(\d{2})-(\d{2})')
+            match_start = date_pattern.search(strt_date)
+            match_end = date_pattern.search(d_date)
+            start_date = datetime(int(match_start.group(1)), int(match_start.group(2)), int(match_start.group(3)))
+            end_date = datetime(int(match_end.group(1)), int(match_end.group(2)), int(match_end.group(3)))
+
+            # start_date = datetime.strptime(strt_date, "%Y-%m-%d")
+            # end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
             posted_by = user.query.get(job_ad.job_posted_by).name
             print("CHECK TEXTAREA DESC 2:", start_date  , " and ", end_date)
             print("CHECKID:", jo_id_cls.id_)
