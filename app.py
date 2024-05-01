@@ -70,6 +70,10 @@ encry_pw = Bcrypt(app)
 
 ser = Serializer(app.config['SECRET_KEY'])
 
+@app.context_processor
+def inject_ser():
+    ser = Serializer(app.config['SECRET_KEY']) # Define or retrieve the value for 'ser'
+    return dict(ser=ser)
 # migrate = Migrate(app,db)
 # basic_auth = BasicAuth(app)
 
