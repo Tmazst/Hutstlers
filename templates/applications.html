@@ -9,12 +9,12 @@
         {% if ea_application.employer_id == current_user.id %}
 
             <!----FORM----->
-            <div style=""  class="job_ad_container">
-                <div style="width:370px" class="job_ad_style">
-                    <div class="row justify-content-center">
-                        <div class="col-md-5">
-                            <div class="card-appl">
-                                    <div class="card-cont">
+            <div style="background-color:ae23a3;position:relative" class="general-flex-x">
+
+
+            <!----FORM----->
+
+                <div style="display:flex;flex-direction:column;width:300px;" class="new_job_ad_style anim">
 
                                         <h2>Job Applicant</h2>
                                         <div style="margin:0 auto;" class="center-prl-img">
@@ -53,13 +53,12 @@
                         <div style="dispaly:block">
                              <a class="view_job" href="/view_applicant?uid={{ser.dumps({'data4':ea_application.applicant_id})}}&app_id={{ser.dumps({'data5':ea_application.job_details_id})}}">View Applicant</a>
                         </div>
-                </div>
-            </div>
+
         {% endif %}
         {% endfor %}
             {% else %}
             <div style="padding-left:30px;padding-right:70px"  class="job_ad_container">
-              <div class="flash-messages alert-error">No Job Applications yet!! Post a Job Advert or check again later</div>
+                <div class="flash-messages alert-error">No Job Applications yet!! Post a Job Advert or check again later</div>
             </div>
             {% endif %}
         </div>
