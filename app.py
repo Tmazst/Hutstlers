@@ -905,8 +905,7 @@ def job_adverts():
 
     db.create_all()
     usr = user()
-    job_ads_latest = []
-    job_ads_older = []
+
 
     job_ads_form = Job_Ads_Form()
     if request.method == 'GET':
@@ -925,6 +924,8 @@ def job_adverts():
             job_ads_older = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if
                               (job.application_deadline - date_today).days < 0]
 
+            print("LATEST JOBS: ",  job_ads_latest )
+            print("OLDER JOBS: ", job_ads_older)
 
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_gui.html", job_ads_latest=job_ads_latest,job_ads_older=job_ads_older, job_ads_form=job_ads_form, db=db,
