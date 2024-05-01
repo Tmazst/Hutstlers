@@ -145,15 +145,7 @@
                         {% endfor %}
                      {% endif %}
                  </div><p style="margin:0 5px;">   </p>
-                <div class="job-ad-group marginise-bottom">
-                     {{ job_ad_form.end_date.label(class="labels")}}{{ job_ad_form.work_duration_bl()}}
-                      {{ job_ad_form.end_date(class="form-control adj-width-other",value=end_date)}}
-                      {% if job_ad_form.end_date.errors %}
-                        {% for error in job_ad_form.end_date.errors %}
-                            <span class="span-error" >*{{error}}</span>
-                        {% endfor %}
-                     {% endif %}
-                 </div>
+
             </div>
 
              <!-------WORK DAYS--------->
