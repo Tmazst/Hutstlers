@@ -635,7 +635,7 @@ def eidt_job_ads_form():
 
             flash('Post Successfully Updated!!', 'success')
         else:
-            flash('Could not update, please check if all fields are filled', 'error')
+            flash('Could not update, please check if all fields are filled properly', 'error')
             if job_ad_form.errors:
                 for field, errors in job_ad_form.errors.items():
                     for error in errors:
