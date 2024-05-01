@@ -5,42 +5,35 @@
     {% if all_applications %}
         <!----FORM----->
         <div style="background-color:#ae23a3;" class="general-flex-x">
-
             {% for ea_application in all_applications %}
                 {% if ea_application.employer_id == current_user.id %}
-
-
-                    <div style="display:flex;flex-direction:column;width:300px;height:500px" class="new_job_ad_style anim">
+                    <div style="display:flex;flex-direction:column;width:300px;height:500px;padding:1px;" class="new_job_ad_style anim">
                         <div style="flex:1;background-color:coral;">
-                            <h2>Job Applicant</h2>
-
-                            <div style="background-color:yellow" class="center-prl-img">
-                                <div style="margin:15px auto 0px auto;"  class="img-cont">
-                                  {% if job_user.query.get(ea_application.applicant_id).image %}
-                                            <img class="prf-image" src="static/images/{{job_user.query.get(ea_application.applicant_id).image}}"/>
-
-                                  {% else %}
-                                        <img class="prf-image" src="static/images/default.jpg"/>
-                                  {% endif %}
-                                </div>
+                        <h2>Job Applicant</h2>
+                        <div style="background-color:yellow" class="center-prl-img">
+                            <div style="margin:15px auto 0px auto;"  class="img-cont">
+                              {% if job_user.query.get(ea_application.applicant_id).image %}
+                                <img class="prf-image" src="static/images/{{job_user.query.get(ea_application.applicant_id).image}}"/>
+                              {% else %}
+                                <img class="prf-image" src="static/images/default.jpg"/>
+                              {% endif %}
                             </div>
-                            <!-------JOB TITLE--------->
-                            <h2 style="margin-bottom:0px;background-color:orange">{{job_user.query.get(ea_application.applicant_id).name}}</h2>
-                            <!-------THEIR ADDRESS--------->
-                            <p style="background-color:green"><span class="material-icons">place</span>
-                                {{job_user.query.get(ea_application.applicant_id).address}}</p>
-                            <h3 style="background-color:red"><span style="color:#909090" class="material-icons">work</span> <br><span>{{job_ads.query.get(ea_application.job_details_id).job_title}}</span></h3>
-                            <!-------DATE OF APPLICATION--------->
-                            <p style="background-color:blue"><span style="color:#aaa"  class="material-icons">schedule</span><br>{{ea_application.time_stamp.strftime("%d %B %y,  %H:%M" )}}</p>
-                             <!-------THEIR QUALIFICATIONS--------->
-                            <p style="background-color:red"><label for="Job Type" class="labels"></label></p>
-                            <div><p>{{job_user.query.get(ea_application.applicant_id).qualifications}}</p></div>
-                             <!--------ADVERT'S DEADLINE-------------->
-
+                        </div>
+                        <!-------JOB TITLE--------->
+                        <h2 style="margin-bottom:0px;background-color:orange">{{job_user.query.get(ea_application.applicant_id).name}}</h2>
+                        <!-------THEIR ADDRESS--------->
+                        <p style="background-color:green"><span class="material-icons">place</span>
+                            {{job_user.query.get(ea_application.applicant_id).address}}</p>
+                        <h3 style="background-color:red"><span style="color:#909090" class="material-icons">work</span> <br><span>{{job_ads.query.get(ea_application.job_details_id).job_title}}</span></h3>
+                        <!-------DATE OF APPLICATION--------->
+                        <p style="background-color:blue"><span style="color:#aaa"  class="material-icons">schedule</span><br>{{ea_application.time_stamp.strftime("%d %B %y,  %H:%M" )}}</p>
+                         <!-------THEIR QUALIFICATIONS--------->
+                        <p style="background-color:red"><label for="Job Type" class="labels"></label></p>
+                        <div><p>{{job_user.query.get(ea_application.applicant_id).qualifications}}</p></div>
+                         <!--------ADVERT'S DEADLINE-------------->
                         <div style="dispaly:block">
                             <a class="view_job" href="/view_applicant?uid={{ser.dumps({'data4':ea_application.applicant_id})}}&app_id={{ser.dumps({'data5':ea_application.job_details_id})}}">View Applicant</a>
                         </div>
-
                     </div>
                 </div>
                 {% endif %}
