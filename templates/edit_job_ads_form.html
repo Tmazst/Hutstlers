@@ -135,6 +135,7 @@
              </div>
 
              <!-------WORK DURATION--------->
+            {% if start_date and end_date %}
              <div style="display:flex;" class="work-days">
                  <div class="job-ad-group marginise-bottom">
                      {{ job_ad_form.start_date.label(class="labels")}}
@@ -155,6 +156,28 @@
                      {% endif %}
                  </div>
             </div>
+            {% else %}
+            <div style="display:flex;" class="work-days">
+                 <div class="job-ad-group marginise-bottom">
+                     {{ job_ad_form.start_date.label(class="labels")}}
+                      {{ job_ad_form.start_date(class="form-control adj-width-other font-color")}}
+                      {% if job_ad_form.start_date.errors %}
+                        {% for error in job_ad_form.start_date.errors %}
+                            <span class="span-error" >*{{error}}</span>
+                        {% endfor %}
+                     {% endif %}
+                 </div><p style="margin:0 5px;">   </p>
+                <div class="job-ad-group marginise-bottom">
+                     {{ job_ad_form.end_date.label(class="labels")}}{{ job_ad_form.work_duration_bl()}}
+                      {{ job_ad_form.end_date(class="form-control adj-width-other font-color")}}
+                      {% if job_ad_form.end_date.errors %}
+                        {% for error in job_ad_form.end_date.errors %}
+                            <span class="span-error" >*{{error}}</span>
+                        {% endfor %}
+                     {% endif %}
+                 </div>
+            </div>
+            {% endif %}
 
              <!-------WORK DAYS--------->
              <div class="job-ad-group marginise-bottom">
