@@ -55,7 +55,7 @@ function calculateDays() {
 
     var date = new Date();
     var today = date.getTime(); // Get today's date in milliseconds to compare with deadlines
-    if( adJob.length > 2 ){
+    if( adJob.length > 1 ){
         for(var i = 0; i < adDeadline.length; i++) {
             // Get each ad's deadline
             var targetedAd = adDeadline[i];
@@ -69,17 +69,17 @@ function calculateDays() {
 
             if (difference > 10) {
                 adJob[i].classList.toggle("deadline-is-far");
-                daysLeft[i].innerText = difference ;
+                daysLeft[i].innerText = difference + " Days Left";
     //            console.log("There are still plenty of time");
 
             } else if (difference <= 10 && difference > 0) {
                 adJob[i].classList.toggle("deadline-is-close");
-                daysLeft[i].innerText = difference;
+                daysLeft[i].innerText = difference + " Days Left";
     //            console.log("We are getting closer to the deadline");
 
             } else if (difference <= 3 && difference >= 0) {
                 adJob[i].classList.toggle("deadline-is-today");
-                daysLeft[i].innerText = difference;
+                daysLeft[i].innerText = difference + " Days Left";
     //            console.log("Deadline is today");
 
             } else if (difference < 0) {
