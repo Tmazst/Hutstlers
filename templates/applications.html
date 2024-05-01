@@ -5,7 +5,7 @@
     {% if all_applications %}
 
         <!----FORM----->
-        <div style="background-color:#ae23a3;" class="general-flex-x">
+        <div style="background-color:ae23a3;" class="general-flex-x">
             {% for ea_application in all_applications %}
                 {% if ea_application.employer_id == current_user.id %}
                     <div style="display:flex;flex-direction:column;width:300px;padding:10px;height:inherit;" class="new_job_ad_style anim">
@@ -21,9 +21,11 @@
                         </div>
                         <!-------JOB TITLE--------->
                         <h2 style="margin-bottom:0px;background-color:">{{job_user.query.get(ea_application.applicant_id).name}}</h2>
+                            <label style="margin-top:-10px" class="centralise_font">{{job_user.query.get(ea_application.applicant_id).name}}</label>
                         <!-------THEIR ADDRESS--------->
-                        <div><p style="background-color:"><span class="material-icons">place</span>
+                        <div><p style="background-color:"><span class="material-icons">place</span><br>
                             {{job_user.query.get(ea_application.applicant_id).address}}</p></div>
+                            <label style="margin-top:-10px" class="centralise_font"> {{job_user.query.get(ea_application.applicant_id).address}}</label>
                         <h3 style="background-color:"><span style="color:#909090" class="material-icons">work</span> <br><span>{{job_ads.query.get(ea_application.job_details_id).job_title}}</span></h3>
                         <!-------DATE OF APPLICATION--------->
                          <!-------THEIR QUALIFICATIONS--------->
