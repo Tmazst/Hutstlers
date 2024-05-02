@@ -618,7 +618,8 @@ def eidt_job_ads_form():
                 job_post1.job_type = job_ad_form.other_job_type.data
 
             if job_ad_form.work_duration_bl.data:
-                job_post1.work_duration = str(job_ad_form.start_date.data) + "  " + str(job_ad_form.end_date.data)
+                job_post1.work_duration = job_ad_form.end_date.data
+                job_post1.work_duration2 = job_ad_form.end_date.data
 
             if job_ad_form.work_days_bl.data:
                 job_post1.work_days = job_ad_form.work_days.data
