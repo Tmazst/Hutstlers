@@ -123,7 +123,7 @@
 
                  {{ fl_job_ad_form.working_days.label(class="labels")}}
 
-                  {{ fl_job_ad_form.working_days(class="form-control adj-width-60",placeholder="e.g. Multimeter, Safety Clothing, Computer")}}
+                  {{ fl_job_ad_form.working_days(class="form-control adj-width-60",placeholder="e.g. Mondays - Wednesdays")}}
                   {% if fl_job_ad_form.working_days.errors %}
                     {% for error in fl_job_ad_form.working_days.errors %}
                         <span class="span-error" >*{{error}}</span>
