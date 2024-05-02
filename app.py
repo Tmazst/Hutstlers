@@ -666,7 +666,7 @@ def eidt_job_ads_form():
             #     start_date = None;
             #     end_date = None;
 
-            posted_by = user.query.get(job_ad.job_posted_by).name
+            # posted_by = user.query.get(job_ad.job_posted_by).name
 
         else:
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
@@ -687,7 +687,7 @@ def eidt_job_ads_form():
 
         # print("Start Date: ",str(job_ad_form.start_date.data))
 
-    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad,posted_by=posted_by)
+    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad)
 
 @app.route("/fl_job_ads_form", methods=["POST", "GET"])
 @login_required
