@@ -784,11 +784,10 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
         """
                     try:
                         mail.send(msg)
-                        flash(f'You have sent an email of the "/End of Term Form/" to {job_user_obj.name} successfully',
+                        flash(f'You have sent an email of the "/End of Term Form/" to {job_user_obj.name}',
                               'success')
                         return "Email Sent"
                     except Exception as e:
-
                         flash('Ooops, Something went wrong Please Retry!!', 'error')
                         return "The mail was not sent"
 
