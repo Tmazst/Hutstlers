@@ -147,7 +147,8 @@ class Jobs_Ads(db.Model, UserMixin):
     job_type = db.Column(db.String(50))
     category = db.Column(db.String(255))
     description = db.Column(db.String(200))
-    work_duration = db.Column(db.String(60))
+    work_duration = db.Column(db.DateTime)
+    work_duration2 = db.Column(db.DateTime)
     work_days = db.Column(db.String(60))
     work_hours = db.Column(db.String(60))
     responsibilities = db.Column(db.String(200))
@@ -195,7 +196,8 @@ class Freelance_Jobs_Ads(db.Model, UserMixin):
     service_category = db.Column(db.String(100))   #e.g Design & Technology
     specialty = db.Column(db.String(100))      #e.g Graphic Designer
     description = db.Column(db.String(200))
-    project_duration = db.Column(db.String(60))  #Project duration
+    project_duration = db.Column(db.DateTime)  #Project duration
+    project_duration2 = db.Column(db.DateTime)
     project_prerequits = db.Column(db.String(500))
     working_days = db.Column(db.String(60))
     other = db.Column(db.String(200))

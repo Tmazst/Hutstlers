@@ -126,7 +126,7 @@
              <div class="job-ad-group marginise-bottom">
 
                  {{ job_ad_form.description.label(class="labels")}}<br>
-                  {{ job_ad_form.description(class="form-control adj-width-60",placeholder="Job Description")}}
+                  {{ job_ad_form.description(class="form-control adj-width-60", style=min-height:150px,placeholder="Job Description")}}
                   {% if job_ad_form.description.errors %}
                     {% for error in job_ad_form.description.errors %}
                         <span class="span-error" >*{{error}}</span>

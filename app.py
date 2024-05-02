@@ -547,7 +547,9 @@ def job_ads_form():
                 job_post1.job_type = job_ad_form.other_job_type.data
 
             if job_ad_form.work_duration_bl.data:
-                job_post1.work_duration = str(job_ad_form.start_date.data) + "  " + str(job_ad_form.end_date.data)
+                job_post1.work_duration = job_ad_form.start_date.data
+
+                job_post1.work_duration2 = job_ad_form.end_date.data
 
             if job_ad_form.work_days_bl.data:
                 job_post1.work_days = job_ad_form.work_days.data
@@ -652,39 +654,40 @@ def eidt_job_ads_form():
         if jo_id:
             jo_id_cls.id_ = jo_id
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id)['data_11']).first()
-            # start_date, end_date = datetime.strptime(job_ad.work_duration.split(" "), "%Y-%m-%d")
-            if job_ad.work_duration:
-                strt_date = job_ad.work_duration.split(" ")[0]
-                d_date = job_ad.work_duration.split(" ")[1]
-                start_date = datetime.strptime(strt_date, "%Y-%m-%d")
-                end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
-            else:
-                start_date = None;
-                end_date = None;
-
+            # jo_id_cls.id_ = jo_id
+            # job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id)['data_11']).first()
+            # # start_date, end_date = datetime.strptime(job_ad.work_duration.split(" "), "%Y-%m-%d")
+            # if job_ad.work_duration:
+            #     strt_date = job_ad.work_duration.split(" ")[0]
+            #     d_date = job_ad.work_duration.split(" ")[1]
+            #     start_date = datetime.strptime(strt_date, "%Y-%m-%d")
+            #     end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
+            # else:
+            #     start_date = None;
+            #     end_date = None;
 
             posted_by = user.query.get(job_ad.job_posted_by).name
 
         else:
-            # if job_ad_form.validate_on_submit():
-            print("CHECKID 2:", jo_id_cls.id_)
-
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
-            posted_by = user.query.get(job_ad.job_posted_by).name
-            if job_ad.work_duration:
-                strt_date = job_ad.work_duration.split(" ")[0]
-                d_date = job_ad.work_duration.split(" ")[1]
-                start_date = datetime.strptime(strt_date, "%Y-%m-%d")
-                end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
-            else:
-                start_date = None;
-                end_date = None;
+            # # if job_ad_form.validate_on_submit():
+            # print("CHECKID 2:", jo_id_cls.id_)
+            #
+            # job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
+            # posted_by = user.query.get(job_ad.job_posted_by).name
+            # if job_ad.work_duration:
+            #     strt_date = job_ad.work_duration.split(" ")[0]
+            #     d_date = job_ad.work_duration.split(" ")[1]
+            #     start_date = datetime.strptime(strt_date, "%Y-%m-%d")
+            #     end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
+            # else:
+            #     start_date = None;
+            #     end_date = None;
 
 
         # print("Start Date: ",str(job_ad_form.start_date.data))
 
-    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad,start_date=start_date,
-                           end_date=end_date,posted_by=posted_by)
+    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad,posted_by=posted_by)
 
 @app.route("/fl_job_ads_form", methods=["POST", "GET"])
 @login_required
@@ -700,7 +703,8 @@ def fl_job_ads_form():
                 service_title=fl_job_ad_form.service_title.data,
                 specialty=request.form.get('speciality'),
                 description=fl_job_ad_form.description.data,
-                project_duration=str(fl_job_ad_form.start_date.data) + "   " + str(fl_job_ad_form.end_date.data) ,
+                project_duration=fl_job_ad_form.start_date.data,
+                project_duration2=fl_job_ad_form.end_date.data,
                 project_prerequits=fl_job_ad_form.project_prerequits.data,
                 working_days=fl_job_ad_form.working_days.data,
                 service_category=request.form.get('field_category_sel'),
