@@ -118,21 +118,37 @@ function handleScroll() {
 //      console.log("Scroll Direction",currentScroll,scrollDirection);
       console.log("windowHeight + currentScroll",windowHeight + currentScroll);
       console.log("document.body.offsetHeight",document.body.offsetHeight);
+       if (window.innerWidth <= 768){
+          // If the user is scrolling down and the navigation is not already at the bottom
+          if (scrollDirection === 'down' && (windowHeight + currentScroll) >= document.body.offsetHeight-4000) {
+            console.log("Scroll Called",currentScroll,scrollDirection);
+            navigation.style.position = 'fixed';
+            navigation.style.bottom = '0';
+          } else {
+            navigation.style.position = 'static';
+          }
 
-      // If the user is scrolling down and the navigation is not already at the bottom
-      if (scrollDirection === 'down' && (windowHeight + currentScroll) >= document.body.offsetHeight-4000) {
-        console.log("Scroll Called",currentScroll,scrollDirection);
-        navigation.style.position = 'fixed';
-        navigation.style.bottom = '0';
+          // Update the known scroll position
+          lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+
+    }else{
+
+      var scrollingElement = document.getElementById("nav-div");
+      // Distance from the top of the document to the top of the scrolling element
+      var elementOffset = scrollingElement.offsetTop;
+      // Viewport (window) top position
+      var windowTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (windowTop > elementOffset) {
+        scrollingElement.style.position = "fixed";
+        scrollingElement.style.top = "0";
       } else {
-        navigation.style.position = 'static';
+        scrollingElement.style.position = "relative";
       }
 
-      // Update the known scroll position
-      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 
+    }
 }
-
 window.onscroll = function() {handleScroll()};
 // Add the scroll event listener
 //window.addEventListener('scroll', handleScroll);

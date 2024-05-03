@@ -45,12 +45,13 @@
 
           <div  class="paras-subtopics topics anim">
               <h1><span class="spans">Gain Work Experience</span> through <br> Short-term, Remote & Freelance Jobs, Today!</h1>
-              <a class="nav-link btns btn-how" href="/how_does_it_work">How Does It Work?</a>
+
           </div>
 
           <div class="optimise-mobile anim">
                   <img class="inherent" src="static/icons/4866233-01.png" />
-          </div>
+          </div><br><br><br>
+          <a class="btn-how" href="/how_does_it_work">How Does It Work?</a>
 
           <br><p></p>
       </div>
@@ -94,7 +95,13 @@
                     </p>
             </div>
         </div>
+        <br><br><br>
 
+        <div style="margin:0 auto" class="">{% if count_jobs %}
+            <div style="display:flex;justify-content:center;gap:5px;align-items:center" class=""><span class="notif-numb-div-ad">{{count_jobs}}
+            </span><span style="float:left;font-weight:600;color:coral">Jobs You Can Apply for Today!!</span></div>{% endif%}
+            <br><a class="btn-how" href="/how_does_it_work">Explore Jobs</a>
+        </div>
 
 
 <!---   Temporally Closed

@@ -767,6 +767,19 @@ span.spans{
     top:-10px;
 }
 
+.notif-numb-div-ad{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:50%;
+    background-color:#fc6c85;
+    height:30px;
+    width:30px;
+    color:white;
+    font-weight:500;
+    font-size:14px;
+}
+
 .deadline-is-over{
     background-color:#f44 !important;
 }
@@ -1659,6 +1672,14 @@ h2{
     top:-10px;
 }
 
+.box-ad{
+display:flex;
+overflow:auto !important;
+display:flex;
+flex-direction:column;
+border:1px solid coral !important;
+width:70% !important;
+}
 
 
 
@@ -1698,7 +1719,9 @@ h2{
     font-size:150%;
 }
 
-
+.side-nav-link:focus{
+    color:coral;
+}
 
 .home-img-div{
     //border-radius: 30px;
@@ -2177,7 +2200,7 @@ display:none
 }
 
 .mobile-top-space{
-    height:70px;
+    height:90px;
 }
 
 .margin-ise{
@@ -2414,9 +2437,26 @@ display:none
 }
 
 .btn-how{
-    width:auto !important;
+    display:flex;
+    justify-content:center;
+    width:200px !important;
+    margin:0 auto;
+    border-radius:10px;
+    background-color:#006769;
+    color:white;
+    font-weight:600;
+    font-size:17px;
+    padding:10px;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.5);
 }
 
+
+.btn-how:hover{
+    border:2px solid coral;
+    background:none;
+    color:coral;
+    transition:0.3s ease;
+}
 .user-btns{
     background-color:#006769;
     color:white;
@@ -2704,26 +2744,27 @@ display:none
       margin-right:0px;
       
     }
+
 .left-margin{margin-left:30px !important;}
-    .user_captions{
-        margin-top:70px;
-        width:50% ;
-        color:#909090 ;
 
-    }
+.user_captions{
+    margin-top:70px;
+    width:50% ;
+    color:#909090 ;
+}
 
-    .account{margin-left:50px}
+.account{margin-left:50px}
 
-    .img-div{
+.img-div{
 
-    width:50%;
-    height:7vh;
-    //margin-left:-210px;
-    margin-top:-95px;
-    //background-color:#006769;
-    //padding:10px;
-    //object-fit:cover;
-    //border-radius:50%;
+width:50%;
+height:7vh;
+//margin-left:-210px;
+margin-top:-95px;
+//background-color:#006769;
+//padding:10px;
+//object-fit:cover;
+//border-radius:50%;
 }
 
 #login-page{

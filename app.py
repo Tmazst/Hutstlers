@@ -70,10 +70,7 @@ encry_pw = Bcrypt(app)
 
 ser = Serializer(app.config['SECRET_KEY'])
 
-@app.context_processor
-def inject_ser():
-    ser = Serializer(app.config['SECRET_KEY']) # Define or retrieve the value for 'ser'
-    return dict(ser=ser)
+
 # migrate = Migrate(app,db)
 # basic_auth = BasicAuth(app)
 
@@ -131,8 +128,11 @@ def count_ads():
 
     return jobs
 
-
-    # db has binded the engine's database file
+@app.context_processor
+def inject_ser():
+    ser = Serializer(app.config['SECRET_KEY']) # Define or retrieve the value for 'ser'
+    count_jobs = count_ads()
+    return dict(ser=ser,count_jobs=count_jobs)
 
 
 def save_pic(picture, size_x=300, size_y=300):
@@ -184,7 +184,7 @@ def add_header(response):
 # Web
 @app.route("/",methods=["POST","GET"])
 def home():
-    count_jobs = count_ads()
+
     try:
         companies_ls = company_user.query.all()
         comp_len = len(companies_ls)
@@ -195,9 +195,9 @@ def home():
         # id_ = request.args.get()
 
     for cmp in companies_ls:
-        print("Check Links: ", cmp.fb_link)
+        pass
 
-    return render_template("index.html", img_1='', img_2='', img_3='', companies_ls=companies_ls, comp_len=comp_len,count_jobs =count_jobs,ser=ser)
+    return render_template("index.html", img_1='', img_2='', img_3='', companies_ls=companies_ls, comp_len=comp_len,ser=ser)
 
 
 @app.route("/sign_up", methods=["POST", "GET"])
