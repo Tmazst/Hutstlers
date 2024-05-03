@@ -1,23 +1,23 @@
 
 
 
-//Fixed Sticky
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  var scrollingElement = document.getElementById("nav-div");
-  // Distance from the top of the document to the top of the scrolling element
-  var elementOffset = scrollingElement.offsetTop;
-  // Viewport (window) top position
-  var windowTop = window.pageYOffset || document.documentElement.scrollTop;
-
-  if (windowTop > elementOffset) {
-    scrollingElement.style.position = "fixed";
-    scrollingElement.style.top = "0";
-  } else {
-    scrollingElement.style.position = "relative";
-  }
-}
+////Fixed Sticky
+//window.onscroll = function() {scrollFunction()};
+//
+//function scrollFunction() {
+//  var scrollingElement = document.getElementById("nav-div");
+//  // Distance from the top of the document to the top of the scrolling element
+//  var elementOffset = scrollingElement.offsetTop;
+//  // Viewport (window) top position
+//  var windowTop = window.pageYOffset || document.documentElement.scrollTop;
+//
+//  if (windowTop > elementOffset) {
+//    scrollingElement.style.position = "fixed";
+//    scrollingElement.style.top = "0";
+//  } else {
+//    scrollingElement.style.position = "relative";
+//  }
+//}
 
 
 //Navigation Dropdown
@@ -92,6 +92,59 @@ function calculateDays() {
 }
 
 calculateDays();
+
+
+
+
+// Function to handle the scroll event
+function handleScroll() {
+
+      console.log("Scroll Called1");
+      // Get the navigation menu element
+      const navigation = document.getElementById('nav-div-cont');
+
+      // Store the last known scroll position
+      let lastScrollTop = 0;
+
+      // Get the height of the window
+      const windowHeight = window.innerHeight;
+
+      // Get the current scroll position
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+      // Determine the scroll direction
+      const scrollDirection = currentScroll > lastScrollTop ? 'down' : 'up';
+
+//      console.log("Scroll Direction",currentScroll,scrollDirection);
+      console.log("windowHeight + currentScroll",windowHeight + currentScroll);
+      console.log("document.body.offsetHeight",document.body.offsetHeight);
+
+      // If the user is scrolling down and the navigation is not already at the bottom
+      if (scrollDirection === 'down' && (windowHeight + currentScroll) >= document.body.offsetHeight-3000) {
+        console.log("Scroll Called",currentScroll,scrollDirection);
+        navigation.style.position = 'fixed';
+        navigation.style.bottom = '0';
+      } else {
+        navigation.style.position = 'static';
+      }
+
+      // Update the known scroll position
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+
+}
+
+window.onscroll = function() {handleScroll()};
+// Add the scroll event listener
+//window.addEventListener('scroll', handleScroll);
+
+
+
+
+
+
+
+
+
 
 
 //function checkDate(){
