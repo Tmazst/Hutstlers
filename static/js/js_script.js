@@ -120,7 +120,7 @@ function handleScroll() {
       console.log("document.body.offsetHeight",document.body.offsetHeight);
 
       // If the user is scrolling down and the navigation is not already at the bottom
-      if (scrollDirection === 'down' && (windowHeight + currentScroll) >= document.body.offsetHeight-3000) {
+      if (scrollDirection === 'down' && (windowHeight + currentScroll) >= document.body.offsetHeight-4000) {
         console.log("Scroll Called",currentScroll,scrollDirection);
         navigation.style.position = 'fixed';
         navigation.style.bottom = '0';
