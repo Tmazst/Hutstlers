@@ -28,16 +28,18 @@ class user(db.Model,UserMixin):
     email = db.Column(db.String(120),unique=True)
     password = db.Column(db.String(120), unique=True)
     token = db.Column(db.String(255), unique=True,nullable=True)
-    # staysigned = db.Column(db.Boolean, default=False)
+    store_2fa_code=db.Column(db.Integer)
     confirm_password = db.Column(db.String(120), unique=True)
     verified = db.Column(db.Boolean, default=False)
     role = db.Column(db.String(120))
 
-    __mapper_args__={
+    __mapper_args__ = {
         "polymorphic_identity":'user',
         'polymorphic_on':role
     }
 
+# class store_otps(db.Model,UserMixin):
+#     user_id = db.Column(db.Integer,pri)
 class job_user(user):
 
     __tablename__ = 'job_user'

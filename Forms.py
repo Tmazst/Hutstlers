@@ -32,6 +32,7 @@ class Login(FlaskForm):
     email = StringField('email', validators=[DataRequired(),Email()])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=64)])
     stay_signed = BooleanField("Stay Signed: ")
+    use_2fa_auth = BooleanField("Use 2-Factor-Authentication?: ")
     submit = SubmitField('Login')
 
 
@@ -43,7 +44,9 @@ class Contact_Form(FlaskForm):
     message = TextAreaField("Message",validators=[Length(min=8, max=2000)])
     submit = SubmitField("Send")
 
-
+class Two_FactorAuth_Form(FlaskForm):
+    use_2fa_auth_input = StringField("Paste 2FA Code Here: ")
+    submit = SubmitField('Continue')
 
 
 class Update_account_form(FlaskForm):

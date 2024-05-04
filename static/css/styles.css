@@ -161,6 +161,7 @@ a{
     //background-color:orange;
     align-items:center;
     transition:ease 1s;
+    backdrop-filter: blur(20px);
 }
 
 #nav-div-cont{
@@ -172,7 +173,6 @@ a{
 }
 
 
-/*Test-start/
 
 /* Dropdown Button */
 .dropbtn {

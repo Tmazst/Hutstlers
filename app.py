@@ -1,12 +1,12 @@
 import secrets
-
+import random
 from flask import Flask, render_template, url_for, redirect, request, flash, session, make_response, send_from_directory
 # from flask_basicauth import BasicAuth
 # from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
-from Forms import Register, Login, Contact_Form, Update_account_form, Reset, Reset_Request
+from Forms import Register, Login, Contact_Form, Update_account_form, Reset, Reset_Request, Two_FactorAuth_Form
 from Tokeniser import Tokenise
 from flask_mail import Mail, Message
 from Advert_Forms import Job_Ads_Form, Company_Register_Form, Company_Login, Company_UpdateAcc_Form, Freelance_Ads_Form, \
@@ -15,6 +15,8 @@ import os
 from PIL import Image
 from sqlalchemy import exc,desc
 import rsa
+# from flask_security import Security,SQLAlchemyUserDatastore
+import pyotp
 # ......for local DB
 import MySQLdb
 from sqlalchemy import text
@@ -41,14 +43,12 @@ app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # Local
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
-
-
-if os.environ.get('ENV') == 'LOCAL':
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
-else:
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# if os.environ.get('ENV') == 'LOCAL':
+#     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+# else:
+#     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
 
@@ -70,9 +70,19 @@ encry_pw = Bcrypt(app)
 
 ser = Serializer(app.config['SECRET_KEY'])
 
+# security = Security(app)
 
 # migrate = Migrate(app,db)
 # basic_auth = BasicAuth(app)
+
+
+#Yet To Be Tested
+app.config['SECURITY_TWO_FACTOR_ENABLED_METHODS']=['mail','sms']
+app.config['SECURITY_TWO_FACTOR_SECRET']='jhs&h$$sbUE_&WI*(*7hK5S'
+
+#2FA Auth
+otp_key = pyotp.random_base32()
+
 
 class user_class:
     s = None
@@ -315,10 +325,15 @@ def login():
 
             else:
                 if user_login and encry_pw.check_password_hash(user_login.password, login.password.data):
-                    login_user(user_login)
+                    if login.use_2fa_auth:
+                        two_factor_auth(user_login.id)
+                    else:
+                        print("DEBUG 2FA: ",login.use_2fa_auth)
+                        login_user(user_login)
                     # Query DB if User is verified; #Models' user class
                     if not user_login.verified:
-                        return redirect(url_for('verification'))
+                        user_id_ = user_login.id
+                        return redirect(url_for('verification',arg=user_id_))
                     else:
                         # After login required prompt, take me to the page I requested earlier
                         req_page = request.args.get('next')
@@ -329,6 +344,65 @@ def login():
 
     return render_template('login_form.html', title='Login', login=login)
 
+def generate_6_digit_code():
+    return str(random.randint(100000,999999))
+
+@app.route('/2fa',methods=['POST', 'GET'])
+def two_factor_auth(user_id):
+    otp = pyotp.TOTP(otp_key)
+    user_obj = user.query.get(user_id)
+    code = generate_6_digit_code()
+    two_fa_form = Two_FactorAuth_Form()
+
+    if request.method == 'POST':
+        otp_code= two_fa_form.use_2fa_auth_input.data
+        send_two_factor_code(user_obj.id,otp_code)
+    def send_link():
+        app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+        app.config["MAIL_PORT"] = 587
+        app.config["MAIL_USE_TLS"] = True
+        em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
+        app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
+
+        mail = Mail(app)
+
+        msg = Message("The Hustlers Time 2-FA", sender=em, recipients=[user_obj.email])
+        msg.body = f""" Copy the Login Code Below & Paste to login using the 2-Factor Authentication Method. Please note
+         that the Code is Valid for 30 seconds.
+         
+        Your 2-Factor Code: {otp.now()}
+
+"""
+
+        try:
+            mail.send(msg)
+            flash("Your Message has been Successfully Sent!!", "success")
+            user_obj.use_2fa_auth = otp_key
+            return "Email Sent"
+        except Exception as e:
+            flash(f'Ooops Something went wrong!! Please Retry', 'error')
+            return "The mail was not sent"
+
+    send_link()
+
+    return render_template('2_facto_form.html',two_fa_form=two_fa_form)
+
+
+@app.route('/2fa')
+def send_two_factor_code(user_id,otp_code):
+    otp = pyotp.TOTP(otp_key)
+    user_obj = user.query.get(user_id)
+    code = generate_6_digit_code()
+
+    verfy = pyotp.TOTP(user_obj.store_2fa_code)
+
+    try:
+        if verfy.verify(otp_code):
+            req_page = request.args.get('next')
+            flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
+            return redirect(req_page) if req_page else redirect(url_for('home'))
+    except:
+        return 'Something Wrong Happened or Code time may have expired, Press re-send code'
 
 @app.before_request
 def load_user_from_cookie():
@@ -1362,15 +1436,16 @@ def verified(token):
     return render_template('verified.html')
 
 
-@app.route("/verification", methods=["POST", "GET"])
+@app.route("/verification/<arg>", methods=["POST", "GET"])
 # User email verification @login
 # @login the user will register & when the log in the code checks if the user is verified first...
-def verification():
+def verification(arg):
     # Manage DB tables
     db.create_all()
-
+    if arg:
+        usr_ = user.query.get(arg)
     def send_veri_mail():
-        if current_user.is_authenticated:
+        if arg:
 
             app.config["MAIL_SERVER"] = "smtp.googlemail.com"
             app.config["MAIL_PORT"] = 587
@@ -1383,43 +1458,20 @@ def verification():
 
             mail = Mail(app)
 
-            token = user_class().get_reset_token(current_user.id)
 
-            # try:
-            #     usr_verified = user.query.get(current_user.id)
-            #     token = encry_pw.generate_password_hash(current_user.email + str(current_user.id)).decode("utf-8")
-            #     if not usr_verified:
-            #
-            #         store_hash = Email_Verifications(generated_hash = token, time_stamp = datetime.utcnow())
-            #         print('HASH: ',token)
-            #
-            #         # db.session.rollback()
-            #         db.session.add(store_hash)
-            #         db.session.commit()
-            #     else:
-            #         usr_verified.generated_hash = token;
-
-            # except Exception as e:
-            #     flash("Something is wrong, Please try again later", 'error')
-            #     print("ERROR: ", e)
-            #
-            #     return redirect(url_for('verification'))
-
-            # user_class().get_reset_token(current_user.id)
+            token = user_class().get_reset_token(arg)
             usr_email = current_user.email
-            # print("Debug Token: ", token)
-            # print("DEBUG CURRENT USER EMAIL: ",current_user.email)
-            # print("DEBUG CURRENT DEFAULT EMAIL: ", em)
+
 
             msg = Message(subject="Email Verification", sender="no-reply@gmail.com", recipients=[usr_email])
 
-            msg.body = f"""Hi, {current_user.name}
+            msg.body = f"""Hi, {usr_.name}
             
-Please follow the link below to verify your email with The Hustlers Time:
-
-Verification link;
-{url_for('verified', token=token, _external=True)}
-"""
+            Please follow the link below to verify your email with The Hustlers Time:
+            
+            Verification link;
+            {url_for('verified', token=token, _external=True)}
+            """
             try:
                 mail.send(msg)
                 flash(f'An email has been sent with a verification link to your email account', 'success')
@@ -1427,11 +1479,14 @@ Verification link;
             except Exception as e:
                 flash(f'Email not sent here', 'error')
                 return "The mail was not sent"
-
-    if not current_user.verified:
-        send_veri_mail()
-    else:
-        return redirect(url_for("home"))
+    try:
+        if not usr_.verified:
+            send_veri_mail()
+        else:
+            return redirect(url_for("home"))
+    except:
+        flash(f'Debug {usr_.email}', 'error')
+        return redirect(url_for("login"))
 
     return render_template('verification.html',ser=ser)
 
