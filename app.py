@@ -41,9 +41,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
 # if os.environ.get('ENV') == 'LOCAL':
 #     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
@@ -325,20 +325,40 @@ def login():
 
             else:
                 if user_login and encry_pw.check_password_hash(user_login.password, login.password.data):
-                    if login.use_2fa_auth:
-                        two_factor_auth(user_login.id)
-                    else:
-                        print("DEBUG 2FA: ",login.use_2fa_auth)
+                    if not request.form.get("use_2fa_auth") == 'y' and user_login.verified:
                         login_user(user_login)
-                    # Query DB if User is verified; #Models' user class
-                    if not user_login.verified:
-                        user_id_ = user_login.id
-                        return redirect(url_for('verification',arg=user_id_))
-                    else:
                         # After login required prompt, take me to the page I requested earlier
                         req_page = request.args.get('next')
                         flash(f"Hey! {user_login.name.title()} You're Logged In!", "success")
                         return redirect(req_page) if req_page else redirect(url_for('home'))
+                        # print("DEBUG 2FA is not Checked: ", login.use_2fa_auth)
+                        # print("...but Account is Verified: ", login.use_2fa_auth)
+                    elif request.form.get("use_2fa_auth") == 'y' and user_login.verified:
+
+                        send_opt(user_login.id)
+                        two_fa_form = Two_FactorAuth_Form()
+                        # two_factor_auth(user_login.id)
+                        # return render_template('2_facto_form.html',two_fa_form=two_fa_form)
+
+
+                    elif request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
+                        # print("DEBUG 2FA is Checked: ",login.use_2fa_auth)
+                        # print("....but Not Verified: ", user_login.verified)
+                        user_id_ = user_login.id
+                        return redirect(url_for('verification',arg=user_id_))
+                    elif not request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
+                        # print("DEBUG 2FA is not Checked: ", login.use_2fa_auth)
+                        # print("....and Not Verified: ", user_login.verified)
+                        user_id_ = user_login.id
+                        return redirect(url_for('verification', arg=user_id_))
+
+                    # Query DB if User is verified; #Models' user class
+                    # if not user_login.verified:
+                    #     user_id_ = user_login.id
+                    #     return '' #redirect(url_for('verification',arg=user_id_))
+                    # else:
+                    #     return f'Something Wrong'
+
                 else:
                     flash(f"Login Unsuccessful, please use correct email or password", "error")
 
@@ -346,46 +366,50 @@ def login():
 
 def generate_6_digit_code():
     return str(random.randint(100000,999999))
+def send_opt(user_id):
+
+    otp = pyotp.TOTP(otp_key)
+    user_obj = user.query.get(user_id)
+
+    print("DEBUG Two factor in Email")
+    app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+    app.config["MAIL_PORT"] = 587
+    app.config["MAIL_USE_TLS"] = True
+    em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
+    app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
+
+    mail = Mail(app)
+
+    msg = Message("The Hustlers Time 2-FA", sender=em, recipients=[user_obj.email])
+    msg.body = f""" Copy the Login Code Below & Paste to login using the 2-Factor Authentication Method. Please note
+     that the Code is Valid for 30 seconds.
+
+    Your 2-Factor Code: {otp.now()}
+
+    """
+
+    try:
+        mail.send(msg)
+        flash("Your 2 Factor Auth Code is sent to your Email!!", "success")
+        user_obj.use_2fa_auth = otp_key
+        return "Email Sent"
+    except Exception as e:
+        flash(f'Ooops Something went wrong!! Please Retry', 'error')
+        return "The mail was not sent"
 
 @app.route('/2fa',methods=['POST', 'GET'])
 def two_factor_auth(user_id):
     otp = pyotp.TOTP(otp_key)
     user_obj = user.query.get(user_id)
-    code = generate_6_digit_code()
+    # code = generate_6_digit_code()
     two_fa_form = Two_FactorAuth_Form()
 
     if request.method == 'POST':
+        print("DEBUG Two factor in Post")
         otp_code= two_fa_form.use_2fa_auth_input.data
         send_two_factor_code(user_obj.id,otp_code)
-    def send_link():
-        app.config["MAIL_SERVER"] = "smtp.googlemail.com"
-        app.config["MAIL_PORT"] = 587
-        app.config["MAIL_USE_TLS"] = True
-        em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
-        app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
 
-        mail = Mail(app)
-
-        msg = Message("The Hustlers Time 2-FA", sender=em, recipients=[user_obj.email])
-        msg.body = f""" Copy the Login Code Below & Paste to login using the 2-Factor Authentication Method. Please note
-         that the Code is Valid for 30 seconds.
-         
-        Your 2-Factor Code: {otp.now()}
-
-"""
-
-        try:
-            mail.send(msg)
-            flash("Your Message has been Successfully Sent!!", "success")
-            user_obj.use_2fa_auth = otp_key
-            return "Email Sent"
-        except Exception as e:
-            flash(f'Ooops Something went wrong!! Please Retry', 'error')
-            return "The mail was not sent"
-
-    send_link()
-
-    return render_template('2_facto_form.html',two_fa_form=two_fa_form)
+        return render_template('2_facto_form.html',two_fa_form=two_fa_form)
 
 
 @app.route('/2fa')

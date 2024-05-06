@@ -99,7 +99,7 @@ calculateDays();
 // Function to handle the scroll event
 function handleScroll() {
 
-      console.log("Scroll Called1");
+//      console.log("Scroll Called1");
       // Get the navigation menu element
       const navigation = document.getElementById('nav-div-cont');
 
@@ -115,9 +115,7 @@ function handleScroll() {
       // Determine the scroll direction
       const scrollDirection = currentScroll > lastScrollTop ? 'down' : 'up';
 
-//      console.log("Scroll Direction",currentScroll,scrollDirection);
-      console.log("windowHeight + currentScroll",windowHeight + currentScroll);
-      console.log("document.body.offsetHeight",document.body.offsetHeight);
+
        if (window.innerWidth <= 768){
           // If the user is scrolling down and the navigation is not already at the bottom
           if (scrollDirection === 'down' && (windowHeight + currentScroll) >= document.body.offsetHeight-4000) {
