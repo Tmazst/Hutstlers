@@ -17,6 +17,7 @@
 
     <!----FORM----->
     <div class="portfolio-row">
+        {% if job_usr %}
     <div id="" style="min-width:350px;"  class="form_container_ browse-job">
 
                   <div style="" class="form-group">
@@ -80,12 +81,66 @@
                    </div>
                   </div>
             </div>
+            {% endif %}
 
             <div  style="min-width:350px;padding:20px"  class="form_container_ browse-job">
                 <div class="portfolio-div">
                     <h2>Portfolio / Consecutive</h2>
+                        <div class="portfolio-cont">
+<!--                             To list the job opening the user has filled since joining THT to-date-->
+                            {% if portfolio_approved_jobs %}
+                                {% for ea_job in portfolio_approved_jobs%}
+                                <div class="jobs-list">
+    <!--                                for job in jobs-->
+                                    <div class="resume-details">
+                                        <div class="resume-summary">
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Employer: </span>user.query.get(id=ea_job)</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Position: </span> 6 Months</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Placement Date: </span> 06/04/24 </small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Contract/Duration: </span> 6 Months</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Current Position: </span> 6 Months</small></div>
+                                        </div>
+                                        <small class="labels-resu">
+                                            It is a long-established fact that a reader will be distracted by the readable content of a page
+                                            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
+                                            distribution of letters, as opposed to using 'Content here, content here', making it look like
+                                            readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as t
+                                            heir default model text, and a search for 'lorem ipsum' will uncover many websites still in their infancy.
+                                            Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                                        </small>
+                                    </div>
 
+                                    <div class="resume-details">
+                                        <div class="resume-summary">
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Employer: </span> 1 year 3 Months</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Position: </span> 6 Months</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Contract/Duration: </span> 6 Months</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Current Position: </span> 6 Months</small></div>
+                                        </div>
+                                        <small class="labels-resu">
+                                            It is a long established fact that a reader will be distracted by the readable content of a page
+                                            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
+                                            distribution of letters, as opposed to using 'Content here, content here', making it look like
+                                            readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as t
+                                            heir default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
+                                            Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                                        </small>
 
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                                <div class="resume-summary">
+                                    <div><small style="background-color:" class="labels-resu"><span class="labels-span">Work Experience (Acc.):</span> 1 year 3 Months</small></div>
+                                    <div><small style="background-color:" class="labels-resu"><span class="labels-span">Accounting: </span> 6 Months</small></div>
+                                    <div><small style="background-color:" class="labels-resu"><span class="labels-span">Secretariat: </span> 6 Months</small></div>
+                                    <small style="background-color:" class="labels-resu"><span class="labels-span">Position:</span> Virtual Assistant - Accounting</small>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="">
+
+                        </div>
                     </div>
             </div>
     </div>

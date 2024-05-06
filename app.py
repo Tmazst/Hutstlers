@@ -831,6 +831,11 @@ def send_endof_term_form():
         if current_user.is_authenticated:
             # Get user details through their email
             job_user_obj = user.query.filter_by(id=ser.loads(request.args.get('id'))['data7']).first()
+
+            usr_close_curr_job = hired.query.filter_by(usr_cur_job=1, hired_user_id=job_user_obj.id).first()
+            if usr_close_curr_job:
+                usr_close_curr_job.usr_cur_job = 0
+
             # usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
 
             if job_user_obj:
@@ -895,6 +900,7 @@ def job_feedback(token):
                     usr_id=job_user_obj,
                     portfolio_feedback=feedback_form.job_feedback.data,
                     date_employed=user_hired.hired_date,
+                    approved=False,
                     job_details=user_hired.job_details  # Use job_posted_by to get company details
                 )
 
@@ -950,10 +956,11 @@ def approve_report(token):
     # Get user'identity
     approve_user_rp = user_class().verify_reset_token(token)
     # Check the users entry that is not yet approved
-    usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp.id, approved=True).first()
+    usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp.id, approved=False).first()
+
 
     if request.method == 'POST':
-        usr_portfolio_entry.approved = False  # The company has approved the end of term form, it will not be changed again
+        usr_portfolio_entry.approved = True  # The company has approved the end of term form, it will not be changed again
 
         db.session.commit()
 
@@ -1397,14 +1404,22 @@ def users():
 
 @app.route("/user_viewed", methods=["GET", "POST"])
 def view_user():
-    if request.method == 'GET':
-        uid = ser.loads(request.args['id'])['data6']
+
+    uid = ser.loads(request.args['id'])['data6']
+    portfolio_model = users_tht_portfolio.query.filter_by(usr_id=uid).all()
+    portfolio_approved_jobs = users_tht_portfolio.query.filter_by(approved=True).all()
+    #The placement that is not marked as approved, assuming is still open / the user is still working
+    portfolio_current_job = users_tht_portfolio.query.filter_by(approved=False).first()
+
+    if request.method == 'POST':
+
 
         job_usr = user.query.get(uid)
 
         # print("Job Ad Title: ",job_ad.job_title)
 
-    return render_template('user_viewed.html', job_usr=job_usr, db=db, company_user=company_user,ser=ser)
+    return render_template('user_viewed.html', job_usr=None, db=db, company_user=None,portfolio_approved_jobs=portfolio_approved_jobs
+                           ,ser=ser,portfolio_current_job=portfolio_current_job)
 
 
 @app.route("/verified/<token>", methods=["POST", "GET"])
