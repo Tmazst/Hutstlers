@@ -1481,7 +1481,7 @@ def view_user():
 
         # print("Job Ad Title: ",job_ad.job_title)
 
-    return render_template('user_viewed.html', job_usr=None, db=db, company_user=None,portfolio_approved_jobs=portfolio_approved_jobs
+    return render_template('user_viewed.html', job_usr=job_usr, db=db, company_user=company_user,portfolio_approved_jobs=portfolio_approved_jobs
                            ,ser=ser,current_job=portfolio_current_job,company_usr=company_usr,job_ad=job_ad)
 
 
