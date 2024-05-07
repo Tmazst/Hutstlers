@@ -29,6 +29,7 @@ class user(db.Model,UserMixin):
     password = db.Column(db.String(120), unique=True)
     token = db.Column(db.String(255), unique=True,nullable=True)
     store_2fa_code=db.Column(db.Integer)
+    time_stamp=db.Column(db.DateTime())
     confirm_password = db.Column(db.String(120), unique=True)
     verified = db.Column(db.Boolean, default=False)
     role = db.Column(db.String(120))

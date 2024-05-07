@@ -230,7 +230,7 @@ def sign_up():
             # If the webpage has made a post e.g. form post
             hashd_pwd = encry_pw.generate_password_hash(register.password.data).decode('utf-8')
             user1 = job_user(name=register.name.data, email=register.email.data, password=hashd_pwd,
-                             confirm_password=hashd_pwd, image="default.jpg")
+                             confirm_password=hashd_pwd, image="default.jpg",time_stamp=datetime.utcnow().strftime("%Y-%b-%d %H:%M"))
 
             try:
                 db.session.add(user1)
