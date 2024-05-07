@@ -925,8 +925,8 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
         """
                     try:
                         mail.send(msg)
-                        flash(f'You have sent an email of the "/End of Term Form/" to {job_user_obj.name}',
-                              'success')
+                        # flash(f'You have sent an email of the "/End of Term Form/" to {job_user_obj.name}',
+                        #       'success')
                         return "Email Sent"
                     except Exception as e:
                         flash('Ooops, Something went wrong Please Retry!!', 'error')
@@ -945,70 +945,69 @@ def job_feedback(token):
     feedback_form = Job_Feedback_Form()
 
     if request.method == 'POST':
-        try:
-            # the_freelancer = users_tht_portfolio.query.get(current_user.id)
-            flash(f"Trying to Verify, Please wait", "success")
-            job_user_obj = user_class().verify_reset_token(token)
-            # Check current job where the current user is engaged on
-            criteria = {job_user_obj: current_user.id}
-            user_hired = hired.query.filter_by(hired_user_id=current_user.id,
-                                               usr_cur_job=1).first()  # usr_cur_job=1 checks which job placement is the user currently place on (their current job will maked by 1/True
-            company = user.query.get(Jobs_Ads.query.get(user_hired.job_details).job_posted_by)
-            # session.query(entity).filter_by(**criteria)
-            # createria = {current_user.id}
-            # curr_job = hired.query.filter_by=)
-            if job_user_obj and user_hired:
-                portfolio_details = users_tht_portfolio(
-                    usr_id=job_user_obj,
-                    portfolio_feedback=feedback_form.job_feedback.data,
-                    date_employed=user_hired.hired_date,
-                    approved=False,
-                    job_details=user_hired.job_details  # Use job_posted_by to get company details
-                )
+        # try:
+        the_freelancer = users_tht_portfolio.query.get(current_user.id)
+        flash(f"Trying to Verify, Please wait", "success")
+        job_user_obj = user_class().verify_reset_token(token)
+        # Check current job where the current user is engaged on
+        criteria = {job_user_obj: current_user.id}
+        user_hired = hired.query.filter_by(hired_user_id=current_user.id,
+                                           usr_cur_job=1).first()  # usr_cur_job=1 checks which job placement is the user currently place on (their current job will maked by 1/True
+        company = user.query.get(Jobs_Ads.query.get(user_hired.job_details).job_posted_by)
+        # session.query(entity).filter_by(**criteria)
+        # createria = {current_user.id}
+        # curr_job = hired.query.filter_by=)
+        if job_user_obj and user_hired:
+            portfolio_details = users_tht_portfolio(
+                usr_id=job_user_obj,
+                portfolio_feedback=feedback_form.job_feedback.data,
+                date_employed=user_hired.hired_date,
+                approved=False,
+                job_details=user_hired.job_details  # Use job_posted_by to get company details
+            )
 
-                db.session.add(portfolio_details)
-                db.session.commit()
+            db.session.add(portfolio_details)
+            db.session.commit()
 
-                flash(f"Updated Successfully!", "success")
+            flash(f"Updated Successfully!", "success")
 
-                def send_link(job_user_obj):
-                    app.config["MAIL_SERVER"] = "smtp.googlemail.com"
-                    app.config["MAIL_PORT"] = 587
-                    app.config["MAIL_USE_TLS"] = True
-                    em = app.config["MAIL_USERNAME"] = os.getenv("EMAIL")
-                    app.config["MAIL_PASSWORD"] = os.getenv("PWD")
+            def send_link():
+                app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+                app.config["MAIL_PORT"] = 587
+                app.config["MAIL_USE_TLS"] = True
+                em = app.config["MAIL_USERNAME"] = os.getenv("EMAIL")
+                app.config["MAIL_PASSWORD"] = os.getenv("PWD")
 
-                    mail = Mail(app)
+                mail = Mail(app)
 
-                    token = user_class().get_reset_token(company.id)
-                    msg = Message("RE:End of Term Form", sender="noreply@demo.com",
-                                  recipients=[company.email])
-                    msg.body = f"""Good day, 
-    
-    Please received my 'End of Term' report. Upon approving the infromation contained in it, please click 'approve' button to confirm.
-    Visit the following link to approve:{url_for('approve_report', token=token, _external=True)}
-    
-    Thank you for being part of my future endeavors, I hope to meet you again.
-                                """
+                token = user_class().get_reset_token(company.id)
+                msg = Message("RE:End of Term Form", sender="noreply@demo.com",
+                              recipients=[company.email])
+                msg.body = f"""Good day, 
 
-                    try:
-                        mail.send(msg)
-                        flash(
-                            f'You have sent an email of the "/End of Term Form/" to {user.query.get(user_hired.id)} for approval',
-                            'success')
-                        return "Email Sent"
-                    except Exception as e:
+                Please received my 'End of Term' report. Upon approving the information contained in it, please click 'approve' button to confirm.
+                Visit the following link to approve:{url_for('approve_report', token=token, _external=True)}
+                
+                Thank you for being part of my future endeavors, I hope to meet you again.
+                            """
 
-                        flash('Ooops, Something went wrong Please Retry!!', 'error')
-                        return "The mail was not sent"
+                try:
+                    mail.send(msg)
+                    flash(
+                        f'You have sent an email of the "/End of Term Form/" to {user.query.get(user_hired.id)} for approval',
+                        'success')
+                    return "Email Sent"
+                except Exception as e:
+                    flash('Ooops, Something went wrong Please Retry!!', 'error')
+                    return "The mail was not sent"
 
-                        # Send the pwd reset request to the above email
+                    # Send the pwd reset request to the above email
 
-                send_link(job_user_obj)
+            send_link()
 
-        except Exception as e:
-            flash(f"Something went wrong please try again later, : {e}", "error")
-            return "The mail was not sent"
+        # except Exception as e:
+        #     flash(f"Something went wrong please try again later, : {e}", "error")
+        #     return "The mail was not sent"
 
     return render_template("job_feedback.html", feedback_form=feedback_form)
 
@@ -1546,10 +1545,10 @@ def verification(arg):
 
             msg.body = f"""Hi, {usr_.name}
             
-            Please follow the link below to verify your email with The Hustlers Time:
+Please follow the link below to verify your email with The Hustlers Time:
             
-            Verification link;
-            {url_for('verified', token=token, _external=True)}
+Verification link;
+{url_for('verified', token=token, _external=True)}
             """
             try:
                 mail.send(msg)
