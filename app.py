@@ -1,5 +1,6 @@
 import secrets
 import random
+import requests
 from flask import Flask, render_template, url_for, redirect, request, flash, session, make_response, send_from_directory
 # from flask_basicauth import BasicAuth
 # from alchemy_db import engine
@@ -333,19 +334,28 @@ def login():
                         return redirect(req_page) if req_page else redirect(url_for('home'))
                         # print("DEBUG 2FA is not Checked: ", login.use_2fa_auth)
                         # print("...but Account is Verified: ", login.use_2fa_auth)
+
                     elif request.form.get("use_2fa_auth") == 'y' and user_login.verified:
 
-                        send_opt(user_login.id)
+                        # send_opt(user_login.id)
                         two_fa_form = Two_FactorAuth_Form()
-                        # two_factor_auth(user_login.id)
+                        print("Requesting a Page")
+                        # requests.get('http://127.0.0.1:5000/two_factor_auth')
+                        return redirect(url_for('send_opt',user_id=user_login.id, two_fa_form=two_fa_form))
+                        # if request.method == 'GET':
+                        #     print("DEBUG Two factor in Get")
+                        #     otp_code = two_fa_form.use_2fa_auth_input.data
+                        #     send_two_factor_code(user_login.id, otp_code)
+                        #
+                        # # two_factor_auth(user_login.id)
                         # return render_template('2_facto_form.html',two_fa_form=two_fa_form)
-
 
                     elif request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
                         # print("DEBUG 2FA is Checked: ",login.use_2fa_auth)
                         # print("....but Not Verified: ", user_login.verified)
                         user_id_ = user_login.id
                         return redirect(url_for('verification',arg=user_id_))
+
                     elif not request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
                         # print("DEBUG 2FA is not Checked: ", login.use_2fa_auth)
                         # print("....and Not Verified: ", user_login.verified)
@@ -366,12 +376,21 @@ def login():
 
 def generate_6_digit_code():
     return str(random.randint(100000,999999))
+
+class Otp_Obj:
+    otp_attr = None;
+
+@app.route('/send_2fa/<user_id>',methods=['POST', 'GET'])
 def send_opt(user_id):
 
     otp = pyotp.TOTP(otp_key)
+    generated_otp = otp.now()
+    Otp_Obj.otp_attr = otp
     user_obj = user.query.get(user_id)
+    two_fa_form = Two_FactorAuth_Form()
 
-    print("DEBUG Two factor in Email")
+    print("DEBUG Two factor in Email 1")
+
     app.config["MAIL_SERVER"] = "smtp.googlemail.com"
     app.config["MAIL_PORT"] = 587
     app.config["MAIL_USE_TLS"] = True
@@ -382,46 +401,65 @@ def send_opt(user_id):
 
     msg = Message("The Hustlers Time 2-FA", sender=em, recipients=[user_obj.email])
     msg.body = f""" Copy the Login Code Below & Paste to login using the 2-Factor Authentication Method. Please note
-     that the Code is Valid for 30 seconds.
+    that the Code is Valid for 30 seconds.
 
-    Your 2-Factor Code: {otp.now()}
+    Your 2-Factor Code:  {generated_otp}
+
 
     """
 
     try:
-        mail.send(msg)
+        # mail.send(msg)
         flash("Your 2 Factor Auth Code is sent to your Email!!", "success")
         user_obj.use_2fa_auth = otp_key
-        return "Email Sent"
+        db.session.commit()
+        print("2 FA : ",otp.now())
+        return redirect(url_for('two_factor_auth', user_id=user_id, two_fa_form=two_fa_form))
+
     except Exception as e:
         flash(f'Ooops Something went wrong!! Please Retry', 'error')
         return "The mail was not sent"
 
-@app.route('/2fa',methods=['POST', 'GET'])
+@app.route('/2fa/<user_id>',methods=['POST', 'GET'])
 def two_factor_auth(user_id):
-    otp = pyotp.TOTP(otp_key)
+
     user_obj = user.query.get(user_id)
     # code = generate_6_digit_code()
     two_fa_form = Two_FactorAuth_Form()
 
     if request.method == 'POST':
-        print("DEBUG Two factor in Post")
         otp_code= two_fa_form.use_2fa_auth_input.data
-        send_two_factor_code(user_obj.id,otp_code)
+        otp = Otp_Obj.otp_attr.verify(otp_code)
+        print("DEBUG send_two_factor_code OTP_CODE: ", otp)
+        verfy = pyotp.TOTP(otp_key) #user_obj.store_2fa_code)
 
-        return render_template('2_facto_form.html',two_fa_form=two_fa_form)
+        print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
+        # try:
+        print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
+        if otp:
+            print("DEBUG send_two_factor_code Verified")
+        # except:
+        print("DEBUG send_two_factor_code FAILED")
+        # send_two_factor_code(user_obj.id,otp_code)
+        print("DEBUG Two factor in pOST ")
 
 
-@app.route('/2fa')
+    return render_template('2_facto_form.html',two_fa_form=two_fa_form)
+
+
+# @app.route('/send_2fa')
 def send_two_factor_code(user_id,otp_code):
     otp = pyotp.TOTP(otp_key)
     user_obj = user.query.get(user_id)
     code = generate_6_digit_code()
-
+    print("DEBUG send_two_factor_code ")
     verfy = pyotp.TOTP(user_obj.store_2fa_code)
 
     try:
+        print("DEBUG send_two_factor_code Trying to Verify",verfy.verify(otp_code))
         if verfy.verify(otp_code):
+            print("DEBUG send_two_factor_code Verified")
+            login_user(user_obj)
             req_page = request.args.get('next')
             flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
             return redirect(req_page) if req_page else redirect(url_for('home'))
@@ -1430,20 +1468,21 @@ def users():
 def view_user():
 
     uid = ser.loads(request.args['id'])['data6']
+    company_usr = company_user
+    job_ad = Jobs_Ads
     portfolio_model = users_tht_portfolio.query.filter_by(usr_id=uid).all()
     portfolio_approved_jobs = users_tht_portfolio.query.filter_by(approved=True).all()
     #The placement that is not marked as approved, assuming is still open / the user is still working
-    portfolio_current_job = users_tht_portfolio.query.filter_by(approved=False).first()
+    portfolio_current_job = hired.query.filter_by(usr_cur_job=1,hired_user_id=uid).first()
 
     if request.method == 'POST':
-
 
         job_usr = user.query.get(uid)
 
         # print("Job Ad Title: ",job_ad.job_title)
 
     return render_template('user_viewed.html', job_usr=None, db=db, company_user=None,portfolio_approved_jobs=portfolio_approved_jobs
-                           ,ser=ser,portfolio_current_job=portfolio_current_job)
+                           ,ser=ser,current_job=portfolio_current_job,company_usr=company_usr,job_ad=job_ad)
 
 
 @app.route("/verified/<token>", methods=["POST", "GET"])
