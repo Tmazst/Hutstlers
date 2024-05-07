@@ -22,21 +22,22 @@
         <div  style="width:60%;margin-left:30px;" ><hr></div>
 
         <div style="padding-left:50px" class="form-group">
-               {{cv.hidden_tag()}}
+               {{usr_portfolio.hidden_tag()}}
                <h2 class="media-h2"> Work Experience Generator Form </h2>
 
-        <p>Hey! Users after finishing the current(latest) Job Contract or Post, All users are required to fill an 'End of Term Form' </p>
-        <p>This info will be converted into the Work Experience Profile in your account to place you at competitive advantage in the job market</p>
+        <p>Please Confirm & Approve the 'End of Term Form' </p>
+        <small>If the information entered below is not correct or corresponding, the applicant may be required to re-send a new request</small>
 
         <div style="padding-left:50px"  class="form-group">
                  <h2 class="media-h2"> Exposure & Work Experience Acquired </h2>
                   {{ usr_portfolio.portfolio_feedback}}
                     <form _lpchecked="1" action="" method="post">
                     <div class="form-group">
-                        <input class="btns" type="submit" value="Approved" />
+                        {{ feedback_form.submit(class="btns")}}
+<!--                        <input class="btns" type="submit" value="Approved" />-->
                     </div>
                     </form>
-                {{ feedback_form.submit(class="btns",placeholder="Name & Contact(s)")}}
+
         </div>
 
         </form>

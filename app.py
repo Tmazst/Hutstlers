@@ -957,10 +957,11 @@ def job_feedback(token):
                               recipients=[company.email])
                 msg.body = f"""Good day, 
 
-                Please received my 'End of Term' report. Upon approving the information contained in it, please click 'approve' button to confirm.
-                Visit the following link to approve:{url_for('approve_report', token=token, _external=True)}
-                
-                Thank you for being part of my future endeavors, I hope to meet you again.
+Please received my 'End of Term' report. Upon approving the information contained in it, please click 'approve' button to confirm.
+Visit the following link to approve:{url_for('approve_report', token=token, _external=True)}
+
+Thank you for being part of my future endeavors, I hope to meet you again.
+
                             """
 
                 try:
