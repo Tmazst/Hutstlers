@@ -916,7 +916,6 @@ def job_feedback(token):
 
     feedback_form = Job_Feedback_Form()
 
-
     if request.method == 'POST':
         # try:
         the_freelancer = users_tht_portfolio.query.get(current_user.id)
@@ -982,8 +981,7 @@ def job_feedback(token):
         # except Exception as e:
         #     flash(f"Something went wrong please try again later, : {e}", "error")
         #     return "The mail was not sent"
-    else:
-        return f"Only Job Applicants Can Access this Page"
+
 
     return render_template("job_feedback.html", feedback_form=feedback_form)
 
