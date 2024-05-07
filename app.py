@@ -1474,10 +1474,11 @@ def view_user():
     portfolio_approved_jobs = users_tht_portfolio.query.filter_by(approved=True).all()
     #The placement that is not marked as approved, assuming is still open / the user is still working
     portfolio_current_job = hired.query.filter_by(usr_cur_job=1,hired_user_id=uid).first()
+    job_usr = user.query.get(uid)
 
     if request.method == 'POST':
+        pass
 
-        job_usr = user.query.get(uid)
 
         # print("Job Ad Title: ",job_ad.job_title)
 
