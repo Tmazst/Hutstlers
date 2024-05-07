@@ -993,10 +993,12 @@ def approve_report(token):
     # Get user'identity
     approve_form = Approved_Form()
     approve_user_rp = user_class().verify_reset_token(token)
+    if approve_user_rp:
+        usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp, approved=False).first()
     if current_user.is_authenticated and current_user.role == 'company_user':
 
         # Check the users entry that is not yet approved
-        usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp, approved=False).first()
+
 
         if request.method == 'POST' and usr_portfolio_entry:
             usr_portfolio_entry.approved = True  # The company has approved the end of term form, it will not be changed again
