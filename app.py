@@ -967,7 +967,7 @@ def job_feedback(token):
                 try:
                     mail.send(msg)
                     flash(
-                        f'You have sent an email of the "/End of Term Form/" to {user.query.get(user_hired.id)} for approval',
+                        f'You have sent an email of the "/End of Term Form/" to {company.email} for approval',
                         'success')
                     return "Email Sent"
                 except Exception as e:
@@ -978,7 +978,7 @@ def job_feedback(token):
 
             send_link()
         else:
-            flash(f"Something went wrong please try again later, : {job_user_obj} {user_hired}", "error")
+            flash(f"Something went wrong please try again later, ", "error")
         # except Exception as e:
         #     flash(f"Something went wrong please try again later, : {e}", "error")
         #     return "The mail was not sent"
