@@ -22,19 +22,18 @@
         <div  style="width:60%;margin-left:30px;" ><hr></div>
 
         <div style="padding-left:50px" class="form-group">
-               {{usr_portfolio.hidden_tag()}}
                <h2 class="media-h2"> Work Experience Generator Form </h2>
 
         <p>Please Confirm & Approve the 'End of Term Form' </p>
         <small>If the information entered below is not correct or corresponding, the applicant may be required to re-send a new request</small>
-
+            {{approve_form.hidden_tag()}}
         <div style="padding-left:50px"  class="form-group">
                  <h2 class="media-h2"> Exposure & Work Experience Acquired </h2>
                   {{ usr_portfolio.portfolio_feedback}}
                     <form _lpchecked="1" action="" method="post">
                     <div class="form-group">
-                        {{ feedback_form.submit(class="btns")}}
-<!--                        <input class="btns" type="submit" value="Approved" />-->
+                        <input class="btns" type="submit" value="Approved" />
+                        {{approve_form.submit(class=btns)}}
                     </div>
                     </form>
 

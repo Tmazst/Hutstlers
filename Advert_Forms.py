@@ -127,6 +127,10 @@ class Work_Feedback(FlaskForm):
     comment = TextAreaField('Work Feedback:', validators=[DataRequired(), Length(min=10, max=1000)])
     submit = SubmitField('Submit')
 
+class Approved_Form(FlaskForm):
+
+    submit = SubmitField('Approve')
+
 class Freelance_Section(FlaskForm):
     title = StringField('Title:', validators=[DataRequired(), Length(min=5, max=100)])
     experience = StringField('Years of Experience(Optional):', validators=[DataRequired(), Length(min=10, max=60)])

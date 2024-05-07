@@ -11,7 +11,7 @@ from Forms import Register, Login, Contact_Form, Update_account_form, Reset, Res
 from Tokeniser import Tokenise
 from flask_mail import Mail, Message
 from Advert_Forms import Job_Ads_Form, Company_Register_Form, Company_Login, Company_UpdateAcc_Form, Freelance_Ads_Form, \
-    Freelance_Section, Job_Feedback_Form
+    Freelance_Section, Job_Feedback_Form, Approved_Form
 import os
 from PIL import Image
 from sqlalchemy import exc,desc
@@ -991,6 +991,7 @@ Thank you for being part of my future endeavors, I hope to meet you again.
 @login_required
 def approve_report(token):
     # Get user'identity
+    approve_form = Approved_Form()
     approve_user_rp = user_class().verify_reset_token(token)
     if current_user.is_authenticated and current_user.role == 'company_user':
 
@@ -1009,7 +1010,7 @@ def approve_report(token):
 
 
     return render_template('approve_report.html', approve_user_rp=approve_user_rp,
-                           usr_portfolio_entry=usr_portfolio_entry)
+                           usr_portfolio_entry=usr_portfolio_entry,approve_form=approve_form)
 
 
 @app.route("/freelancers_form")
