@@ -1004,7 +1004,8 @@ def job_feedback(token):
                     # Send the pwd reset request to the above email
 
             send_link()
-
+        else:
+            flash(f"Something went wrong please try again later, : {job_user_obj} {user_hired}", "error")
         # except Exception as e:
         #     flash(f"Something went wrong please try again later, : {e}", "error")
         #     return "The mail was not sent"

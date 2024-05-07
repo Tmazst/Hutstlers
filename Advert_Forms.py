@@ -105,8 +105,6 @@ class Company_UpdateAcc_Form(FlaskForm):
     company_submit = SubmitField('Update')
 
 class Company_Login(FlaskForm):
-
-
     company_email = StringField('Company email', validators=[DataRequired(),Email()])
     company_password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=64)])
     company_submit = SubmitField('Login')
