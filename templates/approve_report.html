@@ -29,11 +29,11 @@
             {{approve_form.hidden_tag()}}
         <div style="padding-left:50px"  class="form-group">
                  <h2 class="media-h2"> Exposure & Work Experience Acquired </h2>
-                  {{ usr_portfolio_entry.portfolio_feedback}}
+                <small>{{ usr_portfolio_entry.portfolio_feedback}}</small>
                     <form _lpchecked="1" action="" method="post">
                     <div class="form-group">
                         <input class="btns" type="submit" value="Approved" />
-                        {{approve_form.submit(class=btns)}}
+                        {{approve_form.submit(class="btns")}}
                     </div>
                     </form>
 
