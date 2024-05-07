@@ -312,6 +312,8 @@ def login():
 
         if login.validate_on_submit():
             user_login = user.query.filter_by(email=login.email.data).first()
+
+            arg_token = user_class().get_reset_token(user_login.id)
             # Stay sign in
             if user_login:
                 session['user_id'] = user_login.id
@@ -339,7 +341,6 @@ def login():
 
                         # send_opt(user_login.id)
                         two_fa_form = Two_FactorAuth_Form()
-                        print("Requesting a Page")
                         # requests.get('http://127.0.0.1:5000/two_factor_auth')
                         return redirect(url_for('send_opt',user_id=user_login.id, two_fa_form=two_fa_form))
                         # if request.method == 'GET':
@@ -354,13 +355,13 @@ def login():
                         # print("DEBUG 2FA is Checked: ",login.use_2fa_auth)
                         # print("....but Not Verified: ", user_login.verified)
                         user_id_ = user_login.id
-                        return redirect(url_for('verification',arg=user_id_))
+                        return redirect(url_for('verification',arg=arg_token))
 
                     elif not request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
                         # print("DEBUG 2FA is not Checked: ", login.use_2fa_auth)
                         # print("....and Not Verified: ", user_login.verified)
                         user_id_ = user_login.id
-                        return redirect(url_for('verification', arg=user_id_))
+                        return redirect(url_for('verification', arg=arg_token))
 
                     # Query DB if User is verified; #Models' user class
                     # if not user_login.verified:
@@ -791,38 +792,9 @@ def eidt_job_ads_form():
         if jo_id:
             jo_id_cls.id_ = jo_id
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id)['data_11']).first()
-            # jo_id_cls.id_ = jo_id
-            # job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id)['data_11']).first()
-            # # start_date, end_date = datetime.strptime(job_ad.work_duration.split(" "), "%Y-%m-%d")
-            # if job_ad.work_duration:
-            #     strt_date = job_ad.work_duration.split(" ")[0]
-            #     d_date = job_ad.work_duration.split(" ")[1]
-            #     start_date = datetime.strptime(strt_date, "%Y-%m-%d")
-            #     end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
-            # else:
-            #     start_date = None;
-            #     end_date = None;
-
-            # posted_by = user.query.get(job_ad.job_posted_by).name
 
         else:
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
-            # # if job_ad_form.validate_on_submit():
-            # print("CHECKID 2:", jo_id_cls.id_)
-            #
-            # job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
-            # posted_by = user.query.get(job_ad.job_posted_by).name
-            # if job_ad.work_duration:
-            #     strt_date = job_ad.work_duration.split(" ")[0]
-            #     d_date = job_ad.work_duration.split(" ")[1]
-            #     start_date = datetime.strptime(strt_date, "%Y-%m-%d")
-            #     end_date = datetime.strptime(d_date.strip(), "%Y-%m-%d")
-            # else:
-            #     start_date = None;
-            #     end_date = None;
-
-
-        # print("Start Date: ",str(job_ad_form.start_date.data))
 
     return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad)
 
@@ -935,7 +907,7 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
                 # Send the pwd reset request to the above email
                 send_link(job_user_obj)
 
-                return f'/"End of Term Form/" successfully sent to {job_user_obj.name}'
+                return f' [End of Term Form] successfully sent to {job_user_obj.name}'
 
 
 @app.route("/job_feedback_form/<token>", methods=['POST', 'GET'])
@@ -944,6 +916,7 @@ def job_feedback(token):
 
     feedback_form = Job_Feedback_Form()
 
+
     if request.method == 'POST':
         # try:
         the_freelancer = users_tht_portfolio.query.get(current_user.id)
@@ -951,9 +924,10 @@ def job_feedback(token):
         job_user_obj = user_class().verify_reset_token(token)
         # Check current job where the current user is engaged on
         criteria = {job_user_obj: current_user.id}
-        user_hired = hired.query.filter_by(hired_user_id=current_user.id,
+        user_hired = hired.query.filter_by(hired_user_id=job_user_obj.id,
                                            usr_cur_job=1).first()  # usr_cur_job=1 checks which job placement is the user currently place on (their current job will maked by 1/True
-        company = user.query.get(Jobs_Ads.query.get(user_hired.job_details).job_posted_by)
+        if user_hired:
+            company = user.query.get(Jobs_Ads.query.get(user_hired.job_details).job_posted_by)
         # session.query(entity).filter_by(**criteria)
         # createria = {current_user.id}
         # curr_job = hired.query.filter_by=)
@@ -1538,7 +1512,7 @@ def verification(arg):
             mail = Mail(app)
 
 
-            token = user_class().get_reset_token(arg)
+            token =  arg #user_class().get_reset_token(arg)
             usr_email = usr_.email
 
 
