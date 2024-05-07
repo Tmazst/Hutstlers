@@ -872,7 +872,7 @@ def send_endof_term_form():
 
             # usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
 
-            if job_user_obj:
+            if usr_close_curr_job:
                 def send_link(job_user_obj):
                     app.config["MAIL_SERVER"] = "smtp.googlemail.com"
                     app.config["MAIL_PORT"] = 587
@@ -921,19 +921,18 @@ def job_feedback(token):
         # try:
         the_freelancer = users_tht_portfolio.query.get(current_user.id)
         flash(f"Trying to Verify, Please wait", "success")
-        job_user_obj = user_class().verify_reset_token(token)
+        job_user_id = user_class().verify_reset_token(token)
         # Check current job where the current user is engaged on
-        criteria = {job_user_obj: current_user.id}
-        user_hired = hired.query.filter_by(hired_user_id=job_user_obj.id,
+        user_hired = hired.query.filter_by(hired_user_id=current_user.id,
                                            usr_cur_job=1).first()  # usr_cur_job=1 checks which job placement is the user currently place on (their current job will maked by 1/True
         if user_hired:
             company = user.query.get(Jobs_Ads.query.get(user_hired.job_details).job_posted_by)
         # session.query(entity).filter_by(**criteria)
         # createria = {current_user.id}
         # curr_job = hired.query.filter_by=)
-        if job_user_obj and user_hired:
+        if current_user.is_athenticated and user_hired:
             portfolio_details = users_tht_portfolio(
-                usr_id=job_user_obj,
+                usr_id=current_user.id,
                 portfolio_feedback=feedback_form.job_feedback.data,
                 date_employed=user_hired.hired_date,
                 approved=False,
