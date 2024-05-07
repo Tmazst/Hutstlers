@@ -1539,7 +1539,7 @@ def verification(arg):
 
 
             token = user_class().get_reset_token(arg)
-            usr_email = current_user.email
+            usr_email = usr_.email
 
 
             msg = Message(subject="Email Verification", sender="no-reply@gmail.com", recipients=[usr_email])
