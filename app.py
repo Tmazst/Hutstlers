@@ -917,7 +917,7 @@ def job_feedback(token):
     feedback_form = Job_Feedback_Form()
 
 
-    if request.method == 'POST' and current_user.role == 'job_user':
+    if request.method == 'POST':
         # try:
         the_freelancer = users_tht_portfolio.query.get(current_user.id)
         flash(f"Trying to Verify, Please wait", "success")
