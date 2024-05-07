@@ -930,7 +930,7 @@ def job_feedback(token):
         # session.query(entity).filter_by(**criteria)
         # createria = {current_user.id}
         # curr_job = hired.query.filter_by=)
-        if current_user.is_athenticated and user_hired:
+        if current_user.is_authenticated and user_hired:
             portfolio_details = users_tht_portfolio(
                 usr_id=current_user.id,
                 portfolio_feedback=feedback_form.job_feedback.data,
