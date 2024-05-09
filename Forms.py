@@ -28,7 +28,6 @@ class Register(FlaskForm):
 
 class Login(FlaskForm):
 
-
     email = StringField('email', validators=[DataRequired(),Email()])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=64)])
     stay_signed = BooleanField("Stay Signed: ")
@@ -51,7 +50,6 @@ class Two_FactorAuth_Form(FlaskForm):
 
 class Update_account_form(FlaskForm):
 
-
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=40)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     image_pfl = FileField('Profile Image', validators=[FileAllowed(['jpg','png'])])
@@ -64,9 +62,9 @@ class Update_account_form(FlaskForm):
     hobbies = StringField('Interests (Optional)')
     address = StringField('Physical Address', validators=[DataRequired(), Length(min=8, max=120)])
     cv_file = FileField('Upload CV/Resume', validators=[FileAllowed(['pdf', 'docx'])])
-    reference_1 = TextAreaField('Reference (1)',
+    reference_1 = TextAreaField('Reference ',
                                 validators=[DataRequired(), Length(min=8, max=200)])
-    reference_2 = TextAreaField('Reference (2)',
+    reference_2 = TextAreaField('Reference',
                                 validators=[DataRequired(), Length(min=8, max=200)])
 
     def validate_email(self,email):

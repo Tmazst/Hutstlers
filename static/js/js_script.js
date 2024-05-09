@@ -153,7 +153,46 @@ window.onscroll = function() {handleScroll()};
 
 
 
+let loginButton = document.getElementById("login_btn");
+let twoFactorAuthCheckbox = document.getElementById("2fa_check_box");
 
+// Event listener for the login button click
+loginButton.addEventListener('click', function() {
+  if (twoFactorAuthCheckbox.checked) {
+    startOTPTimer();
+  }
+});
+
+// Event listener for the 2FA checkbox change
+twoFactorAuthCheckbox.addEventListener('change', function() {
+  if (this.checked && loginButton.clicked) {
+    startOTPTimer();
+  }
+});
+
+
+function startOTPTimer() {
+  const otpExpirySeconds = 60; // Adjust this value based on your OTP expiry time
+  const countdownElement = document.getElementById('aut2fa_countdwon');
+
+  let timeLeft = otpExpirySeconds;
+
+  function updateCountdown() {
+    const minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    countdownElement.innerText = `${minutes}:${seconds}`;
+    timeLeft--;
+
+    if (timeLeft < 0) {
+      clearInterval(countdownInterval);
+      countdownElement.innerText = 'OTP Expired';
+    }
+  }
+
+  updateCountdown(); // Initial call
+  const countdownInterval = setInterval(updateCountdown, 1000);
+}
 
 
 

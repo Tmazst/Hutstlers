@@ -46,13 +46,13 @@
                              </div>
 
                             <div class="">
-                                {{ login.use_2fa_auth.label(style="font-weight:600;color:coral")}}{{ login.use_2fa_auth(style="")}}
+                                {{ login.use_2fa_auth.label(style="font-weight:600;color:coral")}}{{ login.use_2fa_auth(style="",id="2fa_check_box")}}
                                <!--<input type="password" class="form-control" id="password" name="passw" placeholder="Password">-->
                              </div><br><br>
 
                              <div style="margin:0 auto;" class="group group-flex">
                                      <div style="padding-left:;width:40%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
-                                         {{ login.submit(class="btns") }}
+                                         {{ login.submit(class="btns", id="login_btn") }}
                                          <!--<input class="btns" type="submit" value="Create Account" />-->
                                          <a  class="form-a links" href="reset_request">Forgot Password?</a>
 

@@ -384,7 +384,7 @@ class Quick_Gets:
 @app.route('/send_2fa',methods=['POST', 'GET']) #/<arg_token>
 def send_otp():
 
-    otp = pyotp.TOTP(otp_key)
+    otp = pyotp.TOTP(otp_key,interval=60)
     generated_otp = otp.now()
     # Otp_Obj.otp_attr = otp
     user_id = user_class().verify_reset_token(Quick_Gets.uid_token)
@@ -402,7 +402,7 @@ def send_otp():
 
     msg = Message("The Hustlers Time 2-FA", sender=em, recipients=[user_obj.email])
     msg.body = f""" Copy the Login Code Below & Paste to login using the 2-Factor Authentication Method. Please note
-    that the Code is Valid for 30 seconds.
+    that the Code is Valid for 60 seconds.
 
     Your 2-Factor Code:  {generated_otp}
 
