@@ -938,8 +938,12 @@ def job_feedback(token):
                 job_details=user_hired.job_details  # Use job_posted_by to get company details
             )
 
-            db.session.add(portfolio_details)
-            db.session.commit()
+            if not users_tht_portfolio.query.filter_by(usr_id=current_user.id,approved=False).first():
+                db.session.add(portfolio_details)
+                db.session.commit()
+            else:
+                flash(f"""Job Seekers Details could not be processed, This entry already exist in the system
+or The current might have a pending report that is not yet approved""", "success")
 
             flash(f"Updated Successfully!", "success")
 
@@ -994,6 +998,8 @@ def approve_report(token):
     approve_form = Approved_Form()
     approve_user_rp = user_class().verify_reset_token(token)
 
+    user_ = user.query.get(approve_user_rp)
+
     # if approve_user_rp:
     usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp, approved=False).first()
 
@@ -1013,7 +1019,7 @@ def approve_report(token):
 
 
     return render_template('approve_report.html', approve_user_rp=approve_user_rp,
-                           usr_portfolio_entry=usr_portfolio_entry,approve_form=approve_form)
+                           usr_portfolio_entry=usr_portfolio_entry,approve_form=approve_form,user_=user_)
 
 
 @app.route("/freelancers_form")

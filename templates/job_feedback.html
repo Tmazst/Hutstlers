@@ -2,7 +2,7 @@
 
 {% block content %}
 <!---------------FLASH------------------->
-<div class="flash-messages" class="btns">
+<div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for  category, message in messages %}
@@ -12,20 +12,17 @@
         {% endwith %}
 </div>
 
-
 <div style="margin-top:150px;" class="tags">
     
     <div class="account_container"><br><br>
-        <form _lpchecked="1" action="" method="post">
+
+        <form action="" method="post">
 
             <h3 style="font-size:25px;"> {{current_user.name.title()}}<br> <span class="spans" style="font-size:16px">{{current_user.email}}</span></h3>
-
-    <!--        <div  style="width:60%;margin-left:30px;" ><hr></div>-->
 
             <div style="padding-left:50px" class="form-group">
                 {{feedback_form.csrf_token}}
                 <h2 class="media-h2"> Work Experience Generator Form </h2>
-
                 <small>Hey! Users after finishing the current (latest) Job Contract or Post, All users are required to fill this 'End of Term Form' </small>
                 <small>This information will enhance your Work Experience Profile, giving you a competitive edge in the job market.</small><br><br>
             </div>
@@ -39,6 +36,7 @@
         </form>
 
     </div>
+
 </div>
 
 {% endblock %}
