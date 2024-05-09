@@ -139,6 +139,13 @@ def count_ads():
 
     return jobs
 
+
+# Custom URL generator function with _external=True by default
+def my_url_for(endpoint, **values):
+    return url_for(endpoint, _external=True, **values)
+
+app.jinja_env.globals['url_for'] = my_url_for
+
 @app.context_processor
 def inject_ser():
     ser = Serializer(app.config['SECRET_KEY']) # Define or retrieve the value for 'ser'
