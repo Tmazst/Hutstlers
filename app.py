@@ -382,7 +382,7 @@ class Quick_Gets:
     uid_token = None
 
 @app.route('/send_2fa',methods=['POST', 'GET']) #/<arg_token>
-def send_otp(arg_token):
+def send_otp():
 
     otp = pyotp.TOTP(otp_key)
     generated_otp = otp.now()
@@ -423,7 +423,7 @@ def send_otp(arg_token):
         return "The mail was not sent"
 
 @app.route('/2fa',methods=['POST', 'GET']) #/<arg_token>
-def two_factor_auth(arg_token):
+def two_factor_auth():
 
 
     # code = generate_6_digit_code()
