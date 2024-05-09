@@ -325,7 +325,7 @@ def login():
 
             if user_login:
                 arg_token = user_class().get_reset_token(user_login.id)
-                flash(f"Token {arg_token}", "success")
+                # flash(f"Token {arg_token}", "success")
             # else:
             #     flash(f"Something Wrong, Do you mean! {user_login.name.title()} ", "error")
             # Stay sign in
@@ -356,33 +356,18 @@ def login():
                         # send_opt(user_login.id)
                         two_fa_form = Two_FactorAuth_Form()
                         # requests.get('http://127.0.0.1:5000/two_factor_auth')
-                        return redirect(url_for('send_otp',user_id=user_login.id, two_fa_form=two_fa_form))
-                        # if request.method == 'GET':
-                        #     print("DEBUG Two factor in Get")
-                        #     otp_code = two_fa_form.use_2fa_auth_input.data
-                        #     send_two_factor_code(user_login.id, otp_code)
-                        #
-                        # # two_factor_auth(user_login.id)
-                        # return render_template('2_facto_form.html',two_fa_form=two_fa_form)
+                        return redirect(url_for('send_otp',user_id=arg_token, two_fa_form=two_fa_form))
 
                     elif request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
-                        # print("DEBUG 2FA is Checked: ",login.use_2fa_auth)
-                        # print("....but Not Verified: ", user_login.verified)
+
                         user_id_ = user_login.id
                         return redirect(url_for('verification',arg=arg_token))
 
                     elif not request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
-                        # print("DEBUG 2FA is not Checked: ", login.use_2fa_auth)
-                        # print("....and Not Verified: ", user_login.verified)
+
                         user_id_ = user_login.id
                         return redirect(url_for('verification', arg=arg_token))
 
-                    # Query DB if User is verified; #Models' user class
-                    # if not user_login.verified:
-                    #     user_id_ = user_login.id
-                    #     return '' #redirect(url_for('verification',arg=user_id_))
-                    # else:
-                    #     return f'Something Wrong'
 
                 else:
                     flash(f"Login Unsuccessful, please use correct email or password", "error")
@@ -395,16 +380,16 @@ def generate_6_digit_code():
 class Otp_Obj:
     otp_attr = None;
 
-@app.route('/send_2fa/<user_id>',methods=['POST', 'GET'])
-def send_otp(user_id):
+@app.route('/send_2fa/<arg_token>',methods=['POST', 'GET'])
+def send_otp(arg_token):
 
     otp = pyotp.TOTP(otp_key)
     generated_otp = otp.now()
     Otp_Obj.otp_attr = otp
+    user_id = user_class().verify_reset_token(arg_token)
     user_obj = user.query.get(user_id)
     two_fa_form = Two_FactorAuth_Form()
 
-    print("DEBUG Two factor in Email 1")
 
     app.config["MAIL_SERVER"] = "smtp.googlemail.com"
     app.config["MAIL_PORT"] = 587
@@ -424,24 +409,28 @@ def send_otp(user_id):
     """
 
     try:
-        # mail.send(msg)
+        mail.send(msg)
         flash(f"Your 2 Factor Auth Code: {generated_otp} is sent to your Email!!", "success")
         user_obj.store_2fa_code = otp_key
         db.session.commit()
         flash(f"Your 2 Factor Auth Key: {otp_key} is sent to your Email!!", "success")
         print("2 FA : ",otp.now())
-        return redirect(url_for('two_factor_auth', user_id=user_id, two_fa_form=two_fa_form,_external=True))
+        return redirect(url_for('two_factor_auth', user_id=arg_token, two_fa_form=two_fa_form,_external=True))
 
     except Exception as e:
         flash(f'Ooops Something went wrong!! Please Retry', 'error')
         return "The mail was not sent"
 
-@app.route('/2fa/<user_id>',methods=['POST', 'GET'])
-def two_factor_auth(user_id):
+@app.route('/2fa/<arg_token>',methods=['POST', 'GET'])
+def two_factor_auth(arg_token):
 
-    user_obj = user.query.get(user_id)
+
     # code = generate_6_digit_code()
     two_fa_form = Two_FactorAuth_Form()
+
+    user_id = user_class().verify_reset_token(arg_token)
+
+    user_obj = user.query.get(user_id)
 
     if request.method == 'POST':
         otp_code_input= two_fa_form.use_2fa_auth_input.data
