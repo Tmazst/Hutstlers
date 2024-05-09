@@ -153,51 +153,51 @@ window.onscroll = function() {handleScroll()};
 
 
 
+
+// Get references to the login button and the 2FA checkbox
 let loginButton = document.getElementById("login_btn");
 let twoFactorAuthCheckbox = document.getElementById("2fa_check_box");
 
 // Event listener for the login button click
 loginButton.addEventListener('click', function() {
-    log.console("Login Submitted")
-  if (twoFactorAuthCheckbox.checked) {
-    startOTPTimer();
-  }
+    console.log("Login Submitted"); // Corrected typo: Changed 'log' to 'console'
+    if (twoFactorAuthCheckbox.checked) {
+        startOTPTimer();
+    }
 });
 
 // Event listener for the 2FA checkbox change
 twoFactorAuthCheckbox.addEventListener('change', function() {
-  log.console("2 Factor Checked")
-  if (this.checked && loginButton.clicked) {
-    startOTPTimer();
-  }
+    console.log("2 Factor Checked"); // Corrected typo: Changed 'log' to 'console'
+    if (this.checked && loginButton.clicked) {
+        startOTPTimer();
+    }
 });
 
-
 function startOTPTimer() {
-  log.console("Contdown is Called")
-  const otpExpirySeconds = 60; // Adjust this value based on your OTP expiry time
-  const countdownElement = document.getElementById('aut2fa_countdwon');
+    console.log("Countdown is Called"); // Corrected typo: Changed 'Contdown' to 'Countdown'
+    const otpExpirySeconds = 60; // Adjust this value based on your OTP expiry time
+    const countdownElement = document.getElementById('aut2fa_countdown'); // Corrected typo: Changed 'aut2fa_countdwon' to 'aut2fa_countdown'
 
-  let timeLeft = otpExpirySeconds;
+    let timeLeft = otpExpirySeconds;
 
-  function updateCountdown() {
-    const minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-    countdownElement.innerText = `${minutes}:${seconds}`;
-    log.console("Contdown: ",countdownElement)
-    timeLeft--;
+    function updateCountdown() {
+        const minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        countdownElement.innerText = `${minutes}:${seconds}`;
+        console.log("Countdown: ", countdownElement); // Corrected typo: Changed 'Contdown' to 'Countdown'
+        timeLeft--;
 
-    if (timeLeft < 0) {
-      clearInterval(countdownInterval);
-      countdownElement.innerText = 'OTP Expired';
+        if (timeLeft < 0) {
+            clearInterval(countdownInterval);
+            countdownElement.innerText = 'OTP Expired';
+        }
     }
-  }
 
-  updateCountdown(); // Initial call
-  const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call
+    const countdownInterval = setInterval(updateCountdown, 1000);
 }
-
 
 
 
