@@ -349,7 +349,7 @@ def login():
                         # send_opt(user_login.id)
                         two_fa_form = Two_FactorAuth_Form()
                         # requests.get('http://127.0.0.1:5000/two_factor_auth')
-                        return redirect(url_for('send_opt',user_id=user_login.id, two_fa_form=two_fa_form))
+                        return redirect(url_for('send_otp',user_id=user_login.id, two_fa_form=two_fa_form))
                         # if request.method == 'GET':
                         #     print("DEBUG Two factor in Get")
                         #     otp_code = two_fa_form.use_2fa_auth_input.data
@@ -389,7 +389,7 @@ class Otp_Obj:
     otp_attr = None;
 
 @app.route('/send_2fa/<user_id>',methods=['POST', 'GET'])
-def send_opt(user_id):
+def send_otp(user_id):
 
     otp = pyotp.TOTP(otp_key)
     generated_otp = otp.now()
@@ -455,10 +455,11 @@ def two_factor_auth(user_id):
             return redirect(req_page) if req_page else redirect(url_for('home'))
 
         # except:
-        print("DEBUG send_two_factor_code FAILED")
+        flash(f"DEBUG 2 Factor OTP {otp}",'warning')
         # send_two_factor_code(user_obj.id,otp_code)
         print("DEBUG Two factor in pOST ")
-
+    else:
+        flash(f"POSt Request Failed", 'warning')
 
     return render_template('2_facto_form.html',two_fa_form=two_fa_form)
 
