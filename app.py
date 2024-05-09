@@ -308,12 +308,19 @@ def login():
 
     if current_user.is_authenticated:
         return redirect(url_for('home'))
+
     if request.method == 'POST':
 
         if login.validate_on_submit():
+
+
             user_login = user.query.filter_by(email=login.email.data).first()
 
-            arg_token = user_class().get_reset_token(user_login.id)
+            if user_login:
+                arg_token = user_class().get_reset_token(user_login.id)
+                flash(f"Token {arg_token}", "success")
+            # else:
+            #     flash(f"Something Wrong, Do you mean! {user_login.name.title()} ", "error")
             # Stay sign in
             if user_login:
                 session['user_id'] = user_login.id
@@ -412,7 +419,7 @@ def send_opt(user_id):
     try:
         # mail.send(msg)
         flash(f"Your 2 Factor Auth Code {user_obj.name} is sent to your Email!!", "success")
-        user_obj.use_2fa_auth = otp_key
+        user_obj.store_2fa_code = otp_key
         db.session.commit()
         print("2 FA : ",otp.now())
         return redirect(url_for('two_factor_auth', user_id=user_id, two_fa_form=two_fa_form))
@@ -429,16 +436,23 @@ def two_factor_auth(user_id):
     two_fa_form = Two_FactorAuth_Form()
 
     if request.method == 'POST':
-        otp_code= two_fa_form.use_2fa_auth_input.data
-        otp = Otp_Obj.otp_attr.verify(otp_code)
-        print("DEBUG send_two_factor_code OTP_CODE: ", otp)
-        verfy = pyotp.TOTP(otp_key) #user_obj.store_2fa_code)
+        otp_code_input= two_fa_form.use_2fa_auth_input.data
 
-        print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
-        # try:
-        print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
+        #user_obj.store_2fa_code key saved in the database
+        otp_obj = pyotp.TOTP(user_obj.store_2fa_code) #)
+
+        otp = otp_obj.verify(otp_code_input)
+        # print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
+        # # try:
+        # print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
         if otp:
             print("DEBUG send_two_factor_code Verified")
+            print("DEBUG send_two_factor_code Verified")
+            login_user(user_obj)
+            req_page = request.args.get('next')
+            flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
+            return redirect(req_page) if req_page else redirect(url_for('home'))
+
         # except:
         print("DEBUG send_two_factor_code FAILED")
         # send_two_factor_code(user_obj.id,otp_code)
