@@ -411,7 +411,7 @@ def send_opt(user_id):
 
     try:
         # mail.send(msg)
-        flash("Your 2 Factor Auth Code is sent to your Email!!", "success")
+        flash(f"Your 2 Factor Auth Code {otp_key} is sent to your Email!!", "success")
         user_obj.use_2fa_auth = otp_key
         db.session.commit()
         print("2 FA : ",otp.now())
