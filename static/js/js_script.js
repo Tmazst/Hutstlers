@@ -158,6 +158,7 @@ let twoFactorAuthCheckbox = document.getElementById("2fa_check_box");
 
 // Event listener for the login button click
 loginButton.addEventListener('click', function() {
+    log.console("Login Submitted")
   if (twoFactorAuthCheckbox.checked) {
     startOTPTimer();
   }
@@ -165,6 +166,7 @@ loginButton.addEventListener('click', function() {
 
 // Event listener for the 2FA checkbox change
 twoFactorAuthCheckbox.addEventListener('change', function() {
+  log.console("2 Factor Checked")
   if (this.checked && loginButton.clicked) {
     startOTPTimer();
   }
@@ -172,6 +174,7 @@ twoFactorAuthCheckbox.addEventListener('change', function() {
 
 
 function startOTPTimer() {
+  log.console("Contdown is Called")
   const otpExpirySeconds = 60; // Adjust this value based on your OTP expiry time
   const countdownElement = document.getElementById('aut2fa_countdwon');
 
@@ -182,6 +185,7 @@ function startOTPTimer() {
     let seconds = timeLeft % 60;
     seconds = seconds < 10 ? '0' + seconds : seconds;
     countdownElement.innerText = `${minutes}:${seconds}`;
+    log.console("Contdown: ",countdownElement)
     timeLeft--;
 
     if (timeLeft < 0) {
