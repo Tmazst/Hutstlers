@@ -33,7 +33,7 @@
                                     {% endfor %}
                                  {% endif %}
                                <!--<input type="use_2fa_auth_input" class="form-control" id="password" name="passw" placeholder="Password">-->
-                             </div> <small id="aut2fa_countdown"><span style="color:coral;font-weight:600">Code Expires in :</span> </small><br><br>
+                             </div> Code Expires in: <small style="color:coral;font-weight:600" id="aut2fa_countdown"> </small><br><br>
 
                             <div style="margin:0 auto;" class="group group-flex">
                                  <div style="padding-left:;width:40%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
@@ -61,7 +61,6 @@
 
 
         function startOTPTimer() {
-            console.log("Countdown is Called"); // Corrected typo: Changed 'Contdown' to 'Countdown'
             const otpExpirySeconds = 60; // Adjust this value based on your OTP expiry time
             const countdownElement = document.getElementById('aut2fa_countdown'); // Corrected typo: Changed 'aut2fa_countdwon' to 'aut2fa_countdown'
 
