@@ -357,7 +357,7 @@ def login():
                         two_fa_form = Two_FactorAuth_Form()
                         Quick_Gets.uid_token = arg_token
                         # requests.get('http://127.0.0.1:5000/two_factor_auth')
-                        return redirect(url_for('send_otp', two_fa_form=two_fa_form)) #user_id=arg_token,
+                        return redirect(url_for('send_otp',arg_token=arg_token, two_fa_form=two_fa_form)) #user_id=arg_token,
 
                     elif request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
                         Quick_Gets.uid_token = arg_token
@@ -381,13 +381,13 @@ class Quick_Gets:
     otp_attr = None
     uid_token = None
 
-@app.route('/send_2fa',methods=['POST', 'GET']) #/<arg_token>
-def send_otp():
+@app.route('/send_2fa/<arg_token>',methods=['POST', 'GET']) #/<arg_token>
+def send_otp(arg_token):
 
     otp = pyotp.TOTP(otp_key,interval=60)
     generated_otp = otp.now()
     # Otp_Obj.otp_attr = otp
-    user_id = user_class().verify_reset_token(Quick_Gets.uid_token)
+    user_id = user_class().verify_reset_token(arg_token)
     user_obj = user.query.get(user_id)
     two_fa_form = Two_FactorAuth_Form()
 
@@ -415,20 +415,20 @@ def send_otp():
         db.session.commit()
         flash(f"Your 2 Factor Auth Code is sent to your Email!!", "success")
         print("2 FA : ",otp.now())
-        return redirect(url_for('two_factor_auth', two_fa_form=two_fa_form,_external=True)) #
+        return redirect(url_for('two_factor_auth',arg_token=arg_token, two_fa_form=two_fa_form,_external=True)) #
 
     except Exception as e:
         flash(f'Ooops Something went wrong!! Please Retry', 'error')
         return "The mail was not sent"
 
-@app.route('/2fa',methods=['POST', 'GET']) #/<arg_token>
-def two_factor_auth():
+@app.route('/2fa/<arg_token>',methods=['POST', 'GET']) #/<arg_token>
+def two_factor_auth(arg_token):
 
 
     # code = generate_6_digit_code()
     two_fa_form = Two_FactorAuth_Form()
 
-    user_id = user_class().verify_reset_token(Quick_Gets.uid_token)
+    user_id = user_class().verify_reset_token(arg_token)
 
     user_obj = user.query.get(user_id)
 
