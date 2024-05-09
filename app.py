@@ -454,8 +454,6 @@ def two_factor_auth(user_id):
         # # try:
         # print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
         if otp:
-            print("DEBUG send_two_factor_code Verified")
-            print("DEBUG send_two_factor_code Verified")
             login_user(user_obj)
             req_page = request.args.get('next')
             flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")

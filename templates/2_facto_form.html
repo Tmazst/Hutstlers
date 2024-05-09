@@ -33,23 +33,19 @@
                                     {% endfor %}
                                  {% endif %}
                                <!--<input type="use_2fa_auth_input" class="form-control" id="password" name="passw" placeholder="Password">-->
-                             </div><br><br>
+                             </div> <small>Note: Code Valid for 30 seconds</small><br><br>
 
-                             <div style="margin:0 auto;" class="group group-flex">
-                                     <div style="padding-left:;width:40%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
-                                         {{ two_fa_form.submit(class="btns") }}
-                                         <a  class="form-a links" href="reset_request">Re-send Code?</a>
-                                         <!--<input class="btns" type="submit" value="Create Account" />-->
+                            <div style="margin:0 auto;" class="group group-flex">
+                                 <div style="padding-left:;width:40%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
+                                     {{ two_fa_form.submit(class="btns") }}
+                                     <a  class="form-a links" href="reset_request">Re-send Code?</a>
+                                     <!--<input class="btns" type="submit" value="Create Account" />-->
 <!--                                         <a  class="form-a links" href="/2fa">Re-send Code?</a>-->
-
-                                    </div>
-                                    <div style="text-align:right;width:40%;background-color:339ab3;" class="">
-                                        <small>Note: Code Valid for 30 seconds</small>
-                                    </div>
-
-                             </div>
-
-
+                                </div>
+                                <div style="text-align:right;width:40%;background-color:339ab3;" class="">
+                                    <a  class="form-a links" href="{{redirect(url_for('login', _external='True'))}}"><-- Back to Login</a>
+                                </div>
+                            </div>
 
                         </form>
                     </div>
