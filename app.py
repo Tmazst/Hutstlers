@@ -438,6 +438,8 @@ def two_factor_auth(arg_token):
         otp_obj = pyotp.TOTP(otp_key) #)
 
         otp = otp_obj.verify(otp_code_input)
+
+        flash(f"DEBUG 2 Factor OTP: {otp} Input: {otp_code_input}  Key {user_obj.store_2fa_code}", 'warning')
         # print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
         # # try:
         # print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
@@ -448,7 +450,7 @@ def two_factor_auth(arg_token):
             return redirect(req_page) if req_page else redirect(url_for('home'))
 
         # except:
-        flash(f"DEBUG 2 Factor OTP: {otp} Input: {otp_code_input}  Key {user_obj.store_2fa_code}",'warning')
+
         # send_two_factor_code(user_obj.id,otp_code)
         print("DEBUG Two factor in pOST ")
     else:
