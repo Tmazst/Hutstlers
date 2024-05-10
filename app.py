@@ -83,8 +83,8 @@ app.config['SECURITY_TWO_FACTOR_ENABLED_METHODS']=['mail','sms']
 app.config['SECURITY_TWO_FACTOR_SECRET']='jhs&h$$sbUE_&WI*(*7hK5S'
 
 #2FA Auth
-otp_key = 'ZAUVODX3RXZCW2TFLBHWX2FAM7AN4A3N'
-otp = pyotp.TOTP(otp_key,interval=120)
+otp_key = pyotp.random_base32()
+otp = pyotp.TOTP(otp_key, interval=60)
 
 
 class user_class:
@@ -383,6 +383,7 @@ class Quick_Gets:
 def send_otp(arg_token):
 
     # Generate an OTP (One-Time Password) for the current time
+
     generated_otp = otp.now()
 
     user_id = user_class().verify_reset_token(arg_token)
@@ -408,9 +409,9 @@ that the Code is Valid for 60 seconds.
 
     try:
         mail.send(msg)
-        user_obj.store_2fa_code = otp_key
-        db.session.commit()
-        flash(f"Your 2 Factor Auth Code is key:{otp_key} code: {generated_otp}sent to your Email!!", "success")
+        # user_obj.store_2fa_code = otp_key
+        # db.session.commit()
+        flash(f"Your 2 Factor Auth Code is sent to your Email!!", "success")
         # print("2 FA : ",otp.now())
         return redirect(url_for('two_factor_auth',arg_token=arg_token,_external=True)) #
 
@@ -437,7 +438,6 @@ def two_factor_auth(arg_token):
 
         is_valid_otp = otp.verify(otp_code_input)
 
-        flash(f"DEBUG 2 Factor OTP: {is_valid_otp} Input: {otp_code_input}  Key {otp_key}", 'warning')
         # print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
         # # try:
         # print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
@@ -446,7 +446,8 @@ def two_factor_auth(arg_token):
             req_page = request.args.get('next')
             flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
             return redirect(req_page) if req_page else redirect(url_for('home'))
-
+        else:
+            flash(f"Code Not Valid", "error")
         # except:
 
         # send_two_factor_code(user_obj.id,otp_code)
