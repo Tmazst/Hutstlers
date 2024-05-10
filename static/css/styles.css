@@ -40,8 +40,8 @@ h1,h2,h3{
 }
 
 body{
-    max-width:100% !important;
-    box-sizing: border-box;
+    //max-width:100% !important;
+    //box-sizing: border-box;
     margin:0 auto;
     font-family:Montserrat !important;
     padding:0;
