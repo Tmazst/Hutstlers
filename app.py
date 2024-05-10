@@ -446,7 +446,7 @@ def two_factor_auth(arg_token):
             flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
             return redirect(req_page) if req_page else redirect(url_for('home'))
         else:
-            flash(f"Code Not Valid {is_valid_otp}", "error")
+            flash(f"Code Not Valid", "error")
         # except:
 
         # send_two_factor_code(user_obj.id,otp_code)
