@@ -364,7 +364,6 @@ def login():
                         return redirect(url_for('verification',arg=arg_token))
 
                     elif not request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
-
                         user_id_ = user_login.id
                         return redirect(url_for('verification', arg=arg_token))
 
@@ -413,7 +412,7 @@ def send_otp(arg_token):
         mail.send(msg)
         user_obj.store_2fa_code = otp_key
         db.session.commit()
-        flash(f"Your 2 Factor Auth Code is sent to your Email!!", "success")
+        flash(f"Your 2 Factor Auth Code is Key: {otp_key}sent to your Email!!", "success")
         print("2 FA : ",otp.now())
         return redirect(url_for('two_factor_auth',arg_token=arg_token, two_fa_form=two_fa_form,_external=True)) #
 
@@ -449,7 +448,7 @@ def two_factor_auth(arg_token):
             return redirect(req_page) if req_page else redirect(url_for('home'))
 
         # except:
-        flash(f"DEBUG 2 Factor OTP {otp}",'warning')
+        flash(f"DEBUG 2 Factor OTP: {otp} Input: {otp_code_input}  Key {user_obj.store_2fa_code}",'warning')
         # send_two_factor_code(user_obj.id,otp_code)
         print("DEBUG Two factor in pOST ")
     else:
