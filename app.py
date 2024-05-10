@@ -422,7 +422,6 @@ that the Code is Valid for 60 seconds.
 @app.route('/2fa/<arg_token>',methods=['POST', 'GET']) #/<arg_token>
 def two_factor_auth(arg_token):
 
-
     # code = generate_6_digit_code()
     two_fa_form = Two_FactorAuth_Form()
 
@@ -447,13 +446,12 @@ def two_factor_auth(arg_token):
             flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
             return redirect(req_page) if req_page else redirect(url_for('home'))
         else:
-            flash(f"Code Not Valid", "error")
+            flash(f"Code Not Valid {is_valid_otp}", "error")
         # except:
 
         # send_two_factor_code(user_obj.id,otp_code)
         print("DEBUG Two factor in pOST ")
-    else:
-        flash(f"POSt Request Failed", 'warning')
+
 
     return render_template('2_facto_form.html',two_fa_form=two_fa_form,_external=True)
 
