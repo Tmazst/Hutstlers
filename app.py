@@ -412,7 +412,7 @@ def send_otp(arg_token):
         mail.send(msg)
         user_obj.store_2fa_code = otp_key
         db.session.commit()
-        flash(f"Your 2 Factor Auth Code is code: {generated_otp}sent to your Email!!", "success")
+        flash(f"Your 2 Factor Auth Code is {otp_key} code: {generated_otp}sent to your Email!!", "success")
         print("2 FA : ",otp.now())
         return redirect(url_for('two_factor_auth',arg_token=arg_token,_external=True)) #
 
@@ -439,7 +439,7 @@ def two_factor_auth(arg_token):
 
         otp = otp_obj.verify(otp_code_input)
 
-        flash(f"DEBUG 2 Factor OTP: {otp} Input: {otp_code_input}  Key {user_obj.store_2fa_code}", 'warning')
+        flash(f"DEBUG 2 Factor OTP: {otp} Input: {otp_code_input}  Key {otp_key}", 'warning')
         # print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
         # # try:
         # print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
