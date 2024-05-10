@@ -101,7 +101,7 @@
 <!--            </div>-->
 
 
-            <div style="background-color:red;" class="user">
+            <div class="user">
                 <ul class="navbar-nav-user">
                 {% if current_user.is_authenticated %}
 
@@ -117,8 +117,11 @@
                 {% endif %}
                 </ul>
             </div>
-        </div>
 
+        </div>
+    {% if current_user.is_authenticated %}
+        <div style="" class="user_captions user-acc-captions"><small>Welcome, {{current_user.name}}</small></div>
+    {% endif %}
 
     {% if current_user.is_authenticated and current_user.role== 'company_user' %}
 <!--        SIDE NAV --->
@@ -158,7 +161,7 @@
 <!--    </div>-->
 
 </head>
-<body style="background-color:;width:100vw;overflow:auto;position:relative">
+<body style="background-color:red;width:100%;overflow:auto;position:relative">
 
 <!--    <div class="mobile-top-space"></div>-->
     <div style="margin-left:10px;width:100%" class="blocks">
