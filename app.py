@@ -383,7 +383,7 @@ class Quick_Gets:
 @app.route('/send_2fa/<arg_token>',methods=['POST', 'GET']) #/<arg_token>
 def send_otp(arg_token):
 
-    otp = pyotp.TOTP(otp_key,interval=60)
+    otp = pyotp.TOTP(otp_key)
     generated_otp = otp.now()
     # Otp_Obj.otp_attr = otp
     user_id = user_class().verify_reset_token(arg_token)
