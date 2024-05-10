@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <!---------------FLASH------------------->
-<div class="flash-messages">
+<div style="margin:0 auto;" class="flash-messages">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for  category, message in messages %}
@@ -14,7 +14,7 @@
 <div style="margin-top:150px;" class="tags">
 
     <div class="account_container">
-        <h3 style="font-size:25px;margin-left:50px;margin-bottom:0;"> {{current_user.name.title()}} <br> <span class="spans" style="font-size:16px">{{current_user.email}}</span></h3>
+        <h3 style="font-size:25px;margin-left:55px;margin-bottom:0;"> {{current_user.name.title()}} <br> <span class="spans" style="font-size:16px">{{current_user.email}}</span></h3>
         <div  style="width:60%;margin-left:30px;" ><hr></div>
         <div style="padding-left:50px" class="form-group">
             <h2 class="media-h2"> Work Experience Generator Form </h2>
