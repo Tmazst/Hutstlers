@@ -1010,22 +1010,16 @@ def approve_report(token):
     # if approve_user_rp:
     usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp, approved=False).first()
 
-    flash(f"DEBUG USER PORTFoLIO; UID: {usr_portfolio_entry.usr_id} Approved: {usr_portfolio_entry.approved}")
+    # flash(f"DEBUG USER PORTFoLIO; UID: {usr_portfolio_entry.usr_id} Approved: {usr_portfolio_entry.approved}")
 
     if current_user.is_authenticated and current_user.role == 'company_user':
-
-        # Check the users entry that is not yet approved
 
         if request.method == 'POST' and usr_portfolio_entry:
             usr_portfolio_entry.approved = True  # The company has approved the end of term form, it will not be changed again
 
             db.session.commit()
 
-            if approve_user_rp:
-                return flash('Approval Successful', 'success')
-            else:
-                return flash('Approval Unsuccessful, if persists please report error', 'error')
-
+            flash('Approved Successfully!!', 'success')
 
     return render_template('approve_report.html', approve_user_rp=approve_user_rp,
                            usr_portfolio_entry=usr_portfolio_entry,approve_form=approve_form,user_=user_)

@@ -21,12 +21,11 @@
             <p> Please Confirm & Approve the 'End of Term Form' </p>
             <small>If the information entered below is not correct or corresponding, the applicant may be required to re-send a new request</small>
                 {{approve_form.hidden_tag()}}
-            <div style="padding-left:50px"  class="form-group">
-                <h2 class="media-h2"> Exposure & Work Experience Acquired </h2>
-                <textarea class="form-control adj-width-60 font-color" style="height:100px" name="work_feedback">Work Details:  {{ usr_portfolio_entry.portfolio_feedback}}</textarea>
-                <p>Approved: {{usr_portfolio_entry.approved}}</p>
-                <p>Date: {{usr_portfolio_entry.date_employed}}</p>
+            <div style="padding-left:"  class="form-group">
+                <h3 class="media-h2"> Exposure & Work Experience Acquired </h3>
+                <textarea class="form-control adj-width-60 font-color" style="height:200px" name="work_feedback">Work Details:  {{ usr_portfolio_entry.portfolio_feedback}}</textarea>
                 <p>UID: {{user_.name}}</p>
+                <p>Date Employed: {{usr_portfolio_entry.date_employed}}</p>
                 <form action="" method="post">
                     <div class="form-group">
                         {{approve_form.submit(class="btns")}}
