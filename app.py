@@ -29,7 +29,6 @@ from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime
 import platform
-import speakeasy
 import base64
 
 # from models.user import get_reset_token, very_reset_token
