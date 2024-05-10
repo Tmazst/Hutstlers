@@ -435,7 +435,7 @@ def two_factor_auth(arg_token):
         otp_code_input= two_fa_form.use_2fa_auth_input.data
 
         #user_obj.store_2fa_code key saved in the database
-        otp_obj = pyotp.TOTP(user_obj.store_2fa_code) #)
+        otp_obj = pyotp.TOTP(otp_key) #)
 
         otp = otp_obj.verify(otp_code_input)
         # print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
