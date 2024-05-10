@@ -85,16 +85,14 @@ class company_user(user):
         "polymorphic_identity": 'company_user'
     }
 
-class user_experince_entries(job_user): #A table form filling prior tht experience
+class user_experince_entries(db.Model, UserMixin): #A table form filling prior tht experience
     id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
     portfolio_pdf = db.Column(db.String(120))
     fl_experience = db.Column(db.String(120))
     other_fl = db.Column(db.String(120))
     what_do_you_do = db.Column(db.String(1000))
 
-    __mapper_args__ = {
-        "polymorphic_identity": 'user_experince_entries'
-    }
+
 
 class Freelancers(job_user): #A table form filling prior tht experience
     id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
@@ -107,8 +105,9 @@ class Freelancers(job_user): #A table form filling prior tht experience
         "polymorphic_identity": 'freelancers'
     }
 
+
 #After the user finishes the current(latest) job contract they supposed to fill a form to be used to store their work experience
-class users_tht_portfolio(job_user): #A table for tht experince
+class users_tht_portfolio(db.Model, UserMixin): #A table for tht experince
     id = db.Column(db.Integer, primary_key=True)
     usr_id = db.Column(db.Integer, ForeignKey('job_user.id'))
     job_details = db.Column(db.Integer, ForeignKey('job_ads.job_id')) #these entery I will the company(job_posted_by) which posted the job & other details about the job
@@ -118,9 +117,6 @@ class users_tht_portfolio(job_user): #A table for tht experince
     portfolio_other = db.Column(db.String(120))
     other2 = db.Column(db.String(120))
 
-    __mapper_args__ = {
-        "polymorphic_identity": 'users_tht_portfolio'
-    }
 
 class hired(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
