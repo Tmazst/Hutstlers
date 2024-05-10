@@ -389,7 +389,6 @@ def send_otp(arg_token):
     user_obj = user.query.get(user_id)
     two_fa_form = Two_FactorAuth_Form()
 
-
     app.config["MAIL_SERVER"] = "smtp.googlemail.com"
     app.config["MAIL_PORT"] = 587
     app.config["MAIL_USE_TLS"] = True
@@ -400,7 +399,7 @@ def send_otp(arg_token):
 
     msg = Message("The Hustlers Time 2-FA", sender=em, recipients=[user_obj.email])
     msg.body = f""" Copy the Login Code Below & Paste to login using the 2-Factor Authentication Method. Please note
-    that the Code is Valid for 60 seconds.
+that the Code is Valid for 60 seconds.
 
     Your 2-Factor Code:  {generated_otp}
 
@@ -434,9 +433,9 @@ def two_factor_auth(arg_token):
         otp_code_input= two_fa_form.use_2fa_auth_input.data
         # Verify an OTP for the provided secret key
         #user_obj.store_2fa_code key saved in the database
-        otp_obj = pyotp.TOTP(otp_key) #)
+        # otp_obj = pyotp.TOTP(otp_key) #)
 
-        is_valid_otp = otp_obj.verify(otp_code_input)
+        is_valid_otp = otp.verify(otp_code_input)
 
         flash(f"DEBUG 2 Factor OTP: {is_valid_otp} Input: {otp_code_input}  Key {otp_key}", 'warning')
         # print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
