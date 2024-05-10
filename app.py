@@ -29,6 +29,7 @@ from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime
 import platform
+from pyauthenticator import pyauthenticator
 
 # from models.user import get_reset_token, very_reset_token
 # DB sessions
@@ -84,6 +85,8 @@ app.config['SECURITY_TWO_FACTOR_SECRET']='jhs&h$$sbUE_&WI*(*7hK5S'
 #2FA Auth
 otp_key = pyotp.random_base32()
 
+#2FA Auth
+secret_key = pyauthenticator.generate_secret()
 
 class user_class:
     s = None
@@ -383,8 +386,12 @@ class Quick_Gets:
 @app.route('/send_2fa/<arg_token>',methods=['POST', 'GET']) #/<arg_token>
 def send_otp(arg_token):
 
-    otp = pyotp.TOTP(otp_key,interval=120)
-    generated_otp = otp.now()
+    # otp = pyotp.TOTP(otp_key,interval=120)
+    # generated_otp = otp.now()
+
+    # Generate an OTP (One-Time Password) for the current time
+    generated_otp = pyauthenticator.generate_otp(secret_key)
+
     # Otp_Obj.otp_attr = otp
     user_id = user_class().verify_reset_token(arg_token)
     user_obj = user.query.get(user_id)
@@ -412,7 +419,7 @@ def send_otp(arg_token):
         mail.send(msg)
         user_obj.store_2fa_code = otp_key
         db.session.commit()
-        flash(f"Your 2 Factor Auth Code is {otp_key} code: {generated_otp}sent to your Email!!", "success")
+        flash(f"Your 2 Factor Auth Code is key:{secret_key} code: {generated_otp}sent to your Email!!", "success")
         print("2 FA : ",otp.now())
         return redirect(url_for('two_factor_auth',arg_token=arg_token,_external=True)) #
 
@@ -433,17 +440,18 @@ def two_factor_auth(arg_token):
 
     if request.method == 'POST':
         otp_code_input= two_fa_form.use_2fa_auth_input.data
-
+        # Verify an OTP for the provided secret key
+        is_valid_otp = pyauthenticator.verify_otp(secret_key, otp_code_input)
         #user_obj.store_2fa_code key saved in the database
         otp_obj = pyotp.TOTP(otp_key) #)
 
         otp = otp_obj.verify(otp_code_input)
 
-        flash(f"DEBUG 2 Factor OTP: {otp} Input: {otp_code_input}  Key {otp_key}", 'warning')
+        flash(f"DEBUG 2 Factor OTP: {is_valid_otp} Input: {otp_code_input}  Key {secret_key}", 'warning')
         # print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
         # # try:
         # print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
-        if otp:
+        if is_valid_otp:
             login_user(user_obj)
             req_page = request.args.get('next')
             flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
