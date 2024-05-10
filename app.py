@@ -383,7 +383,7 @@ class Quick_Gets:
 @app.route('/send_2fa/<arg_token>',methods=['POST', 'GET']) #/<arg_token>
 def send_otp(arg_token):
 
-    otp = pyotp.TOTP(otp_key)
+    otp = pyotp.TOTP(otp_key,interval=120)
     generated_otp = otp.now()
     # Otp_Obj.otp_attr = otp
     user_id = user_class().verify_reset_token(arg_token)
@@ -412,7 +412,7 @@ def send_otp(arg_token):
         mail.send(msg)
         user_obj.store_2fa_code = otp_key
         db.session.commit()
-        flash(f"Your 2 Factor Auth Code is Key: {otp_key}sent to your Email!!", "success")
+        flash(f"Your 2 Factor Auth Code is code: {generated_otp}sent to your Email!!", "success")
         print("2 FA : ",otp.now())
         return redirect(url_for('two_factor_auth',arg_token=arg_token, two_fa_form=two_fa_form,_external=True)) #
 
