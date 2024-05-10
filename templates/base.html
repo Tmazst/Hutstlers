@@ -119,9 +119,7 @@
             </div>
 
         </div>
-    {% if current_user.is_authenticated %}
-        <div style="" class="user_captions user-acc-captions"><small>Welcome, {{current_user.name}}</small></div>
-    {% endif %}
+
 
     {% if current_user.is_authenticated and current_user.role== 'company_user' %}
 <!--        SIDE NAV --->
