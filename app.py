@@ -414,7 +414,7 @@ def send_otp(arg_token):
         db.session.commit()
         flash(f"Your 2 Factor Auth Code is code: {generated_otp}sent to your Email!!", "success")
         print("2 FA : ",otp.now())
-        return redirect(url_for('two_factor_auth',arg_token=arg_token, two_fa_form=two_fa_form,_external=True)) #
+        return redirect(url_for('two_factor_auth',arg_token=arg_token,_external=True)) #
 
     except Exception as e:
         flash(f'Ooops Something went wrong!! Please Retry', 'error')
