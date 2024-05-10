@@ -450,7 +450,6 @@ def two_factor_auth(arg_token):
         # except:
 
         # send_two_factor_code(user_obj.id,otp_code)
-        print("DEBUG Two factor in pOST ")
 
 
     return render_template('2_facto_form.html',two_fa_form=two_fa_form,_external=True)
@@ -1010,6 +1009,8 @@ def approve_report(token):
 
     # if approve_user_rp:
     usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp, approved=False).first()
+
+    flash(f"DEBUG USER PORTFoLIO; UID: {usr_portfolio_entry.usr_id} Approved: {usr_portfolio_entry.approved}")
 
     if current_user.is_authenticated and current_user.role == 'company_user':
 
