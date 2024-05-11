@@ -95,9 +95,9 @@
 
                                     <div class="resume-details">
                                         <div class="resume-summary">
-                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Employer: </span>{{user.query.get(id=job_ad.query.get(job_id=ea_job.job_details).job_posted_by).name}}</small></div>
-                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Position: </span>{{job_ad.query.get(job_id=ea_job.job_details).job_title}}</small></div>
-                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Contract/Duration: </span>{{job_ad.query.get(job_id=ea_job.job_details).job_type}}</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Employer: </span>{{user.query.get(job_ad.query.get(ea_job.job_details).job_posted_by).name}}</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Position: </span>{{job_ad.query.get(ea_job.job_details).job_title}}</small></div>
+                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Contract/Duration: </span>{{job_ad.query.get(ea_job.job_details).job_type}}</small></div>
                                         </div>
                                         <small class="labels-resu">
                                             {{ea_job.portfolio_feedback}}
