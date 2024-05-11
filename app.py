@@ -1018,7 +1018,6 @@ def approve_report(token):
     usr_portfolio_entry = users_tht_portfolio.query.filter_by(usr_id=approve_user_rp, approved=False).first()
 
     # flash(f"DEBUG USER PORTFoLIO; UID: {usr_portfolio_entry.usr_id} Approved: {usr_portfolio_entry.approved}")
-
     if current_user.is_authenticated and current_user.role == 'company_user':
 
         if request.method == 'POST' and usr_portfolio_entry:
