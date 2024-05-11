@@ -1463,17 +1463,18 @@ def users():
 @app.route("/user_viewed", methods=["GET", "POST"])
 def view_user():
 
-    uid = ser.loads(request.args['id'])['data6']
-    company_usr = company_user
-    job_ad = Jobs_Ads
-    portfolio_model = users_tht_portfolio.query.filter_by(usr_id=uid).all()
-    portfolio_approved_jobs = users_tht_portfolio.query.filter_by(approved=True).all()
-    #The placement that is not marked as approved, assuming is still open / the user is still working
-    portfolio_current_job = hired.query.filter_by(usr_cur_job=1,hired_user_id=uid).first()
-    job_usr = user.query.get(uid)
+    if current_user.role == 'company_user':
+        uid = ser.loads(request.args['id'])['data6']
+        company_usr = company_user
+        job_ad = Jobs_Ads
+        portfolio_model = users_tht_portfolio.query.filter_by(usr_id=uid).all()
+        portfolio_approved_jobs = users_tht_portfolio.query.filter_by(approved=True).all()
+        #The placement that is not marked as approved, assuming is still open / the user is still working
+        portfolio_current_job = hired.query.filter_by(usr_cur_job=1,hired_user_id=uid).first()
+        job_usr = user.query.get(uid)
 
-    if request.method == 'POST':
-        pass
+        if request.method == 'POST':
+            pass
 
 
         # print("Job Ad Title: ",job_ad.job_title)
