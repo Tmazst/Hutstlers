@@ -947,6 +947,10 @@ font-weight:400;
     //border-radius:50%;
 }
 
+.portfolio-cont{
+    background-color:#eee;
+}
+
 .labels-resu{
     font-size:14px;
     margin:10px 10px;
@@ -963,8 +967,8 @@ font-weight:400;
     overflow-x:hidden;
     display:flex;
     flex-direction:column;
-    border:1px solid #eee;
-    //background-color:green;
+    border:1px solid #white;
+    background-color:#eee;
     padding:15px;
     gap:15px;
     height:600px;
@@ -980,9 +984,10 @@ font-weight:400;
 .resume-details{
     display:flex;
     flex-direction:column;
-    background-color:#efefef;
     align-items:flex-start;
     border-radius:15px;
+
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
 
 }
 

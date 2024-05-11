@@ -991,16 +991,13 @@ Thank you for being part of my future endeavors, I hope to meet you again.
                 except Exception as e:
                     flash('Ooops, Something went wrong Please Retry!!', 'error')
                     return "The mail was not sent"
-
                     # Send the pwd reset request to the above email
-
             send_link()
         else:
             flash(f"Something went wrong please try again later, ", "error")
         # except Exception as e:
         #     flash(f"Something went wrong please try again later, : {e}", "error")
         #     return "The mail was not sent"
-
 
     return render_template("job_feedback.html", feedback_form=feedback_form)
 
