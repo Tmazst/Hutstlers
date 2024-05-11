@@ -1158,6 +1158,7 @@ font-weight:400;
 .browse-job{
     border:1px solid #eee;
     width:1000px !important;
+    background-color:#fafafa;
     padding: 0 50px 50px 50px;
 }
 
