@@ -28,6 +28,8 @@ from models import db, user, company_user, job_user, Jobs_Ads, Applications, Fre
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime
+import time
+import itsdangerous
 import platform
 import base64
 
@@ -94,15 +96,19 @@ class user_class:
 
         s = Serializer(app.config['SECRET_KEY'])
 
-        return s.dumps({'user_id': c_user_id}).encode('utf-8')
+        return s.dumps({'user_id': c_user_id,'expiration_time': time.time() + 300}).encode('utf-8')
 
     @staticmethod
     def verify_reset_token(token, expires=1800):
 
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(app.config['SECRET_KEY'],)
 
         try:
-            user_id = s.loads(token)['user_id']
+            user_id = s.loads(token,max_age=300)['user_id']
+        except itsdangerous.SignatureExpired:
+            flash('Token has expired','error')
+        except itsdangerous.BadSignature:
+            flash('Token is Invalid','error')
         except:
             return f'Something Went Wrong'  #f'Token {user_id} not accessed here is the outcome user'
 
@@ -1472,7 +1478,7 @@ def view_user():
 
         # print("Job Ad Title: ",job_ad.job_title)
 
-    return render_template('user_viewed.html', job_usr=job_usr, db=db, company_user=company_user,portfolio_approved_jobs=portfolio_approved_jobs
+    return render_template('user_viewed.html', job_usr=job_usr, db=db,user=user, company_user=company_user,portfolio_approved_jobs=portfolio_approved_jobs
                            ,ser=ser,current_job=portfolio_current_job,company_usr=company_usr,job_ad=job_ad)
 
 
