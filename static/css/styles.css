@@ -571,7 +571,7 @@ a{
     display:flex;
     justify-content:center;
     align-items:center;
-    width:120px !important;
+    max-width:200px !important;
     min-width:100px;
     background:none;
     border: 2px solid #006769;
@@ -655,9 +655,69 @@ a{
 }
 
 .footer-cap h3{
-
   font-size:12px;
-  
+}
+
+.big-btns-invtd{
+    border-radius:10px;
+    font-size:24px;
+    padding:15px;
+    width:300px;
+    height:270px !important;
+    position:relative;
+}
+
+.big-btns{
+    border-radius:10px;
+    font-size:24px;
+    padding:15px;
+    width:300px;
+    height:270px !important;
+    position:relative;
+}
+
+.big-btns-invtd a{
+    display: inline-block; /* This allows the height property to take effect */
+    height: 270px; /* Set the desired height for the hyperlink */
+    line-height: 40px; /* Align text vertically within the hyperlink */
+    text-decoration: none; /* Remove default underline */
+    background-color:coral;
+    color:white;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.20);
+    border-radius:10px;
+    font-size:24px;
+    font-weight:600;
+}
+
+.big-btns a{
+  display: inline-block; /* This allows the height property to take effect */
+  height: 270px; /* Set the desired height for the hyperlink */
+  line-height: 40px; /* Align text vertically within the hyperlink */
+  text-decoration: none; /* Remove default underline */
+  //padding: 0 10px; /* Add padding for better visual spacing */
+  color: #006769; /* Example text color */
+  background:none;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.20);
+  border-radius:10px;
+  font-size:24px;
+  font-weight:600;
+}
+
+.big-btns-invtd a:hover{
+    background-color:white;
+    color:coral;
+    border:1px solid coral;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
+    cursor:pointer;
+    transition:ease 0.2s;
+}
+
+.big-btns a:hover{
+    background-color:#006769;
+    color:white;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
+    cursor:pointer;
+    transition:ease 0.2s;
 }
 
 .alert-error{
@@ -675,7 +735,8 @@ a{
 }
 
 .warning{
-    background-color:#e99 !important;
+    //background-color:#e99 !important;
+    color:orange;
 }
 
 .actions a{
@@ -1152,6 +1213,27 @@ font-weight:400;
     color:#fff;
     text-align:center;
     border-radius:0px 0px 5px 5px;
+
+}
+
+.view_freelancer{
+
+    display:inline-block;
+    text-decoration:none;
+    border:1px solid coral;
+    width:100%;
+    text-weight:Light;
+    height:30px;
+    color:coral;
+    text-align:center;
+    border-radius:7px;
+}
+
+.view_freelancer:hover{
+
+
+    background:coral;
+    color:white;
 
 }
 
@@ -1838,7 +1920,7 @@ width:70% !important;
 
 .general-flex-x{
     display:flex;
-    justify-content:center !important;
+    justify-content:flex-start !important;
     flex-wrap:wrap;
     gap:30px;
     //background-color:red;
@@ -2137,6 +2219,11 @@ display:none
 .steps-cont label{
     //display:none;
     visibility:hidden;
+}
+
+.row-flex{
+    display:flex;
+
 }
 
 .reverse{

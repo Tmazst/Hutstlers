@@ -86,24 +86,38 @@ class company_user(user):
     }
 
 class user_experince_entries(db.Model, UserMixin): #A table form filling prior tht experience
+
     id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
     portfolio_pdf = db.Column(db.String(120))
     fl_experience = db.Column(db.String(120))
     other_fl = db.Column(db.String(120))
     what_do_you_do = db.Column(db.String(1000))
 
+class Esw_Freelancers(user): #A table form filling prior tht experience
 
+    __table_name__ = 'esw_freelancers'
 
-class Freelancers(job_user): #A table form filling prior tht experience
-    id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
+    fl_id = db.Column(db.Integer, ForeignKey('user.id'), primary_key=True)
     portfolio_pdf = db.Column(db.String(120))
     fl_experience = db.Column(db.String(120))
     other_fl = db.Column(db.String(120))
+    other_fl1 = db.Column(db.String(120))
+    other_fl2 = db.Column(db.String(120))
+    other_fl3 = db.Column(db.String(120))
+    other_fl4 = db.Column(db.String(120))
     what_do_you_do = db.Column(db.String(1000))
 
     __mapper_args__ = {
         "polymorphic_identity": 'freelancers'
     }
+
+class Freelancers(job_user): #A table form filling prior tht experience
+    pass
+#     id = db.Column(db.Integer, ForeignKey('job_user.id'), primary_key=True)
+#     portfolio_pdf = db.Column(db.String(120))
+#     fl_experience = db.Column(db.String(120))
+#     other_fl = db.Column(db.String(120))
+#     what_do_you_do = db.Column(db.String(1000))
 
 
 #After the user finishes the current(latest) job contract they supposed to fill a form to be used to store their work experience

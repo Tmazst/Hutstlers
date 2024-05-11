@@ -24,7 +24,7 @@ from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 from models import db, user, company_user, job_user, Jobs_Ads, Applications, Freelance_Jobs_Ads, Email_Verifications, \
-    FreeL_Applications, Freelancers, users_tht_portfolio, hired
+    FreeL_Applications, Freelancers, users_tht_portfolio, hired, Esw_Freelancers
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime
@@ -45,9 +45,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
 # if os.environ.get('ENV') == 'LOAL':
 #     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
@@ -1032,20 +1032,35 @@ def approve_report(token):
                            usr_portfolio_entry=usr_portfolio_entry,approve_form=approve_form,user_=user_)
 
 
-@app.route("/freelancers_form")
+@app.route("/meet_freelancers")
+def meet_freelancers():
+
+    esw_freelancers = Esw_Freelancers.query.all()
+
+    return render_template("meet_freelancers.html", esw_freelancers=esw_freelancers,user=user)
+
+
+@app.route("/freelancers_form",methods=["POST","GET"])
+@login_required
 def freelancers():
     freelancer = Freelance_Section()
 
-    the_freelancer = Freelancers.query.get(current_user.id)
+    the_freelancer = Esw_Freelancers.query.get(current_user.id)
 
-    db.create_all()
+    if current_user.role == 'job_user':
+        if freelancer.validate_on_submit():
+            freelancer_details = Esw_Freelancers(
+                fl_id= current_user.id,
+                fl_experience=freelancer.experience.data,
+                what_do_you_do=freelancer.what_do_you_do.data,
+                portfolio_pdf=freelancer.portfolio_file.data
+            )
 
-    if current_user.is_authenticated:
-        freelancer_details = Freelancers(
-            fl_experience=freelancer.experience.data,
-            what_do_you_do=freelancer.what_do_you_do.data,
-            portfolio_pdf=freelancer.portfolio_file.data
-        )
+            db.session.add(freelancer_details)
+            db.session.commit()
+    else:
+        flash("Page is available only for Job Seekers", "warning")
+        return redirect(url_for('home'))
 
     return render_template("freelance_form.html", freelancer=freelancer, the_freelancer=the_freelancer)
 
