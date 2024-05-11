@@ -2223,6 +2223,7 @@ display:none
 
 .row-flex{
     display:flex;
+    align-items:flex-start;
 
 }
 
