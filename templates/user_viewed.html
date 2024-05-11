@@ -109,8 +109,8 @@
 
                                 <div class="resume-summary">
                                     <div><small style="background-color:" class="labels-resu"><span class="labels-span">Work Experience (Acc.):</span> 1 year 3 Months</small></div>
-                                    <div><small style="background-color:" class="labels-resu"><span class="labels-span">Current Placement: </span> {{job_ad.query.get(job_id=current_job.job_details).job_title}}</small></div>
-                                    <div><small style="background-color:" class="labels-resu"><span class="labels-span">Company: </span>{{user.query.get(job_ad.query.get(job_id=current_job.job_details).job_posted_by).name}}</small></div>
+                                    <div><small style="background-color:" class="labels-resu"><span class="labels-span">Current Placement: </span> {{job_ad.query.get(current_job.job_details).job_title}}</small></div>
+                                    <div><small style="background-color:" class="labels-resu"><span class="labels-span">Company: </span>{{user.query.get(job_ad.query.get(current_job.job_details).job_posted_by).name}}</small></div>
                                     <small style="background-color:" class="labels-resu"><span class="labels-span">Position:</span> Virtual Assistant - Accounting</small>
                                 </div>
                             {% endif %}
