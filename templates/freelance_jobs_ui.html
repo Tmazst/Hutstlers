@@ -2,6 +2,14 @@
 
 {% block content %}
 <div class="margin-ise"></div>
+<h1 style="font-size:20px" >Are you a freelancer, Here is a good platform for you to
+         make new connections and improve in your<br><span class="spans">Freelance Job Prospects</span></h1><br>
+    <div style="width:100%" class="row-flex">
+        <div  class="big-btns"><a style="padding:40px;" href="/meet_freelancers">Meet Eswatini Freelancers</a>
+            <img style="position:absolute; left:40px;bottom:0px;" class="" src="static/icons/free_icon.png"/></div>
+        <div  class="big-btns-invtd"><a style="padding:40px;" href="/freelancers_form">Register as a Freelancer</a>
+
+    </div></div><br>
 <div   class="tags">
     <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -16,15 +24,7 @@
 <!--    {% if current_user.is_authenticated %}-->
 <!--    {% endif %}-->
     <br><br>
-    <h1 style="font-size:20px" >Are you a freelancer, Here is a good platform for you to
-         make new connections and improve in your<br><span class="spans">Freelance Job Prospects</span></h1><br>
-    <div style="width:100%" class="row-flex">
-        <div  class="big-btns"><a style="padding:40px;" href="/meet_freelancers">Meet Eswatini Freelancers</a>
-            <img style="position:absolute; left:40px;bottom:0px;" class="" src="static/icons/free_icon.png"/></div>
-        <div  class="big-btns-invtd"><a style="padding:40px;" href="/freelancers_form">Register as a Freelancer</a>
-
-
-    </div><div class="space-filler"></div><br><br>
+    <br>
   <div style="background-color:ae23a3;" class="general-flex-x">
             {{fl_job_ads.csrf_token}}
             {% if fl_job_ads %}
