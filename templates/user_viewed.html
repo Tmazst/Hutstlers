@@ -85,7 +85,7 @@
 
             <div  style="min-width:350px;padding:20px"  class="form_container_ browse-job">
                 <div class="portfolio-div">
-                    <h2>Portfolio / Consecutive</h2>
+                    <h2 style="color:coral">Portfolio / Consecutive</h2>
                         <div class="portfolio-cont">
 <!--                             To list the job opening the user has filled since joining THT to-date-->
                             {% if portfolio_approved_jobs %}
@@ -95,11 +95,12 @@
 
                                     <div class="resume-details">
                                         <div class="resume-summary">
-                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Employer: </span>{{user.query.get(job_ad.query.get(ea_job.job_details).job_posted_by).name}}</small></div>
-                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Position: </span>{{job_ad.query.get(ea_job.job_details).job_title}}</small></div>
-                                            <div><small style="background-color:" class="labels-resu"><span class="labels-span">Contract/Duration: </span>{{job_ad.query.get(ea_job.job_details).job_type}}</small></div>
+                                            <div><small style="background-color:" class="labels-resu">Employer: <span class="labels-span">{{user.query.get(job_ad.query.get(ea_job.job_details).job_posted_by).name}}</span></small></div>
+                                            <div><small style="background-color:" class="labels-resu">Position: <span class="labels-span">{{job_ad.query.get(ea_job.job_details).job_title}}</span></small></div>
+                                            <div><small style="background-color:" class="labels-resu">Contract/Duration: <span class="labels-span">{{job_ad.query.get(ea_job.job_details).job_type}}</span></small></div>
                                         </div>
                                         <small class="labels-resu">
+                                            <small class="labels-resu">Work Experience/Work Exposure</small>
                                             {{ea_job.portfolio_feedback}}
                                         </small>
 

@@ -882,6 +882,7 @@ def send_endof_term_form():
             usr_close_curr_job = hired.query.filter_by(usr_cur_job=1, hired_user_id=job_user_obj.id).first()
             if usr_close_curr_job:
                 usr_close_curr_job.usr_cur_job = 0
+                db.session.commit()
 
             # usr_email = user.query.filter_by(email=reset_request_form.email.data).first()
 
@@ -1022,8 +1023,12 @@ def approve_report(token):
 
         if request.method == 'POST' and usr_portfolio_entry:
             usr_portfolio_entry.approved = True  # The company has approved the end of term form, it will not be changed again
-
             db.session.commit()
+            # Delete this entry from the hired table
+            qry_closed_in_hrd_tbl = hired.query.filter_by(usr_cur_job=0, hired_user_id=approve_user_rp).first()
+            if qry_closed_in_hrd_tbl:
+                db.session.delete(qry_closed_in_hrd_tbl)
+                db.session.commit()
 
             flash('Approved Successfully!!', 'success')
 
@@ -1614,7 +1619,7 @@ def hire_applicant():
                     comp_id=current_user.id,
                     hired_user_id=id_,
                     job_details=app_id,
-                    usr_cur_job=1,
+                    usr_cur_job=1,  #Currently hired
                     hired_date=datetime.utcnow()
                 )
                 db.session.add(hire_user)
