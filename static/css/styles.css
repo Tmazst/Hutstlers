@@ -1155,6 +1155,10 @@ font-weight:400;
 
 }
 
+.space-filler{
+    flex-grow: 1;
+}
+
 .browse-job{
     border:1px solid #eee;
     width:1000px !important;
