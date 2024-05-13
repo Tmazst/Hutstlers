@@ -19,69 +19,71 @@
         <div class="card">
 
             <h3 style="font-size:25px;margin-left:50px;margin-bottom:0;">{{the_freelancer.name}}<br> <span class="spans" style="font-size:16px">Fill Out The Form Below
-            and Swiftly Join Eswatini Freelancers Pool</span></h3>
+                            and Swiftly Join Eswatini Freelancers Pool</span></h3>
 
             <div  style="width:60%;margin-left:30px;" ><hr></div>
             <form action="" method="post" enctype="multipart/form-data" class="forms" >
-            <div style="padding-left:50px" class="form-group">
-                    <h2 class="media-h2"> Freelance Form </h2>
+                <div style="padding-left:50px" class="form-group">
 
-                    <!-- ------------Title--------------->
-                    <div  class="acc-labels margin-l-15">{{ freelancer.title.label()}}</div>
+                        <h2 class="media-h2"> Freelance Form </h2>
 
-                    {% if the_freelancer.title %}
-                        {{ freelancer.title(class="acc-form-control",value=the_freelancer.title)}}
-                    {% else %}
-                        {{ freelancer.title(class="acc-form-control",placeholder="e.g. Electrician")}}
-                    {% endif %}
-                    {% if freelancer.title.errors %}
-                       {% for error in freelancer.title.errors %}
-                           <span class="span-error" >*{{error}}</span>
-                       {% endfor %}
-                    {% endif %}
+                        <!-- ------------Title--------------->
+                        <div  class="acc-labels margin-l-15">{{ freelancer.skills.label()}}</div>
+                        {{freelancer.hidden_tag()}}
+                        {{freelancer.csrf_token}}
+                        {% if the_freelancer.other_fl1 %}
+                            {{ freelancer.skills(class="acc-form-control",value=the_freelancer.other_fl1)}}
+                        {% else %}
+                            {{ freelancer.skills(class="acc-form-control",placeholder="e.g. Electrician")}}
+                        {% endif %}
+                        {% if freelancer.skills .errors %}
+                           {% for error in freelancer.skills .errors %}
+                               <span class="span-error" >*{{error}}</span>
+                           {% endfor %}
+                        {% endif %}
 
-                    <!--------------EXPLAIN YOUR SKILL--------------->
-                    <div  class="acc-labels margin-l-15">{{ freelancer.what_do_you_do.label()}}</div>
-                    {% if the_freelancer.what_do_you_do %}
-                        {{ freelancer.what_do_you_do(class="acc-form-control",placeholder="What Do You DO",value=the_freelancer.what_do_you_do)}}
-                    {% else %}
-                        {{ freelancer.what_do_you_do(class="acc-form-control",placeholder="What Do You DO")}}
-                    {% endif %}
-                    {% if freelancer.what_do_you_do.errors %}
-                       {% for error in freelancer.what_do_you_do.errors %}
-                           <span class="span-error" >*{{error}}</span>
-                       {% endfor %}
-                    {% endif %}
+                        <!--------------EXPLAIN YOUR SKILL--------------->
+                        <div  class="acc-labels margin-l-15">{{ freelancer.what_do_you_do.label()}}</div>
+                        {% if the_freelancer.what_do_you_do %}
+                            <textarea  name="what_do_you_do" class="acc-form-control font-18 media-h2 text-area-size">{{the_freelancer.what_do_you_do}}</textarea>
+                        {% else %}
+                            {{ freelancer.what_do_you_do(class="acc-form-control text-area-size",placeholder="What Do You DO")}}
+                        {% endif %}
+                        {% if freelancer.what_do_you_do.errors %}
+                           {% for error in freelancer.what_do_you_do.errors %}
+                               <span class="span-error" >*{{error}}</span>
+                           {% endfor %}
+                        {% endif %}
 
-                    <!--------------SELLING TAG--------------->
+                        <!--------------SELLING TAG--------------->
 
-                    <div  class="acc-labels margin-l-15">{{ freelancer.other_fl.label()}}</div>
-                    {% if the_freelancer.other_fl %}
-                        {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town",value=the_freelancer.other_fl)}}
-                    {% else %}
-                        {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town")}}
-                    {% endif %}
-                    {% if freelancer.other_fl.errors %}
-                       {% for error in freelancer.other_fl.errors %}
-                           <span class="span-error" >*{{error}}</span>
-                       {% endfor %}
-                    {% endif %}
+                        <div  class="acc-labels margin-l-15">{{ freelancer.other_fl.label()}}</div>
+                        {% if the_freelancer.other_fl %}
+                            {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town",value=the_freelancer.other_fl)}}
+                        {% else %}
+                            {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town")}}
+                        {% endif %}
+                        {% if freelancer.other_fl.errors %}
+                           {% for error in freelancer.other_fl.errors %}
+                               <span class="span-error" >*{{error}}</span>
+                           {% endfor %}
+                        {% endif %}
 
-                    <!--------------EXPERIENCE--------------->
-                    <div  class="acc-labels margin-l-15">{{ freelancer.experience.label()}}</div>
-                    {% if the_freelancer.experience %}
-                        <textarea  name="experience" class="acc-form-control font-18 media-h2">{{the_freelancer.experience}}</textarea>
-                    {% else %}
-                        {{ freelancer.experience(class="acc-form-control",placeholder="Experience (Optional)")}}
-                    {% endif %}
+                        <!--------------EXPERIENCE--------------->
+                        <div  class="acc-labels margin-l-15">{{ freelancer.experience.label()}}</div>
+                        {% if the_freelancer.fl_experience %}
+                            <textarea  name="experience" class="acc-form-control font-18 media-h2 text-area-size">{{the_freelancer.fl_experience}}</textarea>
+                        {% else %}
+                            {{ freelancer.experience(class="acc-form-control text-area-size",placeholder="Experience (Optional)")}}
+                        {% endif %}
 
-                    {% if freelancer.experience.errors %}
-                       {% for error in freelancer.experience.errors %}
-                           <span class="span-error" >*Higher Certificate: {{error}}</span>
-                       {% endfor %}
-                    {% endif %}
+                        {% if freelancer.experience.errors %}
+                           {% for error in freelancer.experience.errors %}
+                               <span class="span-error" >*Higher Certificate: {{error}}</span>
+                           {% endfor %}
+                        {% endif %}
 
-            </div>
+                </div>
 
             <div style="padding-left:50px;width:80%;" class="form-group">
                 <h3 class="media-h2"> Upload Portfolio Resume (Optional)</h3>

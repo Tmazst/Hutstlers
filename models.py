@@ -33,6 +33,7 @@ class user(db.Model,UserMixin):
     confirm_password = db.Column(db.String(120), unique=True)
     verified = db.Column(db.Boolean, default=False)
     role = db.Column(db.String(120))
+    freelancers_tbl = relationship("Esw_Freelancers", backref='freelancers', lazy=True)
 
     __mapper_args__ = {
         "polymorphic_identity":'user',
@@ -93,23 +94,21 @@ class user_experince_entries(db.Model, UserMixin): #A table form filling prior t
     other_fl = db.Column(db.String(120))
     what_do_you_do = db.Column(db.String(1000))
 
-class Esw_Freelancers(user): #A table form filling prior tht experience
+class Esw_Freelancers(db.Model, UserMixin): #A table form filling prior tht experience
 
     __table_name__ = 'esw_freelancers'
 
-    fl_id = db.Column(db.Integer, ForeignKey('user.id'), primary_key=True)
+    fl_id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer, ForeignKey('user.id'))
     portfolio_pdf = db.Column(db.String(120))
-    fl_experience = db.Column(db.String(120))
-    other_fl = db.Column(db.String(120))
-    other_fl1 = db.Column(db.String(120))
+    fl_experience = db.Column(db.String(300))
+    other_fl = db.Column(db.String(120)) #Selling Tag
+    other_fl1 = db.Column(db.String(120)) #Skills
     other_fl2 = db.Column(db.String(120))
     other_fl3 = db.Column(db.String(120))
     other_fl4 = db.Column(db.String(120))
     what_do_you_do = db.Column(db.String(1000))
 
-    __mapper_args__ = {
-        "polymorphic_identity": 'freelancers'
-    }
 
 class Freelancers(job_user): #A table form filling prior tht experience
     pass

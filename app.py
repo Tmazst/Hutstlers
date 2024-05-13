@@ -278,6 +278,8 @@ def account():
 
     image_fl = url_for('static', filename='images/' + current_user.image)
 
+    the_freelancer = Esw_Freelancers.query.filter_by(uid=current_user.id).first()
+
     if request.method == 'POST':
 
         if cv.validate_on_submit():
@@ -314,7 +316,7 @@ def account():
     elif cv.errors:
         flash("Update Unsuccessful!!, check if all fields are filled", "error")
 
-    return render_template("account.html", cv=cv, title="Account", image_fl=image_fl,ser=ser)
+    return render_template("account.html", cv=cv, title="Account", image_fl=image_fl,ser=ser,the_freelancer=the_freelancer)
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -443,9 +445,6 @@ def two_factor_auth(arg_token):
 
         is_valid_otp = otp.verify(otp_code_input)
 
-        # print("DEBUG send_two_factor_code VERIFY: ", verfy.secret)
-        # # try:
-        # print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
         if is_valid_otp:
             login_user(user_obj)
             req_page = request.args.get('next')
@@ -466,7 +465,6 @@ def send_two_factor_code(user_id,otp_code):
     otp = pyotp.TOTP(otp_key)
     user_obj = user.query.get(user_id)
     code = generate_6_digit_code()
-    print("DEBUG send_two_factor_code ")
     verfy = pyotp.TOTP(user_obj.store_2fa_code)
 
     try:
@@ -609,6 +607,9 @@ def reset(token):
 def reset_request():
     reset_request_form = Reset_Request()
 
+    if current_user.is_authenticated:
+        logout_user()
+
     if request.method == 'POST':
         if reset_request_form.validate_on_submit():
             # Get user details through their email
@@ -671,7 +672,6 @@ def job_ads_form():
 
     db.create_all()
     job_ad = None
-    print("Check Benefits: ", request.form.get('start_date'))
 
     if request.method == 'POST':
         print("Check Start Date: ", job_ad_form.start_date.data,job_ad_form.work_hours_bl.data)
@@ -743,7 +743,6 @@ def eidt_job_ads_form():
     db.create_all()
     job_ad = None
     jo_id = None
-    print("Check Benefits: ", request.form.get('start_date'))
 
     if request.method == 'POST':
         print("Check Start Date: ", job_ad_form.start_date.data,job_ad_form.work_hours_bl.data)
@@ -1039,30 +1038,84 @@ def meet_freelancers():
 
     return render_template("meet_freelancers.html", esw_freelancers=esw_freelancers,user=user)
 
+@app.route("/freelancer_viewed")
+def freelancer_viewed():
+
+    if request.method == "GET":
+        id_ = request.args['frid']
+        fr_id = ser.loads(id_)['data13']
+        esw_freelancer = Esw_Freelancers.query.filter_by(uid=fr_id).first()
+        user_ = user.query.get(esw_freelancer.uid)
+
+        years = (datetime.now().date() - user_.date_of_birth).days
+
+        usr_years = int(years/365)
+
+        print("User Years: ",int(years/365))
+
+    return render_template("freelancer_viewed.html",esw_freelancer=esw_freelancer,user_=user_,usr_years=usr_years)
+
 
 @app.route("/freelancers_form",methods=["POST","GET"])
 @login_required
 def freelancers():
     freelancer = Freelance_Section()
 
-    the_freelancer = Esw_Freelancers.query.get(current_user.id)
+    the_freelancer = Esw_Freelancers.query.filter_by(uid=current_user.id).first()
 
     if current_user.role == 'job_user':
-        if freelancer.validate_on_submit():
-            freelancer_details = Esw_Freelancers(
-                fl_id= current_user.id,
-                fl_experience=freelancer.experience.data,
-                what_do_you_do=freelancer.what_do_you_do.data,
-                portfolio_pdf=freelancer.portfolio_file.data
-            )
-
-            db.session.add(freelancer_details)
-            db.session.commit()
+        if request.method == "POST":
+            if freelancer.validate_on_submit():
+                freelancer_details = Esw_Freelancers(
+                    uid=current_user.id,
+                    other_fl=freelancer.other_fl.data,
+                    other_fl1=freelancer.skills.data,
+                    fl_experience=freelancer.experience.data,
+                    what_do_you_do=freelancer.what_do_you_do.data,
+                    portfolio_pdf=freelancer.portfolio_file.data
+                )
+                db.session.add(freelancer_details)
+                db.session.commit()
+                flash('You have successfully joined the Eswatini Freelance Pool!!', 'success')
+            else:
+                for error in freelancer.errors:
+                    print("Error: ", error)
+                    flash("There is an error somewhere", "error")
     else:
         flash("Page is available only for Job Seekers", "warning")
         return redirect(url_for('home'))
-
     return render_template("freelance_form.html", freelancer=freelancer, the_freelancer=the_freelancer)
+
+
+@app.route("/freelancers_form_update",methods=["POST","GET"])
+@login_required
+def freelancers_form_update():
+    freelancer = Freelance_Section()
+
+    the_freelancer = Esw_Freelancers.query.filter_by(uid=current_user.id).first()
+
+    if current_user.role == 'job_user':
+        if request.method == "POST":
+            if freelancer.validate_on_submit():
+
+                the_freelancer.other_fl=freelancer.other_fl.data
+                the_freelancer.other_fl1=freelancer.skills.data
+                the_freelancer.fl_experience=request.form.get("experience")
+                the_freelancer.what_do_you_do=request.form.get("what_do_you_do")
+                the_freelancer.portfolio_pdf=freelancer.portfolio_file.data
+
+                db.session.commit()
+                flash('Update was Successful!!', 'success')
+
+            else:
+                for error in freelancer.errors:
+                    print("Error: ", error)
+                    flash("There is an error somewhere", "error")
+    else:
+        flash("Page is available only for Job Seekers", "warning")
+        return redirect(url_for('home'))
+    return render_template("freelance_form.html", freelancer=freelancer, the_freelancer=the_freelancer)
+
 
 
 @app.route("/company_retieve")
@@ -1162,7 +1215,7 @@ def job_adverts_filtered():
         print("Check Get Id: ", value)
 
         job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
-        print("Check Get Id: ", job_ads)
+        # print("Check Get Id: ", job_ads)
 
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_filtered.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
@@ -1182,6 +1235,8 @@ def freelance_job_adverts():
         pass
 
     no_image_fl = 'static/images/default.jpg'
+
+
 
     db.create_all()
     usr = user()

@@ -17,9 +17,8 @@
 
 <br><br>
   <div style="background-color:ae23a3;" class="general-flex-x">
-        {% if freelancers %}
-            {% for item in freelancers %}
-                {% if item.role == 'freelancers' %}
+        {% if esw_freelancers %}
+            {% for item in esw_freelancers %}
             <!----FORM----->
                     <div style="display:flex;flex-direction:column;width:300px;" class="new_job_ad_style_usr anim">
 
@@ -33,27 +32,26 @@
                                 </div>
                             </div>
 
-                            <h3 style="margin-bottom:0px;margin-top:0px;font-weight:600">{{user.query.get(item.fl_id).name}}<br></h3>
-                            <span><small style="color:#aaa" class="labels-resu" >{{user.query.get(item.fl_id).address}}</small></span>
-
+                            <h3 style="margin-bottom:0px;margin-top:0px;font-weight:600;color:coral">{{user.query.get(item.uid).name}}<br></h3>
+                            <span><small style="color:#aaa" class="labels-resu" >{{user.query.get(item.uid).address}}</small></span>
+                            {% if item.other_fl %}
+                                <small style="font-weight:500" class="labels-resu">"{{item.other_fl}}"</small>
+                            {% endif %}
                             <!-------JOB TITLE--------->
-                            <p class="job-title">{{item.what_do_you_do}}</p>
+                            <p style="padding:10px;font-size:16px !important;background-color:#eee;color:#555;font-weight:600" class="job-title">{{item.what_do_you_do}}</p>
 
-                        {% if item.other_fl %}
-                            <small class="labels-resu">"{{item.other_fl}}"</small>
-                        {% endif %}
-                        {% if item.fl_experience %}
-                            <small class="labels-resu">{{item.fl_experience}}</small>
-                        {% endif %}
+                            {% if item.fl_experience %}
+                                <small style="color:coral" class="labels-resu">{{item.fl_experience}}</small>
+                            {% endif %}
 
                         <div class="space-filler"></div>
                         <div style="dispaly:block">
-                                 <a class="view_freelancer" href="/user_viewed?id={{ser.dumps({'data6':item.fl_id})}}">View</a>
+                                 <a class="view_freelancer" href="/freelancer_viewed?frid={{ser.dumps({'data13':item.uid})}}">View</a>
                         </div>
                     </div>
-                    {% endif %}
+
             {% endfor %}
-              {% endif %}
+        {% endif %}
   </div>
 </div>
 {% endblock %}

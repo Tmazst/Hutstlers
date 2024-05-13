@@ -16,7 +16,7 @@
 <div style="margin-top:150px;" class="tags">
 
     
- <div class="account_container">
+<div class="account_container">
     <div class="card">
         <div style="width:100%;">
         <form _lpchecked="1" action="" method="post" enctype="multipart/form-data" class="forms" >
@@ -71,7 +71,7 @@
                 {{ cv.date_of_birth(class="acc-form-control",placeholder="Contacts", value=current_user.date_of_birth)}}
                  {% if cv.date_of_birth.errors %}
                    {% for error in cv.date_of_birth.errors %}
-                       <span class="span-error" >*[Contacts]{{error}}</span>
+                       <span class="span-error" >*[Birthday]{{error}}</span>
                    {% endfor %}
                 {% endif %}
 
@@ -89,7 +89,7 @@
                     {% endif %}
 
               <div style="margin-left:0;width:100px;" class="user-links" >
-                    <a href="/reset/name"> Change Password </a>
+                    <a href="/reset_request"> Change Password </a>
               </div>
 
         </div>
@@ -122,7 +122,7 @@
                 {% endif %}
                 {% if cv.tertiary.errors %}
                    {% for error in cv.tertiary.errors %}
-                       <span class="span-error" >*Higher Certificate{{error}}</span>
+                       <span class="span-error" >*{{error}}</span>
                    {% endfor %}
                 {% endif %}
 
@@ -136,7 +136,7 @@
 
                 {% if cv.experience.errors %}
                    {% for error in cv.experience.errors %}
-                       <span class="span-error" >*Higher Certificate{{error}}</span>
+                       <span class="span-error" >*{{error}}</span>
                    {% endfor %}
                 {% endif %}
 
@@ -156,7 +156,7 @@
                 {% endif %}
                 {% if cv.skills.errors %}
                    {% for error in cv.skills.errors %}
-                       <span class="span-error" >*Skills {{error}}</span>
+                       <span class="span-error" >*{{error}}</span>
                    {% endfor %}
                 {% endif %}
 
@@ -171,7 +171,7 @@
                 {% endif %}
                 {% if cv.hobbies.errors %}
                    {% for error in cv.hobbies.errors %}
-                        <span class="span-error" >*Hobbies {{error}}</span>
+                        <span class="span-error" >*{{error}}</span>
                    {% endfor %}
                 {% endif %}
 
@@ -180,33 +180,33 @@
 
 
         <div style="padding-left:50px"  class="form-group">
-                        <h2 class="media-h2"> References </h2>
+                <h2 class="media-h2"> References </h2>
 
-                        <!-- ------------REFERENCE 1--------------->
-                        <div  class="acc-labels margin-l-15">{{ cv.reference_1 .label()}}</div>
-                        {% if current_user.reference_1 %}
-                            <textarea  name="reference_1" class="acc-form-control media-h2" placeholder="Name & Contact(s)"> {{current_user.reference_1}}</textarea>
-                        {% else %}
-                            {{ cv.reference_1(class="acc-form-control",placeholder="Name & Contact(s)")}}
-                        {% endif %}
-                        {% if cv.reference_1.errors %}
-                           {% for error in cv.reference_1.errors %}
-                               <span class="span-error" >*reference_1 {{error}}</span>
-                           {% endfor %}
-                        {% endif %}
+                <!-- ------------REFERENCE 1--------------->
+                <div  class="acc-labels margin-l-15">{{ cv.reference_1 .label()}}</div>
+                {% if current_user.reference_1 %}
+                    <textarea  name="reference_1" class="acc-form-control media-h2" placeholder="Name & Contact(s)"> {{current_user.reference_1}}</textarea>
+                {% else %}
+                    {{ cv.reference_1(class="acc-form-control",placeholder="Name & Contact(s)")}}
+                {% endif %}
+                {% if cv.reference_1.errors %}
+                   {% for error in cv.reference_1.errors %}
+                       <span class="span-error" >*{{error}}</span>
+                   {% endfor %}
+                {% endif %}
 
-                        <!-- ------------REFERENCE 2--------------->
-                        <div  class="acc-labels margin-l-15">{{ cv.reference_2.label()}}</div>
-                        {% if current_user.reference_2 %}
-                           <textarea  name="reference_2" class="acc-form-control media-h2" placeholder="Name & Contact(s)"> {{current_user.reference_2}}</textarea>
-                        {% else %}
-                            {{ cv.reference_2(class="acc-form-control",placeholder="Name & Contact(s)")}}
-                        {% endif %}
-                        {% if cv.reference_2.errors %}
-                           {% for error in cv.reference_2.errors %}
-                               <span class="span-error" >*Reference_2 {{error}}</span>
-                           {% endfor %}
-                        {% endif %}
+                <!-- ------------REFERENCE 2--------------->
+                <div  class="acc-labels margin-l-15">{{ cv.reference_2.label()}}</div>
+                {% if current_user.reference_2 %}
+                   <textarea  name="reference_2" class="acc-form-control media-h2" placeholder="Name & Contact(s)"> {{current_user.reference_2}}</textarea>
+                {% else %}
+                    {{ cv.reference_2(class="acc-form-control",placeholder="Name & Contact(s)")}}
+                {% endif %}
+                {% if cv.reference_2.errors %}
+                   {% for error in cv.reference_2.errors %}
+                       <span class="span-error" >*{{error}}</span>
+                   {% endfor %}
+                {% endif %}
         </div>
 
         <div style="padding-left:50px;width:80%;" class="form-group">
@@ -223,10 +223,13 @@
         <div style="padding-left:50px;width:40% !important;" class="d-flex flex-row align-items-center justify-content-between">
               {{ cv.update(class="btns") }}
         </div>
-            <h3>Are You a Freelancer or You are inspired to be One?</h3>
-            <h4>We ready to usher you in, please follow the link below, </h4>
-            <div  class="btns-margin"><a class="btns" href="/freelancers_form">Join Eswatini Freelancers</a></div>
-
+            {% if not the_freelancer %}
+                <h3>Are You a Freelancer or You are inspired to be One?</h3>
+                <h4>We ready to usher you in, please follow the link below, </h4>
+                <div  class="btns-margin"><a class="btns" href="/freelancers_form">Join Eswatini Freelancers</a></div>
+            {% else %}
+                <div style="margin-left:50px" class="btns-margin"><a class="btns" href="/freelancers_form_update">Edit Freelance Account?</a></div>
+            {% endif %}
               </form>
         </div>
     </div>

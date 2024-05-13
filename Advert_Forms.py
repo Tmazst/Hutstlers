@@ -132,8 +132,8 @@ class Approved_Form(FlaskForm):
     submit = SubmitField('Approve')
 
 class Freelance_Section(FlaskForm):
-    title = StringField('Title:', validators=[DataRequired(), Length(min=5, max=100)])
-    experience = StringField('Years of Experience(Optional):', validators=[DataRequired(), Length(min=4, max=60)])
+    skills = StringField('Skill(s):', validators=[DataRequired(), Length(min=5, max=100)])
+    experience = StringField('Previous Works(Optional):', validators=[DataRequired(), Length(min=4, max=300)])
     what_do_you_do = TextAreaField('Explain your Work:', validators=[DataRequired(), Length(min=10, max=1000)])
     other_fl = StringField('Your Sell Tag (Optional):')
     portfolio_file = FileField('Upload Portfolio', validators=[FileAllowed(['pdf', 'docx'])])
