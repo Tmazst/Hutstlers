@@ -50,7 +50,12 @@
                   <p class="view_applicant_p" ><span style="font-wight:bold;" >Tertiary: </span>{{job_usr .tertiary}}</p>
 
                   <p class="view_applicant_p" ><span style="font-wight:bold;" >Work: </span>{{job_usr .experience}}</p>
-
+                  {% if job_usr.other %}
+                    <div class="form-group">
+                        <h3 style="margin-bottom:-10px">Check My Resume</h3><br>
+                        <a id="open_pdf" style="background-color:#f66;" class="view_freelanca_p"  href="/pdf_viewer?opn_fl={{job_usr.other}}">Open Resume</a>
+                    </div>
+                  {% endif %}
             </div>
 
 

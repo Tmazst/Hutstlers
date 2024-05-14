@@ -50,7 +50,12 @@
                           <p class="view_applicant_p" ><span style="font-wight:bold;" >Tertiary: </span>{{job_usr .tertiary}}</p>
 
                           <p class="view_applicant_p" ><span style="font-wight:bold;" >Work Experience: </span>{{job_usr .experience}}</p>
-
+                          {% if job_usr.other %}
+                            <div class="form-group">
+                                <h3 style="margin-bottom:-10px">Check My Resume</h3><br>
+                                <a id="open_pdf" style="background-color:#f66;" class="view_freelanca_p"  href="/pdf_viewer?opn_fl={{job_usr.other}}">Open Resume</a>
+                            </div>
+                          {% endif %}
                     </div>
 
 
@@ -59,24 +64,17 @@
                             <div style="width:60%;margin-bottom:-10px" class="line-separator"></div>
                           <p class="view_applicant_p" ><span style="font-wight:bold;" >Skills: </span>{{job_usr .skills}}</p>
                           <p class="view_applicant_p" ><span style="font-wight:bold;" >Hobbies: </span>{{job_usr .hobbies}}</p>
-
-
                     </div>
 
                     <div style="padding-bottom:25px;" class="form-group">
                         <h3>References</h3>
                         <div style="width:60%;margin-bottom:-10px" class="line-separator"></div>
                         <p class="view_applicant_p" ><span style="font-wight:bold;" >Physical Address: </span>{{job_usr .address}}</p>
-
-                        <p class="view_applicant_p" ><span style="font-wight:bold;" >Reference 1: </span>{{job_usr .reference_1}}</p>
-
-                        <p class="view_applicant_p" ><span style="font-wight:bold;" >Reference 2: </span>{{job_usr .reference_2}}</p>
-
-
+                        <p class="view_applicant_p" ><span style="font-wight:bold;" >Reference (one): </span>{{job_usr .reference_1}}</p>
+                        <p class="view_applicant_p" ><span style="font-wight:bold;" >Reference (Two): </span>{{job_usr .reference_2}}</p>
                     </div>
 
                     <div class="d-flex flex-row align-items-center justify-content-between">
-
 
                    </div>
                   </div>
@@ -85,7 +83,7 @@
 
             <div  style="min-width:350px;padding:20px"  class="form_container_ browse-job">
                 <div class="portfolio-div">
-                    <h2 style="color:coral">Portfolio / Consecutive</h2>
+                    <h2 style="color:coral">Portfolio</h2>
                         <div class="portfolio-cont">
 
 <!--                             To list the job opening the user has filled since joining THT to-date-->
