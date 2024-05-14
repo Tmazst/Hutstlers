@@ -1221,18 +1221,27 @@ def job_adverts():
                                   (job.application_deadline - date_today).days >= 0]
                 job_ads_older = [job for job in Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted)) if
                                  (job.application_deadline - date_today).days < 0]
+
+                if job_ads_latest:
+                    category_list_unfltd = [category for category in job_ads_latest.category]
+
+                    category_set = set(category_list_unfltd)
+
+
         #For all companies
         elif not id_: #not value and
             job_ads_latest = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if (job.application_deadline - date_today).days >= 0]
             job_ads_older = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if
                               (job.application_deadline - date_today).days < 0]
 
-            print("LATEST JOBS: ",  job_ads_latest )
-            print("OLDER JOBS: ", job_ads_older)
+            if job_ads_latest:
+                category_list_unfltd = [category for category in job_ads_latest.category]
+
+                category_set = set(category_list_unfltd)
 
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_gui.html", job_ads_latest=job_ads_latest,job_ads_older=job_ads_older, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser,date_today=date_today)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser,date_today=date_today,category_set=category_set)
 
 
 @app.route("/job_ad_opened", methods=["GET", "POST"])
