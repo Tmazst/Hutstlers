@@ -1303,11 +1303,10 @@ def job_adverts_filtered():
     if request.method == 'GET':
         value = request.args.get('value')
 
-
-        if value != 'today' or value != 'yesterday' or value != 'this_week' or value != 'this_month':
+        if value not in ['today', 'yesterday', 'this_week', 'this_month']:
             flash(f"Check Get Id: {value} {type(value)}", "error")
             job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
-        elif value == 'today' or value == 'yesterday' or value == 'this_week' or value == 'this_month':
+        elif value in ['today', 'yesterday', 'this_week', 'this_month']:
             flash(f"Check Get Id: {value} ", "success")
             job_ads = date_filter(value)
 
