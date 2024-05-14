@@ -69,7 +69,7 @@
                     <div style="padding-bottom:25px;" class="form-group">
                         <h3>References</h3>
                         <div style="width:60%;margin-bottom:-10px" class="line-separator"></div>
-                        <p class="view_applicant_p" ><span style="font-wight:bold;" >Physical Address: </span>{{job_usr .address}}</p>
+                        <p class="view_applicant_p" ><span style="font-wight:bold;" >Physical Address: </span>{{job_usr.address}}</p>
                         <p class="view_applicant_p" ><span style="font-wight:bold;" >Reference (one): </span>{{job_usr .reference_1}}</p>
                         <p class="view_applicant_p" ><span style="font-wight:bold;" >Reference (Two): </span>{{job_usr .reference_2}}</p>
                     </div>
@@ -90,6 +90,7 @@
                             {% if portfolio_approved_jobs %}
                                 <div class="jobs-list">
                                 {% for ea_job in portfolio_approved_jobs%}
+                                    {% ea_job.usr_id == job_usr.id %}
                                     <div class="resume-details"><br>
 
                                         <div class="resume-summary">
@@ -102,6 +103,7 @@
                                             {{ea_job.portfolio_feedback}}
                                         </small><br><br>
                                     </div>
+                                    {% endif %}
                                 {% endfor %}
                                 </div>
 
