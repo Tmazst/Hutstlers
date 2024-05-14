@@ -1306,10 +1306,11 @@ def job_adverts_filtered():
 
         if not value.startswith('today') or not value.startswith('yesterday') or not value.startswith(
                 'this_week') or not value.startswith('this_month'):
+            flash(f"Check Get Id: {value} ", "success")
             job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
         elif value.startswith('today') or value.startswith('yesterday') or value.startswith(
                 'this_week') or not value.startswith('this_month'):
-            flash(f"Check Get Id: {value} ", "success")
+
             job_ads = date_filter(value)
 
 
