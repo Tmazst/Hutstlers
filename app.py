@@ -1299,7 +1299,7 @@ def job_adverts_filtered():
     job_ads_form = Job_Ads_Form()
     if request.method == 'GET':
         value = request.args.get('value')
-        print("Check Get Id: ", value)
+        flash(f"Check Get Id: {value} ")
 
         if not value.startswith('today') or not value.startswith('yesterday') or not value.startswith(
                 'this_week') or not value.startswith('this_month'):
