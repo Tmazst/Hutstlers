@@ -1304,14 +1304,22 @@ def job_adverts_filtered():
     if request.method == 'GET':
         value = request.args.get('value')
 
+        jobs_categories = Jobs_Ads.query.all()
+        category_set = None
+        if jobs_categories:
+            category_list_unfltd = [item.category for item in jobs_categories]
+            category_set = set(category_list_unfltd)
+
         if value not in ['today', 'yesterday', 'this_week', 'this_month']:
             job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
+
         elif value in ['today', 'yesterday', 'this_week', 'this_month']:
             job_ads = date_filter(value)
 
+
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_filtered.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser,category_set=category_set)
 
 
 @app.route("/freelance_job_ads", methods=["GET", "POST"])
