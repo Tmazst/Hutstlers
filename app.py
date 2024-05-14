@@ -316,7 +316,7 @@ def account():
                 usr.other=save_pdf(cv.cv_file.data)
 
             elif cv.cv_file.data and not usr.other:
-                file=save_pic(cv.cv_file.data)
+                file=save_pdf(cv.cv_file.data)
                 usr.other = file
 
             usr.name = cv.name.data

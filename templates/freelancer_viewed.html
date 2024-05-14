@@ -20,7 +20,7 @@
           <div style="" class="form-group">
               <h2 style="font-size:29px" class="card-title text-center">Freelancer</h2>
               <div style="margin-left:10px"   class="img-cont">
-                  {% if not user_.image == None %}
+                  {% if user_.image %}
                         <img class="prf-image" src="static/images/{{user_.image}}"/>
                   {% else %}
                         <img class="prf-image" src="static/images/default.jpg"/>
