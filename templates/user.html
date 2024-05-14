@@ -35,19 +35,19 @@
 
                             <h2 style="margin-bottom:0px;margin-top:0px;">{{item.name}}<br></h2>
                             <span><small style="color:#aaa" >{{item.email}}</small></span>
-                            <span><small style="color:#aaa" >{{item.address}}</small></span>
+                            <span><small style="color:#aaa" >{{item.address}}</small></span><br>
 
                             <!-------JOB TITLE--------->
 
                         {% if item.tertiary %}
 
-                            <p class="view_applicant_p" ><span class="view_freelanca_p" >Tertiary</span><span></span></p>
-                            <p class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.tertiary}}</p>
+                            <div><small class="view_applicant_p" ><span class="view_freelanca_p" >Tertiary</span><span></span></small></div>
+                            <div><small class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.tertiary}}</small></div><br><br>
                         {% endif %}
                             <!---------JOB TYPE--------->
                         {% if item.experience %}
-                            <p class="view_applicant_p" ><span class="view_freelanca_p" >Experience</span><span></span></p>
-                            <p class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.experience}}</p>
+                        <div><small class="view_applicant_p" ><span class="view_freelanca_p" >Experience</span><span></span></small></div>
+                        <div><small class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.experience}}</small></div>
                         {% endif %}
                         <br><br>
                         <div class="space-filler"></div>
