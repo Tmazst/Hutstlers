@@ -18,9 +18,8 @@
     {% if category_set %}
     <div style="display:flex;flex-wrap:wrap;gap:10px;">
         <div class="category-filter">
-            <label for="Job Category"> <span>Filters:</span></label><br>
             <select onchange="location = this.value;" id="category-filter" class="jobs-category" style="margin-bottom:10px" name="field_category_sel">
-                 <option value="/job_ads">--------Category-------</option>
+                 <option value="/job_ads">--------Category Filter-------</option>
                     {% for each_cat in category_set %}
                      <option value="/job_ads_filtered?value={{each_cat}}">{{each_cat}}</option>
                     {% endfor %}
@@ -30,7 +29,7 @@
         <div class="category-filter">
             <label for="Job Category"> <span></span></label>
             <select onchange="location = this.value;" id="date-filter" class="jobs-category" style="margin-bottom:10px" name="field_category_sel">
-                 <option value="/job_ads">--------Date-------</option>
+                 <option value="/job_ads">--------Date Filter-------</option>
                     <option value="/job_ads_filtered?value=today">Today</option>
                     <option value="/job_ads_filtered?value=yesterday">Yesterday</option>
                     <option value="/job_ads_filtered?value=this_week">This Week</option>
