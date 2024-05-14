@@ -46,9 +46,9 @@ app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
 # if os.environ.get('ENV') == 'LOAL':
 #     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
@@ -709,7 +709,8 @@ def job_ads_form():
                 contact_person=job_ad_form.posted_by.data,
                 job_type=request.form.get('job_type_sel'),
                 application_deadline=job_ad_form.application_deadline.data,
-                job_posted_by=current_user.id
+                job_posted_by=current_user.id,
+                about_company = job_ad_form.about_company.data
             )
 
             # if bools are True
@@ -740,20 +741,18 @@ def job_ads_form():
             if not request.form.get('field_category_sel'):
                 job_post1.category = job_ad_form.category.data
 
-            # print("Check Category: ",request.form.get('field_category_sel'))
+
             db.session.add(job_post1)
             db.session.commit()
 
-            flash('Job Posted successfully!!', 'success')
+            flash('Job Posted Successfully!!', 'success')
 
     # elif request.method == "GET":
     #     job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(request.args.get("jo_id"))['data_11']).first()
 
 
-
-        print("Start Date: ",str(job_ad_form.start_date.data))
-
     return render_template("job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad)
+
 
 class jo_id_cls:
     id_ = None
@@ -781,6 +780,7 @@ def eidt_job_ads_form():
             job_post1.contact_person = job_ad_form.posted_by.data,
             job_post1.job_type = request.form.get('job_type_sel'),
             job_post1.application_deadline = job_ad_form.application_deadline.data,
+            job_post1.about_company = job_ad_form.about_company.data
 
             # if bools are True
             if job_ad_form.pay_type_bl.data:
@@ -1262,7 +1262,6 @@ def job_adverts_filtered():
 
     no_image_fl = 'static/images/default.jpg'
 
-    db.create_all()
     usr = user()
     # job_ads = []
     # job_ads = db.query(company_user.job_ads).all()

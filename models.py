@@ -164,6 +164,7 @@ class Jobs_Ads(db.Model, UserMixin):
     job_title = db.Column(db.String(100))
     pay_type = db.Column(db.String(50))
     job_type = db.Column(db.String(50))
+    about_company = db.Column(db.String(255))
     category = db.Column(db.String(255))
     description = db.Column(db.String(200))
     work_duration = db.Column(db.DateTime)

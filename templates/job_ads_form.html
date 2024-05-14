@@ -122,6 +122,18 @@
                  </div>
              </div>
 
+            <!-------ABOUT COMPANY--------->
+             <div class="job-ad-group marginise-bottom">
+
+                 {{ job_ad_form.about_company.label(class="labels")}}<br>
+                  {{ job_ad_form.about_company(class="form-control adj-width-60", style="min-height:150px",placeholder="")}}
+                  {% if job_ad_form.about_company.errors %}
+                    {% for error in job_ad_form.about_company.errors %}
+                        <span class="span-error" >*{{error}}</span>
+                    {% endfor %}
+                 {% endif %}
+             </div>
+
             <!-------JOB DESCRIPTION--------->
              <div class="job-ad-group marginise-bottom">
 
