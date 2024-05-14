@@ -90,7 +90,7 @@
                             {% if portfolio_approved_jobs %}
                                 <div class="jobs-list">
                                 {% for ea_job in portfolio_approved_jobs%}
-                                    {% ea_job.usr_id == job_usr.id %}
+                                    {% if ea_job.usr_id == job_usr.id %}
                                     <div class="resume-details"><br>
 
                                         <div class="resume-summary">
