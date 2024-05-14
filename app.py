@@ -1193,19 +1193,19 @@ def cmp_user_profile():
 def date_filter(input):
 
     if input.startswith('today'):
-        today_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= date.today())
+        today_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= date.today()).all()
         flash(f'Entries Today {today_jobs}', 'error')
         return today_jobs
     elif input.startswith('yesterday'):
         yesterday = date.today() - timedelta(days=1)
-        yesterday_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= yesterday)
+        yesterday_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= yesterday).all()
         flash(f'Entries Yesterday {yesterday_jobs}', 'error')
         return yesterday_jobs
     elif input.startswith('this_week'):
         today = date.today()
         start_of_week = today - timedelta(days=today.weekday())  # Monday
         end_of_week = start_of_week + timedelta(days=6)  # Sunday
-        this_week_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_week, end_of_week))
+        this_week_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_week, end_of_week)).all()
         flash(f'Entries This Week {this_week_jobs}', 'error')
         return this_week_jobs
     elif input.startswith('this_month'):
@@ -1213,7 +1213,7 @@ def date_filter(input):
         start_of_month = date(day=1, month=today.month, year=today.year)
         _, last_day = calendar.monthrange(today.year, today.month)
         end_of_month = date(day=last_day, month=today.month, year=today.year)
-        this_month_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_month, end_of_month))
+        this_month_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_month, end_of_month)).all()
         flash(f'Entries This Month {this_month_jobs}', 'error')
         return this_month_jobs
     else:
