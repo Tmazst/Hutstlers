@@ -1223,7 +1223,7 @@ def job_adverts():
                                  (job.application_deadline - date_today).days < 0]
 
                 if job_ads_latest:
-                    category_list_unfltd = [category for category in job_ads_latest.category]
+                    category_list_unfltd = [item.category for item in job_ads_latest]
 
                     category_set = set(category_list_unfltd)
 
@@ -1235,7 +1235,7 @@ def job_adverts():
                               (job.application_deadline - date_today).days < 0]
 
             if job_ads_latest:
-                category_list_unfltd = [category for category in job_ads_latest.category]
+                category_list_unfltd = [item.category for item in job_ads_latest]
 
                 category_set = set(category_list_unfltd)
 
