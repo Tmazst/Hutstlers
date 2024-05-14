@@ -66,6 +66,7 @@
 
                         <!-------JOB TITLE--------->
                         <p class="job-title">{{item.job_title}}</p>
+                        <small class="" style="color:#999;font-size:11px;margin-top:-10px">{{item.date_posted.strftime("%d %B %y  | %H:%M")}}</small>
                         <p style="color:#006769;font-weight:600;font-size:13px">{{item.category}}</p>
                         <div class="job-sub-title">
                             <!-------JOB TYPE--------->
@@ -73,10 +74,11 @@
                                 <p class="centralise_font size-it"><span class="material-icons ">work</span>    Job Type</p>
                                 <label style="margin-top:-10px" class="centralise_font">{{item.job_type}}</label>
                             </div>
-                            <!--------DEADLINE-------------->
+                            <!--------------DEADLINE-------------->
                             <div class="job-info">
-                                <p class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Project Due</p>
-                                <label class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
+                                <p  id="deadline-div" class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Project Due</p>
+                                <label id="deadline" class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
+                                <small id="days_left" class="" style="color:#999;font-size:11px;margin-top:-10px"></small>
                             </div>
 
                         </div>

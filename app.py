@@ -1194,19 +1194,16 @@ def date_filter(input):
 
     if input.startswith('today'):
         today_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= date.today()).all()
-        flash(f'Entries Today {today_jobs}', 'error')
         return today_jobs
     elif input.startswith('yesterday'):
         yesterday = date.today() - timedelta(days=1)
         yesterday_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= yesterday).all()
-        flash(f'Entries Yesterday {yesterday_jobs}', 'error')
         return yesterday_jobs
     elif input.startswith('this_week'):
         today = date.today()
         start_of_week = today - timedelta(days=today.weekday())  # Monday
         end_of_week = start_of_week + timedelta(days=6)  # Sunday
         this_week_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_week, end_of_week)).all()
-        flash(f'Entries This Week {this_week_jobs}', 'error')
         return this_week_jobs
     elif input.startswith('this_month'):
         today = date.today()
@@ -1214,7 +1211,6 @@ def date_filter(input):
         _, last_day = calendar.monthrange(today.year, today.month)
         end_of_month = date(day=last_day, month=today.month, year=today.year)
         this_month_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_month, end_of_month)).all()
-        flash(f'Entries This Month {this_month_jobs}', 'error')
         return this_month_jobs
     else:
         flash('No Entries','error')
@@ -1309,11 +1305,9 @@ def job_adverts_filtered():
         value = request.args.get('value')
 
         if value not in ['today', 'yesterday', 'this_week', 'this_month']:
-            flash(f"Check Get Id: {value} {type(value)}", "error")
             job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
         elif value in ['today', 'yesterday', 'this_week', 'this_month']:
             job_ads = date_filter(value)
-
 
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_filtered.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
