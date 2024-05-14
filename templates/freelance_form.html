@@ -83,6 +83,85 @@
                            {% endfor %}
                         {% endif %}
 
+                    <!--------------Links--------------->
+                        <div  class="acc-labels margin-l-15">{{ freelancer.fb_link.label()}}</div>
+                        {% if the_freelancer.fb_link %}
+                    {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town",value=the_freelancer.fb_link)}}
+                        {% else %}
+                            {{ freelancer.fb_link(class="acc-form-control",placeholder="Paste Facebook Link (Optional)")}}
+                        {% endif %}
+
+                        {% if freelancer.fb_link.errors %}
+                           {% for error in freelancer.fb_link.errors %}
+                               <span class="span-error" >* {{error}}</span>
+                           {% endfor %}
+                        {% endif %}
+
+                        <div  class="acc-labels margin-l-15">{{ freelancer.pinterest_link.label()}}</div>
+                        {% if the_freelancer.pinterest_link %}
+                            {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town",value=the_freelancer.pinterest_link)}}
+                        {% else %}
+                            {{ freelancer.pinterest_link(class="acc-form-control ",placeholder="Paste Pinterest Link (Optional)")}}
+                        {% endif %}
+
+                        {% if freelancer.pinterest_link.errors %}
+                           {% for error in freelancer.pinterest_link.errors %}
+                               <span class="span-error" >* {{error}}</span>
+                           {% endfor %}
+                        {% endif %}
+
+                        <div  class="acc-labels margin-l-15">{{ freelancer.linkedin_link.label()}}</div>
+                        {% if the_freelancer.linkedin_link %}
+                            {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town",value=the_freelancer.linkedin_link)}}
+                        {% else %}
+                            {{ freelancer.linkedin_link(class="acc-form-control ",placeholder="Paste LinkedIn Link (Optional)")}}
+                        {% endif %}
+
+                        {% if freelancer.linkedin_link.errors %}
+                           {% for error in freelancer.linkedin_link.errors %}
+                               <span class="span-error" >* {{error}}</span>
+                           {% endfor %}
+                        {% endif %}
+
+                        <div  class="acc-labels margin-l-15">{{ freelancer.twitter_link.label()}}</div>
+                        {% if the_freelancer.twitter_link %}
+                            {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town",value=the_freelancer.twitter_link)}}
+                        {% else %}
+                            {{ freelancer.twitter_link(class="acc-form-control ",placeholder="Paste X Link (Optional)")}}
+                        {% endif %}
+
+                        {% if freelancer.twitter_link.errors %}
+                           {% for error in freelancer.twitter_link.errors %}
+                               <span class="span-error" >* {{error}}</span>
+                           {% endfor %}
+                        {% endif %}
+
+                        <div  class="acc-labels margin-l-15">{{ freelancer.youtube_link.label()}}</div>
+                        {% if the_freelancer.youtube_link %}
+                            {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town",value=the_freelancer.youtube)}}
+                        {% else %}
+                            {{ freelancer.youtube_link(class="acc-form-control ",placeholder="Paste X Link (Optional)")}}
+                        {% endif %}
+
+                        {% if freelancer.youtube_link.errors %}
+                           {% for error in freelancer.youtube_link.errors %}
+                               <span class="span-error" >* {{error}}</span>
+                           {% endfor %}
+                        {% endif %}
+
+                        <div  class="acc-labels margin-l-15">{{ freelancer.instagram_link.label()}}</div>
+                        {% if the_freelancer.instagram_link %}
+                            {{ freelancer.other_fl(class="acc-form-control",placeholder="e.g. Best Nail Artist in Town",value=the_freelancer.instagram_link)}}
+                        {% else %}
+                            {{ freelancer.instagram_link(class="acc-form-control ",placeholder="Paste Instagram Link (Optional)")}}
+                        {% endif %}
+
+                        {% if freelancer.instagram_link.errors %}
+                           {% for error in freelancer.instagram_link.errors %}
+                               <span class="span-error" >* {{error}}</span>
+                           {% endfor %}
+                        {% endif %}
+
                 </div>
 
             <div style="padding-left:50px;width:80%;" class="form-group">
@@ -99,7 +178,4 @@
         </div>
      </div>
 </div>
-
-
-
 {% endblock %}

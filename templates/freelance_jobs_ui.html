@@ -68,12 +68,12 @@
                             <br>
 
                             <div class="job-sub-title">
-                                <!-------JOB TYPE--------->
+                                <!----------JOB TYPE--------->
                                 <div class="job-info">
                                     <p class="centralise_font size-it"><span class="material-icons ">badge</span>    Service Type</p>
                                     <label style="margin-top:-10px" class="centralise_font">{{item.service_type}}</label>
                                 </div>
-                                <!--------DEADLINE-------------->
+                                <!-----------DEADLINE-------------->
                                 <div class="job-info">
                                     <p id="deadline-div" class="centralise_font size-it" ><span class="material-icons ">calendar_month</span>    Deadline</p>
                                     <label id="deadline" class="centralise_font" style="font-size:10;margin-top:-10px">{{item.application_deadline.strftime("%d %b %y")}}</label>
@@ -83,7 +83,7 @@
                             </div>
 
 
-                             <!-------RESPONSIBILITIES--------->
+                             <!-----------RESPONSIBILITIES--------->
                             <div class="">
                                     <p class="centralise_font size-it" ><span class="material-icons">place</span></p>
                                     <div style="margin-top:-10px" class="centralise_font" ><label>{{db.session.query(company_user).get(item.job_posted_by).company_address}}</label></div>
@@ -93,7 +93,7 @@
                                  <p class="centralise_font" ></p>
                             </div>
 
-                            <!--------VIEW BUTTON-------------->
+                            <!-----------VIEW BUTTON-------------->
                             <div style="dispaly:block">
                                  <!--<input class="btns" type="submit" value="Create Account" />-->
                                  <a style="background-color:coral" class="view_job" href="/tender_ad_opened?id={{item.job_id}}">View</a>
@@ -103,10 +103,10 @@
                         {% endfor %}
                         {% else %}
                             <div style="padding-left:30px;padding-right:70px"  class="job_ad_container">
-                              <div class="flash-messages alert-error"> Coming Soon!!, check again later</div>
+                                <div class="flash-messages alert-error"> Coming Soon!!, check again later</div>
                             </div>
                         {% endif %}
-            </div>
+            </div><br><br>
 
         </div>
 {% endblock %}

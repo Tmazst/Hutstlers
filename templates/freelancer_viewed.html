@@ -27,7 +27,7 @@
                   {% endif %}
              </div>
 
-             <div class="form-group">
+             <div style="" class="form-group">
                  <div><h3 style="margin-bottom:-10px">Personal Information</h3></div>
                  <div style="width:60%;margin-bottom:" class="line-separator"></div>
                <p class="view_applicant_p" ><span  class="acc-labels" style="font-wight:bold;" > </span>{{user_.name}}</p>
@@ -62,6 +62,12 @@
                  <p class="view_applicant_p" ><span class="view_freelanca_p"> Pinterest </span><span>: : :</span> {{esw_freelancer.hobbies}}</p>
                 <p class="view_applicant_p" ><span class="view_freelanca_p"> Github </span><span>: : :</span>{{esw_freelancer.hobbies}}</p>
             </div>
+            {% if esw_freelancer.portfolio_pdf %}
+                <div class="form-group">
+                    <h3 style="margin-bottom:-10px">Check My Resume</h3><br>
+                    <a id="open_pdf" style="background-color:#f66;" class="view_freelanca_p"  href="/pdf_viewer?opn_fl={{esw_freelancer.portfolio_pdf}}">Open Resume</a>
+                </div>
+            {% endif %}
 
             <div style="padding-bottom:25px;" class="form-group">
                 <h3 style="margin-bottom:-10px">References</h3>

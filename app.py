@@ -44,6 +44,7 @@ app = Flask(__name__)
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
+
 # Local
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
@@ -182,16 +183,28 @@ def save_pic(picture, size_x=300, size_y=300):
 
     return new_img_name
 
+def delete_img(file_name):
+    file_path = os.path.join(app.root_path, 'static/images', file_name)
 
-def save_cv(cv_file):
-    _file_name, _ext = os.path.splitext(cv_file.filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+def save_pdf(pdf_file):
+    _file_name, _ext = os.path.splitext(pdf_file.filename)
     gen_random = secrets.token_hex(8)
-    new_cv_name = _file_name + gen_random + _ext
+    new_file_name_ext = _file_name + gen_random + _ext
 
-    os.path.join(app.root_path, 'static/files', new_cv_name)
+    file_path = os.path.join(app.root_path, 'static/files', new_file_name_ext)
 
-    return new_cv_name
+    pdf_file.save(file_path)
 
+    return new_file_name_ext
+
+def delete_pdf(file_name):
+    file_path = os.path.join(app.root_path, 'static/files', file_name)
+
+    if os.path.exists(file_path):
+        os.remove(file_path)
 
 @app.route('/static/css/style.css')
 def serve_static(filename):
@@ -285,13 +298,24 @@ def account():
         if cv.validate_on_submit():
             id = current_user.id
             usr = job_user.query.get(id)
-            if cv.image_pfl.data:
-                pfl_pic = save_pic(picture=cv.image_pfl.data)
-                usr.image = pfl_pic
 
-            if cv.cv_file.data:
-                cv_file_ = save_cv(cv_file=cv.cv_file.data)
-                usr.other = cv_file_
+            #Image
+            if usr.image and cv.image_pfl.data:
+                delete_img(usr.image)
+                usr.image = save_pic(picture=cv.image_pfl.data)
+
+            elif cv.image_pfl.data and not usr.image:
+                pfl_pic=save_pic(picture=cv.image_pfl.data)
+                usr.image=pfl_pic
+
+            #PDF
+            if usr.other and cv.cv_file.data:
+                delete_pdf(usr.other)
+                usr.other=save_pdf(cv.cv_file.data)
+
+            elif cv.cv_file.data and not usr.other:
+                file=save_pic(cv.cv_file.data)
+                usr.other = file
 
             usr.name = cv.name.data
             usr.email = cv.email.data
@@ -745,7 +769,7 @@ def eidt_job_ads_form():
     jo_id = None
 
     if request.method == 'POST':
-        print("Check Start Date: ", job_ad_form.start_date.data,job_ad_form.work_hours_bl.data)
+        # print("Check Start Date: ", job_ad_form.start_date.data,job_ad_form.work_hours_bl.data)
         if job_ad_form.validate_on_submit():
             job_post1 = Jobs_Ads.query.filter_by(job_id=ser.loads(request.args.get("jo_id"))['data_11']).first()
 
@@ -1038,6 +1062,15 @@ def meet_freelancers():
 
     return render_template("meet_freelancers.html", esw_freelancers=esw_freelancers,user=user)
 
+@app.route("/pdf_viewer")
+def pdf_viewer():
+
+    if request.method == "GET":
+        pdf_file = request.args.get("opn_fl")
+
+
+    return render_template("pdf_viewer.html",pdf_file=pdf_file)
+
 @app.route("/freelancer_viewed")
 def freelancer_viewed():
 
@@ -1051,7 +1084,7 @@ def freelancer_viewed():
 
         usr_years = int(years/365)
 
-        print("User Years: ",int(years/365))
+        print("User Years: ",esw_freelancer.portfolio_pdf)
 
     return render_template("freelancer_viewed.html",esw_freelancer=esw_freelancer,user_=user_,usr_years=usr_years)
 
@@ -1072,8 +1105,17 @@ def freelancers():
                     other_fl1=freelancer.skills.data,
                     fl_experience=freelancer.experience.data,
                     what_do_you_do=freelancer.what_do_you_do.data,
-                    portfolio_pdf=freelancer.portfolio_file.data
+                    fb_link=freelancer.fb_link.data,
+                    pinterest_link=freelancer.pinterest_link.data,
+                    linkedin_link=freelancer.linkedin_link.data,
+                    twitter_link=freelancer.twitter_link.data,
+                    youtube=freelancer.youtube_link.data,
+                    instagram_link=freelancer.instagram_link.data,
                 )
+
+                if freelancer.portfolio_file.data:
+                    freelancer_details.portfolio_pdf = save_pdf(freelancer.portfolio_file.data)
+
                 db.session.add(freelancer_details)
                 db.session.commit()
                 flash('You have successfully joined the Eswatini Freelance Pool!!', 'success')
@@ -1102,10 +1144,25 @@ def freelancers_form_update():
                 the_freelancer.other_fl1=freelancer.skills.data
                 the_freelancer.fl_experience=request.form.get("experience")
                 the_freelancer.what_do_you_do=request.form.get("what_do_you_do")
-                the_freelancer.portfolio_pdf=freelancer.portfolio_file.data
+                the_freelancer.fb_link=freelancer.fb_link.data
+                the_freelancer.pinterest_link=freelancer.pinterest_link.data
+                the_freelancer.linkedin_link=freelancer.linkedin_link.data
+                the_freelancer.twitter_link=freelancer.twitter_link.data
+                the_freelancer.youtube=freelancer.youtube_link.data
+                the_freelancer.instagram_link=freelancer.instagram_link.data
+
+                # the_freelancer.portfolio_pdf=freelancer.portfolio_file.data
+
+                if freelancer.portfolio_file.data and the_freelancer.portfolio_pdf:
+                    delete_pdf(the_freelancer.portfolio_pdf)
+                    the_freelancer.portfolio_pdf = save_pdf(freelancer.portfolio_file.data)
+
+                elif freelancer.portfolio_file.data and not the_freelancer.portfolio_pdf:
+                    file = save_pdf(freelancer.portfolio_file.data)
+                    the_freelancer.portfolio_pdf = file
 
                 db.session.commit()
-                flash('Update was Successful!!', 'success')
+                flash(f'Update was Successful !!', 'success')
 
             else:
                 for error in freelancer.errors:
@@ -1422,8 +1479,11 @@ def company_account():
 
         # print('DEBUG UPDATE 1: ', cmp_usr.web_link)
 
-        if company_update.company_logo.data:
-            # print("Debug Image on If: ", company_update.company_logo.data)
+        if cmp_usr.image and company_update.company_logo.data:
+            delete_img(cmp_usr.image)
+            cmp_usr.image = save_pic(picture=company_update.company_logo.data)
+
+        elif company_update.company_logo.data and not cmp_usr.image:
             pfl_pic = save_pic(picture=company_update.company_logo.data)
             cmp_usr.image = pfl_pic
 

@@ -57,7 +57,7 @@ class job_user(user):
     address = db.Column(db.String(120))
     reference_1 = db.Column(db.String(120))
     reference_2 = db.Column(db.String(120))
-    other = db.Column(db.String(120))
+    other = db.Column(db.String(120)) #Resume
     jobs_applied_for = relationship("Applications", backref='Applications.job_title', lazy=True)
     hired_user = relationship("hired", backref='Hired Applicant', lazy=True)
 
@@ -94,6 +94,7 @@ class user_experince_entries(db.Model, UserMixin): #A table form filling prior t
     other_fl = db.Column(db.String(120))
     what_do_you_do = db.Column(db.String(1000))
 
+
 class Esw_Freelancers(db.Model, UserMixin): #A table form filling prior tht experience
 
     __table_name__ = 'esw_freelancers'
@@ -107,6 +108,12 @@ class Esw_Freelancers(db.Model, UserMixin): #A table form filling prior tht expe
     other_fl2 = db.Column(db.String(120))
     other_fl3 = db.Column(db.String(120))
     other_fl4 = db.Column(db.String(120))
+    fb_link = db.Column(db.String(120))
+    pinterest_link = db.Column(db.String(120))
+    linkedin_link = db.Column(db.String(120))
+    twitter_link = db.Column(db.String(120))
+    youtube = db.Column(db.String(120))
+    instagram_link = db.Column(db.String(120))
     what_do_you_do = db.Column(db.String(1000))
 
 

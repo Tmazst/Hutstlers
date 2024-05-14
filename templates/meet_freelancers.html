@@ -32,11 +32,54 @@
                                 </div>
                             </div>
 
+
+
                             <h3 style="margin-bottom:0px;margin-top:0px;font-weight:600;color:coral">{{user.query.get(item.uid).name}}<br></h3>
                             <span><small style="color:#aaa" class="labels-resu" >{{user.query.get(item.uid).address}}</small></span>
                             {% if item.other_fl %}
                                 <small style="font-weight:500" class="labels-resu">"{{item.other_fl}}"</small>
                             {% endif %}
+
+                            <div class="for_links_icons">
+
+                                {% if item.fb_link %}
+                                <div style="width:100%">
+                                    <a href="{{item.fb_link}}" ><div style="background-color:;margin:2px;" class="">
+                                        <img class="social-icon sized" src="static/icons/fb_icon.png" /></div></a>
+                                </div>
+                                {% endif %}
+
+                                {% if item.pinterest_link %}
+                                <div style="width:100%">
+                                    <a href="{{item.pinterest_link}}" ><div style="background-color:;margin:2px;" class="">
+                                        <img class="social-icon sized" src="static/icons/pinterest_icon.png" /></div></a>
+                                </div>
+                                {% endif %}
+
+                                {% if item.twitter_link %}
+                                <div style="width:100%">
+                                    <a href="{{item.twitter_link}}" ><div style="background-color:;margin:2px;" class="">
+                                        <img class="social-icon sized" src="static/icons/x_icon.png" /></div></a>
+                                </div>
+                                {% endif %}
+
+
+                                {% if item.youtube %}
+                                <div style="width:100%">
+                                    <a href="{{item.youtube_link}}" ><div style="background-color:;margin:2px;" class="">
+                                        <img class="social-icon sized" src="static/icons/youtube_icon.png" /></div></a>
+                                </div>
+                                {% endif %}
+
+                                {% if item.instagram_link %}
+                                <div style="width:100%">
+                                    <a href="{{item.instagram_link}}" ><div style="background-color:;margin:2px;" class="">
+                                        <img class="social-icon sized" src="static/icons/instagram_icon.png" /></div></a>
+                                </div>
+                                {% endif %}
+
+                            </div>
+
                             <!-------JOB TITLE--------->
                             <p style="padding:10px;font-size:16px !important;background-color:#eee;color:#555;font-weight:600" class="job-title">{{item.what_do_you_do}}</p>
 
