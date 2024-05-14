@@ -1305,9 +1305,10 @@ def job_adverts_filtered():
 
 
         if not value == 'today' or not value == 'yesterday' or not value == 'this_week' or not value == 'this_month':
-            flash(f"Check Get Id: {value} ", "success")
+            flash(f"Check Get Id: {value} ", "error")
             job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
         elif value == 'today' or value == 'yesterday' or value == 'this_week' or value == 'this_month':
+            flash(f"Check Get Id: {value} ", "success")
             job_ads = date_filter(value)
 
 
