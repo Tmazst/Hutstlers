@@ -38,19 +38,18 @@
                             <span><small style="color:#aaa" >{{item.address}}</small></span>
 
                             <!-------JOB TITLE--------->
-                        {% if item.other %}
-                            <p class="job-title">{{item.other}}</p>
-                        {% endif %}
+
                         {% if item.tertiary %}
-                            <p class="">{{item.tertiary}}</p>
+
+                            <p class="view_applicant_p" ><span class="view_freelanca_p" >Tertiary</span><span></span></p>
+                            <p class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.tertiary}}</p>
                         {% endif %}
                             <!---------JOB TYPE--------->
                         {% if item.experience %}
-                            <span><small style="color:#909090" >{{item.experience}}</small></span>
+                            <p class="view_applicant_p" ><span class="view_freelanca_p" >Experience</span><span></span></p>
+                            <p class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.experience}}</p>
                         {% endif %}
-                        {% if item.skills %}
-                            <p class="">{{item.skills}}</p>
-                        {% endif %}<br><br>
+                        <br><br>
                         <div class="space-filler"></div>
                         <div style="dispaly:block">
                                  <a class="view_user" href="/user_viewed?id={{ser.dumps({'data6':item.id})}}">View</a>
