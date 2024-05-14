@@ -19,7 +19,7 @@
     <div class="category-filter">
         <label for="Job Category"> <span>Category:</span></label>
         <select onchange="location = this.value;" id="category-filter" class="jobs-category" style="margin-bottom:10px" name="field_category_sel">
-             <option value="/job_ads">--Filter by Category--</option>
+             <option value="/job_ads">--------Filter-------</option>
                 {% for each_cat in category_set %}
                  <option value="/job_ads_filtered?value={{each_cat}}">{{each_cat}}</option>
                 {% endfor %}
