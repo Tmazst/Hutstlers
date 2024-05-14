@@ -1210,6 +1210,7 @@ def date_filter(input):
         _, last_day = calendar.monthrange(today.year, today.month)
         end_of_month = date(day=last_day, month=today.month, year=today.year)
         this_month_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_month, end_of_month))
+        return this_month_jobs
     else:
         flash('No Entries','error')
 
@@ -1301,13 +1302,14 @@ def job_adverts_filtered():
     job_ads_form = Job_Ads_Form()
     if request.method == 'GET':
         value = request.args.get('value')
-        flash(f"Check Get Id: {value} ","success")
+
 
         if not value.startswith('today') or not value.startswith('yesterday') or not value.startswith(
                 'this_week') or not value.startswith('this_month'):
             job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
         elif value.startswith('today') or value.startswith('yesterday') or value.startswith(
                 'this_week') or not value.startswith('this_month'):
+            flash(f"Check Get Id: {value} ", "success")
             job_ads = date_filter(value)
 
 
