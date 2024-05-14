@@ -16,6 +16,7 @@ import os
 from PIL import Image
 from sqlalchemy import exc,desc
 import rsa
+
 # from flask_security import Security,SQLAlchemyUserDatastore
 import pyotp
 # ......for local DB
@@ -27,9 +28,10 @@ from models import db, user, company_user, job_user, Jobs_Ads, Applications, Fre
     FreeL_Applications, Freelancers, users_tht_portfolio, hired, Esw_Freelancers
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
-from datetime import datetime
+from datetime import datetime,date, timedelta
 import time
 import itsdangerous
+import calendar
 import platform
 import base64
 
@@ -1188,6 +1190,27 @@ def cmp_user_profile():
     return f"{users}"
 
 
+def date_filter(input):
+    if input.startswith('today'):
+        today_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= date.today())
+        return today_jobs
+    elif input.startswith('yesterday'):
+        yesterday = date.today() - timedelta(days=1)
+        yesterday_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= yesterday)
+        return yesterday_jobs
+    elif input.startswith('this_week'):
+        today = date.today()
+        start_of_week = today - timedelta(days=today.weekday())  # Monday
+        end_of_week = start_of_week + timedelta(days=6)  # Sunday
+        this_week_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_week, end_of_week))
+        return this_week_jobs
+    elif input.startswith('this_month'):
+        today = date.today()
+        start_of_month = date(day=1, month=today.month, year=today.year)
+        _, last_day = calendar.monthrange(today.year, today.month)
+        end_of_month = date(day=last_day, month=today.month, year=today.year)
+        this_month_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_month, end_of_month))
+
 @app.route("/job_ads", methods=["GET", "POST"])
 # @basic_auth.required
 def job_adverts():
@@ -1224,7 +1247,6 @@ def job_adverts():
 
                 if job_ads_latest:
                     category_list_unfltd = [item.category for item in job_ads_latest]
-
                     category_set = set(category_list_unfltd)
 
 
@@ -1279,8 +1301,13 @@ def job_adverts_filtered():
         value = request.args.get('value')
         print("Check Get Id: ", value)
 
-        job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
-        # print("Check Get Id: ", job_ads)
+        if not value.startswith('today') or not value.startswith('yesterday') or not value.startswith(
+                'this_week') or not value.startswith('this_month'):
+            job_ads = Jobs_Ads.query.filter(Jobs_Ads.category.like(f"{value}%")).all()
+        elif value.startswith('today') or value.startswith('yesterday') or  value.startswith(
+                'this_week') or not value.startswith('this_month'):
+            job_ads = date_filter(value)
+
 
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_filtered.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
