@@ -1843,6 +1843,7 @@ def hire_freelancer():
 
         elif request.method == 'POST':
             flash(f'Post Request {Store_UID.id_ }', 'success')
+            id_ = Store_UID.id_
             if id_:
                 # Logic to hire the user and update the application status
                 hire_freelanca = hire_freelancer(
