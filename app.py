@@ -1854,8 +1854,8 @@ def hire_freelancer():
                     hired_date=datetime.utcnow()
                 )
 
-                # db.session.add(hire_freelanca)
-                # db.session.commit()
+                db.session.add(hire_freelanca)
+                db.session.commit()
 
                 def send_mail():
 
