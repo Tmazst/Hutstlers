@@ -1871,12 +1871,12 @@ def hire_freelancer():
                     mail = Mail(app)
 
                     msg = Message("Expression of Interest for your Services", sender=em, recipients=[user_obj.email])
-                    msg.body = f""" Hi {user_obj.id}
+                    msg.body = f""" Hi {user_obj.name}
 
-                    {current_user.name} has expressed an interest to hire the quality of your services. Please attend to this message as soon as you read this
-                    by following the link below to see all the details.
+{current_user.name} has expressed an interest to hire the quality of your services. Please attend to this message as soon as you read this
+by following the link below to see all the details.
                     
-                    View Details & Sign-up the Deal!: {url_for('reset', token=job_id_token, _external=True)}
+ View Details & Sign-up the Deal!: {url_for('fl_approve_deal', token=job_id_token, _external=True)}
 
 
                     """
@@ -1916,6 +1916,8 @@ def fl_approve_deal(token):
             deal_obj.other_hr = "Taken_" + str(deal_obj.freel_id)
 
             flash('Approved Successfully!!', 'success')
+    else:
+        flash("Authorization Failed",'error')
 
     return render_template('approve_report.html', deal_obj=deal_obj,user=user)
 
