@@ -120,9 +120,9 @@
 
              <div>
                  <!--<input class="btns" type="submit" value="Create Account" />-->
-                {% if current_user.role != 'company_user' %}
-                    <a class="btns" href="/send_application_fl?tender_id={{item.job_id}}">Apply Now</a>
-                 {% endif %}
+
+               <a class="btns" href="/send_application_fl?tender_id={{item.job_id}}">Apply Now</a>
+
              </div>
 
         </div>

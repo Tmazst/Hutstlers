@@ -1073,7 +1073,9 @@ def pdf_viewer():
 
     return render_template("pdf_viewer.html",pdf_file=pdf_file)
 
+
 @app.route("/freelancer_viewed")
+@login_required
 def freelancer_viewed():
 
     if request.method == "GET":
@@ -1360,6 +1362,24 @@ def freelance_job_adverts():
                            company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
 
 
+@app.route("/fl_applications", methods=["GET", "POST"])
+def fl_applications():
+    # Get all applications from Applications database
+    all_applications = FreeL_Applications.query.all()
+
+    # print("Debug Application List: ", db.query(job_user).get(all_applications[0].applicant_id).name )
+
+    esw_freelancers = Esw_Freelancers
+
+    applications = FreeL_Applications()
+
+    usr = user
+    freelance_ads = Freelance_Jobs_Ads
+
+    return render_template("fl_applications.html", all_applications=all_applications, usr=usr, freelance_ads=freelance_ads,
+                           applications=applications, db=db,ser=ser,esw_freelancers=esw_freelancers)
+
+
 @app.route("/send_application_fl", methods=["GET", "POST"])
 @login_required
 def send_application_fl():
@@ -1377,10 +1397,12 @@ def send_application_fl():
 
             if request.method == "GET":
                 tender_id = request.args['tender_id']
+
                 apply = FreeL_Applications(
                     applicant_id=current_user.id,
                     freel_job_details_id=tender_id,  # db.query(Jobs_Ads).get(jb_id),
-                    employer_id=Freelance_Jobs_Ads.query.get(tender_id).job_posted_by
+                    employer_id=Freelance_Jobs_Ads.query.get(tender_id).job_posted_by,
+
                 )
 
                 # Check if application not sent before
@@ -1845,7 +1867,7 @@ def hire_freelancer():
         elif request.method == 'POST':
             id_ = Store_UID.id_
             if id_:
-                flash(f'Post Request {Store_UID.id_}', 'success')
+                # flash(f'Post Request {Store_UID.id_}', 'success')
                 # Logic to hire the user and update the application status
                 hire_freelanca = Hire_Freelancer(
                     freelancer_id=id_,
@@ -1918,7 +1940,7 @@ def fl_approve_deal(token):
             def send_mail():
 
                 # job_id_token = user_class().get_reset_token(hire_freelanca.id)
-                user_obj = user.query.get(deal_obj.freelancer_id )
+                user_obj = user.query.get(deal_obj.freelancer_id)
 
                 app.config["MAIL_SERVER"] = "smtp.googlemail.com"
                 app.config["MAIL_PORT"] = 587
@@ -1929,11 +1951,12 @@ def fl_approve_deal(token):
                 mail = Mail(app)
 
                 msg = Message("Re:Expression of Interest for your Services", sender=em, recipients=[user_obj.email])
-                msg.body = f""" Hi {deal_obj.employer_id}
+                msg.body = f""" Hi {user.query.get(deal_obj.employer_id).name}
 
-{current_user.name} has approved and confirm to offer the services you requested based on the information below. 
+{current_user.name} has approved and confirm to offer the services you requested below; 
 
 Job Brief:
+
 {deal_obj.purpose_for_hire}
 
                                 """
@@ -1949,8 +1972,6 @@ Job Brief:
                     return "The mail was not sent"
 
             send_mail()
-
-
 
     return render_template('approve_deal.html', deal_obj=deal_obj,user=user)
 
