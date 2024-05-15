@@ -1915,9 +1915,42 @@ def fl_approve_deal(token):
 
             deal_obj.other_hr = "Taken_" + str(deal_obj.freelancer_id )
 
-            flash('Approved Successfully!!', 'success')
-    else:
-        flash("Authorization Failed",'error')
+            def send_mail():
+
+                # job_id_token = user_class().get_reset_token(hire_freelanca.id)
+                user_obj = user.query.get(deal_obj.freelancer_id )
+
+                app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+                app.config["MAIL_PORT"] = 587
+                app.config["MAIL_USE_TLS"] = True
+                em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
+                app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
+
+                mail = Mail(app)
+
+                msg = Message("Re:Expression of Interest for your Services", sender=em, recipients=[user_obj.email])
+                msg.body = f""" Hi {deal_obj.employer_id}
+
+{current_user.name} has approved and confirm to offer the services you requested based on the information below. 
+
+Job Brief:
+{deal_obj.purpose_for_hire}
+
+                                """
+
+                try:
+                    mail.send(msg)
+                    flash(
+                        f'Congratulations Deal Sealed!!',
+                        'success')
+
+                except Exception as e:
+                    flash(f'Ooops Something went wrong!! Please Retry', 'error')
+                    return "The mail was not sent"
+
+            send_mail()
+
+
 
     return render_template('approve_deal.html', deal_obj=deal_obj,user=user)
 
