@@ -1817,7 +1817,8 @@ def hire_applicant():
     # return a response for scenarios other than GET or POST request
     return render_template("hire_applicant.html", job_usr=None, db=db)
 
-
+class Store_UID:
+    id_ = None
 # (3) After viewing the freelancer, they hire the applicant
 @app.route("/hire_freelancer", methods=["GET", "POST"])
 def hire_freelancer():
@@ -1834,13 +1835,14 @@ def hire_freelancer():
                 encr_id = request.args['id']
                 id_ = ser.loads(encr_id)['data17']
                 freelancer_user = user.query.get(id_)
+                Store_UID.id_ = id_
 
             except Exception as e:
                 # flash message for error
                 flash(f'Something went wrong: {e}', 'error')
 
         elif request.method == 'POST':
-            flash(f'Post Request {id_}', 'success')
+            flash(f'Post Request {Store_UID.id_ }', 'success')
             if id_:
                 # Logic to hire the user and update the application status
                 hire_freelanca = hire_freelancer(
