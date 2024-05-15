@@ -1817,7 +1817,8 @@ def hire_applicant():
     # return a response for scenarios other than GET or POST request
     return render_template("hire_applicant.html", job_usr=None, db=db)
 
-# (3) After viewing the applicant, they hire the applicant
+
+# (3) After viewing the freelancer, they hire the applicant
 @app.route("/hire_freelancer", methods=["GET", "POST"])
 def hire_freelancer():
     
@@ -1851,11 +1852,74 @@ def hire_freelancer():
                 db.session.add(hire_freelanca)
                 db.session.commit()
 
+                def send_mail():
+
+
+
+                    job_id_token = user_class().get_reset_token(hire_freelanca.id)
+                    user_obj = user.query.get(id_)
+
+                    app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+                    app.config["MAIL_PORT"] = 587
+                    app.config["MAIL_USE_TLS"] = True
+                    em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
+                    app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
+
+                    mail = Mail(app)
+
+                    msg = Message("Expression of Interest for your Services", sender=em, recipients=[user_obj.email])
+                    msg.body = f""" Hi {user_obj.id_}
+
+{current_user.name} has expressed an interest to hire the quality of your services. Please attend to this message as soon as you read this
+by following the link below to see all the details.
+
+View Details & Sign-up the Deal!: {url_for('reset', token=job_id_token, _external=True)}
+
+
+                    """
+
+                    try:
+                        mail.send(msg)
+
+                        flash(f"Your 2 Factor Auth Code is sent to your Email!!", "success")
+  #
+
+                    except Exception as e:
+                        flash(f'Ooops Something went wrong!! Please Retry', 'error')
+                        return "The mail was not sent"
+
+                send_mail()
                 # flash message for successful hiring
-                flash(f'You have successfully hired {user.query.get(id_).name} ','success')
+                flash(f'You have successfully sent an expression of interest to hire {user.query.get(id_).name} services','success')
 
         # return a response for scenarios other than GET or POST request
         return render_template("hire_freelancer.html",freelancer_user=freelancer_user,user=user,esw_freelancers=esw_freelancers)
+
+
+@app.route("/fl_approve_deal/<token>", methods=['POST', 'GET'])
+@login_required
+def fl_approve_deal(token):
+    # Get user's identity
+    # approve_form = Approved_Form()
+
+    #Job ID
+    deal_id = user_class().verify_reset_token(token)
+
+    deal_obj = hire_freelancer.query.get(deal_id)
+
+
+
+    # Check if the user(current_user.id) is the one being assign this job(deal_obj.freel_id)
+    if current_user.id == deal_obj.freel_id:
+
+        if request.method == 'POST' :
+
+            deal_obj.other_hr = "Taken_" + str(deal_obj.freel_id)
+
+            flash('Approved Successfully!!', 'success')
+
+    return render_template('approve_report.html', deal_obj=deal_obj,user=user)
+
 
 
 if __name__ == "__main__":

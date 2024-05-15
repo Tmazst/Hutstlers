@@ -30,7 +30,7 @@ class Job_Ads_Form(FlaskForm):
     age_range_bl = BooleanField('Age Range: (Tick To Include)')
     age_range = StringField('Age Range: ')
     benefits_bl = BooleanField('Benefits: (Tick To Include)')
-    benefits = TextAreaField('Other Benefits: ')
+    benefits = TextAreaField('Benefits: ')
     application_deadline = DateField('Application Deadline:',format="%Y-%m-%d")
     # application_details = TextAreaField('Application Details', validators=[DataRequired(), Length(min=2, max=20)])
     posted_by = StringField('Posted By:')
@@ -133,7 +133,7 @@ class Approved_Form(FlaskForm):
 
 class Freelance_Section(FlaskForm):
     skills = StringField('Skill(s):', validators=[DataRequired(), Length(min=5, max=100)])
-    experience = TextAreaField('Previous Works(Optional):', validators=[DataRequired(), Length(min=4, max=300)])
+    experience = TextAreaField('Previous Work (Optional):', validators=[DataRequired(), Length(min=4, max=300)])
     what_do_you_do = TextAreaField('Explain your Work:', validators=[DataRequired(), Length(min=10, max=1000)])
     other_fl = StringField('Your Sell Tag (Optional):')
     portfolio_file = FileField('Upload Portfolio', validators=[FileAllowed(['pdf', 'docx'])])

@@ -154,8 +154,8 @@ class hire_freelancer(db.Model, UserMixin):
     freel_id = db.Column(db.Integer, ForeignKey('user.id'))
     purpose_for_hire = db.Column(db.String(120))
     job_done_approved = db.Column(db.Boolean, default=False)
-    hired_date = db.Column(db.DateTime())
-    other_hr = db.Column(db.String(120))
+    hired_date = db.Column(db.DateTime()) #Expression Date
+    other_hr = db.Column(db.String(120)) #Sealing Deal
     other_hr1 = db.Column(db.String(120))
     other_hr2 = db.Column(db.String(120))
     #I need to add a pending entry checker; a current job of the job_user to identify entry here   ----pending
