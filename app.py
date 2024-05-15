@@ -25,7 +25,7 @@ from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 from models import db, user, company_user, job_user, Jobs_Ads, Applications, Freelance_Jobs_Ads, Email_Verifications, \
-    FreeL_Applications, Freelancers, users_tht_portfolio, hired, Esw_Freelancers
+    FreeL_Applications, Freelancers, users_tht_portfolio, hired, Esw_Freelancers, hire_freelancer
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime,date, timedelta
@@ -50,7 +50,7 @@ app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # Local
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
 # if os.environ.get('ENV') == 'LOAL':
 #     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
@@ -1816,6 +1816,46 @@ def hire_applicant():
 
     # return a response for scenarios other than GET or POST request
     return render_template("hire_applicant.html", job_usr=None, db=db)
+
+# (3) After viewing the applicant, they hire the applicant
+@app.route("/hire_freelancer", methods=["GET", "POST"])
+def hire_freelancer():
+    
+
+        id_ = None
+        esw_freelancers = Esw_Freelancers
+        
+        if request.method == 'GET':
+            # Based on the context, consider handling the 'POST' method as well
+
+            try:
+                encr_id = request.args['id']
+                id_ = ser.loads(encr_id)['data17']
+                freelancer_user = user.query.get(id_)
+
+            except Exception as e:
+                # flash message for error
+                flash(f'Something went wrong: {e}', 'error')
+
+        elif request.method == 'POST':
+
+            if id_:
+                # Logic to hire the user and update the application status
+                hire_freelanca = hire_freelancer(
+                    empl_id=current_user.id,
+                    freel_id=id_,
+                    purpose_for_hire=request.form.get('purpose_for_hire'),
+                    hired_date=datetime.utcnow()
+                )
+
+                db.session.add(hire_freelanca)
+                db.session.commit()
+
+                # flash message for successful hiring
+                flash(f'You have successfully hired {user.query.get(id_).name} ','success')
+
+        # return a response for scenarios other than GET or POST request
+        return render_template("hire_freelancer.html",freelancer_user=freelancer_user,user=user,esw_freelancers=esw_freelancers)
 
 
 if __name__ == "__main__":

@@ -148,6 +148,18 @@ class hired(db.Model, UserMixin):
     #I need to add a pending entry checker; a current job of the job_user to identify entry here   ----pending
 
 
+class hire_freelancer(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    empl_id = db.Column(db.Integer, ForeignKey('user.id'))
+    freel_id = db.Column(db.Integer, ForeignKey('user.id'))
+    purpose_for_hire = db.Column(db.String(120))
+    job_done_approved = db.Column(db.Boolean, default=False)
+    hired_date = db.Column(db.DateTime())
+    other_hr = db.Column(db.String(120))
+    other_hr1 = db.Column(db.String(120))
+    other_hr2 = db.Column(db.String(120))
+    #I need to add a pending entry checker; a current job of the job_user to identify entry here   ----pending
+
 class Email_Verifications(db.Model, UserMixin):
 
     __table_name__='email_verifications'
