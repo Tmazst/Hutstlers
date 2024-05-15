@@ -1909,11 +1909,11 @@ def fl_approve_deal(token):
     deal_obj = Hire_Freelancer.query.get(deal_id)
 
     # Check if the user(current_user.id) is the one being assign this job(deal_obj.freel_id)
-    if current_user.id == deal_obj.freel_id:
+    if current_user.id == deal_obj.freelancer_id :
 
         if request.method == 'POST':
 
-            deal_obj.other_hr = "Taken_" + str(deal_obj.freel_id)
+            deal_obj.other_hr = "Taken_" + str(deal_obj.freelancer_id )
 
             flash('Approved Successfully!!', 'success')
     else:
