@@ -1892,8 +1892,7 @@ def hire_freelancer():
                 send_mail()
                 # flash message for successful hiring
                 flash(f'You have successfully sent an expression of interest to hire {user.query.get(id_).name} services','success')
-        else:
-            return flash('We Dont Know what is this',"error")
+
         # return a response for scenarios other than GET or POST request
         return render_template("hire_freelancer.html",freelancer_user=freelancer_user,user=user,esw_freelancers=esw_freelancers)
 
