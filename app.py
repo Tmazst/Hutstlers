@@ -1906,7 +1906,7 @@ def fl_approve_deal(token):
     #Job ID
     deal_id = user_class().verify_reset_token(token)
 
-    deal_obj = hire_freelancer.query.get(deal_id)
+    deal_obj = Hire_Freelancer.query.get(deal_id)
 
     # Check if the user(current_user.id) is the one being assign this job(deal_obj.freel_id)
     if current_user.id == deal_obj.freel_id:
