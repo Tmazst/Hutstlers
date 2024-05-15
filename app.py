@@ -1919,7 +1919,7 @@ def fl_approve_deal(token):
     else:
         flash("Authorization Failed",'error')
 
-    return render_template('approve_report.html', deal_obj=deal_obj,user=user)
+    return render_template('approve_deal.html', deal_obj=deal_obj,user=user)
 
 
 
