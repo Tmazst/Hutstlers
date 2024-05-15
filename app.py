@@ -1373,10 +1373,9 @@ def fl_applications():
 
     applications = FreeL_Applications()
 
-    usr = user
     freelance_ads = Freelance_Jobs_Ads
 
-    return render_template("fl_applications.html", all_applications=all_applications, usr=usr, freelance_ads=freelance_ads,
+    return render_template("fl_applications.html", all_applications=all_applications, user=user, freelance_ads=freelance_ads,
                            applications=applications, db=db,ser=ser,esw_freelancers=esw_freelancers)
 
 
@@ -1406,7 +1405,7 @@ def send_application_fl():
                 )
 
                 # Check if application not sent before
-                job_obj = FreeL_Applications.query.filter_by(freel_job_details_id=tender_id).first()
+                job_obj = FreeL_Applications.query.filter_by(freel_job_details_id=tender_id,applicant_id=current_user.id).first()
                 company_obj = company_user.query.get(apply.employer_id)
 
                 # print('----------------------job_obj: ',job_obj)
