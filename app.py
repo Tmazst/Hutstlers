@@ -25,7 +25,7 @@ from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 from models import db, user, company_user, job_user, Jobs_Ads, Applications, Freelance_Jobs_Ads, Email_Verifications, \
-    FreeL_Applications, Freelancers, users_tht_portfolio, hired, Esw_Freelancers, hire_freelancer
+    FreeL_Applications, Freelancers, users_tht_portfolio, hired, Esw_Freelancers, Hire_Freelancer
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
 from datetime import datetime,date, timedelta
@@ -48,9 +48,9 @@ app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
 
 # Local
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
 # if os.environ.get('ENV') == 'LOAL':
 #     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
@@ -1821,6 +1821,7 @@ class Store_UID:
     id_ = None
 # (3) After viewing the freelancer, they hire the applicant
 @app.route("/hire_freelancer", methods=["GET", "POST"])
+@login_required
 def hire_freelancer():
     
 
@@ -1842,23 +1843,21 @@ def hire_freelancer():
                 flash(f'Something went wrong: {e}', 'error')
 
         elif request.method == 'POST':
-            flash(f'Post Request {Store_UID.id_ }', 'success')
             id_ = Store_UID.id_
             if id_:
+                flash(f'Post Request {Store_UID.id_}', 'success')
                 # Logic to hire the user and update the application status
-                hire_freelanca = hire_freelancer(
-                    empl_id=current_user.id,
-                    freel_id=id_,
+                hire_freelanca = Hire_Freelancer(
+                    freelancer_id=id_,
+                    employer_id=current_user.id,
                     purpose_for_hire=request.form.get('purpose_for_hire'),
                     hired_date=datetime.utcnow()
                 )
 
-                db.session.add(hire_freelanca)
-                db.session.commit()
+                # db.session.add(hire_freelanca)
+                # db.session.commit()
 
                 def send_mail():
-
-
 
                     job_id_token = user_class().get_reset_token(hire_freelanca.id)
                     user_obj = user.query.get(id_)
@@ -1872,7 +1871,7 @@ def hire_freelancer():
                     mail = Mail(app)
 
                     msg = Message("Expression of Interest for your Services", sender=em, recipients=[user_obj.email])
-                    msg.body = f""" Hi {user_obj.id_}
+                    msg.body = f""" Hi {user_obj.id}
 
                     {current_user.name} has expressed an interest to hire the quality of your services. Please attend to this message as soon as you read this
                     by following the link below to see all the details.
@@ -1884,9 +1883,7 @@ def hire_freelancer():
 
                     try:
                         mail.send(msg)
-
-                        flash(f"Your 2 Factor Auth Code is sent to your Email!!", "success")
-  #
+                        flash(f'You have successfully sent an expression of interest to hire {user.query.get(id_).name} services','success')
 
                     except Exception as e:
                         flash(f'Ooops Something went wrong!! Please Retry', 'error')
@@ -1894,7 +1891,7 @@ def hire_freelancer():
 
                 send_mail()
                 # flash message for successful hiring
-                flash(f'You have successfully sent an expression of interest to hire {user.query.get(id_).name} services','success')
+
 
         # return a response for scenarios other than GET or POST request
         return render_template("hire_freelancer.html",freelancer_user=freelancer_user,user=user,esw_freelancers=esw_freelancers)
@@ -1911,12 +1908,10 @@ def fl_approve_deal(token):
 
     deal_obj = hire_freelancer.query.get(deal_id)
 
-
-
     # Check if the user(current_user.id) is the one being assign this job(deal_obj.freel_id)
     if current_user.id == deal_obj.freel_id:
 
-        if request.method == 'POST' :
+        if request.method == 'POST':
 
             deal_obj.other_hr = "Taken_" + str(deal_obj.freel_id)
 

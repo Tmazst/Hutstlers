@@ -21,9 +21,9 @@
             <div style=""  class="form-group">
                 <h3 class="media-h2"> Job Brief </h3>
                 <textarea class="form-control adj-width-60 font-color" style="height:200px" name="work_feedback">{{deal_obj.purpose_for_hire}}</textarea>
-                <p>Tendered by: {{user.query.get(deal_obj.empl_id).name}}</p>
-                <p>Contacts: {{user.query.get(deal_obj.empl_id).contacts}}</p>
-                <p>Email: {{user.query.get(deal_obj.empl_id).email}}</p>
+                <p>Tendered by: {{user.query.get(deal_obj.employer_id).name}}</p>
+                <p>Contacts: {{user.query.get(deal_obj.employer_id).contacts}}</p>
+                <p>Email: {{user.query.get(deal_obj.employer_id).email}}</p>
                 <p>Date: {{deal_obj.hired_date}}</p>
                 <form action="" method="post">
                     <div class="form-group">
