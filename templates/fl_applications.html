@@ -28,7 +28,7 @@
                         <!-------DATE OF APPLICATION--------->
                          <!-------THEIR QUALIFICATIONS--------->
                         <div><p style="background-color:"><label for="Job Type" class="labels"></label></p></div>
-                        <label style="margin-top:-10px;font-weight:600" class="centralise_font">{esw_freelancers.query.filter_by(uid=ea_application.applicant_id).what_do_you_do}}</label>
+                        <label style="margin-top:-10px;font-weight:600" class="centralise_font">{{esw_freelancers.query.filter_by(uid=ea_application.applicant_id).first().what_do_you_do}}</label>
                          <!--------ADVERT'S DEADLINE-------------->
                         <div style="dispaly:block">
                             <a class="view_job" href="/freelancer_viewed?frid={{ser.dumps({'data13':ea_application.applicant_id})}}">View Applicant</a>
