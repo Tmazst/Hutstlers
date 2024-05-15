@@ -1825,6 +1825,7 @@ def hire_freelancer():
 
         id_ = None
         esw_freelancers = Esw_Freelancers
+        freelancer_user = None
         
         if request.method == 'GET':
             # Based on the context, consider handling the 'POST' method as well
