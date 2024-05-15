@@ -1840,7 +1840,7 @@ def hire_freelancer():
                 flash(f'Something went wrong: {e}', 'error')
 
         elif request.method == 'POST':
-
+            flash(f'Post Request {id_}', 'success')
             if id_:
                 # Logic to hire the user and update the application status
                 hire_freelanca = hire_freelancer(
