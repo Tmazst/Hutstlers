@@ -1412,8 +1412,7 @@ def send_application_fl():
                 if not job_obj:
                     db.session.add(apply)
                     db.session.commit()
-                    return render_template("send_application.html", send_application=send_application, job_obj=job_obj,
-                                           company_obj=company_obj)
+                    return flash(f'''Application sent Successfully!!.''','success')
                 else:
                     # fl = flash(f"Application with this details Already Submitted!!", "error")
                     return f'''This Application Already Submitted.'''
