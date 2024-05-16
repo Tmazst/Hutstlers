@@ -14,7 +14,7 @@ from Advert_Forms import Job_Ads_Form, Company_Register_Form, Company_Login, Com
     Freelance_Section, Job_Feedback_Form, Approved_Form
 import os
 from PIL import Image
-from sqlalchemy import exc,desc
+from sqlalchemy import exc, desc
 import rsa
 
 # from flask_security import Security,SQLAlchemyUserDatastore
@@ -28,7 +28,7 @@ from models import db, user, company_user, job_user, Jobs_Ads, Applications, Fre
     FreeL_Applications, Freelancers, users_tht_portfolio, hired, Esw_Freelancers, Hire_Freelancer
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from wtforms.validators import ValidationError
-from datetime import datetime,date, timedelta
+from datetime import datetime, date, timedelta
 import time
 import itsdangerous
 import calendar
@@ -50,7 +50,8 @@ app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # Local
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
 # Online
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
+app.config[
+    "SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
 # if os.environ.get('ENV') == 'LOAL':
 #     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:tmazst41@localhost/tht_database"
@@ -83,11 +84,11 @@ ser = Serializer(app.config['SECRET_KEY'])
 # basic_auth = BasicAuth(app)
 
 
-#Yet To Be Tested
-app.config['SECURITY_TWO_FACTOR_ENABLED_METHODS']=['mail','sms']
-app.config['SECURITY_TWO_FACTOR_SECRET']='jhs&h$$sbUE_&WI*(*7hK5S'
+# Yet To Be Tested
+app.config['SECURITY_TWO_FACTOR_ENABLED_METHODS'] = ['mail', 'sms']
+app.config['SECURITY_TWO_FACTOR_SECRET'] = 'jhs&h$$sbUE_&WI*(*7hK5S'
 
-#2FA Auth
+# 2FA Auth
 otp_key = pyotp.random_base32()
 otp = pyotp.TOTP(otp_key, interval=60)
 
@@ -99,21 +100,21 @@ class user_class:
 
         s = Serializer(app.config['SECRET_KEY'])
 
-        return s.dumps({'user_id': c_user_id,'expiration_time': time.time() + 300}).encode('utf-8')
+        return s.dumps({'user_id': c_user_id, 'expiration_time': time.time() + 300}).encode('utf-8')
 
     @staticmethod
     def verify_reset_token(token, expires=1800):
 
-        s = Serializer(app.config['SECRET_KEY'],)
+        s = Serializer(app.config['SECRET_KEY'], )
 
         try:
-            user_id = s.loads(token,max_age=300)['user_id']
+            user_id = s.loads(token, max_age=300)['user_id']
         except itsdangerous.SignatureExpired:
-            flash('Token has expired','error')
+            flash('Token has expired', 'error')
         except itsdangerous.BadSignature:
-            flash('Token is Invalid','error')
+            flash('Token is Invalid', 'error')
         except:
-            return f'Something Went Wrong'  #f'Token {user_id} not accessed here is the outcome user'
+            return f'Something Went Wrong'  # f'Token {user_id} not accessed here is the outcome user'
 
         return user_id
 
@@ -122,9 +123,11 @@ class user_class:
 def load_user(user_id):
     return user.query.get(user_id)
 
+
 @app.errorhandler(401)
 def custom_401(error):
     return "Authentication failed. Please check your username and password.", 401
+
 
 def resize_img(img, size_x=30, size_y=30):
     i = Image.open(img)
@@ -155,13 +158,15 @@ def count_ads():
 def my_url_for(endpoint, **values):
     return url_for(endpoint, _external=True, **values)
 
+
 app.jinja_env.globals['url_for'] = my_url_for
+
 
 @app.context_processor
 def inject_ser():
-    ser = Serializer(app.config['SECRET_KEY']) # Define or retrieve the value for 'ser'
+    ser = Serializer(app.config['SECRET_KEY'])  # Define or retrieve the value for 'ser'
     count_jobs = count_ads()
-    return dict(ser=ser,count_jobs=count_jobs)
+    return dict(ser=ser, count_jobs=count_jobs)
 
 
 def save_pic(picture, size_x=300, size_y=300):
@@ -185,11 +190,13 @@ def save_pic(picture, size_x=300, size_y=300):
 
     return new_img_name
 
+
 def delete_img(file_name):
     file_path = os.path.join(app.root_path, 'static/images', file_name)
 
     if os.path.exists(file_path):
         os.remove(file_path)
+
 
 def save_pdf(pdf_file):
     _file_name, _ext = os.path.splitext(pdf_file.filename)
@@ -202,11 +209,13 @@ def save_pdf(pdf_file):
 
     return new_file_name_ext
 
+
 def delete_pdf(file_name):
     file_path = os.path.join(app.root_path, 'static/files', file_name)
 
     if os.path.exists(file_path):
         os.remove(file_path)
+
 
 @app.route('/static/css/style.css')
 def serve_static(filename):
@@ -223,9 +232,8 @@ def add_header(response):
 
 
 # Web
-@app.route("/",methods=["POST","GET"])
+@app.route("/", methods=["POST", "GET"])
 def home():
-
     try:
         companies_ls = company_user.query.all()
         comp_len = len(companies_ls)
@@ -238,7 +246,8 @@ def home():
     for cmp in companies_ls:
         pass
 
-    return render_template("index.html", img_1='', img_2='', img_3='', companies_ls=companies_ls, comp_len=comp_len,ser=ser)
+    return render_template("index.html", img_1='', img_2='', img_3='', companies_ls=companies_ls, comp_len=comp_len,
+                           ser=ser)
 
 
 @app.route("/sign_up", methods=["POST", "GET"])
@@ -260,7 +269,8 @@ def sign_up():
             # If the webpage has made a post e.g. form post
             hashd_pwd = encry_pw.generate_password_hash(register.password.data).decode('utf-8')
             user1 = job_user(name=register.name.data, email=register.email.data, password=hashd_pwd,
-                             confirm_password=hashd_pwd, image="default.jpg",time_stamp=datetime.utcnow().strftime("%Y-%b-%d %H:%M"))
+                             confirm_password=hashd_pwd, image="default.jpg",
+                             time_stamp=datetime.utcnow().strftime("%Y-%b-%d %H:%M"))
 
             try:
                 db.session.add(user1)
@@ -274,7 +284,7 @@ def sign_up():
     elif register.errors:
         flash(f"Account Creation Unsuccessful ", "error")
 
-    return render_template("sign_up_form.html", register=register,ser=ser)
+    return render_template("sign_up_form.html", register=register, ser=ser)
 
 
 @app.route("/about")
@@ -301,22 +311,22 @@ def account():
             id = current_user.id
             usr = job_user.query.get(id)
 
-            #Image
+            # Image
             if usr.image and cv.image_pfl.data:
                 delete_img(usr.image)
                 usr.image = save_pic(picture=cv.image_pfl.data)
 
             elif cv.image_pfl.data and not usr.image:
-                pfl_pic=save_pic(picture=cv.image_pfl.data)
-                usr.image=pfl_pic
+                pfl_pic = save_pic(picture=cv.image_pfl.data)
+                usr.image = pfl_pic
 
-            #PDF
+            # PDF
             if usr.other and cv.cv_file.data:
                 delete_pdf(usr.other)
-                usr.other=save_pdf(cv.cv_file.data)
+                usr.other = save_pdf(cv.cv_file.data)
 
             elif cv.cv_file.data and not usr.other:
-                file=save_pdf(cv.cv_file.data)
+                file = save_pdf(cv.cv_file.data)
                 usr.other = file
 
             usr.name = cv.name.data
@@ -342,7 +352,8 @@ def account():
     elif cv.errors:
         flash("Update Unsuccessful!!, check if all fields are filled", "error")
 
-    return render_template("account.html", cv=cv, title="Account", image_fl=image_fl,ser=ser,the_freelancer=the_freelancer)
+    return render_template("account.html", cv=cv, title="Account", image_fl=image_fl, ser=ser,
+                           the_freelancer=the_freelancer)
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -355,7 +366,6 @@ def login():
     if request.method == 'POST':
 
         if login.validate_on_submit():
-
 
             user_login = user.query.filter_by(email=login.email.data).first()
 
@@ -390,11 +400,12 @@ def login():
                         two_fa_form = Two_FactorAuth_Form()
                         Quick_Gets.uid_token = arg_token
                         # requests.get('http://127.0.0.1:5000/two_factor_auth')
-                        return redirect(url_for('send_otp',arg_token=arg_token, two_fa_form=two_fa_form)) #user_id=arg_token,
+                        return redirect(
+                            url_for('send_otp', arg_token=arg_token, two_fa_form=two_fa_form))  # user_id=arg_token,
 
                     elif request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
                         Quick_Gets.uid_token = arg_token
-                        return redirect(url_for('verification',arg=arg_token))
+                        return redirect(url_for('verification', arg=arg_token))
 
                     elif not request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
                         user_id_ = user_login.id
@@ -406,16 +417,18 @@ def login():
 
     return render_template('login_form.html', title='Login', login=login)
 
+
 def generate_6_digit_code():
-    return str(random.randint(100000,999999))
+    return str(random.randint(100000, 999999))
+
 
 class Quick_Gets:
     otp_attr = None
     uid_token = None
 
-@app.route('/send_2fa/<arg_token>',methods=['POST', 'GET']) #/<arg_token>
-def send_otp(arg_token):
 
+@app.route('/send_2fa/<arg_token>', methods=['POST', 'GET'])  # /<arg_token>
+def send_otp(arg_token):
     # Generate an OTP (One-Time Password) for the current time
 
     generated_otp = otp.now()
@@ -447,15 +460,15 @@ that the Code is Valid for 60 seconds.
         # db.session.commit()
         flash(f"Your 2 Factor Auth Code is sent to your Email!!", "success")
         # print("2 FA : ",otp.now())
-        return redirect(url_for('two_factor_auth',arg_token=arg_token,_external=True)) #
+        return redirect(url_for('two_factor_auth', arg_token=arg_token, _external=True))  #
 
     except Exception as e:
         flash(f'Ooops Something went wrong!! Please Retry', 'error')
         return "The mail was not sent"
 
-@app.route('/2fa/<arg_token>',methods=['POST', 'GET']) #/<arg_token>
-def two_factor_auth(arg_token):
 
+@app.route('/2fa/<arg_token>', methods=['POST', 'GET'])  # /<arg_token>
+def two_factor_auth(arg_token):
     # code = generate_6_digit_code()
     two_fa_form = Two_FactorAuth_Form()
 
@@ -464,9 +477,9 @@ def two_factor_auth(arg_token):
     user_obj = user.query.get(user_id)
 
     if request.method == 'POST':
-        otp_code_input= two_fa_form.use_2fa_auth_input.data
+        otp_code_input = two_fa_form.use_2fa_auth_input.data
         # Verify an OTP for the provided secret key
-        #user_obj.store_2fa_code key saved in the database
+        # user_obj.store_2fa_code key saved in the database
         # otp_obj = pyotp.TOTP(otp_key) #)
 
         is_valid_otp = otp.verify(otp_code_input)
@@ -482,19 +495,18 @@ def two_factor_auth(arg_token):
 
         # send_two_factor_code(user_obj.id,otp_code)
 
-
-    return render_template('2_facto_form.html',two_fa_form=two_fa_form,_external=True)
+    return render_template('2_facto_form.html', two_fa_form=two_fa_form, _external=True)
 
 
 # @app.route('/send_2fa')
-def send_two_factor_code(user_id,otp_code):
+def send_two_factor_code(user_id, otp_code):
     otp = pyotp.TOTP(otp_key)
     user_obj = user.query.get(user_id)
     code = generate_6_digit_code()
     verfy = pyotp.TOTP(user_obj.store_2fa_code)
 
     try:
-        print("DEBUG send_two_factor_code Trying to Verify",verfy.verify(otp_code))
+        print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
         if verfy.verify(otp_code):
             print("DEBUG send_two_factor_code Verified")
             login_user(user_obj)
@@ -503,6 +515,7 @@ def send_two_factor_code(user_id,otp_code):
             return redirect(req_page) if req_page else redirect(url_for('home'))
     except:
         return 'Something Wrong Happened or Code time may have expired, Press re-send code'
+
 
 @app.before_request
 def load_user_from_cookie():
@@ -687,7 +700,7 @@ If you did not requested the above message please ignore it, and your password w
 
 @app.route("/how_does_it_work")
 def tht_how():
-    return render_template("how_does_it_work.html",ser=ser)
+    return render_template("how_does_it_work.html", ser=ser)
 
 
 @app.route("/job_ads_form", methods=["POST", "GET"])
@@ -700,7 +713,7 @@ def job_ads_form():
     job_ad = None
 
     if request.method == 'POST':
-        print("Check Start Date: ", job_ad_form.start_date.data,job_ad_form.work_hours_bl.data)
+        print("Check Start Date: ", job_ad_form.start_date.data, job_ad_form.work_hours_bl.data)
         if job_ad_form.validate_on_submit():
             job_post1 = job_ads_model(
                 job_title=job_ad_form.job_title.data,
@@ -712,7 +725,7 @@ def job_ads_form():
                 job_type=request.form.get('job_type_sel'),
                 application_deadline=job_ad_form.application_deadline.data,
                 job_posted_by=current_user.id,
-                about_company = job_ad_form.about_company.data
+                about_company=job_ad_form.about_company.data
             )
 
             # if bools are True
@@ -738,11 +751,10 @@ def job_ads_form():
                 job_post1.age_range = job_ad_form.age_range.data
 
             if job_ad_form.benefits_bl.data:
-                job_post1.benefits =job_ad_form.benefits.data
+                job_post1.benefits = job_ad_form.benefits.data
 
             if not request.form.get('field_category_sel'):
                 job_post1.category = job_ad_form.category.data
-
 
             db.session.add(job_post1)
             db.session.commit()
@@ -752,12 +764,12 @@ def job_ads_form():
     # elif request.method == "GET":
     #     job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(request.args.get("jo_id"))['data_11']).first()
 
-
-    return render_template("job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad)
+    return render_template("job_ads_form.html", job_ad_form=job_ad_form, ser=ser, job_ad=job_ad)
 
 
 class jo_id_cls:
     id_ = None
+
 
 @app.route("/edit_job_ads_form", methods=["POST", "GET"])
 @login_required
@@ -834,7 +846,8 @@ def eidt_job_ads_form():
         else:
             job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(jo_id_cls.id_)['data_11']).first()
 
-    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form,ser=ser,job_ad =job_ad)
+    return render_template("edit_job_ads_form.html", job_ad_form=job_ad_form, ser=ser, job_ad=job_ad)
+
 
 @app.route("/fl_job_ads_form", methods=["POST", "GET"])
 @login_required
@@ -874,7 +887,7 @@ def fl_job_ads_form():
 
             flash('Job Post was successful', 'success')
 
-    return render_template("fl_job_ads_form.html", fl_job_ad_form=fl_job_ad_form,ser=ser)
+    return render_template("fl_job_ads_form.html", fl_job_ad_form=fl_job_ad_form, ser=ser)
 
 
 # Companies will issues end of contract form to they employees/user
@@ -893,7 +906,7 @@ def show_hired_users():
     hired_users = hired.query.all()
     job_ads = Jobs_Ads
 
-    return render_template("show_hired_users.html", users=hired_users, user=user, job_ads=job_ads,ser=ser)
+    return render_template("show_hired_users.html", users=hired_users, user=user, job_ads=job_ads, ser=ser)
 
 
 @app.route("/send_endof_term_form")
@@ -952,7 +965,6 @@ We {current_user.name} wish you all the best as you are climbing the ladder of s
 @app.route("/job_feedback_form/<token>", methods=['POST', 'GET'])
 @login_required
 def job_feedback(token):
-
     feedback_form = Job_Feedback_Form()
 
     if request.method == 'POST':
@@ -977,7 +989,7 @@ def job_feedback(token):
                 job_details=user_hired.job_details  # Use job_posted_by to get company details
             )
 
-            if not users_tht_portfolio.query.filter_by(usr_id=current_user.id,approved=False).first():
+            if not users_tht_portfolio.query.filter_by(usr_id=current_user.id, approved=False).first():
                 db.session.add(portfolio_details)
                 db.session.commit()
             else:
@@ -1017,6 +1029,7 @@ Thank you for being part of my future endeavors, I hope to meet you again.
                     flash('Ooops, Something went wrong Please Retry!!', 'error')
                     return "The mail was not sent"
                     # Send the pwd reset request to the above email
+
             send_link()
         else:
             flash(f"Something went wrong please try again later, ", "error")
@@ -1054,30 +1067,27 @@ def approve_report(token):
             flash('Approved Successfully!!', 'success')
 
     return render_template('approve_report.html', approve_user_rp=approve_user_rp,
-                           usr_portfolio_entry=usr_portfolio_entry,approve_form=approve_form,user_=user_)
+                           usr_portfolio_entry=usr_portfolio_entry, approve_form=approve_form, user_=user_)
 
 
 @app.route("/meet_freelancers")
 def meet_freelancers():
-
     esw_freelancers = Esw_Freelancers.query.all()
 
-    return render_template("meet_freelancers.html", esw_freelancers=esw_freelancers,user=user)
+    return render_template("meet_freelancers.html", esw_freelancers=esw_freelancers, user=user)
+
 
 @app.route("/pdf_viewer")
 def pdf_viewer():
-
     if request.method == "GET":
         pdf_file = request.args.get("opn_fl")
 
-
-    return render_template("pdf_viewer.html",pdf_file=pdf_file)
+    return render_template("pdf_viewer.html", pdf_file=pdf_file)
 
 
 @app.route("/freelancer_viewed")
 @login_required
 def freelancer_viewed():
-
     if request.method == "GET":
         id_ = request.args['frid']
         fr_id = ser.loads(id_)['data13']
@@ -1086,14 +1096,14 @@ def freelancer_viewed():
 
         years = (datetime.now().date() - user_.date_of_birth).days
 
-        usr_years = int(years/365)
+        usr_years = int(years / 365)
 
-        print("User Years: ",esw_freelancer.portfolio_pdf)
+        print("User Years: ", esw_freelancer.portfolio_pdf)
 
-    return render_template("freelancer_viewed.html",esw_freelancer=esw_freelancer,user_=user_,usr_years=usr_years)
+    return render_template("freelancer_viewed.html", esw_freelancer=esw_freelancer, user_=user_, usr_years=usr_years)
 
 
-@app.route("/freelancers_form",methods=["POST","GET"])
+@app.route("/freelancers_form", methods=["POST", "GET"])
 @login_required
 def freelancers():
     freelancer = Freelance_Section()
@@ -1133,7 +1143,7 @@ def freelancers():
     return render_template("freelance_form.html", freelancer=freelancer, the_freelancer=the_freelancer)
 
 
-@app.route("/freelancers_form_update",methods=["POST","GET"])
+@app.route("/freelancers_form_update", methods=["POST", "GET"])
 @login_required
 def freelancers_form_update():
     freelancer = Freelance_Section()
@@ -1144,16 +1154,16 @@ def freelancers_form_update():
         if request.method == "POST":
             if freelancer.validate_on_submit():
 
-                the_freelancer.other_fl=freelancer.other_fl.data
-                the_freelancer.other_fl1=freelancer.skills.data
-                the_freelancer.fl_experience=request.form.get("experience")
-                the_freelancer.what_do_you_do=request.form.get("what_do_you_do")
-                the_freelancer.fb_link=freelancer.fb_link.data
-                the_freelancer.pinterest_link=freelancer.pinterest_link.data
-                the_freelancer.linkedin_link=freelancer.linkedin_link.data
-                the_freelancer.twitter_link=freelancer.twitter_link.data
-                the_freelancer.youtube=freelancer.youtube_link.data
-                the_freelancer.instagram_link=freelancer.instagram_link.data
+                the_freelancer.other_fl = freelancer.other_fl.data
+                the_freelancer.other_fl1 = freelancer.skills.data
+                the_freelancer.fl_experience = request.form.get("experience")
+                the_freelancer.what_do_you_do = request.form.get("what_do_you_do")
+                the_freelancer.fb_link = freelancer.fb_link.data
+                the_freelancer.pinterest_link = freelancer.pinterest_link.data
+                the_freelancer.linkedin_link = freelancer.linkedin_link.data
+                the_freelancer.twitter_link = freelancer.twitter_link.data
+                the_freelancer.youtube = freelancer.youtube_link.data
+                the_freelancer.instagram_link = freelancer.instagram_link.data
 
                 # the_freelancer.portfolio_pdf=freelancer.portfolio_file.data
 
@@ -1178,7 +1188,6 @@ def freelancers_form_update():
     return render_template("freelance_form.html", freelancer=freelancer, the_freelancer=the_freelancer)
 
 
-
 @app.route("/company_retieve")
 def cmp_user_profile():
     from sqlalchemy import text
@@ -1193,7 +1202,6 @@ def cmp_user_profile():
 
 
 def date_filter(input):
-
     if input.startswith('today'):
         today_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted >= date.today()).all()
         return today_jobs
@@ -1215,12 +1223,12 @@ def date_filter(input):
         this_month_jobs = Jobs_Ads.query.filter(Jobs_Ads.date_posted.between(start_of_month, end_of_month)).all()
         return this_month_jobs
     else:
-        flash('No Entries','error')
+        flash('No Entries', 'error')
+
 
 @app.route("/job_ads", methods=["GET", "POST"])
 # @basic_auth.required
 def job_adverts():
-
     date_today = datetime.now()
     token = user_class()
     encry = encry_pw
@@ -1234,7 +1242,6 @@ def job_adverts():
     db.create_all()
     usr = user()
 
-
     job_ads_form = Job_Ads_Form()
     if request.method == 'GET':
         # id = request.args.get()
@@ -1246,9 +1253,11 @@ def job_adverts():
             if enc_id:
                 # Filter Ads with a specific company's id
                 # job_ads = Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted))
-                job_ads_latest = [job for job in Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted)) if
+                job_ads_latest = [job for job in
+                                  Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted)) if
                                   (job.application_deadline - date_today).days >= 0]
-                job_ads_older = [job for job in Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted)) if
+                job_ads_older = [job for job in
+                                 Jobs_Ads.query.filter_by(job_posted_by=enc_id).order_by(desc(Jobs_Ads.date_posted)) if
                                  (job.application_deadline - date_today).days < 0]
 
                 if job_ads_latest:
@@ -1256,11 +1265,12 @@ def job_adverts():
                     category_set = set(category_list_unfltd)
 
 
-        #For all companies
-        elif not id_: #not value and
-            job_ads_latest = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if (job.application_deadline - date_today).days >= 0]
+        # For all companies
+        elif not id_:  # not value and
+            job_ads_latest = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if
+                              (job.application_deadline - date_today).days >= 0]
             job_ads_older = [job for job in Jobs_Ads.query.order_by(desc(Jobs_Ads.date_posted)).all() if
-                              (job.application_deadline - date_today).days < 0]
+                             (job.application_deadline - date_today).days < 0]
 
             if job_ads_latest:
                 category_list_unfltd = [item.category for item in job_ads_latest]
@@ -1268,8 +1278,10 @@ def job_adverts():
                 category_set = set(category_list_unfltd)
 
     # Fix jobs adds does not have hidden tag
-    return render_template("job_ads_gui.html", job_ads_latest=job_ads_latest,job_ads_older=job_ads_older, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser,date_today=date_today,category_set=category_set)
+    return render_template("job_ads_gui.html", job_ads_latest=job_ads_latest, job_ads_older=job_ads_older,
+                           job_ads_form=job_ads_form, db=db,
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl, ser=ser, date_today=date_today,
+                           category_set=category_set)
 
 
 @app.route("/job_ad_opened", methods=["GET", "POST"])
@@ -1282,11 +1294,14 @@ def view_job():
 
         deadln = job_ad.application_deadline - datetime.now()
         days_left = deadln.days
-        chekif_usr_applied = Applications.query.filter_by(job_details_id=dcry_jbid,applicant_id=current_user.id).first()
+        chekif_usr_applied = Applications.query.filter_by(job_details_id=dcry_jbid,
+                                                          applicant_id=current_user.id).first()
         print("User Applied Before? : ", chekif_usr_applied)
 
-    return render_template('job_ad_opened.html', item=job_ad, db=db, company_user=company_user,ser=ser,days_left=days_left
-                           ,chekif_usr_applied=chekif_usr_applied)
+    return render_template('job_ad_opened.html', item=job_ad, db=db, company_user=company_user, ser=ser,
+                           days_left=days_left
+                           , chekif_usr_applied=chekif_usr_applied)
+
 
 @app.route("/job_ads_filtered", methods=["GET", "POST"])
 # @basic_auth.required
@@ -1318,10 +1333,10 @@ def job_adverts_filtered():
         elif value in ['today', 'yesterday', 'this_week', 'this_month']:
             job_ads = date_filter(value)
 
-
     # Fix jobs adds does not have hidden tag
     return render_template("job_ads_filtered.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser,category_set=category_set)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl, ser=ser,
+                           category_set=category_set)
 
 
 @app.route("/freelance_job_ads", methods=["GET", "POST"])
@@ -1338,8 +1353,6 @@ def freelance_job_adverts():
 
     no_image_fl = 'static/images/default.jpg'
 
-
-
     db.create_all()
     usr = user()
     # job_ads = []
@@ -1350,16 +1363,16 @@ def freelance_job_adverts():
         # print("Check Get Id: ",id)
         if id:
             # Filter Ads with a specific company's id
-            fl_job_ads = Freelance_Jobs_Ads.query.filter_by(job_posted_by=id).order_by(desc(Freelance_Jobs_Ads.date_posted))
+            fl_job_ads = Freelance_Jobs_Ads.query.filter_by(job_posted_by=id).order_by(
+                desc(Freelance_Jobs_Ads.date_posted))
         else:
             fl_job_ads = Freelance_Jobs_Ads.query.order_by(desc(Freelance_Jobs_Ads.date_posted))
-
 
     fl_job_ads_form = Freelance_Ads_Form()
 
     # Fix jobs adds does not have hidden tag
     return render_template("freelance_jobs_ui.html", fl_job_ads=fl_job_ads, fl_job_ads_form=fl_job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl, ser=ser)
 
 
 @app.route("/fl_applications", methods=["GET", "POST"])
@@ -1375,8 +1388,9 @@ def fl_applications():
 
     freelance_ads = Freelance_Jobs_Ads
 
-    return render_template("fl_applications.html", all_applications=all_applications, user=user, freelance_ads=freelance_ads,
-                           applications=applications, db=db,ser=ser,esw_freelancers=esw_freelancers)
+    return render_template("fl_applications.html", all_applications=all_applications, user=user,
+                           freelance_ads=freelance_ads,
+                           applications=applications, db=db, ser=ser, esw_freelancers=esw_freelancers)
 
 
 @app.route("/send_application_fl", methods=["GET", "POST"])
@@ -1405,14 +1419,15 @@ def send_application_fl():
                 )
 
                 # Check if application not sent before
-                job_obj = FreeL_Applications.query.filter_by(freel_job_details_id=tender_id,applicant_id=current_user.id).first()
+                job_obj = FreeL_Applications.query.filter_by(freel_job_details_id=tender_id,
+                                                             applicant_id=current_user.id).first()
                 company_obj = company_user.query.get(apply.employer_id)
 
                 # print('----------------------job_obj: ',job_obj)
                 if not job_obj:
                     db.session.add(apply)
                     db.session.commit()
-                    return flash(f'''Application sent Successfully!!.''','success')
+                    return flash(f'''Application sent Successfully!!.''', 'success')
                 else:
                     # fl = flash(f"Application with this details Already Submitted!!", "error")
                     return f'''This Application Already Submitted.'''
@@ -1429,7 +1444,7 @@ def view_tender():
 
         # print("Job Ad Title: ",job_ad.job_title)
 
-    return render_template('tender_ad_opened.html', item=tender_ad, db=db, company_user=company_user,ser=ser)
+    return render_template('tender_ad_opened.html', item=tender_ad, db=db, company_user=company_user, ser=ser)
 
 
 # ------------------------------COMPANIES DATA------------------------------- #
@@ -1493,7 +1508,7 @@ def company_sign_up_form():
         # print(company_register.errors)
 
     # from myproject.models import user
-    return render_template("company_signup_form.html", company_register=company_register,ser=ser)
+    return render_template("company_signup_form.html", company_register=company_register, ser=ser)
 
 
 @app.route("/company_login", methods=["POST", "GET"])
@@ -1522,7 +1537,7 @@ def company_login():
                 flash(f"Login Unsuccessful, please use correct email or password", "error")
                 # print(company_login.errors)
 
-    return render_template('company_login_form.html', title='Company Login', company_login=company_login,ser=ser)
+    return render_template('company_login_form.html', title='Company Login', company_login=company_login, ser=ser)
 
 
 # ---------------COMPANY ACCOUNT---------------------#
@@ -1565,7 +1580,7 @@ def company_account():
 
         # print('DEBUG UPDATE: ',cmp_usr.web_link)
 
-    return render_template("company_account.html", company_update=company_update, image_fl=image_fl,ser=ser)
+    return render_template("company_account.html", company_update=company_update, image_fl=image_fl, ser=ser)
 
 
 # -------------------PARTNERING COMPANIES----------------------#
@@ -1575,7 +1590,7 @@ def partnering_companies():
 
     # Fix jobs adds does not have hidden tag
     return render_template("partnering_companies.html", job_ads=job_ads, job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl,ser=ser)
+                           company_user=company_user, user=usr, no_image_fl=no_image_fl, ser=ser)
 
 
 @app.route("/send_application", methods=["GET", "POST"])
@@ -1612,7 +1627,8 @@ def send_application():
                     db.session.commit()
                     job_title = Jobs_Ads.query.get(jb_id).job_title
                     job_id = Jobs_Ads.query.get(jb_id).job_id
-                    return render_template("send_application.html", send_application=send_application, job_id=job_id, job_title=job_title,
+                    return render_template("send_application.html", send_application=send_application, job_id=job_id,
+                                           job_title=job_title,
                                            company_obj=company_obj, ser=ser)
                 else:
                     # fl = flash(f"Application with this details Already Submitted!!", "error")
@@ -1620,6 +1636,7 @@ def send_application():
                      Please Wait for a Reply!!'''
 
     return f'Something went Wrong, Please return to the previuos page'
+
 
 @app.route("/company_jb_ads", methods=["GET", "POST"])
 @login_required
@@ -1629,11 +1646,12 @@ def local_jb_ads():
         job_ad = Jobs_Ads.query.get(id)
         # print("Job Ad Title: ",job_ad.job_title)
 
+
 @app.route("/delete_entry", methods=["GET", "POST"])
 def delete_entry():
     if request.method == 'GET':
         j_id = ser.loads(request.args.get("jo_id"))['data_2']
-        appl_tions = Applications.query.filter_by(job_details_id=j_id,applicant_id=current_user.id).first()
+        appl_tions = Applications.query.filter_by(job_details_id=j_id, applicant_id=current_user.id).first()
 
         db.session.delete(appl_tions)
         db.session.commit()
@@ -1644,6 +1662,7 @@ def delete_entry():
 
     return f''
 
+
 @app.route("/users")
 def users():
     from sqlalchemy import text
@@ -1651,30 +1670,29 @@ def users():
     user_v = []
     users_ = user.query.all()
 
-    return render_template("user.html", users=users_,ser=ser)
+    return render_template("user.html", users=users_, ser=ser)
 
 
 @app.route("/user_viewed", methods=["GET", "POST"])
 def view_user():
-
     if current_user.role == 'company_user':
         uid = ser.loads(request.args['id'])['data6']
         company_usr = company_user
         job_ad = Jobs_Ads
         portfolio_model = users_tht_portfolio.query.filter_by(usr_id=uid).all()
         portfolio_approved_jobs = users_tht_portfolio.query.filter_by(approved=True).all()
-        #The placement that is not marked as approved, assuming is still open / the user is still working
-        portfolio_current_job = hired.query.filter_by(usr_cur_job=1,hired_user_id=uid).first()
+        # The placement that is not marked as approved, assuming is still open / the user is still working
+        portfolio_current_job = hired.query.filter_by(usr_cur_job=1, hired_user_id=uid).first()
         job_usr = user.query.get(uid)
 
         if request.method == 'POST':
             pass
 
-
         # print("Job Ad Title: ",job_ad.job_title)
 
-    return render_template('user_viewed.html', job_usr=job_usr, db=db,user=user, company_user=company_user,portfolio_approved_jobs=portfolio_approved_jobs
-                           ,ser=ser,current_job=portfolio_current_job,company_usr=company_usr,job_ad=job_ad)
+    return render_template('user_viewed.html', job_usr=job_usr, db=db, user=user, company_user=company_user,
+                           portfolio_approved_jobs=portfolio_approved_jobs
+                           , ser=ser, current_job=portfolio_current_job, company_usr=company_usr, job_ad=job_ad)
 
 
 @app.route("/verified/<token>", methods=["POST", "GET"])
@@ -1714,6 +1732,7 @@ def verification(arg):
     db.create_all()
     if arg:
         usr_ = user.query.get(arg)
+
     def send_veri_mail():
         if arg:
 
@@ -1728,10 +1747,8 @@ def verification(arg):
 
             mail = Mail(app)
 
-
-            token =  arg #user_class().get_reset_token(arg)
+            token = arg  # user_class().get_reset_token(arg)
             usr_email = usr_.email
-
 
             msg = Message(subject="Email Verification", sender="no-reply@gmail.com", recipients=[usr_email])
 
@@ -1749,6 +1766,7 @@ Verification link;
             except Exception as e:
                 flash(f'Email not sent here', 'error')
                 return "The mail was not sent"
+
     try:
         if not usr_.verified:
             send_veri_mail()
@@ -1758,7 +1776,7 @@ Verification link;
         flash(f'Debug {usr_.email}', 'error')
         return redirect(url_for("login"))
 
-    return render_template('verification.html',ser=ser)
+    return render_template('verification.html', ser=ser)
 
 
 # (1) Company Views All Applications under her name
@@ -1775,7 +1793,7 @@ def applications():
     job_ads = Jobs_Ads
 
     return render_template("applications.html", all_applications=all_applications, job_user=job_usr, job_ads=job_ads,
-                           applications=applications, db=db,ser=ser)
+                           applications=applications, db=db, ser=ser)
 
 
 # (2) They view each applicant of their choice
@@ -1786,7 +1804,7 @@ def view_applicant():
         app_id = ser.loads(request.args['app_id'])['data5']
         job_usr = job_user.query.get(id_)
 
-    return render_template("view_applicant.html", job_usr=job_usr, app_id=app_id,ser=ser)
+    return render_template("view_applicant.html", job_usr=job_usr, app_id=app_id, ser=ser)
 
 
 # (3) After viewing the applicant, they hire the applicant
@@ -1808,7 +1826,7 @@ def hire_applicant():
                     comp_id=current_user.id,
                     hired_user_id=id_,
                     job_details=app_id,
-                    usr_cur_job=1,  #Currently hired
+                    usr_cur_job=1,  # Currently hired
                     hired_date=datetime.utcnow()
                 )
                 db.session.add(hire_user)
@@ -1837,64 +1855,67 @@ def hire_applicant():
     # return a response for scenarios other than GET or POST request
     return render_template("hire_applicant.html", job_usr=None, db=db)
 
+
 class Store_UID:
     id_ = None
+
+
 # (3) After viewing the freelancer, they hire the applicant
 
-counter = 0
+
 @app.route("/hire_freelancer", methods=["GET", "POST"])
 @login_required
 def hire_freelancer():
+    counter = 0
 
+    id_ = None
+    esw_freelancers = Esw_Freelancers
+    freelancer_user = None
 
+    if request.method == 'GET' and request.args.get('id'):
+        # Based on the context, consider handling the 'POST' method as well
 
-        id_ = None
-        esw_freelancers = Esw_Freelancers
-        freelancer_user = None
-        
-        if request.method == 'GET' and request.args.get('id'):
-            # Based on the context, consider handling the 'POST' method as well
+        try:
+            encr_id = request.args['id']
+            id_ = ser.loads(encr_id)['data17']
+            freelancer_user = user.query.get(id_)
+            Store_UID.id_ = id_
 
-            try:
-                encr_id = request.args['id']
-                id_ = ser.loads(encr_id)['data17']
-                freelancer_user = user.query.get(id_)
-                Store_UID.id_ = id_
+        except Exception as e:
+            # flash message for error
+            flash(f'Something went wrong: {e}', 'error')
 
-            except Exception as e:
-                # flash message for error
-                flash(f'Something went wrong: {e}', 'error')
+    elif request.method == 'POST':
+        id_ = Store_UID.id_
+        if id_:
+            # flash(f'Post Request {Store_UID.id_}', 'success')
+            # Logic to hire the user and update the application status
+            hire_freelanca = Hire_Freelancer(
+                freelancer_id=id_,
+                employer_id=current_user.id,
+                purpose_for_hire=request.form.get('purpose_for_hire'),
+                hired_date=datetime.utcnow()
+            )
 
-        elif request.method == 'POST':
-            id_ = Store_UID.id_
-            if id_:
-                # flash(f'Post Request {Store_UID.id_}', 'success')
-                # Logic to hire the user and update the application status
-                hire_freelanca = Hire_Freelancer(
-                    freelancer_id=id_,
-                    employer_id=current_user.id,
-                    purpose_for_hire=request.form.get('purpose_for_hire'),
-                    hired_date=datetime.utcnow()
-                )
+            db.session.add(hire_freelanca)
+            db.session.commit()
 
-                db.session.add(hire_freelanca)
-                db.session.commit()
+            def send_mail():
 
-                def send_mail():
+                job_id_token = ser.dumps(
+                    {'data_11': hire_freelanca.id})  # user_class().get_reset_token(hire_freelanca.id)
+                user_obj = user.query.get(id_)
 
-                    job_id_token = ser.dumps({'data_11':hire_freelanca.id}) #user_class().get_reset_token(hire_freelanca.id)
-                    user_obj = user.query.get(id_)
+                app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+                app.config["MAIL_PORT"] = 587
+                app.config["MAIL_USE_TLS"] = True
+                em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
+                app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
 
-                    app.config["MAIL_SERVER"] = "smtp.googlemail.com"
-                    app.config["MAIL_PORT"] = 587
-                    app.config["MAIL_USE_TLS"] = True
-                    em = app.config["MAIL_USERNAME"] = os.environ.get("EMAIL")
-                    app.config["MAIL_PASSWORD"] = os.environ.get("PWD")
+                mail = Mail(app)
 
-                    mail = Mail(app)
-
-                    msg = Message("Expression of Interest for your Services", sender=em, recipients=[user_obj.email])
-                    msg.body = f""" Hi {user_obj.name}
+                msg = Message("Expression of Interest for your Services", sender=em, recipients=[user_obj.email])
+                msg.body = f""" Hi {user_obj.name}
 
 {current_user.name} has expressed an interest to hire the quality of your services. Please attend to this message as soon as you read this
 by following the link below to see all the details.
@@ -1904,22 +1925,24 @@ by following the link below to see all the details.
 
                     """
 
-                    try:
-                        mail.send(msg)
-                        flash(f'You have successfully sent an expression of interest to hire {user.query.get(id_).name} services','success')
+                try:
+                    mail.send(msg)
+                    flash(
+                        f'You have successfully sent an expression of interest to hire {user.query.get(id_).name} services',
+                        'success')
 
-                    except Exception as e:
-                        flash(f'Ooops Something went wrong!! Please Retry', 'error')
-                        return "The mail was not sent"
+                except Exception as e:
+                    flash(f'Ooops Something went wrong!! Please Retry', 'error')
+                    return "The mail was not sent"
 
-                while counter == 0:
-                    send_mail()
-                    counter=+1
-                # flash message for successful hiring
+            while counter == 0:
+                send_mail()
+                counter = +1
+            # flash message for successful hiring
 
-
-        # return a response for scenarios other than GET or POST request
-        return render_template("hire_freelancer.html",freelancer_user=freelancer_user,user=user,esw_freelancers=esw_freelancers)
+    # return a response for scenarios other than GET or POST request
+    return render_template("hire_freelancer.html", freelancer_user=freelancer_user, user=user,
+                           esw_freelancers=esw_freelancers)
 
 
 @app.route("/fl_approve_deal/<token>", methods=['POST', 'GET'])
@@ -1928,17 +1951,17 @@ def fl_approve_deal(token):
     # Get user's identity
     # approve_form = Approved_Form()
 
-    #Job ID
-    deal_id = ser.loads(token)['data11'] #user_class().verify_reset_token(token)
+    # Job ID
+    deal_id = ser.loads(token)['data11']  # user_class().verify_reset_token(token)
 
     deal_obj = Hire_Freelancer.query.get(deal_id)
 
     # Check if the user(current_user.id) is the one being assign this job(deal_obj.freel_id)
-    if current_user.id == deal_obj.freelancer_id :
+    if current_user.id == deal_obj.freelancer_id:
 
         if request.method == 'POST':
 
-            deal_obj.other_hr = "Taken_" + str(deal_obj.freelancer_id )
+            deal_obj.other_hr = "Taken_" + str(deal_obj.freelancer_id)
 
             def send_mail():
 
@@ -1976,8 +1999,7 @@ Job Brief:
 
             send_mail()
 
-    return render_template('approve_deal.html', deal_obj=deal_obj,user=user)
-
+    return render_template('approve_deal.html', deal_obj=deal_obj, user=user)
 
 
 if __name__ == "__main__":
