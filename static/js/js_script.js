@@ -176,6 +176,15 @@ let twoFactorAuthCheckbox = document.getElementById("2fa_check_box");
 
 
 
+var blogContent = document.getElementsByClassName("text-limit");
+
+for(var i=0; i<blogContent.length; i++){
+    if (blogContent[i].textContent.length > 100) {
+
+            blogContent[i].textContent = blogContent[i].textContent.substring(0,100) + "[...]";
+        }
+    }
+
 
 
 

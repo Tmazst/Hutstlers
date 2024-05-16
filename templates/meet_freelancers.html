@@ -35,9 +35,9 @@
 
 
                             <h3 style="margin-bottom:0px;margin-top:0px;font-weight:600;color:coral">{{user.query.get(item.uid).name}}<br></h3>
-                            <span><small style="color:#aaa" class="labels-resu" >{{user.query.get(item.uid).address}}</small></span>
+                            <span><small style="color:#aaa" class="labels-resu " >{{user.query.get(item.uid).address}}</small></span>
                             {% if item.other_fl %}
-                                <small style="font-weight:500" class="labels-resu">"{{item.other_fl}}"</small>
+                                <small style="font-weight:500" class="labels-resu">"{{item.other_fl}}"</small> <!----Selling tage---->
                             {% endif %}
 
                             <div class="for_links_icons">
@@ -81,10 +81,10 @@
                             </div>
 
                             <!-------JOB TITLE--------->
-                            <p style="padding:10px;font-size:16px !important;background-color:#eee;color:#555;font-weight:600" class="job-title">{{item.what_do_you_do}}</p>
+                            <p style="padding:10px;font-size:14px !important;background-color:#eee;color:#555;font-weight:600" class="job-title text-limit">{{item.what_do_you_do}}</p>
 
                             {% if item.fl_experience %}
-                                <small style="color:coral" class="labels-resu">{{item.fl_experience}}</small>
+                                <small style="color:coral" class="labels-resu text-limit">{{item.fl_experience}}</small>
                             {% endif %}
 
                         <div class="space-filler"></div>
