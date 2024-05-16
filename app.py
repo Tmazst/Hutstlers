@@ -1980,7 +1980,7 @@ def fl_approve_deal(token):
                 msg = Message("Re:Expression of Interest for your Services", sender=em, recipients=[user_obj.email])
                 msg.body = f""" Hi {user.query.get(deal_obj.employer_id).name}
 
-{current_user.name} has approved and confirm to offer the services you requested below; 
+{current_user.name} has approved and agrees to offer the services you requested below; 
 
 Job Brief:
 
