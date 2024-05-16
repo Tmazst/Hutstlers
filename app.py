@@ -1887,6 +1887,7 @@ def hire_freelancer():
 
     elif request.method == 'POST':
         id_ = Store_UID.id_
+        flash(f" Log {id_}","success")
         if id_:
             # flash(f'Post Request {Store_UID.id_}', 'success')
             # Logic to hire the user and update the application status
@@ -1903,7 +1904,7 @@ def hire_freelancer():
             def send_mail():
 
                 job_id_token = ser.dumps(
-                    {'data_11': hire_freelanca.id})  # user_class().get_reset_token(hire_freelanca.id)
+                    {'data11': hire_freelanca.id})  # user_class().get_reset_token(hire_freelanca.id)
                 user_obj = user.query.get(id_)
 
                 app.config["MAIL_SERVER"] = "smtp.googlemail.com"
