@@ -1841,12 +1841,12 @@ class Store_UID:
     id_ = None
 # (3) After viewing the freelancer, they hire the applicant
 
-
+counter = 0
 @app.route("/hire_freelancer", methods=["GET", "POST"])
 @login_required
 def hire_freelancer():
 
-        counter = 0
+
 
         id_ = None
         esw_freelancers = Esw_Freelancers
@@ -1882,7 +1882,7 @@ def hire_freelancer():
 
                 def send_mail():
 
-                    job_id_token = user_class().get_reset_token(hire_freelanca.id)
+                    job_id_token = ser.dumps({'data_11':hire_freelanca.id}) #user_class().get_reset_token(hire_freelanca.id)
                     user_obj = user.query.get(id_)
 
                     app.config["MAIL_SERVER"] = "smtp.googlemail.com"
@@ -1929,7 +1929,7 @@ def fl_approve_deal(token):
     # approve_form = Approved_Form()
 
     #Job ID
-    deal_id = user_class().verify_reset_token(token)
+    deal_id = ser.loads(token)['data11'] #user_class().verify_reset_token(token)
 
     deal_obj = Hire_Freelancer.query.get(deal_id)
 
