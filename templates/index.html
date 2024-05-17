@@ -6,21 +6,31 @@
 
 <!----BANNER------->
 {% if not current_user.is_authenticated %}
-    <div class="banner-container">
-        <div class="banner-animator">
+    <div  class="banner-container">
+
+        <div style="" class="banner-animator">
             <img src="static/images/b-image.JPG" />
         <div class="banner-caption"></div>
         </div>
-        <div class="banner-cap">
-            <h2 style="font-size:45px;color:white">THE HUSTLERS TIME, </h2>
+
+        <div style="animation-delay:0.5s;z-index:701" class="banner-cap anim-banner">
+            <h2 style="font-size:45px;color:white" >THE HUSTLERS TIME, </h2>
             <div class="grid-div">
                 <h1 style="font-size:250%;color:white">Welcome to the <br> <span  class="spans">Grind</span></h1>
                 <div class="img-div"><img src="/static/icons/Eswatini-43.svg" /></div>
             </div>
-            <a  href="sign_up"><button class="btns-margin btns" id="join_btn">Join Community</button></a>
+            <a  href="sign_up"><button style="padding:10px" class=" btns" id="join_btn">Join Community</button></a>
         </div>
+
     </div>
 {% endif %}
+
+<!----------------------CHECK OUT THE BANNER--------------------->
+
+
+
+<!--------------------------BANNER END--------------------------->
+
 
 <div class="tags">
           <div class="flash-messages">
@@ -39,18 +49,24 @@
 <!--            <i class="fa-solid fa-bars"></i>-->
 <!--        </div>-->
 
-      <div class="flex-justify-align">
-          <div  class="paras-subtopics topics anim">
-              <h1><span class="spans">Gain Work Experience</span> through <br> Short-term, Remote & Freelance Jobs, Today!</h1>
+      <div style="background-color:" class="flex-justify-align ">
+          <div style="position:" class="topics">
+              <div style="position:"  class="paras-subtopics  caption">
+                  <h1><span class="spans">Gain Work Experience</span> through <br> Short-term, Remote & Freelance Jobs, Today!</h1>
+              </div>
+<!--              <div  style="position:"  class="paras-subtopics  caption">-->
+<!--                  <h1><span class="spans">Get Employability Skills</span> through <br> Are you looking for a Job but no experience, we are your plug!</h1>-->
+<!--              </div>-->
+<!--              <div style="position:"  class="paras-subtopics  caption">-->
+<!--                  <h1><span class="spans">Gain Entreprenuership Skills</span> through <br> Short-term, Remote & Freelance Jobs, Today!</h1>-->
+<!--              </div>-->
           </div>
-
-          <div class="optimise-mobile anim">
+          <div style="background-color:"  class="optimise-mobile anim">
                   <img class="inherent" src="static/icons/4866233-01.png" />
-          </div><br><br><br>
+          </div>
+      </div><br><p></p>
 
-          <br><p></p>
-      </div>
-        <a class="btn-how" href="/how_does_it_work">See How Does It Work?</a>
+      <a class="btn-how" href="/how_does_it_work">See How Does It Work?</a>
       <div class="marginise"></div>
 
       <fieldset style="font-size:25px;color:#006769;border:2px solid #006769;padding:3% 2%;border-radius:15px;height:100%;" class="paras"><legend><span><img  style="width:80px" src="static/icons/handshake-01.svg" /></span></legend>
@@ -152,7 +168,7 @@
         <div class="width-fill-scrn" >
             <div style="width:70%;margin:0 auto;">
                 <div style="display:flex;align-items:center;width:100%;font-size:20px;"><h1 style="color:#006769">Eswatini Companies are Joining Hands to Empower Youth </h1><div class="title-strokes" style="background-color:coral;height:4px;width:550px;"></div></div>
-                <div style="" class="flex-justify-align">
+                <div id="esw_cmps_join" style="" class="flex-justify-align">
                     <p> This initiative empowers young people with industry-ready skills and chances, fostering equal opportunities for talented individuals to find employment and build their careers.</p>
                     <p>By offering training and support, you can equip them with safe, healthy, and successful lives whilst giving back to the community.</p>
                     <p>It’s inspiring to see local companies not only providing job opportunities, but also creating a pathway for learning and earning before settling for a permanent job.</p>

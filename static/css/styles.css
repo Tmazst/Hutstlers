@@ -59,17 +59,19 @@ body{
     top:0;
     //background-color:#0023ab;
     width:100%;
-    margin-left:-10px;
+    //margin-left:-10px;
     //margin-top:-350px;
-    margin-bottom:330px;
-    height:100vh;
+    margin-bottom:50px;
+    //height:100vh;
 }
 
 .banner-animator{
     width:100%;
-    height:1200vh;
     overflow:hidden;
+    animation-name:fadeInImages 1s ease forwards;
 }
+
+
 
 .banner-animator img{
     width:100%;
@@ -479,6 +481,7 @@ a{
     transform: translateX(0);
   }
 }
+
 .toggle .line1{
    transform: rotate(-45deg) translate(-5px,6px );
 }
@@ -1532,7 +1535,6 @@ h2{
 
 .contact-form-control{
   background-color: #f8f9fa;
-  padding: 10px;
   padding: 10px 15px;
   margin-bottom: 0.8rem;
   border:1px solid #bebebe;
@@ -1541,10 +1543,10 @@ h2{
   width:70%
 }
 
-.topics{
-    padding:1% 1%;
-    height:100%;
-    width:70%;
+.topics {
+    padding:40px;
+    width:600px;
+    flex-grow:1;
 }
 
 .legend-ary{
@@ -1851,6 +1853,7 @@ width:70% !important;
     justify-content:center;
     align-items:center;
     //border-radius: 30px;
+    flex-wrap:wrap;
     padding:50px;
     margin-top:80px;
     width:75%;
@@ -1866,7 +1869,10 @@ width:70% !important;
     padding:50px;
     width:50%;
     background-color:#eaeaea;
+}
 
+.flex-justify-align{
+    display:flex;
 }
 
 .jb-viewed-card-body{
@@ -1911,6 +1917,21 @@ width:70% !important;
     transition:0.3s ease;
 }
 
+.anim-banner{
+    opacity:0;
+    transform:translateY(50px);
+    transition: 1s all ease;
+    animation: moveup 0.5s linear forwards;
+}
+
+@keyframes moveup{
+
+    100%{
+        opacity:1;
+        transform:translateY(0px);
+    }
+}
+
 
 .anim{
     opacity:0;
@@ -1927,12 +1948,51 @@ width:70% !important;
     }
 }
 
-.flex-justify-align{
+
+.caption {
+  opacity: 0; /* Initially set opacity to 0 */
+  animation: fadeInCaption 1s ease forwards; /* Apply the fadeInCaption animation */
+}
+
+@keyframes fadeInCaption {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+  opacity: 1; /* Initially set opacity to 1 for the captions to be faded out */
+  animation: fadeOutCaption 1s ease forwards; /* Apply the fadeOutCaption animation */
+}
+
+@keyframes fadeOutCaption {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.page-pic{
+
+    height:400px;
     display:flex;
-    flex-direction:row;
-    justify-content:space-around;
+    wrap:flex-wrap;
+    justify-content:center;
     align-items:center;
 
+}
+
+.flex-justify-align{
+    display:flex;
+    //flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    align-items:center;
 }
 
 .inline_block{
@@ -2290,7 +2350,43 @@ display:none
     display:none
 }
 
-@media all and (max-width: 600px) {
+
+
+/*////////////////////////////////////////////BANNER ANIMATION///////////////////////////////////////////////*/
+
+
+
+
+/*///////////////////////////////////////////////////END////////////////////////////////////////////////////*/
+
+
+
+@media all and (max-width: 900px) {
+
+.banner-container{display:none}
+.home-tags{background:;width:64%;}
+.flex-justify-align{flex-direction:column}
+.home-ads{width:80%}
+#esw_cmps_join{flex-direction:row}
+.page-pic{flex-wrap:wrap;height:auto}
+
+
+
+}
+
+
+
+@media all and (max-width: 575px) {
+
+.page-pic{
+    flex-direction:column;
+    height:auto;
+}
+
+.page-pic img{
+    height:400px !important;
+    width:300px !important;
+}
 
 .marginise{
     margin:50px 0 25px 0;
@@ -2590,7 +2686,7 @@ display:none
 }
 
 .optimise-mobile img{
-    width:100%;
+    width:;
 }
 
 
@@ -2754,7 +2850,7 @@ display:none
     background-color:#eee;
     margin-top:-100px !important;
     width:100%;
-    margin-left:-10px;
+    //margin-left:-10px;
     margin-bottom:80px;
     height:100vh !important;
     }
@@ -2766,8 +2862,6 @@ display:none
     width:50%;
     min-width:200px;
     padding-left:5px;
-
-
     }
 
   .banner-cap h1{
