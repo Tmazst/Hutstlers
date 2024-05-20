@@ -2427,11 +2427,17 @@ display:none
 
 
 
+.positioning{width:400px !important;top:40px;background-color:yellow}
+.positioningA{width:400px !important;top:40px;background-color:yellow}
+
+
 }
 
 
 
 @media all and (max-width: 575px) {
+
+.row-flex{flex-wrap:wrap;gap:20px;}
 
 .page-pic{
     flex-direction:column;
