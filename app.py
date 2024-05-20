@@ -2003,6 +2003,14 @@ Job Brief:
     return render_template('approve_deal.html', deal_obj=deal_obj, user=user)
 
 
+@app.route("/tht_intro_eswatini")
+def intro_eswatini():
+
+
+    return render_template("tht_intro_eswatini.html")
+
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

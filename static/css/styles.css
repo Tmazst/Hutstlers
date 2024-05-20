@@ -164,7 +164,65 @@ a{
     color:#006769;
 }
 
+.positioning{
+    top:150px;
+    width:27%;
+    font-size:25px !important;
+}
 
+.positioning p{
+    color:white !important;
+    border:2px solid white;
+    padding:30px;
+    border-radius:20px;
+
+}
+
+.positioningA{
+    display:flex
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    right:250px;
+    top:350px;
+    height:400px;
+}
+
+.positioningA img{
+    height:200px;
+}
+
+.positioningB{
+    left:250px;
+    top:650px;
+    height:400px;
+    width:70%;
+}
+
+/*///////////////////////////////////////////////////*/
+
+.custom-shape-divider-top-1716153030 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1716153030 svg {
+    position: relative;
+    display: block;
+    width: calc(147% + 1.3px);
+    height: 600px;
+}
+
+.custom-shape-divider-top-1716153030 .shape-fill {
+    fill: #006769;
+}
+
+/*///////////////////////////////////////////////////*/
 
 #nav-div {
     display:flex;
@@ -693,6 +751,7 @@ a{
     height:270px !important;
     position:relative;
 }
+
 
 .big-btns{
     border-radius:10px;
@@ -1844,8 +1903,6 @@ width:70% !important;
 }
 
 
-
-
 .home-content{
     //background-color:#eae;
     //height: 300px;
@@ -1853,7 +1910,7 @@ width:70% !important;
     justify-content:center;
     align-items:center;
     //border-radius: 30px;
-    flex-wrap:wrap;
+    //flex-wrap:wrap;
     padding:50px;
     margin-top:80px;
     width:75%;
@@ -1990,7 +2047,7 @@ width:70% !important;
 .flex-justify-align{
     display:flex;
     //flex-direction:row;
-    flex-wrap:wrap;
+    //flex-wrap:wrap;
     justify-content:space-around;
     align-items:center;
 }
@@ -2260,7 +2317,6 @@ width:70% !important;
 }
 
 
-
 #nav-div-mobile{
 display:none
 }
@@ -2366,7 +2422,6 @@ display:none
 .banner-container{display:none}
 .home-tags{background:;width:64%;}
 .flex-justify-align{flex-direction:column}
-.home-ads{width:80%}
 #esw_cmps_join{flex-direction:row}
 .page-pic{flex-wrap:wrap;height:auto}
 
