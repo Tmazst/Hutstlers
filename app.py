@@ -530,7 +530,9 @@ def two_factor_auth(arg_token):
 
     # otp_code = generate_otp()
     # Send Email with code and token
-    send_otp(otp_code, arg_token)
+    if not OTP_Code.otpcode_ or otp_code != OTP_Code.otpcode_:
+        send_otp(otp_code, arg_token)
+        OTP_Code.otpcode_=otp_code
 
     if request.method == 'POST':
         otp_code_input = two_fa_form.use_2fa_auth_input.data
