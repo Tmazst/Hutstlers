@@ -89,8 +89,8 @@ app.config['SECURITY_TWO_FACTOR_ENABLED_METHODS'] = ['mail', 'sms']
 app.config['SECURITY_TWO_FACTOR_SECRET'] = 'jhs&h$$sbUE_&WI*(*7hK5S'
 
 # 2FA Auth
-otp_key = pyotp.random_base32()
-otp = pyotp.TOTP(otp_key, interval=60)
+# otp_key = pyotp.random_base32()
+# otp = pyotp.TOTP(otp_key, interval=60)
 
 
 class user_class:
@@ -397,11 +397,10 @@ def login():
 
                     elif request.form.get("use_2fa_auth") == 'y' and user_login.verified:
                         # send_opt(user_login.id)
-                        two_fa_form = Two_FactorAuth_Form()
+                        # two_fa_form = Two_FactorAuth_Form()
                         Quick_Gets.uid_token = arg_token
-                        # requests.get('http://127.0.0.1:5000/two_factor_auth')
                         return redirect(
-                            url_for('send_otp', arg_token=arg_token, two_fa_form=two_fa_form))  # user_id=arg_token,
+                            url_for('two_factor_auth', arg_token=arg_token))  # user_id=arg_token,
 
                     elif request.form.get("use_2fa_auth") == 'y' and not user_login.verified:
                         Quick_Gets.uid_token = arg_token
@@ -427,11 +426,9 @@ class Quick_Gets:
     uid_token = None
 
 
-@app.route('/send_2fa/<arg_token>', methods=['POST', 'GET'])  # /<arg_token>
-def send_otp(arg_token):
+# @app.route('/send_2fa/<arg_token>', methods=['POST', 'GET'])  # /<arg_token>
+def send_otp(otp_code,arg_token):
     # Generate an OTP (One-Time Password) for the current time
-
-    generated_otp = otp.now()
 
     user_id = user_class().verify_reset_token(arg_token)
     user_obj = user.query.get(user_id)
@@ -449,7 +446,7 @@ def send_otp(arg_token):
     msg.body = f""" Copy the Login Code Below & Paste to login using the 2-Factor Authentication Method. Please note
 that the Code is Valid for 60 seconds.
 
-    Your 2-Factor Code:  {generated_otp}
+    Your 2-Factor Code:  {otp_code}
 
 
     """
@@ -460,61 +457,122 @@ that the Code is Valid for 60 seconds.
         # db.session.commit()
         flash(f"Your 2 Factor Auth Code is sent to your Email!!", "success")
         # print("2 FA : ",otp.now())
-        return redirect(url_for('two_factor_auth', arg_token=arg_token, _external=True))  #
+        # return redirect(url_for('two_factor_auth', arg_token=arg_token, _external=True))  #
 
     except Exception as e:
         flash(f'Ooops Something went wrong!! Please Retry', 'error')
         return "The mail was not sent"
 
 
+
+# 2FA Auth
+class OTP_Code:
+    otpcode_ = None
+    otp_ = None
+
+import time
+
+class Stopwatch:
+    count_started = None
+
+    def __init__(self):
+        self.start_time = None
+        self.end_time = None
+
+    def usage(self):
+        print("\n----------- STOPWATCH -----------")
+        print("|-> s      : start the stopwatch |")
+        print("|-> Ctrl+C : stop the stopwatch  |")
+        print("----------- STOPWATCH -----------")
+
+    def start(self):
+        self.start_time = time.time()
+
+    def start_countdown(self, seconds_countdown=3):
+        user_input = input("\n-> Press 's' when you're ready to start: ")
+        while seconds_countdown > 0:
+            print(f"\rStarting in {seconds_countdown}...", end="")
+            time.sleep(1)
+            seconds_countdown -= 1
+            self.count_started = True
+        print("\rGO !", end="")
+        self.count_started = None
+        return False
+
+    def stop(self):
+        self.end_time = time.time()
+        print(f"\n\nTotal elapsed time: {(self.end_time - self.start_time):.3f} seconds\n")
+        exit(0)
+
+    # def run(self):
+    #     self.usage()
+    #     self.start_countdown()
+    #     self.start()
+    #     try:
+    #         while True:
+    #             print(f"\rElapsed time: {(time.time() - self.start_time):.0f} seconds", end="")
+    #             time.sleep(1)
+    #     except KeyboardInterrupt:
+    #         self.stop()
+
+
 @app.route('/2fa/<arg_token>', methods=['POST', 'GET'])  # /<arg_token>
 def two_factor_auth(arg_token):
-    # code = generate_6_digit_code()
     two_fa_form = Two_FactorAuth_Form()
-
     user_id = user_class().verify_reset_token(arg_token)
-
     user_obj = user.query.get(user_id)
+    otp_key = pyotp.random_base32()
+
+    otp = pyotp.TOTP('ATILOJ6TCBODFZIBDLU377NLM3AZXPBG', interval=300)
+    otp_code = otp.now()
+
+    print("OTP Code: ", otp_code)
+
+    # otp_code = generate_otp()
+    # Send Email with code and token
+    send_otp(otp_code, arg_token)
 
     if request.method == 'POST':
         otp_code_input = two_fa_form.use_2fa_auth_input.data
         # Verify an OTP for the provided secret key
         # user_obj.store_2fa_code key saved in the database
         # otp_obj = pyotp.TOTP(otp_key) #)
-
+        # otp = OTP_Code.otp_
         is_valid_otp = otp.verify(otp_code_input)
+        code_time = 300
 
-        if is_valid_otp:
+        print('DEBUG 2-FA: ', is_valid_otp, otp_code_input)
+
+        if otp_code == otp_code_input:
             login_user(user_obj)
             req_page = request.args.get('next')
             flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
             return redirect(req_page) if req_page else redirect(url_for('home'))
         else:
             flash(f"Code Not Valid", "error")
-        # except:
-
-        # send_two_factor_code(user_obj.id,otp_code)
+            # return redirect(url_for('two_factor_auth',arg_token=arg_token))
 
     return render_template('2_facto_form.html', two_fa_form=two_fa_form, _external=True)
 
 
-# @app.route('/send_2fa')
-def send_two_factor_code(user_id, otp_code):
-    otp = pyotp.TOTP(otp_key)
-    user_obj = user.query.get(user_id)
-    code = generate_6_digit_code()
-    verfy = pyotp.TOTP(user_obj.store_2fa_code)
 
-    try:
-        print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
-        if verfy.verify(otp_code):
-            print("DEBUG send_two_factor_code Verified")
-            login_user(user_obj)
-            req_page = request.args.get('next')
-            flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
-            return redirect(req_page) if req_page else redirect(url_for('home'))
-    except:
-        return 'Something Wrong Happened or Code time may have expired, Press re-send code'
+# @app.route('/send_2fa')
+# def send_two_factor_code(user_id, otp_code):
+#     otp = pyotp.TOTP(otp_key)
+#     user_obj = user.query.get(user_id)
+#     code = generate_6_digit_code()
+#     verfy = pyotp.TOTP(user_obj.store_2fa_code)
+#
+#     try:
+#         print("DEBUG send_two_factor_code Trying to Verify", verfy.verify(otp_code))
+#         if verfy.verify(otp_code):
+#             print("DEBUG send_two_factor_code Verified")
+#             login_user(user_obj)
+#             req_page = request.args.get('next')
+#             flash(f"Hey! {user_obj.name.title()} You're Logged In!", "success")
+#             return redirect(req_page) if req_page else redirect(url_for('home'))
+#     except:
+#         return 'Something Wrong Happened or Code time may have expired, Press re-send code'
 
 
 @app.before_request
