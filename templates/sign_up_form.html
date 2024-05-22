@@ -51,7 +51,7 @@
 
 <!--                                    <input class="form-control" type="text" id="pass_word" placeholder="Type Strong Password" name="password" />-->
 
-                                     {{ register.password(class="form-control",placeholder="Type Strong Password (e.g W4@%kg&.ew)")}}
+                                     {{ register.password(id="password", class="form-control",placeholder="Type Strong Password (e.g W4@%kg&.ew)")}}
                                      {% if register.password.errors %}
                                         {% for error in register.password.errors %}
                                             <span class="span-error" >*Password {{error}}</span>
@@ -61,7 +61,7 @@
                                 </div>
 <!--                                <label for=""> Strength of password</label>-->
                                     <div class="power-container">
-                                        <div class="power-point"></div>
+                                        <div id="power-point" class="power-point"></div>
                                     </div><br>
 
                                 <div class="group">
@@ -99,4 +99,33 @@
 
       <br><br><br><br><br><br><br><br>
 </div>
+<script>
+//Password Checker
+let password = document.getElementById("password");
+let power = document.getElementById("power-point");
+confirm_password = document.getElementById("confirm_password");
+
+if (password && power) {
+    password.oninput = function () {
+        let point = 0;
+        let value = password.value;
+        let widthPower =
+            ["1%", "25%", "50%", "75%", "100%"];
+        let colorPower =
+            ["#D73F40", "#DC6551", "#F2B84F", "#BDE952", "#3ba62f"];
+
+        if (value.length >= 6) {
+            let arrayTest =
+                [/[0-9]/, /[a-z]/, /[A-Z]/, /[^0-9a-zA-Z]/];
+            arrayTest.forEach((item) => {
+                if (item.test(value)) {
+                    point += 1;
+                }
+            });
+        }
+        power.style.width = widthPower[point];
+        power.style.backgroundColor = colorPower[point];
+    };
+}
+</script>
 {% endblock %}
