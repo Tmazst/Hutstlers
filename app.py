@@ -93,7 +93,7 @@ app.config['SECURITY_TWO_FACTOR_SECRET'] = 'jhs&h$$sbUE_&WI*(*7hK5S'
 # 2FA Auth
 # otp_key = pyotp.random_base32()
 # otp = pyotp.TOTP(otp_key, interval=60)
-
+days_to_lauch = datetime.strptime("2024-07-01", "%Y-%m-%d") - datetime.now()
 
 class user_class:
     s = None
@@ -1304,6 +1304,8 @@ def job_adverts():
     db.create_all()
     usr = user()
 
+
+
     job_ads_form = Job_Ads_Form()
     if request.method == 'GET':
         # id = request.args.get()
@@ -1340,10 +1342,13 @@ def job_adverts():
             category_set = set(category_list_unfltd)
 
     # Fix jobs adds does not have hidden tag
-    return render_template("job_ads_gui.html", job_ads_latest=job_ads_latest, job_ads_older=job_ads_older,
-                           job_ads_form=job_ads_form, db=db,
-                           company_user=company_user, user=usr, no_image_fl=no_image_fl, ser=ser, date_today=date_today,
-                           category_set=category_set)
+    if days_to_lauch.days <= 0:
+        return render_template("job_ads_gui.html", job_ads_latest=job_ads_latest, job_ads_older=job_ads_older,
+                               job_ads_form=job_ads_form, db=db,
+                               company_user=company_user, user=usr, no_image_fl=no_image_fl, ser=ser, date_today=date_today,
+                               category_set=category_set,days_to_lauch=days_to_lauch)
+    else:
+        return redirect(url_for("intro_eswatini_jobs"))
 
 
 @app.route("/job_ad_opened", methods=["GET", "POST"])
@@ -1433,8 +1438,11 @@ def freelance_job_adverts():
     fl_job_ads_form = Freelance_Ads_Form()
 
     # Fix jobs adds does not have hidden tag
-    return render_template("freelance_jobs_ui.html", fl_job_ads=fl_job_ads, fl_job_ads_form=fl_job_ads_form, db=db,
+    if days_to_lauch.days <= 0:
+        return render_template("freelance_jobs_ui.html", fl_job_ads=fl_job_ads, fl_job_ads_form=fl_job_ads_form, db=db,
                            company_user=company_user, user=usr, no_image_fl=no_image_fl, ser=ser)
+    else:
+        return redirect(url_for("intro_eswatini_fl"))
 
 
 @app.route("/fl_applications", methods=["GET", "POST"])
