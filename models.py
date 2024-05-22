@@ -78,6 +78,7 @@ class company_user(user):
     twitter_link = db.Column(db.String(120))
     youtube = db.Column(db.String(120))
     other = db.Column(db.String(120))
+    payment_options = db.Column(db.String(100))
     job_ads = relationship("Jobs_Ads", backref='Jobs_Ads.job_title',lazy=True)
     applicantions_posted = relationship("Applications", backref='employer', lazy=True)
     freelance_job_ads = relationship("Freelance_Jobs_Ads", backref='Freelance_Jobs_Ads.service_title', lazy=True)

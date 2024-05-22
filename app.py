@@ -32,8 +32,10 @@ from datetime import datetime, date, timedelta
 import time
 import itsdangerous
 import calendar
+from flask_sitemap import Sitemap
 import platform
 import base64
+
 
 # from models.user import get_reset_token, very_reset_token
 # DB sessions
@@ -42,7 +44,7 @@ import base64
 
 # Applications
 app = Flask(__name__)
-
+sitemap = Sitemap(app=app)
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
@@ -1529,17 +1531,18 @@ def company_sign_up_form():
             # Base.metadata.create_all()
             # ....user has inherited the Base class
             # db.create_all()
-            user1 = company_user(name=company_register.company_name.data, email=company_register.company_email.data,
-                                 password=company_hashd_pwd,
-                                 confirm_password=company_hashd_pwd,
-                                 company_contacts=company_register.company_contacts.data, image="default.jpg",
-                                 company_address=company_register.company_address.data,
-                                 web_link=company_register.website_link.data,
-                                 fb_link=company_register.facebook_link.data,
-                                 twitter_link=company_register.twitter_link.data,
-                                 youtube=company_register.youtube_link.data)
-
-            db.session.rollback()
+            user1 = company_user(
+                name=company_register.company_name.data, email=company_register.company_email.data,
+                password=company_hashd_pwd,
+                confirm_password=company_hashd_pwd,
+                company_contacts=company_register.company_contacts.data, image="default.jpg",
+                company_address=company_register.company_address.data,
+                web_link=company_register.website_link.data,
+                fb_link=company_register.facebook_link.data,
+                twitter_link=company_register.twitter_link.data,
+                youtube=company_register.youtube_link.data,
+                payment_options=request.form.get('payment_options')
+                                 )
 
             try:
                 try:
@@ -1633,6 +1636,7 @@ def company_account():
         cmp_usr.company_address = company_update.company_address.data
         cmp_usr.twitter_link = company_update.twitter_link.data
         cmp_usr.youtube = company_update.youtube_link.data
+        cmp_usr.payment_options = request.form.get('payment_options')
 
         db.session.commit()
 
@@ -2083,6 +2087,10 @@ def intro_eswatini_jobs():
 
     return render_template("jobs_ads_intro.html")
 
+@app.route('/sitemap.xml')
+def sitemap():
+
+    return send_from_directory(app.static_folder, 'sitemap.xml')
 
 
 if __name__ == "__main__":

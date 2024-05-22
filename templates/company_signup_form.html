@@ -1,6 +1,90 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    section {
+  display: flex;
+  flex-flow: row wrap;
+}
+section > div {
+  flex: 1;
+  padding: 0.5rem;
+}
+input[type="radio"] {
+  display: none;
+  &:not(:disabled) ~ label {
+    cursor: pointer;
+  }
+  &:disabled ~ label {
+    color: hsla(150, 5%, 75%, 1);
+    border-color: hsla(150, 5%, 75%, 1);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}
+label {
+  height: 100%;
+  display: block;
+  background: white;
+  border: 2px solid coral;
+  border-radius: 20px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  //margin: 1rem;
+  text-align: center;
+  box-shadow: 0px 3px 10px -2px hsla(150, 5%, 65%, 0.5);
+  position: relative;
+}
+input[type="radio"]:checked + label {
+  background: coral;
+  color: hsla(215, 0%, 100%, 1);
+  //box-shadow: 0px 0px 20px hsla(150, 100%, 50%, 0.75);
+  &::after {
+    color: coral;
+    font-family: FontAwesome;
+    border: none;
+    content: "OK";
+    font-size: 24px;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    background: white;
+    //box-shadow: 0px 2px 5px -2px hsla(0, 0%, 0%, 0.25);
+  }
+}
+
+input[type="radio"]#control_05:checked + label {
+  background: red;
+  border-color: red;
+}
+
+p {
+  font-weight: 700;
+  font-size:14px;
+}
+
+small{
+    color:;font-weight:bold;font-size:11px
+}
+
+.ea_radio_cont{
+    width:150px; !important;
+    height:auto !important;
+}
+
+
+@media only screen and (max-width: 700px) {
+  section {
+    flex-direction: column;
+  }
+}
+</style>
 <div class="tags">
     <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -120,7 +204,7 @@
                                  {% endif %}
                              </div>
 
-                             <div class="group">
+                            <div class="group">
                                 <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
                                  {{ company_register.youtube_link(class="form-control",placeholder="Youtube Link")}}
                                  {% if company_register.youtube_link.errors %}
@@ -128,9 +212,49 @@
                                         <span class="span-error" >*[Youtube Link] {{error}}</span>
                                     {% endfor %}
                                  {% endif %}
-                             </div>
+                            </div><br>
+                            <div class="group">
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                                 <p style="color:#006769">Choose Payment Plan:</p>
+                            </div>
+                            <div style="justify-content:center" class="group resume-summary">
+                                <div class="ea_radio_cont"  style="">
+                                  <input type="radio" id="control01" name="payment_options" value="monthly" checked>
+                                  <label for="control01">
+                                    <p>Pay Monthly</p>
+                                    <small>SZL 100</small>
+                                    <small>Exclusive</small>
+                                  </label>
+                                </div>
 
+                                <div class="ea_radio_cont" style="">
+                                  <input type="radio" id="control02" name="payment_options" value="per_add" checked>
+                                  <label for="control02">
+                                    <p>Pay Per Advert</p>
+                                    <small>SZL 150</small>
+                                  </label>
+                                </div>
 
+                                <div class="ea_radio_cont" style="">
+                                  <input type="radio" id="control03" name="payment_options" value="annually" checked>
+                                  <label for="control03">
+                                    <p>Pay Annually</p>
+                                      <small>SZL 1080</small><br>
+                                      <small>10% Discount</small>
+                                  </label>
+                                </div>
+
+                                <div class="ea_radio_cont" style="">
+                                  <input type="radio" id="control04" name="payment_options" value="free" checked>
+                                  <label for="control04">
+                                    <p>Use Free For Now</p>
+                                      <small>SZL 0</small><br>
+                                      <small>Limited Benefits</small>
+                                      <small>Promotional</small>
+                                  </label>
+                                </div>
+                                <!--<input type="password" class="form-control" id="confirm-password" name="confirm_pass" placeholder="confirm-password">-->
+                             </div><br><br><br><br><br>
 
                             <div style="margin:0 auto;" class="group">
                                  <div style="padding-left:;width:100%;background-color:339ab3" class="d-flex flex-row align-items-center justify-content-between">
@@ -139,14 +263,17 @@
                                      <a class="form-a links" href="login">Login instead?</a>
                                 </div>
                             </div><br>
+
                             <small style="font-size:11px"> <span style="color:coral;font-weight:bold">Tip:</span>
-                                    Password should include at least One of the following; <span style="font-weight:bold">Capital Letter, Special Character, Number, lower-case</span>
-                                </small>
+                                Password should include at least One of the following; <span style="font-weight:bold">Capital Letter, Special Character, Number, lower-case</span>
+                            </small>
 
                          </form>
                     </div>
                 </div>
             </div>
           </div>
+</div>
+<div>
 </div>
 {% endblock %}

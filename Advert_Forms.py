@@ -68,6 +68,9 @@ class Company_Register_Form(FlaskForm):
     facebook_link = StringField('Facebook Link')
     twitter_link = StringField('X Link(former Twitter)')
     youtube_link = StringField('Youtube Link')
+    payment_options = RadioField("Choose Payment Plan",
+                                 choices=[("pay_plan_1", "Pay Monthly"), ("pay_plan_4", "Pay Annually"),
+                                          ("pay_plan_2", "Pay Per Advert"), ("pay_plan_3", "Free For Now")])
 
     submit = SubmitField('Create Account!')
 
@@ -83,6 +86,8 @@ class Company_UpdateAcc_Form(FlaskForm):
     facebook_link = StringField('Facebook Link')
     twitter_link = StringField('Twitter Link')
     youtube_link = StringField('Youtube Link')
+    payment_options = RadioField("Choose Payment Plan", choices=[("pay_plan_1", "Pay Monthly"),("pay_plan_4", "Pay Annually"),
+                                                                 ("pay_plan_2", "Pay Per Advert"),("pay_plan_3", "Free For Now")])
 
     # Validate email before saving it in database
     def validate_email(self,company_email):
