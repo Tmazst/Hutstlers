@@ -820,6 +820,21 @@ a{
     font-size:12px;
 }
 
+.warning-msg-dv{
+    border:1px solid #aaa;
+    background-color:#eee;
+    border-radius:15px;
+    width:70%;
+    margin:0 auto;
+    padding:7px;
+
+}
+
+.warning-msg{
+    color:#f66;
+
+}
+
 .warning{
     //background-color:#e99 !important;
     color:orange;
@@ -1086,6 +1101,7 @@ font-weight:400;
 .grid-div{
     display:flex;
 }
+
 .img-div{
     display:flex;
     justify-content:center;
@@ -1097,6 +1113,10 @@ font-weight:400;
     //padding:10px;
     object-fit:cover;
     //border-radius:50%;
+}
+
+.spaceFiller{
+    height:5vw;
 }
 
 .portfolio-cont{
@@ -2801,7 +2821,7 @@ display:none
 
 
 .flash-messages{
-    position:absolute !important;
+    //position:absolute !important;
     z-index:3;
     //bottom:600 !important;
     height:20vw !important;

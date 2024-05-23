@@ -2,7 +2,7 @@
 
 {% block content %}
 <!---------------FLASH------------------->
-<div class="flash-messages" class="btns">
+<div class="flash-messages" id="">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for  category, message in messages %}
@@ -12,10 +12,10 @@
         {% endwith %}
 </div>
 
-
+{% if not current_user.address and current_user.contacts and current_user.reference_1%}
+    <div class="warning-msg-dv"><small class="warning-msg"><span class="warning-word">Warning! </span>Please finish setting up your Account, We need some few details <a href="account">account</a></small></div>
+{% endif %}
 <div style="margin-top:150px;" class="tags">
-
-    
 <div class="account_container">
     <div class="card">
         <div style="width:100%;">
