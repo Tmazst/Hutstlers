@@ -1527,7 +1527,7 @@ def company_sign_up_form():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
 
-    if company_register.validate_on_submit():
+    if company_register.validate_on_submit() or company_register.errors['payment_options']:
 
         if request.method == 'POST':
             # context
@@ -1575,6 +1575,9 @@ def company_sign_up_form():
 
             # #print(company_register.name.data,company_register.email.data)
     elif company_register.errors:
+        for error in company_register.errors:
+            print("Company Acc Errors:", error)
+            print("Company Acc Errors:", request.form.get("payment_options"))
         flash(f"Account Creation Unsuccessful ", "error")
         # print(company_register.errors)
 
