@@ -1574,11 +1574,11 @@ def company_sign_up_form():
             return redirect(url_for('login'))
 
             # #print(company_register.name.data,company_register.email.data)
-    elif company_register.errors:
-        for error in company_register.errors:
-            print("Company Acc Errors:", error)
-            print("Company Acc Errors:", request.form.get("payment_options"))
-        flash(f"Account Creation Unsuccessful ", "error")
+        elif company_register.errors:
+            for error in company_register.errors:
+                print("Company Acc Errors:", error)
+                print("Company Acc Errors:", request.form.get("payment_options"))
+            flash(f"Account Creation Unsuccessful ", "error")
         # print(company_register.errors)
 
     # from myproject.models import user
