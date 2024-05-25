@@ -1527,9 +1527,9 @@ def company_sign_up_form():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
 
-    if company_register.validate_on_submit() or company_register.errors['payment_options']:
+    if request.method == 'POST':
 
-        if request.method == 'POST':
+        if company_register.validate_on_submit() or company_register.errors['payment_options']:
             # context
 
             # If the webpage has made a post e.g. form post
@@ -1934,9 +1934,7 @@ def hire_applicant():
 class Store_UID:
     id_ = None
 
-
 # (3) After viewing the freelancer, they hire the applicant
-
 
 @app.route("/hire_freelancer", methods=["GET", "POST"])
 @login_required
