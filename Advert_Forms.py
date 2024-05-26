@@ -14,7 +14,7 @@ class Job_Ads_Form(FlaskForm):
     other_pay_type = StringField('Other:')
     other_job_bl = BooleanField('Other Job Type:')
     other_job_type = StringField('Other:')
-    about_company = StringField('Brief About Company:')
+    about_company = TextAreaField('Brief About Company:')
     description = TextAreaField('Job Description or Tasks:', validators=[DataRequired(), Length(min=5, max=400)])
     category = StringField('Category:')
     work_duration_bl = BooleanField('')

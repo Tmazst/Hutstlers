@@ -272,7 +272,7 @@ def sign_up():
             hashd_pwd = encry_pw.generate_password_hash(register.password.data).decode('utf-8')
             user1 = job_user(name=register.name.data, email=register.email.data, password=hashd_pwd,
                              confirm_password=hashd_pwd, image="default.jpg",
-                             time_stamp=datetime.utcnow().strftime("%Y-%b-%d %H:%M"))
+                             time_stamp=datetime.utcnow())
 
             try:
                 db.session.add(user1)
@@ -1549,7 +1549,8 @@ def company_sign_up_form():
                 fb_link=company_register.facebook_link.data,
                 twitter_link=company_register.twitter_link.data,
                 youtube=company_register.youtube_link.data,
-                payment_options=request.form.get('payment_options')
+                payment_options=request.form.get('payment_options'),
+                time_stamp=datetime.utcnow()
                                  )
 
             try:
@@ -1794,7 +1795,7 @@ def verified(token):
             flash(f"Welcome, {qry_usr.name} ; Email Verification was Successful!!", "success")
             return redirect(url_for('home'))
     except Exception as e:
-        flash(f"Something went wrong, Please try again: {e} ", "error")
+        flash(f"Something went wrong, Please try again ", "error")
 
     return render_template('verified.html')
 
@@ -1806,7 +1807,10 @@ def verification(arg):
     # Manage DB tables
     db.create_all()
     if arg:
-        usr_ = user.query.get(arg)
+        try:
+            usr_ = user.query.get(user_class.verify_reset_token(arg))
+        except:
+            return 'Something Wrong'
 
     def send_veri_mail():
         if arg:
