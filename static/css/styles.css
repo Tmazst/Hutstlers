@@ -934,7 +934,7 @@ span.spans{
     justify-content:center;
     align-items:center;
     border-radius:50%;
-    background-color:#fc6c85;
+    background-color:coral;
     height:30px;
     width:30px;
     color:white;
@@ -2392,6 +2392,7 @@ display:none
 .row-flex{
     display:flex;
     align-items:flex-start;
+    justify-content:center;
 
 }
 
@@ -2437,7 +2438,7 @@ display:none
 
 
 
-@media all and (max-width: 900px) {
+@media all and (max-width: 900px) and (min-width: 600px){
 
 .banner-container{display:none}
 .home-tags{background:;width:64%;}
@@ -2447,8 +2448,8 @@ display:none
 
 
 
-.positioning{width:400px !important;top:40px;background-color:yellow}
-.positioningA{width:400px !important;top:40px;background-color:yellow}
+.positioning{width:400px !important;top:40px;background-color:;}
+.positioningA{width:400px !important;top:40px;background-color:;}
 
 
 }
@@ -2529,7 +2530,7 @@ display:none
     //margin-right:-300px;
     background-color:#e7e7e7;
     padding:2%;
-    width:100%;
+    width:120%;
 }
 
 .paras{
@@ -3091,7 +3092,7 @@ display:none
     .footer{
       
       display:flex;
-      width:100%;
+      width:110%;
       justify-content:center;
       margin-left:-10px;
       margin-right:0px;

@@ -111,10 +111,15 @@
         </div>
         <br><br><br>
 
-        <div style="margin:0 auto" class="">{% if count_jobs %}
-            <div style="display:flex;justify-content:center;gap:5px;align-items:center" class=""><span class="notif-numb-div-ad">{{count_jobs}}
-            </span><span style="float:left;font-weight:600;color:coral">Jobs You Can Apply for Today!!</span></div>{% endif%}
-            <br><a class="btn-how" href="/job_ads">Explore Jobs</a>
+
+        <div style="width:100%;" class="row-flex">
+            <div  class="big-btns"><a style="padding:40px;" href="/job_ads"><span class="notif-numb-div-ad">{{count_jobs}}</span> Jobs you can for Today!!</a>
+            <img style="position:absolute;left:45px;bottom:0px;height:50px" class="" src="static/icons/jobs_icon.png"/>
+            </div>
+            <div  class="big-btns"><a style="padding:40px;" href="/sign_up">Register Today!!</a>
+                <img style="position:absolute;left:45px;bottom:0px;height:100px" src="static/icons/sign_up_icon.png"/></div>
+            <div  class="big-btns-invtd"><a style="padding:40px;" href="/">Explore The Hustler Time Site</a>
+            <img style="position:absolute;left:45px;bottom:0px;height:50px" src="static/icons/tht_logo_icon.png"/></div>
         </div>
 
 <!---   Temporally Closed
@@ -201,7 +206,7 @@
                             <a href="{{cmp.fb_link}}" ><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/fb_icon.png" /></div></a>
                         {% endif %}
                         {% if cmp.twitter_link %}
-                            <a href="{{cmp.twitter_link}}"><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/fb_icon.png" /></div></a>
+                            <a href="{{cmp.twitter_link}}"><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/x_icon.png" /></div></a>
                         {% endif %}
                         {% if cmp.youtube %}
                             <a href="{{cmp.youtube}}"><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/youtube_icon.png" /></div></a>
@@ -251,7 +256,7 @@
 
 
       <div class="footer" style="" >
-            <div style="width:70%;">
+            <div style="width:100%;">
 
                <!--- <div style="" class="flex-justify-align">
                   <div style="" class="flex-column">
