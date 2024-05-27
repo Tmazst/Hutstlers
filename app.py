@@ -136,6 +136,10 @@ def custom_401(error):
 def custom_404(error):
     return render_template("404_handler.html"), 404
 
+@app.errorhandler(500)
+def custom_404(error):
+    return render_template("500_handler.html"), 500
+
 def resize_img(img, size_x=30, size_y=30):
     i = Image.open(img)
 
