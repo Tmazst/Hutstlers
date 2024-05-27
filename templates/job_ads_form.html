@@ -16,14 +16,13 @@
   <!--<h3>Password Reset<br> <span class="spans"></span></h3>--->
 
     <!----FORM----->
-  <div style="" class="form_container">
+  <div style="background-color:" class="form_container">
      <div class="row justify-content-center">
     <div class="col-md-5">
-     <div style="padding-left:30px;padding-right:30px;display:block;"  class="card">
+     <div style="padding-left:30px;padding-right:30px;display:;"  class="card">
 
-        <div style="background-color: 12db5a;" class="card-body py-md-4">
         <h2 class="card-title text-center">Job Advert Form</h2>
-        <form style="background-color: f8db5a;width:;"  _lpchecked="1" action="" method="post">
+        <form style="background-color:f8db5a;width:;"  _lpchecked="1" action="" method="post">
             <small style="font-weight:600;" class="paras-subtopics "><span style="color:coral">Tip:</span></span> Tick Fields with boxes to include them on the Job Advert</small><br><br>
              <div style="background-color: f8f95a;" class="job-ad-group marginise-bottom">
                   {{job_ad_form.hidden_tag()}}
@@ -249,10 +248,7 @@
                         <span class="span-error" >*{{error}}</span>
                     {% endfor %}
                  {% endif %}
-                 </div>
-             </div>
-
-             </div>
+              </div>
 
              <!-------Application Deadline--------->
              <div class="job-ad-group marginise-bottom">
@@ -283,10 +279,11 @@
                  <!--<input class="btns" type="submit" value="Create Account" />-->
 
             </div>
-
          </form>
        </div>
     </div>
   </div>
+  </div>
+</div>
 
 {% endblock %}

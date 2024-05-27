@@ -3,6 +3,7 @@
 {% block content %}
 
 <div id="tags-in-mobile" class="tags">
+    <div style="background-color:ae23a3;position:relative" class="general-flex-x">
     <div class="flash-messages" class="btns">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -39,7 +40,7 @@
         </div>
     </div><br><br>
     {% endif %}
-
+    </div>
     <div style="background-color:ae23a3;position:relative" class="general-flex-x">
 
             {% for item in job_ads_latest %}
@@ -101,13 +102,14 @@
                         </div>
 
             </div>
-            {% endfor %}</div>
-            <p style="background-color:#eee;padding:10px;font-weight:500;border-radius:10px;margin:80px 0  40px 0;width:40%">Older Jobs Ads</p>
+            {% endfor %}
+    </div>
+
 
 
 
         <!------ OLDER JOBS ------>
-
+        <p style="background-color:#eee;padding:10px;font-weight:500;border-radius:10px;margin:80px 0  40px 0;width:40%">Older Jobs Ads</p>
         <div style="background-color:ae23a3;position:relative" class="general-flex-x">
             {% for older_job in job_ads_older%}
             <!----FORM----->

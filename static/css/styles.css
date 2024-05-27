@@ -2460,6 +2460,10 @@ display:none
 
 .row-flex{flex-wrap:wrap;gap:20px;}
 
+.general-flex-x{
+ justify-content:center !important;
+}
+
 .page-pic{
     flex-direction:column;
     height:auto;
@@ -2576,7 +2580,7 @@ display:none
 }
 
 .mobile-top-space{
-    height:90px;
+    height:10px;
 }
 
 .margin-ise{
@@ -3018,8 +3022,11 @@ display:none
 
   .tags{
     //position:absolute;
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
     width:95%;
-    margin:30px auto 0px auto !important;
+    //margin:30px auto 0px auto !important;
     //padding-left:10px;
     //background-color:blue;
   }
