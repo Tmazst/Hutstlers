@@ -1209,7 +1209,6 @@ font-weight:400;
     background-color: rgba(255, 255, 255, 0.45);
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
     margin:10px auto;
-
 }
 
 .img-cont{
@@ -1222,8 +1221,6 @@ font-weight:400;
     content-justify:center;
 }
 
-
-
 .img-cont-about-team{
     display:flex;
     width:120px;
@@ -1235,7 +1232,6 @@ font-weight:400;
     content-justify:center;
     align-items:center;
     margin:0 auto -15% auto!important;
-
 }
 
 .team-details{
@@ -2154,6 +2150,7 @@ width:70% !important;
     width:100%;
     margin:0 auto;
 }
+
 
 .testm_style{
     display:flex;

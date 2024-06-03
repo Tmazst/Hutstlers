@@ -16,7 +16,6 @@ import os
 from PIL import Image
 from sqlalchemy import exc, desc
 import rsa
-
 # from flask_security import Security,SQLAlchemyUserDatastore
 import pyotp
 # ......for local DB
@@ -33,9 +32,10 @@ import time
 import itsdangerous
 import calendar
 from flask_sitemap import Sitemap
+from BLOG_CLASS import blog_class
+from werkzeug.utils import secure_filename
 import platform
 import base64
-
 
 # from models.user import get_reset_token, very_reset_token
 # DB sessions
@@ -44,7 +44,7 @@ import base64
 
 # Applications
 app = Flask(__name__)
-sitemap = Sitemap(app=app)
+# sitemap = Sitemap(app=app)
 # app.config['SECRET KEY'] = 'Tmazst41'
 app.config['SECRET_KEY'] = 'f9ec9f35fbf2a9d8b95f9bffd18ba9a1'
 # APP_DATABASE_URI = "mysql+mysqlconnector://Tmaz:Tmazst*@1111Aynwher_isto3/Tmaz.mysql.pythonanywhere-services.com:3306/users_db"
@@ -61,7 +61,6 @@ app.config[
 #     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://Tmaz:Tmazst41@Tmaz.mysql.pythonanywhere-services.com:3306/Tmaz$users_db"
 
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
-
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['BASIC_AUTH_USERNAME'] = 'tmaz'
@@ -84,7 +83,6 @@ ser = Serializer(app.config['SECRET_KEY'])
 
 # migrate = Migrate(app,db)
 # basic_auth = BasicAuth(app)
-
 
 # Yet To Be Tested
 app.config['SECURITY_TWO_FACTOR_ENABLED_METHODS'] = ['mail', 'sms']
@@ -301,6 +299,76 @@ def sign_up():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+
+# ----------------BLOG---------------------- #
+blog_cls = blog_class()
+
+@app.route("/blog_index")
+def blog_index():
+
+    blogs_dict = blog_cls.load_blogs()
+
+    blog_titles = blogs_dict.keys()
+
+    return render_template("blog_index.html",blog_titles=blog_titles,blogs_dict=blogs_dict)
+
+
+@app.route("/blog-page",methods=["POST","GET"])
+def blog_page():
+
+    if request.method == "GET":
+
+        title = request.args.get("title")
+        print("TITLE: ",title)
+        print("TITLE: ", blog_cls.load_blogs()[title]['picture'])
+        if title:
+            blog = blog_cls.load_blogs()[title]
+        else:
+            blog=None
+
+    return render_template("blog-page.html",blog=blog,title=title)
+
+@app.route("/write_blog", methods=["POST", "GET"])
+def blog_writer():
+    # blog_form = Blog_Form()
+
+    if request.method == "POST":
+
+        title = request.form['title']
+        body = request.form['body']
+        author = request.form['author']
+        image_path = request.files['blog-image']
+
+        print("BODY: ",body)
+
+        file_name = secure_filename(image_path.filename)
+
+        # image_path.save("static/images/"+file_name)
+
+        # image_path = save_pic(file_name)
+
+        #Create hash for image name
+        img_name, _ext = os.path.splitext(file_name)
+        gen_random = secrets.token_hex(8)
+        new_img_name = gen_random + _ext
+
+        #Save image in designated path
+        image_path.save(os.path.join(app.root_path,"static/images/blog_images", new_img_name))
+
+        # print("Image Name: ", new_img_name)
+
+        blog_cls.blogs_filer(title, body, author, new_img_name)
+
+        return redirect(url_for("blog_writer"))
+
+
+    return render_template("blog_writer.html")
+
+
+
+# --------------END BLOG-------------------- #
+
 
 
 # ----------------UPDATE ACCOUNT --------------#
