@@ -2076,9 +2076,8 @@ width:70% !important;
 
 ::-webkit-scrollbar {
     //width: 0;  /* Remove scrollbar space */
-    position:absolute;
-    top:0;
-    background-color: #eee;  /* Optional: just make scrollbar invisible */
+    //position:absolute;
+    //background-color: #eee;  /* Optional: just make scrollbar invisible */
 
 }
 
