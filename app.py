@@ -1627,11 +1627,10 @@ def company_sign_up_form():
                 twitter_link=company_register.twitter_link.data,
                 youtube=company_register.youtube_link.data,
                 payment_options=request.form.get('payment_options'),
-                time_stamp=datetime.utcnow()
+                time_stamp=datetime.utcnow(),
                                  )
 
             if company_register.company_logo.data:
-                delete_img(user1.image)
                 user1.image = save_pic(picture=company_register.company_logo.data)
 
             try:
