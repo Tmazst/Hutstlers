@@ -2075,11 +2075,11 @@ width:70% !important;
 }
 
 ::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
+    //width: 0;  /* Remove scrollbar space */
     position:absolute;
     top:0;
-    background: transparent;  /* Optional: just make scrollbar invisible */
-   // max-height: 20%;
+    background-color: #eee;  /* Optional: just make scrollbar invisible */
+    max-height: 80%;
 }
 
 .hide-scrollbar{
