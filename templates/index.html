@@ -196,7 +196,11 @@
           <div style="display:flex;overflow:auto !important;display:flex;border:1px solid coral;width:90% !important" class="companies-cont border-radius-15">
                 {%for cmp in companies_ls %}
                 <div style="padding:30px;" class="companies-chd-cont">
-                    <a class="img-link" href="/"><div class="img-cont"><img class="prf-image" src="static/images/{{cmp.image}}"></div></a>
+                    {% if cmp.image == "default.jpg" %}
+                        <a class="img-link" href="/"><div class="img-cont border_none"><img class="prf-image" src="static/images/logo-design.png"></div></a>
+                    {% else %}
+                        <a class="img-link" href="/"><div class="img-cont border_none"><img class="prf-image" src="static/images/{{cmp.image}}"></div></a>
+                    {% endif %}
                     <h4>{{cmp.name}}</h4>
                     <div style="min-width:100px;background-color:;padding:4px 10px;" class="flex-gap-align">
                         {% if cmp.web_link %}

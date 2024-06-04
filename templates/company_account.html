@@ -256,7 +256,7 @@ section > div {
 
             <div style="padding-left:50px;width:80%;min-width:350px" class="form-group">
                  <h3> Update Company Logo</h3>
-                 {{ company_update.company_logo(class="acc-form-control",placeholder="reference_2")}}
+                 {{ company_update.company_logo(id="imageInput", class="acc-form-control",placeholder="reference_2")}}
             </div><br>
 
 
@@ -274,4 +274,27 @@ section > div {
 <!--  </div>-->
   </div>
   </div></div>
+ <script src="https://unpkg.com/cropperjs"></script>
+    <script>
+         // Add event listener to the image input field
+         document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('imageInput').addEventListener('change', function() {
+            var image = this.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+
+                // Initialize Cropper.js after the image is loaded
+                img.onload = function() {
+                    var cropper = new Cropper(img, {
+                        aspectRatio: 1, // Example aspect ratio 1:1
+                        viewMode: 2, // Set cropper to fit the container
+                    });
+                };
+            };
+            reader.readAsDataURL(image);
+        });
+        });
+    </script>
 {% endblock %}
