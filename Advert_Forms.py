@@ -64,6 +64,7 @@ class Company_Register_Form(FlaskForm):
     company_confirm = PasswordField('Confirm', validators=[DataRequired(), EqualTo('company_password'), Length(min=8, max=64)])
     company_contacts = TelField('Contact(s)', validators=[Length(min=8, max=64)])
     company_address = StringField('Physical Address', validators=[DataRequired(), Length(min=8, max=100)])
+    company_logo = FileField('Company Logo', validators=[FileAllowed(['jpg', 'png'])])
     website_link = StringField('Company Website Link')
     facebook_link = StringField('Facebook Link')
     twitter_link = StringField('X Link(former Twitter)')

@@ -2074,6 +2074,19 @@ width:70% !important;
 
 }
 
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    position:absolute;
+    top:0;
+    background: transparent;  /* Optional: just make scrollbar invisible */
+   // max-height: 20%;
+}
+
+.hide-scrollbar{
+    -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-height: 1px;
+  }
+
 .flex-justify-align{
     display:flex;
     //flex-direction:row;
@@ -2094,7 +2107,7 @@ width:70% !important;
     gap:6px;
     border:1px solid #909090;
     border-radius:15px;
-    background-color:#f9f9f9;
+    background-color:#f8f8f8;
 }
 
 .general-flex-x{

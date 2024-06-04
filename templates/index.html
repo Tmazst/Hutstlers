@@ -195,16 +195,24 @@
 <!--      <fieldset style="font-size:25px;color:#006769;border:2px solid #006769;padding:3% 2%;border-radius:15px;height:100%;" class="paras-subtopics"><legend><h1 style="margin-top:80px;color:coral">Partnering Companies</h1>-->
           <div style="" class="companies-cont  compns-cont">
                 {%for cmp in companies_ls %}
-                <div style="padding:30px;border-radius:10px;border:2px solid #eee" class="companies-chd-cont">
+                <div style="position:relative;padding:30px;border-radius:10px;border:2px solid #eee" class="companies-chd-cont">
                     {% if cmp.image == "default.jpg" %}
                         <a class="img-link" href="/"><div class="img-cont border_none"><img class="prf-image" src="static/images/logo-design.png"></div></a>
                     {% else %}
                         <a class="img-link" href="/"><div class="img-cont border_none"><img class="prf-image" src="static/images/{{cmp.image}}"></div></a>
                     {% endif %}
-                    <h4>{{cmp.name}}</h4>
-                    <div style="min-width:100px;background-color:;padding:4px 10px;border:none" class="flex-gap-align">
+                    <div><h4 style="font-weight:600;text-align:center;width:100%;color:#006769;margin-bottom:-2px;">{{cmp.name}}</h4></div>
+                    <a href="tel:{{cmp.company_contacts}}"><div style="background-color:;margin:2px;" class="">{{cmp.company_contacts}}</div></a>
+                    <div style="min-width:100px;max-width:150px;background-color:;padding:4px 100px;border:none;" class="flex-gap-align hide-scrollbar">
+                        <p></p>
+                        {% if cmp.email %}
+                            <a href="mailto:{{cmp.company_contacts}}"><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/email_icon.png" /></div></a>
+                        {% endif %}
+                        {% if cmp.company_contacts %}
+
+                        {% endif %}
                         {% if cmp.web_link %}
-                            <a href="{{cmp.web_link}}"><i style="font-size:25px;color:#bbb;background-color:;padding:10px" class="material-symbols-rounded a-hover">language</i></a>
+                            <a href="{{cmp.web_link}}"><i style="font-size:25px;color:#bbb;background-color:;padding:5px 10px" class="material-symbols-rounded a-hover">language</i></a>
                         {% endif %}
                         {% if cmp.fb_link %}
                             <a href="{{cmp.fb_link}}" ><div style="background-color:;margin:2px;" class=""><img class="social-icon sized" src="static/icons/fb_icon.png" /></div></a>
