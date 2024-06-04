@@ -193,16 +193,16 @@
       {% if comp_len != 0 %}
             <h1 style="margin-top:;color:coral;font-weight:600">Partnering Companies for Youth Empowerment</h1>
 <!--      <fieldset style="font-size:25px;color:#006769;border:2px solid #006769;padding:3% 2%;border-radius:15px;height:100%;" class="paras-subtopics"><legend><h1 style="margin-top:80px;color:coral">Partnering Companies</h1>-->
-          <div style="display:flex;overflow:auto !important;display:flex;border:1px solid coral;width:90% !important" class="companies-cont border-radius-15">
+          <div style="" class="companies-cont  compns-cont">
                 {%for cmp in companies_ls %}
-                <div style="padding:30px;" class="companies-chd-cont">
+                <div style="padding:30px;border-radius:10px;border:2px solid #eee" class="companies-chd-cont">
                     {% if cmp.image == "default.jpg" %}
                         <a class="img-link" href="/"><div class="img-cont border_none"><img class="prf-image" src="static/images/logo-design.png"></div></a>
                     {% else %}
                         <a class="img-link" href="/"><div class="img-cont border_none"><img class="prf-image" src="static/images/{{cmp.image}}"></div></a>
                     {% endif %}
                     <h4>{{cmp.name}}</h4>
-                    <div style="min-width:100px;background-color:;padding:4px 10px;" class="flex-gap-align">
+                    <div style="min-width:100px;background-color:;padding:4px 10px;border:none" class="flex-gap-align">
                         {% if cmp.web_link %}
                             <a href="{{cmp.web_link}}"><i style="font-size:25px;color:#bbb;background-color:;padding:10px" class="material-symbols-rounded a-hover">language</i></a>
                         {% endif %}

@@ -1216,6 +1216,13 @@ font-weight:400;
     overflow:auto !important;
 }
 
+.compns-cont{
+    display:flex;overflow:auto !important;display:flex;border-bottom:1px solid coral;width:90% !important;
+    border-top:1px solid coral;
+    gap:15px;
+    padding:10px;
+    }
+
 .img-cont{
     display:flex;
     width:110px;
