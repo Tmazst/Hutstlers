@@ -2079,7 +2079,7 @@ width:70% !important;
     position:absolute;
     top:0;
     background-color: #eee;  /* Optional: just make scrollbar invisible */
-    max-height: 80%;
+
 }
 
 .hide-scrollbar{
