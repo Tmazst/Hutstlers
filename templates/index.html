@@ -63,7 +63,7 @@
 <!--            <i class="fa-solid fa-compass"></i>-->
 <!--            <i class="fa-solid fa-bars"></i>-->
 <!--        </div>-->
-      <div>
+      <div id="swipe-cont" style="width:100%">
           <section style="background-color:" class="flex-justify-align profile-sections">
                  <div style="position:" class="topics">
                       <div style="background-color:"  class="paras-subtopics  caption">
@@ -352,6 +352,7 @@
 
 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 <script>
     var sections = document.querySelectorAll(".profile-sections");
     var selIcon = document.querySelectorAll(".sel-icon");
@@ -393,6 +394,39 @@ function showNextSection(event, clickedId) {
         }
     }
 }
+
+var swipeContainer = document.getElementById('swipe-cont');
+
+// Create a new instance of Hammer for the swipe container
+var hammertime = new Hammer(swipeContainer);
+
+// Add a swipe event listener
+hammertime.on('swipe', function(ev) {
+    // Handle the swipe based on the direction
+    if (ev.direction === Hammer.DIRECTION_LEFT) {
+        // Handle swipe left
+        console.log('Swiped left!');
+        if(currentSectionIndex <= sections.length){
+            sections[currentSectionIndex].style.display = "none";
+            sections[currentSectionIndex+1].style.display = "flex";
+            console.log(currentSectionIndex+1);
+            }else{
+                console.log("Do nothing");
+                };
+    } else if (ev.direction === Hammer.DIRECTION_RIGHT) {
+        // Handle swipe right
+        console.log('Swiped right!');
+        if(currentSectionIndex >= sections.length){
+            sections[currentSectionIndex].style.display = "none";
+            sections[currentSectionIndex-1].style.display = "flex";
+            console.log(currentSectionIndex-1);
+            }else{
+                console.log("Do nothing");
+                };
+        // Implement the logic for changing sections and applying styles based on the swipe direction
+        // Adjust the logic inside this block to change sections and apply styles based on the swipe direction
+    }
+});
 </script>
 
 
