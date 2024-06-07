@@ -2847,8 +2847,11 @@ display:none
 
 #disabled-img{
     height:350px !important;
-    height:340px !important;
+    width:250px !important;
+    margin:0 auto !important;
 }
+
+
 
 .optimise-mobile{
     height:auto;
