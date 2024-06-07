@@ -395,6 +395,9 @@ function showNextSection(event, clickedId) {
     }
 }
 
+var currentIndex = 0; // Initialize the current section index
+
+// Get the element to which the swipe functionality will be added
 var swipeContainer = document.getElementById('swipe-cont');
 
 // Create a new instance of Hammer for the swipe container
@@ -406,25 +409,29 @@ hammertime.on('swipe', function(ev) {
     if (ev.direction === Hammer.DIRECTION_LEFT) {
         // Handle swipe left
         console.log('Swiped left!');
-        if(currentSectionIndex <= sections.length){
-            sections[currentSectionIndex].style.display = "none";
-            sections[currentSectionIndex+1].style.display = "flex";
-            console.log(currentSectionIndex+1);
-            }else{
-                console.log("Do nothing");
-                };
+        if (currentIndex < sections.length - 1) {
+            sections[currentIndex].style.display = "none";
+            sections[currentIndex + 1].style.display = "flex";
+            selIcon[currentIndex].classList.remove("sel-icon-bg");
+            selIcon[currentIndex+1].classList.add("sel-icon-bg");
+            currentIndex++;
+            console.log("Current Section Index: " + currentIndex);
+        } else {
+            console.log("Reached the last section, cannot swipe left.");
+        }
     } else if (ev.direction === Hammer.DIRECTION_RIGHT) {
         // Handle swipe right
         console.log('Swiped right!');
-        if(currentSectionIndex >= sections.length){
-            sections[currentSectionIndex].style.display = "none";
-            sections[currentSectionIndex-1].style.display = "flex";
-            console.log(currentSectionIndex-1);
-            }else{
-                console.log("Do nothing");
-                };
-        // Implement the logic for changing sections and applying styles based on the swipe direction
-        // Adjust the logic inside this block to change sections and apply styles based on the swipe direction
+        if (currentIndex > 0) {
+            sections[currentIndex].style.display = "none";
+            sections[currentIndex - 1].style.display = "flex";
+            selIcon[currentIndex].classList.remove("sel-icon-bg");
+            selIcon[currentIndex-1].classList.add("sel-icon-bg");
+            currentIndex--;
+            console.log("Current Section Index: " + currentIndex);
+        } else {
+            console.log("Reached the first section, cannot swipe right.");
+        }
     }
 });
 </script>
