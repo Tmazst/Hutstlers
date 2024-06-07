@@ -1,7 +1,7 @@
 import secrets
 import random
 import requests
-from flask import Flask, render_template, url_for, redirect, request, flash, session, make_response, send_from_directory
+from flask import Flask, render_template, url_for, redirect, request, flash, session, make_response, send_from_directory,jsonify
 # from flask_basicauth import BasicAuth
 # from alchemy_db import engine
 from sqlalchemy.orm import sessionmaker
@@ -36,6 +36,8 @@ from BLOG_CLASS import blog_class
 from werkzeug.utils import secure_filename
 import platform
 import base64
+from bs4 import BeautifulSoup as b_soup
+import requests
 
 # from models.user import get_reset_token, very_reset_token
 # DB sessions
@@ -1037,6 +1039,30 @@ def fl_job_ads_form():
 #     hired_users = hired.query.all()
 #
 #     return render_template("show_hired_users.html", users=hired_users)
+class Indeed_Search:
+    def indeed_url_nearme(self,location=None):
+
+        template = "https: // za.indeed.com / q - swaziland, -eswatini - manzini - jobs.html?vjk = d9da936268eed4c9"
+        url = template.format(location)
+
+        return url
+
+# -----------------INDEED JOBS-------------------#
+@app.route('/indeed_jobs')
+def get_jobs():
+    api_key = 'YOUR_INDEED_API_KEY'
+    base_url = 'https://api.indeed.com/ads/apisearch'
+    params = {
+        'publisher': api_key,
+        'q': 'python developer',  # Customize your job search query here
+        'format': 'json',
+        'limit': 10  # Number of job listings to fetch
+    }
+
+    response = requests.get(base_url, params=params)
+    data = response.json()
+
+    return jsonify(data)
 
 
 @app.route("/show_hired_users")

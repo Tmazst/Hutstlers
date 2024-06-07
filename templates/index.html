@@ -6,23 +6,23 @@
 
 <!----BANNER------->
 {% if not current_user.is_authenticated %}
-    <div  class="banner-container">
+<!--    <div  class="banner-container">-->
 
-        <div style="" class="banner-animator">
-            <img alt="young-hustlers-climbing-for-success" src="static/images/young-people-helping-others-mount.JPG" />
-        <div class="banner-caption"></div>
-        </div>
+<!--        <div style="" class="banner-animator">-->
+<!--            <img alt="young-hustlers-climbing-for-success" src="static/images/young-people-helping-others-mount.JPG" />-->
+<!--        <div class="banner-caption"></div>-->
+<!--        </div>-->
 
-        <div style="animation-delay:0.5s;z-index:701" class="banner-cap anim-banner">
-            <h2 style="font-size:45px;color:white" >THE HUSTLERS TIME, </h2>
-            <div class="grid-div">
-                <h1 style="font-size:250%;color:white">Welcome to the <br> <span  class="spans">Grind</span></h1>
-                <div class="img-div"><img src="/static/icons/Eswatini-43.svg" /></div>
-            </div>
-            <a  href="sign_up"><button style="padding:10px" class="btns" id="join_btn">Join Community</button></a>
-        </div>
+<!--        <div style="animation-delay:0.5s;z-index:701" class="banner-cap anim-banner">-->
+<!--            <h2 style="font-size:45px;color:white" >THE HUSTLERS TIME, </h2>-->
+<!--            <div class="grid-div">-->
+<!--                <h1 style="font-size:250%;color:white">Welcome to the <br> <span  class="spans">Grind</span></h1>-->
+<!--                <div class="img-div"><img src="/static/icons/Eswatini-43.svg" /></div>-->
+<!--            </div>-->
+<!--            <a  href="sign_up"><button style="padding:10px" class="btns" id="join_btn">Join Community</button></a>-->
+<!--        </div>-->
 
-    </div>
+<!--    </div>-->
 {% endif %}
 
 <!----------------------CHECK OUT THE BANNER--------------------->
@@ -30,7 +30,19 @@
 
 
 <!--------------------------BANNER END--------------------------->
+<style>
+    .profile-sections{
+        display:none;
+    }
+    .next-btns{
+       font-size:40px;
+       color:white;
+    }
+    @media all and (max-width: 575px) {
+        .not-on-mobile{display:none;}
 
+    }
+</style>
 
 <div class="tags">
 
@@ -49,26 +61,62 @@
 <!--            <i class="fa-solid fa-compass"></i>-->
 <!--            <i class="fa-solid fa-bars"></i>-->
 <!--        </div>-->
+      <div>
+          <section style="background-color:" class="flex-justify-align profile-sections">
+                 <div style="position:" class="topics">
+                      <div style="background-color:"  class="paras-subtopics  caption">
+                          <h1><span class="spans">At THE HUSTLERS TIME,</span><br>We are nurturing a generation of young professionals through practical
+                              and innovative ideas </h1>
+                      </div>
+                     <div class="not-on-mobile"><a  href="sign_up"><button style="padding:10px" class="btns not-on-mobile" id="join_btn">Join Community</button></a></div>
+        <!--              <div  style="position:"  class="paras-subtopics  caption">-->
+        <!--                  <h1><span class="spans">Get Employability Skills</span> through <br> Are you looking for a Job but no experience, we are your plug!</h1>-->
+        <!--              </div>-->
+        <!--              <div style="position:"  class="paras-subtopics  caption">-->
+        <!--                  <h1><span class="spans">Gain Entreprenuership Skills</span> through <br> Short-term, Remote & Freelance Jobs, Today!</h1>-->
+        <!--              </div>-->
+                  </div>
 
-      <div style="background-color:" class="flex-justify-align ">
+                  <div id="not-on-mobile" style=""  class="optimise-mobile trim-edges anim not-on-mobile">
+                      <img style="height:inherit" class="inherent" alt="young-hustlers-climbing-for-success" src="static/images/young-people-helping-others-mount.jpeg" />
+<!--                       <img class="inherent" alt="the-hustlers-time-young-professionals" src="static/icons/young-people-analysing-jobs-online.png" />-->
+                  </div>
 
-          <div style="position:" class="topics">
-              <div style="background-color:"  class="paras-subtopics  caption">
-                  <h1><span class="spans">Gain Work Experience</span> through <br> Short-term, Remote & Freelance Jobs, Today!</h1>
-              </div>
-<!--              <div  style="position:"  class="paras-subtopics  caption">-->
-<!--                  <h1><span class="spans">Get Employability Skills</span> through <br> Are you looking for a Job but no experience, we are your plug!</h1>-->
-<!--              </div>-->
-<!--              <div style="position:"  class="paras-subtopics  caption">-->
-<!--                  <h1><span class="spans">Gain Entreprenuership Skills</span> through <br> Short-term, Remote & Freelance Jobs, Today!</h1>-->
-<!--              </div>-->
-          </div>
+<!--              <button class="next-btns"  onclick="showNextSection()"> + </button>-->
 
-          <div style="background-color:"  class="optimise-mobile anim">
-               <img class="inherent" alt="the-hustlers-time-young-professionals" src="static/icons/young-people-analysing-jobs-online.png" />
-          </div>
+          </section>
+          <section style="background-color:" class="flex-justify-align profile-sections">
+<!--                  <button class="next-btns"  onclick="showPreviousSection()"> - </button>-->
+                  <div style="position:" class="topics">
+                      <div style="background-color:"  class="paras-subtopics  caption">
+                          <h1>Advocating for Remote Job Opportunities
+                              to Empower Professionals with<br><span class="spans"> Disabilities and Enhance Equality</span></h1>
+                      </div>
+                  </div>
+                  <div style="background-color:"  class="optimise-mobile anim">
+                       <img id="disabled-img" class="inherent" alt="the-hustlers-time-young-professionals" src="static/icons/88xl_7f7e_230817.jpg" />
+                  </div>
+<!--                  <button class="next-btns"  onclick="showNextSection()"> + </button>-->
+          </section>
+          <section style="background-color:" class="flex-justify-align profile-sections">
+<!--                  <button class="next-btns"  onclick="showPreviousSection()"> - </button>-->
+                  <div style="position:" class="topics">
+                      <div style="background-color:"  class="paras-subtopics  caption">
+                          <h1><span class="spans">Generating Work Experience</span><br> for the Youth through Short-term, Remote & Freelance Jobs.</h1>
+                      </div>
+                  </div>
 
-      </div><br><p></p>
+                  <div style="background-color:"  class="optimise-mobile anim">
+                       <img class="inherent" alt="the-hustlers-time-young-professionals" src="static/icons/young-people-analysing-jobs-online.png" />
+                  </div>
+<!--                  <button class="next-btns"  onclick="showNextSection()"> + </button>-->
+          </section>
+      </div><br><div style="margin-top:80px;"></div>
+        <div class="btns-cont">
+            <div id="icon1" onclick="showNextSection(event, 'icon1')" class="sel-icon"></div>
+            <div id="icon2" onclick="showNextSection(event, 'icon2')" class="sel-icon"></div>
+            <div id="icon3" onclick="showNextSection(event, 'icon3')" class="sel-icon"></div>
+        </div><div style="margin-top:150px;"></div>
 
       <a class="btn-how" href="/how_does_it_work">See How Does It Work?</a>
 
@@ -90,7 +138,7 @@
 <!--  </div>-->
 
         <div class="home-content anim">
-            <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" alt="thehustlerstime-project-images" src="/static/images/young-builder-applying-for-jobs-eswatini.jpg" /></div>
+            <div class='home-img-div'  style="background-color:;border:none"><img class="prf-image" alt="thehustlerstime-project-images" src="/static/images/young-builder-applying-for-jobs-eswatini.jpg" /></div>
             <div class='home-tags' style="">
                 <p><span style="font-size:1.5em" >Show The World What You Have</span><br>Improve your chances to get employed, show the world your potentiality.</p>
             </div>
@@ -100,11 +148,11 @@
             <div class='home-tags' style="margin-left:;">
                 <p><span style="font-size:1.5em" >Unlock Your Dream Prospects</span><br>Unleash Your Full Potential, Improve Your Skills & Work Experience while still waiting for your Dream Job.</p>
             </div>
-            <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" alt="thehustlerstime-project-images-eswatini" src="/static/images/virtual-assistant-conducting-business-analytics-at-home.jpg"/></div>
+            <div class='home-img-div'  style="background-color:;border:none"><img class="prf-image" alt="thehustlerstime-project-images-eswatini" src="/static/images/virtual-assistant-conducting-business-analytics-at-home.jpg"/></div>
         </div>
 
         <div class="home-content anim">
-            <div class='home-img-div'  style="background-color:#23aeb2"><img class="prf-image" src="/static/images/Entrepreneurs-collaborating-on-skill-development.jpg"/></div>
+            <div class='home-img-div'  style="background-color:;border:none"><img class="prf-image" src="/static/images/Entrepreneurs-collaborating-on-skill-development.jpg"/></div>
             <div class='home-tags' style="margin-left:;">
                 <p><span style="font-size:1.5em" >Maximize Your Potential</span><br> Ignite Your Career with Must Have Skills for Innovative Entrepreneurial skills.</p>
             </div>
@@ -302,7 +350,48 @@
 
 
 </div>
+<script>
+    var sections = document.querySelectorAll(".profile-sections");
+    var selIcon = document.querySelectorAll(".sel-icon");
+    var currentSectionIndex = 0;
+    var firstSection = sections[0];
+    var noSections = sections.length;
 
+    if (currentSectionIndex == 0){
+        firstSection.style.display = "flex";
+        selIcon[currentSectionIndex].classList.toggle("sel-icon-bg");
+        }else{
+            firstSection.style.display = "none";
+    };
+
+
+function showNextSection(event, clickedId) {
+    event.preventDefault(); // Prevent reloading
+
+    console.log("Clicked ID: ", clickedId);
+
+    for (let i = 0; i < sections.length; i++) {
+        if (clickedId == "icon1" && i === 0) {
+            sections[i].style.display = "flex";
+            selIcon[i].classList.add("sel-icon-bg");
+            console.log("Clicked ID: ", clickedId,i);
+        } else if (clickedId == "icon2" && i === 1) {
+            sections[i].style.display = "flex";
+            selIcon[i].classList.add("sel-icon-bg");
+            console.log("Clicked ID: ", clickedId,i);
+        } else if (clickedId == "icon3" && i === 2) {
+            sections[i].style.display = "flex";
+            selIcon[i].classList.add("sel-icon-bg");
+            console.log("Clicked ID: ", clickedId,i);
+        } else {
+            selIcon[i].classList.remove("sel-icon-bg");
+            //selIcon[i].style.background = "#eee"; // Reset style for non-clicked icons
+            sections[i].style.display = "none"; // Hide sections not clicked
+            console.log("Not Clicked ID: ",i);
+        }
+    }
+}
+</script>
 
 
 
