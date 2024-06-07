@@ -2532,6 +2532,10 @@ display:none
 
 @media all and (max-width: 575px) {
 
+.prf-image{
+
+    object-fit:cover;
+}
 .row-flex{flex-wrap:wrap;gap:20px;}
 
 .general-flex-x{
@@ -3122,11 +3126,13 @@ display:none
     background-color:#aee;
     width: 80%;
     min-width:300px;
+    height:auto !important;
     display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+    flex-wrap:wrap;
+    //flex-direction:column;
+    //justify-content:space-between;
     align-items:center;
-    padding:10px;
+    padding:1px;
     margin-top:70px;
     }
 
