@@ -846,9 +846,11 @@ def tht_how():
 
 @app.route("/job_ads_form", methods=["POST", "GET"])
 @login_required
-def job_ads_form():
+def job_ads_form(udi=None):
     job_ad_form = Job_Ads_Form()
     job_ads_model = Jobs_Ads
+
+    usr_id = request.args.get("udi")
 
     db.create_all()
     job_ad = None
@@ -900,12 +902,71 @@ def job_ads_form():
             db.session.add(job_post1)
             db.session.commit()
 
+
+
+            if request.args.get("udi"):
+                uid = request.args.get("udi")
+                id_ = ser.loads(uid)['data2']
+
+                #Check if the user is not currently hired somewhere
+                usr_is_cur_hired = hired.query.filter_by(usr_cur_job=1, hired_user_id=id_).first()
+                if usr_is_cur_hired:
+                    company = company_user.query.get(usr_is_cur_hired.comp_id)
+                    flash(f"This Job Seeker is currently hired and working for: {company.name}")
+                    return redirect(url_for("users"))
+
+                # Logic to hire the user and update the application status
+                hire_user = hired(
+                    comp_id=current_user.id,
+                    hired_user_id=id_,
+                    job_details=job_post1.job_id,
+                    usr_cur_job=1,  # Currently hired
+                    hired_date=datetime.utcnow()
+                )
+
+                db.session.add(hire_user)
+
+                #-------APPLICATION-------#
+                apply = Applications(
+                    applicant_id=id_,
+                    job_details_id=job_post1.job_id,  # db.query(Jobs_Ads).get(jb_id),
+                    employer_id=current_user.id
+                )
+
+                # Check if application not sent before
+                job_appl = Applications.query.filter_by(job_details_id=job_post1.job_id, applicant_id=id_).first()
+                company_obj = company_user.query.get(apply.employer_id)
+
+                # print('----------------------job_appl: ',job_appl)
+                if not job_appl:
+                    db.session.add(apply)
+                    db.session.commit()
+                    # job_title = Jobs_Ads.query.get(jb_id).job_title
+                    # job_id = Jobs_Ads.query.get(jb_id).job_id
+                    # return render_template("send_application.html", send_application=send_application, job_id=job_id,
+                    #                        job_title=job_title,
+                    #                        company_obj=company_obj, ser=ser)
+                #--------END APPLICATION CODE--------_#
+
+                close_appl = Applications.query.filter_by(job_details_id=job_post1.job_id).first()
+                if close_appl:
+                    close_appl.closed = "Yes"  # This means that this user is hired
+
+                db.session.commit()
+
+                # flash message for successful hiring
+                flash(f'You have successfully hired {user.query.get(id_).name} for {Jobs_Ads.query.get(job_post1.job_id).job_title}',
+                    'success')
+
+                return redirect(url_for("users"))
+
+
             flash('Job Posted Successfully!!', 'success')
 
     # elif request.method == "GET":
     #     job_ad = Jobs_Ads.query.filter_by(job_id=ser.loads(request.args.get("jo_id"))['data_11']).first()
 
-    return render_template("job_ads_form.html", job_ad_form=job_ad_form, ser=ser, job_ad=job_ad)
+    return render_template("job_ads_form.html", job_ad_form=job_ad_form, ser=ser, job_ad=job_ad,usr_id=usr_id)
 
 
 class jo_id_cls:
@@ -1857,20 +1918,20 @@ def users():
 
 @app.route("/user_viewed", methods=["GET", "POST"])
 def view_user():
-    if current_user.role == 'company_user':
-        uid = ser.loads(request.args['id'])['data6']
-        company_usr = company_user
-        job_ad = Jobs_Ads
-        portfolio_model = users_tht_portfolio.query.filter_by(usr_id=uid).all()
-        portfolio_approved_jobs = users_tht_portfolio.query.filter_by(approved=True).all()
-        # The placement that is not marked as approved, assuming is still open / the user is still working
-        portfolio_current_job = hired.query.filter_by(usr_cur_job=1, hired_user_id=uid).first()
-        job_usr = user.query.get(uid)
+    # if current_user.role == 'company_user':
+    uid = ser.loads(request.args['id'])['data6']
+    company_usr = company_user
+    job_ad = Jobs_Ads
+    portfolio_model = users_tht_portfolio.query.filter_by(usr_id=uid).all()
+    portfolio_approved_jobs = users_tht_portfolio.query.filter_by(approved=True).all()
+    # The placement that is not marked as approved, assuming is still open / the user is still working
+    portfolio_current_job = hired.query.filter_by(usr_cur_job=1, hired_user_id=uid).first()
+    job_usr = user.query.get(uid)
 
-        if request.method == 'POST':
-            pass
-    else:
-        flash(f'Only Registered Employers can Hire Job Seekers','warning')
+        # if request.method == 'POST':
+        #     pass
+    # else:
+    #     flash(f'Only Registered Employers can Hire Job Seekers','warning')
         # print("Job Ad Title: ",job_ad.job_title)
 
     return render_template('user_viewed.html', job_usr=job_usr, db=db, user=user, company_user=company_user,
@@ -1995,17 +2056,23 @@ def view_applicant():
 
 # (3) After viewing the applicant, they hire the applicant
 @app.route("/hire_applicant", methods=["GET", "POST"])
+@login_required
 def hire_applicant():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.role == 'company_user':
         if request.method == 'GET':
             # Based on the context, consider handling the 'POST' method as well
 
             try:
                 encr_id = request.args['id']
                 id_ = ser.loads(encr_id)['data2']
-                encr_app_id = request.args['app_id']
-                app_id = ser.loads(encr_app_id)['data3']
+                encr_app_id = request.args.get('app_id')
                 job_usr = job_user.query.get(id_)
+
+                if not encr_app_id:
+                    flash(f"Please Fill the form below to Complete the Hiring Process of {job_usr.name};")
+                    return redirect(url_for("job_ads_form",udi=encr_id))
+                else:
+                    app_id = ser.loads(encr_app_id)['data3']
 
                 # Logic to hire the user and update the application status
                 hire_user = hired(
@@ -2037,6 +2104,10 @@ def hire_applicant():
             # Logic for POST method (if needed)
             # return a response for the POST request
             return redirect(url_for('desired_endpoint'))
+
+    else:
+        flash("Only Companies are allowed recruit Job Seekers")
+        return redirect(url_for("users"))
 
     # return a response for scenarios other than GET or POST request
     return render_template("hire_applicant.html", job_usr=None, db=db)

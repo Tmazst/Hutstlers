@@ -275,7 +275,11 @@
              </div>
 
              <div>
-                 {{ job_ad_form.publish(class="btns") }}
+                 {% if usr_id %}
+                    {{ job_ad_form.publish(class="btns", value="Complete") }}
+                 {% else %}
+                    {{ job_ad_form.publish(class="btns") }}
+                 {% endif %}
                  <!--<input class="btns" type="submit" value="Create Account" />-->
 
             </div>
