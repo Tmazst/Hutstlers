@@ -93,7 +93,7 @@ app.config['SECURITY_TWO_FACTOR_SECRET'] = 'jhs&h$$sbUE_&WI*(*7hK5S'
 # 2FA Auth
 # otp_key = pyotp.random_base32()
 # otp = pyotp.TOTP(otp_key, interval=60)
-days_to_lauch = datetime.strptime("2024-06-01", "%Y-%m-%d") - datetime.now()
+days_to_lauch = datetime.strptime("2024-07-15", "%Y-%m-%d") - datetime.now()
 
 class user_class:
     s = None
@@ -1468,7 +1468,6 @@ def job_adverts():
 
     db.create_all()
     usr = user()
-
 
 
     job_ads_form = Job_Ads_Form()
