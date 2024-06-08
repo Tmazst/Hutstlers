@@ -913,6 +913,7 @@ def job_ads_form(udi=None):
                 if usr_is_cur_hired:
                     company = company_user.query.get(usr_is_cur_hired.comp_id)
                     flash(f"This Job Seeker is currently hired and working for: {company.name}")
+                    db.session.delete(Jobs_Ads.query.get(job_post1.job_id))
                     return redirect(url_for("users"))
 
                 # Logic to hire the user and update the application status
