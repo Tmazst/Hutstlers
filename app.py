@@ -70,7 +70,7 @@ app.config['BASIC_AUTH_PASSWORD'] = 'tmaz'
 
 db.init_app(app)
 
-pub, priv = rsa.newkeys(128)
+pub,priv = rsa.newkeys(128)
 
 # Login Manager
 login_manager = LoginManager(app)
