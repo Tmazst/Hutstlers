@@ -38,16 +38,17 @@
                             <span><small style="color:#aaa" >{{item.address}}</small></span><br>
 
                             <!-------JOB TITLE--------->
-
+                        {% if item.skills %}
+                            <small style="color:#006769;width:90%;margin:0 auto;">"{{item.skills}}"</small>
+                        {% endif %}
                         {% if item.tertiary %}
-
                             <div><small class="view_applicant_p" ><span class="view_freelanca_p" >Tertiary</span><span></span></small></div>
                             <div><small class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.tertiary}}</small></div><br><br>
                         {% endif %}
                             <!---------JOB TYPE--------->
                         {% if item.experience %}
-                        <div><small class="view_applicant_p" ><span class="view_freelanca_p" >Experience</span><span></span></small></div>
-                        <div><small class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.experience}}</small></div>
+                            <div><small class="view_applicant_p" ><span class="view_freelanca_p" >Experience</span><span></span></small></div>
+                            <div><small class="view_applicant_p" ><span style="font-wight:bold;" ></span>{{item.experience}}</small></div>
                         {% endif %}
                         <br><br>
                         <div class="space-filler"></div>

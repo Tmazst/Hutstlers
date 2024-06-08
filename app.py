@@ -93,7 +93,7 @@ app.config['SECURITY_TWO_FACTOR_SECRET'] = 'jhs&h$$sbUE_&WI*(*7hK5S'
 # 2FA Auth
 # otp_key = pyotp.random_base32()
 # otp = pyotp.TOTP(otp_key, interval=60)
-days_to_lauch = datetime.strptime("2024-07-01", "%Y-%m-%d") - datetime.now()
+days_to_lauch = datetime.strptime("2024-06-01", "%Y-%m-%d") - datetime.now()
 
 class user_class:
     s = None
@@ -1869,7 +1869,8 @@ def view_user():
 
         if request.method == 'POST':
             pass
-
+    else:
+        flash(f'Only Registered Employers can Hire Job Seekers','warning')
         # print("Job Ad Title: ",job_ad.job_title)
 
     return render_template('user_viewed.html', job_usr=job_usr, db=db, user=user, company_user=company_user,
@@ -1898,8 +1899,8 @@ def verified(token):
             qry_usr = user.query.get(user_id)
             if not current_user.is_authenticated:
                 login_user(usr)
-            flash(f"Welcome, {qry_usr.name} ; Email Verification was Successful!!", "success")
-            return redirect(url_for('home'))
+            flash(f"Welcome, {qry_usr.name}; Please Finish Updating your Profile!!", "success")
+            return redirect(url_for('account'))
     except Exception as e:
         flash(f"Something went wrong, Please try again ", "error")
 

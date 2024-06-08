@@ -166,10 +166,12 @@
             <div  class="big-btns"><a style="padding:40px;" href="/job_ads"><span class="notif-numb-div-ad">{{count_jobs}}</span> Jobs you can for Today!!</a>
             <img style="position:absolute;left:45px;bottom:0px;height:50px" class="" src="static/icons/jobs_icon.png"/>
             </div>
+            <div  class="big-btns-invtd"><a style="padding:40px;" href="/users">Hire Job Seekers</a>
+                <img style="position:absolute;left:45px;bottom:0px;height:50px" src="static/icons/tht_logo_icon.png"/>
+            </div>
             <div  class="big-btns"><a style="padding:40px;" href="/sign_up">Register Today!!</a>
-                <img style="position:absolute;left:45px;bottom:0px;height:100px" src="static/icons/sign_up_icon.png"/></div>
-            <div  class="big-btns-invtd"><a style="padding:40px;" href="/">Explore The Hustler Time Site</a>
-            <img style="position:absolute;left:45px;bottom:0px;height:50px" src="static/icons/tht_logo_icon.png"/></div>
+                <img style="position:absolute;left:45px;bottom:0px;height:100px" src="static/icons/sign_up_icon.png"/>
+            </div>
         </div>
 
 <!---   Temporally Closed
@@ -247,9 +249,9 @@
                 {%for cmp in companies_ls %}
                 <div style="position:relative;padding:30px;border-radius:10px;border:2px solid #eee" class="companies-chd-cont">
                     {% if cmp.image == "default.jpg" %}
-                        <a class="img-link" href="/"><div class="img-cont border_none"><img class="prf-image" src="static/images/logo-design.png"></div></a>
+                        <a class="img-link" href="/"><div class="img-comp border_none"><img class="prf-image" src="static/images/logo-design.png"></div></a>
                     {% else %}
-                        <a class="img-link" href="/"><div class="img-cont border_none"><img class="prf-image" src="static/images/{{cmp.image}}"></div></a>
+                        <a class="img-link" href="/"><div class="img-comp border_none"><img class="prf-image" src="static/images/{{cmp.image}}"></div></a>
                     {% endif %}
                     <div><h4 style="font-weight:600;text-align:center;width:100%;color:#006769;margin-bottom:-2px;">{{cmp.name}}</h4></div>
                     <a href="tel:{{cmp.company_contacts}}"><div style="background-color:;margin:2px;" class="">Contact</div></a>

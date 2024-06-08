@@ -152,7 +152,7 @@
                     <!---{{ cv.skills(class="acc-form-control",datascr=current_user.skills)}}--->
                    <textarea  name="skills" class="acc-form-control media-h2">{{current_user.skills}}</textarea>
                 {% else %}
-                    {{ cv.skills(class="acc-form-control",placeholder="Skills")}}
+                    {{ cv.skills(class="acc-form-control",placeholder="Efficient and organized secretariat ready to streamline operations and support administrative needs online or on-site")}}
                 {% endif %}
                 {% if cv.skills.errors %}
                    {% for error in cv.skills.errors %}
@@ -210,7 +210,15 @@
         </div>
 
         <div style="padding-left:50px;width:80%;" class="form-group">
-               <h3 class="media-h2"> Update Profile Image</h3>
+            <h2 style="font-weight:600" class="media-h2"> Update Profile Image <span style="color:coral">Note: Please upload an ID like image</span></h2>
+            <div style="" class="center-prl-img">
+                <div style="margin:15px auto 0px auto;"  class="img-cont">
+                   <img class="prf-image" src="static/images/default.jpg"/>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding-left:50px;width:80%;" class="form-group">
               {{ cv.image_pfl(class="acc-form-control")}}
         </div>
 

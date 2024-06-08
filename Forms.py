@@ -58,7 +58,7 @@ class Update_account_form(FlaskForm):
     school = StringField('High School', validators=[Length(min=8, max=120)])
     tertiary = StringField('Tertiary (Optional)',validators=[Length(min=0, max=120)])
     experience = TextAreaField('Work Experience (Optional)',validators=[Length(min=0, max=120)])
-    skills = TextAreaField('Skills', validators=[Length(min=0, max=150)])
+    skills = TextAreaField('About Yourself Hint: Why should companies hire you', validators=[Length(min=10, max=30)])
     hobbies = StringField('Interests (Optional)')
     address = StringField('Physical Address', validators=[DataRequired(), Length(min=8, max=120)])
     cv_file = FileField('Upload CV/Resume', validators=[FileAllowed(['pdf', 'docx'])])
