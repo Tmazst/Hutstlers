@@ -76,7 +76,7 @@
 
         <br><br><br>
 
-        <div>
+        <div class="hidden_Y">
             <h1>The Hustlers Time (THT)</h1>
             <label>P O Box 647 Ezulwini,</label><br>
             <label>kaMvubu Township (~3km)</label><br><br>
@@ -117,4 +117,24 @@
 <!--        </div>-->
     </div>
 </div>
+<script>
+//The code animates all elements as they appear on the screen during scroll
+//Select all the elements with the .hidden class attr
+const divs = document.querySelectorAll('.hidden_Y');
+
+//Create an observer object that will detect each of the element if the appear on screen
+var observer = new IntersectionObserver(entries => {
+
+   entries.forEach(entry => {
+        console.log("Observer CAlled",)
+        entry.target.width="100px";
+    })
+    }
+    );
+
+//Observe each of the elements
+divs.forEach(div => {
+    observer.observe(div)
+});
+</script>
 {% endblock %}
