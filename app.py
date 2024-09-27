@@ -172,13 +172,11 @@ def my_url_for(endpoint, **values):
 
 app.jinja_env.globals['url_for'] = my_url_for
 
-
 @app.context_processor
 def inject_ser():
     ser = Serializer(app.config['SECRET_KEY'])  # Define or retrieve the value for 'ser'
     count_jobs = count_ads()
     return dict(ser=ser, count_jobs=count_jobs)
-
 
 def save_pic(picture, size_x=300, size_y=300):
     _img_name, _ext = os.path.splitext(picture.filename)
@@ -881,7 +879,6 @@ def job_ads_form(udi=None):
 
             if job_ad_form.work_duration_bl.data:
                 job_post1.work_duration = job_ad_form.start_date.data
-
                 job_post1.work_duration2 = job_ad_form.end_date.data
 
             if job_ad_form.work_days_bl.data:
@@ -901,8 +898,6 @@ def job_ads_form(udi=None):
 
             db.session.add(job_post1)
             db.session.commit()
-
-
 
             if request.args.get("udi"):
                 uid = request.args.get("udi")
